@@ -12400,9 +12400,14 @@ public infix fun CharArray.intersect(other: Iterable<Char>): Set<Char> {
  * The returned set preserves the element iteration order of the original array.
  */
 public infix fun <T> Array<out T>.subtract(other: Iterable<T>): Set<T> {
-    val set = this.toMutableSet()
-    set.removeAll(other)
-    return set
+    val otherCollection = other.convertToListIfNotCollection()
+    val result = mutableSetOf<T>()
+    for (e in this) {
+        if (!otherCollection.contains(e)) {
+            result.add(e)
+        }
+    }
+    return result
 }
 
 /**
@@ -12411,9 +12416,14 @@ public infix fun <T> Array<out T>.subtract(other: Iterable<T>): Set<T> {
  * The returned set preserves the element iteration order of the original array.
  */
 public infix fun ByteArray.subtract(other: Iterable<Byte>): Set<Byte> {
-    val set = this.toMutableSet()
-    set.removeAll(other)
-    return set
+    val otherCollection = other.convertToListIfNotCollection()
+    val result = mutableSetOf<Byte>()
+    for (e in this) {
+        if (!otherCollection.contains(e)) {
+            result.add(e)
+        }
+    }
+    return result
 }
 
 /**
@@ -12422,9 +12432,14 @@ public infix fun ByteArray.subtract(other: Iterable<Byte>): Set<Byte> {
  * The returned set preserves the element iteration order of the original array.
  */
 public infix fun ShortArray.subtract(other: Iterable<Short>): Set<Short> {
-    val set = this.toMutableSet()
-    set.removeAll(other)
-    return set
+    val otherCollection = other.convertToListIfNotCollection()
+    val result = mutableSetOf<Short>()
+    for (e in this) {
+        if (!otherCollection.contains(e)) {
+            result.add(e)
+        }
+    }
+    return result
 }
 
 /**
@@ -12433,9 +12448,14 @@ public infix fun ShortArray.subtract(other: Iterable<Short>): Set<Short> {
  * The returned set preserves the element iteration order of the original array.
  */
 public infix fun IntArray.subtract(other: Iterable<Int>): Set<Int> {
-    val set = this.toMutableSet()
-    set.removeAll(other)
-    return set
+    val otherCollection = other.convertToListIfNotCollection()
+    val result = mutableSetOf<Int>()
+    for (e in this) {
+        if (!otherCollection.contains(e)) {
+            result.add(e)
+        }
+    }
+    return result
 }
 
 /**
@@ -12444,9 +12464,14 @@ public infix fun IntArray.subtract(other: Iterable<Int>): Set<Int> {
  * The returned set preserves the element iteration order of the original array.
  */
 public infix fun LongArray.subtract(other: Iterable<Long>): Set<Long> {
-    val set = this.toMutableSet()
-    set.removeAll(other)
-    return set
+    val otherCollection = other.convertToListIfNotCollection()
+    val result = mutableSetOf<Long>()
+    for (e in this) {
+        if (!otherCollection.contains(e)) {
+            result.add(e)
+        }
+    }
+    return result
 }
 
 /**
@@ -12455,9 +12480,14 @@ public infix fun LongArray.subtract(other: Iterable<Long>): Set<Long> {
  * The returned set preserves the element iteration order of the original array.
  */
 public infix fun FloatArray.subtract(other: Iterable<Float>): Set<Float> {
-    val set = this.toMutableSet()
-    set.removeAll(other)
-    return set
+    val otherCollection = other.convertToListIfNotCollection()
+    val result = mutableSetOf<Float>()
+    for (e in this) {
+        if (!otherCollection.contains(e)) {
+            result.add(e)
+        }
+    }
+    return result
 }
 
 /**
@@ -12466,9 +12496,14 @@ public infix fun FloatArray.subtract(other: Iterable<Float>): Set<Float> {
  * The returned set preserves the element iteration order of the original array.
  */
 public infix fun DoubleArray.subtract(other: Iterable<Double>): Set<Double> {
-    val set = this.toMutableSet()
-    set.removeAll(other)
-    return set
+    val otherCollection = other.convertToListIfNotCollection()
+    val result = mutableSetOf<Double>()
+    for (e in this) {
+        if (!otherCollection.contains(e)) {
+            result.add(e)
+        }
+    }
+    return result
 }
 
 /**
@@ -12477,9 +12512,14 @@ public infix fun DoubleArray.subtract(other: Iterable<Double>): Set<Double> {
  * The returned set preserves the element iteration order of the original array.
  */
 public infix fun BooleanArray.subtract(other: Iterable<Boolean>): Set<Boolean> {
-    val set = this.toMutableSet()
-    set.removeAll(other)
-    return set
+    val otherCollection = other.convertToListIfNotCollection()
+    val result = mutableSetOf<Boolean>()
+    for (e in this) {
+        if (!otherCollection.contains(e)) {
+            result.add(e)
+        }
+    }
+    return result
 }
 
 /**
@@ -12488,9 +12528,14 @@ public infix fun BooleanArray.subtract(other: Iterable<Boolean>): Set<Boolean> {
  * The returned set preserves the element iteration order of the original array.
  */
 public infix fun CharArray.subtract(other: Iterable<Char>): Set<Char> {
-    val set = this.toMutableSet()
-    set.removeAll(other)
-    return set
+    val otherCollection = other.convertToListIfNotCollection()
+    val result = mutableSetOf<Char>()
+    for (e in this) {
+        if (!otherCollection.contains(e)) {
+            result.add(e)
+        }
+    }
+    return result
 }
 
 /**
