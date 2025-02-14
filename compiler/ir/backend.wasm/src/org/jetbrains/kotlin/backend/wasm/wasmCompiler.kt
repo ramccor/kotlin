@@ -72,6 +72,7 @@ fun compileToLoweredIr(
     exportedDeclarations: Set<FqName> = emptySet(),
     generateTypeScriptFragment: Boolean,
     propertyLazyInitialization: Boolean,
+    isIncremental: Boolean = false,
 ): LoweredIrWithExtraArtifacts {
     val (moduleFragment, dependencyModules, irBuiltIns, symbolTable, irLinker) = irModuleInfo
 
@@ -81,7 +82,14 @@ fun compileToLoweredIr(
     }
 
     val moduleDescriptor = moduleFragment.descriptor
-    val context = WasmBackendContext(moduleDescriptor, irBuiltIns, symbolTable, moduleFragment, propertyLazyInitialization, configuration)
+    val context = WasmBackendContext(
+        module = moduleDescriptor,
+        irBuiltIns = irBuiltIns,
+        symbolTable = symbolTable,
+        irModuleFragment = moduleFragment,
+        propertyLazyInitialization = propertyLazyInitialization,
+        configuration = configuration,
+    )
 
     // Create stubs
     ExternalDependenciesGenerator(symbolTable, listOf(irLinker)).generateUnboundSymbolsAsDependencies()
@@ -108,7 +116,7 @@ fun compileToLoweredIr(
             allModules,
             context,
             context.irFactory.stageController as WholeWorldStageController,
-            isIncremental = false,
+            isIncremental = isIncremental,
         )
     }
 
@@ -147,7 +155,11 @@ fun compileWasm(
     generateWat: Boolean,
     generateSourceMaps: Boolean,
     useDebuggerCustomFormatters: Boolean,
-    generateDwarf: Boolean
+    generateDwarf: Boolean,
+    moduleImportName: String? = null,
+    initializeUnit: Boolean = true,
+    exportThrowableTag: Boolean = false,
+    initializeStringPool: Boolean = true,
 ): WasmCompilerResult {
     val useJsTag = configuration.getBoolean(WasmConfigurationKeys.WASM_USE_JS_TAG)
     val isWasmJsTarget = configuration.get(WasmConfigurationKeys.WASM_TARGET) != WasmTarget.WASI
@@ -158,7 +170,7 @@ fun compileWasm(
         isWasmJsTarget && useJsTag,
     )
 
-    val linkedModule = wasmCompiledModuleFragment.linkWasmCompiledFragments()
+    val linkedModule = wasmCompiledModuleFragment.linkWasmCompiledFragments(moduleImportName, initializeUnit, exportThrowableTag, initializeStringPool)
 
     val dwarfGeneratorForBinary = runIf(generateDwarf) {
         DwarfGenerator()
@@ -205,6 +217,9 @@ fun compileWasm(
             jsModuleImports.addAll(fragment.jsModuleImports.values)
             jsFuns.addAll(fragment.jsFuns.values)
             jsModuleAndQualifierReferences.addAll(fragment.jsModuleAndQualifierReferences)
+        }
+        if (moduleImportName != null) {
+            jsModuleImports.add(moduleImportName)
         }
 
         jsUninstantiatedWrapper = generateAsyncJsWrapper(
