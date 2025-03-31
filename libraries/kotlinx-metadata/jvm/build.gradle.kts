@@ -19,6 +19,13 @@ embedded.isTransitive = false
 configurations.getByName("compileOnly").extendsFrom(embedded)
 configurations.getByName("testApi").extendsFrom(embedded)
 
+val proguardLibraryJars by configurations.creating {
+    attributes {
+        attribute(Usage.USAGE_ATTRIBUTE, objects.named(Usage.JAVA_RUNTIME))
+        attribute(LibraryElements.LIBRARY_ELEMENTS_ATTRIBUTE, objects.named(LibraryElements.JAR))
+    }
+}
+
 dependencies {
     api(kotlinStdlib())
     embedded(project(":kotlin-metadata"))
@@ -28,6 +35,11 @@ dependencies {
     testImplementation(kotlinTest("junit5"))
     testImplementation(libs.intellij.asm)
     testImplementation(commonDependency("org.jetbrains.kotlin:kotlin-reflect")) { isTransitive = false }
+
+    proguardLibraryJars(project(":kotlin-metadata"))
+    proguardLibraryJars(project(":core:metadata"))
+    proguardLibraryJars(project(":core:metadata.jvm"))
+    proguardLibraryJars(protobufLite())
 }
 
 kotlin {
@@ -61,9 +73,43 @@ val runtimeJar = runtimeJarWithRelocation {
     }
 }
 
+val proguard by task<CacheableProguardTask> {
+    dependsOn(runtimeJar)
+
+    injars(mapOf("filter" to "!META-INF/versions/**"), runtimeJar.get().outputs.files)
+    outjars(fileFrom(base.libsDirectory.asFile.get(), "${base.archivesName.get()}-$version-proguard.jar"))
+
+    javaLauncher.set(project.getToolchainLauncherFor(JdkMajorVersion.JDK_1_8))
+
+    libraryjars(mapOf("filter" to "!META-INF/versions/**"), proguardLibraryJars)
+    libraryjars(
+        project.files(
+            javaLauncher.map {
+                firstFromJavaHomeThatExists(
+                    "jre/lib/rt.jar",
+                    "../Classes/classes.jar",
+                    jdkHome = it.metadata.installationPath.asFile
+                )!!
+            }
+        )
+    )
+
+    configuration("metadata.pro")
+}
+
+val result by task<Jar> {
+    val pack = if (kotlinBuildProperties.proguard) proguard else runtimeJar
+    dependsOn(pack)
+    from {
+        zipTree(pack.get().singleOutputFile(layout))
+    }
+}
+
 tasks.apiBuild {
     inputJar.value(runtimeJar.flatMap { it.archiveFile })
 }
+
+setPublishableArtifact(result)
 
 apiValidation {
     ignoredPackages.add("kotlin.metadata.internal")
