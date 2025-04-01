@@ -12,12 +12,10 @@ import org.jetbrains.kotlin.analyzer.ModuleInfo
 import org.jetbrains.kotlin.analyzer.common.CommonDependenciesContainer
 import org.jetbrains.kotlin.analyzer.common.CommonPlatformAnalyzerServices
 import org.jetbrains.kotlin.analyzer.common.CommonResolverForModuleFactory
-import org.jetbrains.kotlin.backend.common.CommonKLibResolver
 import org.jetbrains.kotlin.builtins.DefaultBuiltIns
 import org.jetbrains.kotlin.builtins.KotlinBuiltIns
 import org.jetbrains.kotlin.builtins.jvm.JvmBuiltIns
 import org.jetbrains.kotlin.builtins.konan.KonanBuiltIns
-import org.jetbrains.kotlin.cli.common.messages.getLogger
 import org.jetbrains.kotlin.cli.js.klib.TopDownAnalyzerFacadeForJSIR
 import org.jetbrains.kotlin.cli.js.klib.TopDownAnalyzerFacadeForWasm
 import org.jetbrains.kotlin.cli.jvm.compiler.JvmPackagePartProvider
@@ -46,11 +44,11 @@ import org.jetbrains.kotlin.incremental.components.ExpectActualTracker
 import org.jetbrains.kotlin.incremental.components.InlineConstTracker
 import org.jetbrains.kotlin.incremental.components.LookupTracker
 import org.jetbrains.kotlin.ir.backend.js.JsFactories
+import org.jetbrains.kotlin.library.KotlinLibrary
 import org.jetbrains.kotlin.library.metadata.CurrentKlibModuleOrigin
 import org.jetbrains.kotlin.library.metadata.KlibMetadataFactories
 import org.jetbrains.kotlin.library.metadata.KlibModuleOrigin
 import org.jetbrains.kotlin.library.metadata.NullFlexibleTypeDeserializer
-import org.jetbrains.kotlin.library.unresolvedDependencies
 import org.jetbrains.kotlin.load.java.lazy.SingleModuleClassResolver
 import org.jetbrains.kotlin.load.kotlin.ModuleVisibilityManager
 import org.jetbrains.kotlin.name.Name
@@ -68,9 +66,9 @@ import org.jetbrains.kotlin.resolve.TopDownAnalysisMode
 import org.jetbrains.kotlin.resolve.jvm.JavaDescriptorResolver
 import org.jetbrains.kotlin.resolve.lazy.KotlinCodeAnalyzer
 import org.jetbrains.kotlin.resolve.lazy.declarations.FileBasedDeclarationProviderFactory
-import org.jetbrains.kotlin.storage.LockBasedStorageManager
 import org.jetbrains.kotlin.storage.StorageManager
 import org.jetbrains.kotlin.test.directives.JvmEnvironmentConfigurationDirectives
+import org.jetbrains.kotlin.test.frontend.fir.resolveLibrariesStdlibFirst
 import org.jetbrains.kotlin.test.model.DependencyRelation
 import org.jetbrains.kotlin.test.model.FrontendFacade
 import org.jetbrains.kotlin.test.model.FrontendKinds
@@ -79,6 +77,7 @@ import org.jetbrains.kotlin.test.services.*
 import org.jetbrains.kotlin.test.services.configuration.JsEnvironmentConfigurator
 import org.jetbrains.kotlin.test.services.configuration.NativeEnvironmentConfigurator
 import org.jetbrains.kotlin.test.services.configuration.getDependencies
+import org.jetbrains.kotlin.test.services.configuration.loadModuleDescriptors
 import org.jetbrains.kotlin.test.util.KtTestUtil
 import org.jetbrains.kotlin.utils.addToStdlib.runIf
 import org.jetbrains.kotlin.utils.closure
@@ -265,37 +264,16 @@ class ClassicFrontendFacade(
     private fun loadKlib(
         factories: KlibMetadataFactories,
         names: List<String>,
-        configuration: CompilerConfiguration
-    ): List<ModuleDescriptor> {
-        val resolvedLibraries = CommonKLibResolver.resolve(
+        configuration: CompilerConfiguration,
+    ): List<ModuleDescriptorImpl> {
+        // KLIBs in CLI-order, but stdlib goes the first:
+        val libraries: List<KotlinLibrary> = resolveLibrariesStdlibFirst(
+            configuration,
             names,
-            configuration.getLogger(treatWarningsAsErrors = true),
             knownIrProviders = listOf("kotlin.native.cinterop"), // FIXME use KonanLibraryProperResolver instead, as in production.
-        ).getFullResolvedList()
+        )
 
-        var builtInsModule: KotlinBuiltIns? = null
-        val dependencies = mutableListOf<ModuleDescriptorImpl>()
-
-        return resolvedLibraries.map { resolvedLibrary ->
-            testServices.libraryProvider.getOrCreateStdlibByPath(resolvedLibrary.library.libraryFile.absolutePath) {
-                val storageManager = LockBasedStorageManager("ModulesStructure")
-                val isBuiltIns = resolvedLibrary.library.unresolvedDependencies.isEmpty()
-
-                val moduleDescriptor = factories.DefaultDeserializedDescriptorFactory.createDescriptorOptionalBuiltIns(
-                    resolvedLibrary.library,
-                    configuration.languageVersionSettings,
-                    storageManager,
-                    builtInsModule,
-                    packageAccessHandler = null,
-                    lookupTracker = LookupTracker.DO_NOTHING
-                )
-                if (isBuiltIns) builtInsModule = moduleDescriptor.builtIns
-                dependencies += moduleDescriptor
-                moduleDescriptor.setDependencies(ArrayList(dependencies))
-
-                Pair(moduleDescriptor, resolvedLibrary.library)
-            }
-        }
+        return loadModuleDescriptors(libraries, factories, configuration.languageVersionSettings, testServices).first
     }
 
     private fun performJsModuleResolve(
@@ -382,7 +360,7 @@ class ClassicFrontendFacade(
         val moduleTrace = NoScopeRecordCliBindingTrace(project)
         val runtimeKlibsNames = NativeEnvironmentConfigurator.getRuntimePathsForModule(module, testServices)
         val nativeFactories = KlibMetadataFactories(::KonanBuiltIns, NullFlexibleTypeDeserializer)
-        val runtimeKlibs = loadKlib(nativeFactories, runtimeKlibsNames, configuration).mapNotNull { it as? ModuleDescriptorImpl }
+        val runtimeKlibs = loadKlib(nativeFactories, runtimeKlibsNames, configuration)
         val stdlibBuiltInsModule = runtimeKlibs.single { it.name == Name.special("<stdlib>") }.builtIns.builtInsModule
 
         val moduleContext = createModuleContext(

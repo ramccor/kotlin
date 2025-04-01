@@ -13,6 +13,7 @@ import org.jetbrains.kotlin.fir.extensions.FirExtensionRegistrar
 import org.jetbrains.kotlin.fir.java.FirProjectSessionProvider
 import org.jetbrains.kotlin.fir.session.FirSessionConfigurator
 import org.jetbrains.kotlin.fir.session.FirWasmSessionFactory
+import org.jetbrains.kotlin.library.KotlinLibrary
 import org.jetbrains.kotlin.library.metadata.resolver.KotlinResolvedLibrary
 import org.jetbrains.kotlin.name.Name
 import org.jetbrains.kotlin.platform.wasm.WasmTarget
@@ -35,7 +36,7 @@ object TestFirWasmSessionFactory {
         extensionRegistrars: List<FirExtensionRegistrar>,
     ): FirSession {
         val target = configuration.get(WasmConfigurationKeys.WASM_TARGET, WasmTarget.JS)
-        val resolvedLibraries = resolveLibraries(
+        val resolvedLibraries = resolveLibrariesStdlibFirst(
             configuration = configuration,
             paths = getAllWasmDependenciesPaths(module, testServices, target)
         )
@@ -48,7 +49,7 @@ object TestFirWasmSessionFactory {
         )
 
         return FirWasmSessionFactory.createLibrarySession(
-            resolvedLibraries.map { it.library },
+            resolvedLibraries,
             sessionProvider,
             sharedLibrarySession,
             moduleDataProvider,
@@ -78,13 +79,13 @@ fun resolveWasmLibraries(
     module: TestModule,
     testServices: TestServices,
     configuration: CompilerConfiguration
-): List<KotlinResolvedLibrary> {
+): List<KotlinLibrary> {
     val paths = getAllWasmDependenciesPaths(
         module = module,
         testServices = testServices,
         target = configuration.get(WasmConfigurationKeys.WASM_TARGET, WasmTarget.JS)
     )
-    return resolveLibraries(configuration, paths)
+    return resolveLibrariesStdlibFirst(configuration, paths)
 }
 
 fun getAllWasmDependenciesPaths(

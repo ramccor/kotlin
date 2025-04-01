@@ -25,7 +25,7 @@ import org.jetbrains.kotlin.test.directives.KlibBasedCompilerTestDirectives.SKIP
 import org.jetbrains.kotlin.test.frontend.classic.ModuleDescriptorProvider
 import org.jetbrains.kotlin.test.frontend.classic.moduleDescriptorProvider
 import org.jetbrains.kotlin.test.frontend.fir.getAllJsDependenciesPaths
-import org.jetbrains.kotlin.test.frontend.fir.resolveLibraries
+import org.jetbrains.kotlin.test.frontend.fir.resolveLibrariesStdlibFirst
 import org.jetbrains.kotlin.test.model.ArtifactKinds
 import org.jetbrains.kotlin.test.model.BinaryArtifacts
 import org.jetbrains.kotlin.test.model.TestModule
@@ -58,7 +58,7 @@ class FirJsKlibSerializerFacade(
         val outputFile = JsEnvironmentConfigurator.getKlibArtifactFile(testServices, module.name)
 
         // TODO: consider avoiding repeated libraries resolution
-        val libraries = resolveLibraries(configuration, getAllJsDependenciesPaths(module, testServices))
+        val libraries = resolveLibrariesStdlibFirst(configuration, getAllJsDependenciesPaths(module, testServices))
 
         if (firstTimeCompilation) {
             serializeModuleIntoKlib(
@@ -67,7 +67,7 @@ class FirJsKlibSerializerFacade(
                 diagnosticReporter,
                 inputArtifact.metadataSerializer,
                 klibPath = outputFile.path,
-                libraries.map { it.library },
+                libraries,
                 inputArtifact.irModuleFragment,
                 inputArtifact.irPluginContext.irBuiltIns,
                 cleanFiles = inputArtifact.icData,

@@ -24,7 +24,7 @@ import org.jetbrains.kotlin.test.directives.KlibBasedCompilerTestDirectives.SKIP
 import org.jetbrains.kotlin.test.frontend.classic.ModuleDescriptorProvider
 import org.jetbrains.kotlin.test.frontend.classic.moduleDescriptorProvider
 import org.jetbrains.kotlin.test.frontend.fir.getAllWasmDependenciesPaths
-import org.jetbrains.kotlin.test.frontend.fir.resolveLibraries
+import org.jetbrains.kotlin.test.frontend.fir.resolveLibrariesStdlibFirst
 import org.jetbrains.kotlin.test.model.ArtifactKinds
 import org.jetbrains.kotlin.test.model.BinaryArtifacts
 import org.jetbrains.kotlin.test.model.TestModule
@@ -58,7 +58,7 @@ class FirWasmKlibSerializerFacade(
 
         // TODO: consider avoiding repeated libraries resolution
         val target = configuration.get(WasmConfigurationKeys.WASM_TARGET, WasmTarget.JS)
-        val libraries = resolveLibraries(configuration, getAllWasmDependenciesPaths(module, testServices, target))
+        val libraries = resolveLibrariesStdlibFirst(configuration, getAllWasmDependenciesPaths(module, testServices, target))
 
         if (firstTimeCompilation) {
             serializeModuleIntoKlib(
@@ -67,7 +67,7 @@ class FirWasmKlibSerializerFacade(
                 diagnosticReporter,
                 inputArtifact.metadataSerializer,
                 klibPath = outputFile.path,
-                libraries.map { it.library },
+                libraries,
                 inputArtifact.irModuleFragment,
                 inputArtifact.irPluginContext.irBuiltIns,
                 cleanFiles = inputArtifact.icData,

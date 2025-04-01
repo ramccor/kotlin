@@ -8,20 +8,32 @@ package org.jetbrains.kotlin.test.frontend.fir
 import org.jetbrains.kotlin.backend.common.CommonKLibResolver
 import org.jetbrains.kotlin.cli.common.messages.getLogger
 import org.jetbrains.kotlin.config.CompilerConfiguration
-import org.jetbrains.kotlin.library.metadata.resolver.KotlinResolvedLibrary
+import org.jetbrains.kotlin.library.KotlinLibrary
+import org.jetbrains.kotlin.library.isAnyPlatformStdlib
 import org.jetbrains.kotlin.test.model.DependencyRelation
 import org.jetbrains.kotlin.test.model.TestModule
 import org.jetbrains.kotlin.test.services.TestServices
 import org.jetbrains.kotlin.test.services.configuration.getKlibDependencies
 import java.io.File
 
-fun resolveLibraries(
+fun resolveLibrariesStdlibFirst(
     configuration: CompilerConfiguration,
     paths: List<String>,
     knownIrProviders: List<String> = emptyList(),
-): List<KotlinResolvedLibrary> {
-    return CommonKLibResolver.resolve(paths, configuration.getLogger(treatWarningsAsErrors = true), knownIrProviders = knownIrProviders)
+): List<KotlinLibrary> {
+    val rawLibraries = CommonKLibResolver
+        .resolve(paths, configuration.getLogger(treatWarningsAsErrors = true), knownIrProviders = knownIrProviders)
         .getFullResolvedList()
+
+    return buildList(rawLibraries.size) {
+        for (rawLibrary in rawLibraries) {
+            val library = rawLibrary.library
+            if (library.isAnyPlatformStdlib)
+                add(0, library)
+            else
+                add(library)
+        }
+    }
 }
 
 fun getTransitivesAndFriendsPaths(module: TestModule, testServices: TestServices): List<String> {

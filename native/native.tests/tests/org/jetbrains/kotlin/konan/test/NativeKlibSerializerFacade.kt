@@ -29,7 +29,7 @@ import org.jetbrains.kotlin.test.directives.KlibBasedCompilerTestDirectives.SKIP
 import org.jetbrains.kotlin.test.frontend.classic.ModuleDescriptorProvider
 import org.jetbrains.kotlin.test.frontend.classic.moduleDescriptorProvider
 import org.jetbrains.kotlin.test.frontend.fir.getAllNativeDependenciesPaths
-import org.jetbrains.kotlin.test.frontend.fir.resolveLibraries
+import org.jetbrains.kotlin.test.frontend.fir.resolveLibrariesStdlibFirst
 import org.jetbrains.kotlin.test.model.*
 import org.jetbrains.kotlin.test.services.*
 import org.jetbrains.kotlin.test.services.configuration.NativeEnvironmentConfigurator.Companion.getKlibArtifactFile
@@ -100,9 +100,9 @@ abstract class AbstractNativeKlibSerializerFacade(
 
         val dependencyPaths = getAllNativeDependenciesPaths(module, testServices)
 
-        val library = resolveLibraries(
+        val library = resolveLibrariesStdlibFirst(
             configuration, dependencyPaths + outputArtifact.outputFile.path, knownIrProviders = listOf(KLIB_INTEROP_IR_PROVIDER_IDENTIFIER),
-        ).last().library
+        ).last()
 
         val moduleDescriptor = nativeFactories.DefaultDeserializedDescriptorFactory.createDescriptorOptionalBuiltIns(
             library,

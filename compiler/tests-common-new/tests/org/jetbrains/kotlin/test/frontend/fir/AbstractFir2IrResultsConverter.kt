@@ -12,20 +12,16 @@ import org.jetbrains.kotlin.builtins.DefaultBuiltIns
 import org.jetbrains.kotlin.builtins.KotlinBuiltIns
 import org.jetbrains.kotlin.config.*
 import org.jetbrains.kotlin.descriptors.ModuleDescriptor
-import org.jetbrains.kotlin.descriptors.impl.ModuleDescriptorImpl
 import org.jetbrains.kotlin.diagnostics.DiagnosticReporterFactory
 import org.jetbrains.kotlin.diagnostics.impl.BaseDiagnosticsCollector
 import org.jetbrains.kotlin.fir.backend.*
 import org.jetbrains.kotlin.fir.descriptors.FirModuleDescriptor
 import org.jetbrains.kotlin.fir.pipeline.*
-import org.jetbrains.kotlin.incremental.components.LookupTracker
 import org.jetbrains.kotlin.ir.IrBuiltIns
 import org.jetbrains.kotlin.ir.types.IrTypeSystemContext
 import org.jetbrains.kotlin.ir.util.KotlinMangler
 import org.jetbrains.kotlin.library.KotlinLibrary
 import org.jetbrains.kotlin.library.metadata.KlibMetadataFactories
-import org.jetbrains.kotlin.library.unresolvedDependencies
-import org.jetbrains.kotlin.storage.LockBasedStorageManager
 import org.jetbrains.kotlin.test.backend.ir.IrBackendInput
 import org.jetbrains.kotlin.test.directives.CodegenTestDirectives
 import org.jetbrains.kotlin.test.frontend.fir.handlers.FirDiagnosticCollectorService
@@ -35,6 +31,7 @@ import org.jetbrains.kotlin.test.model.Frontend2BackendConverter
 import org.jetbrains.kotlin.test.model.FrontendKinds
 import org.jetbrains.kotlin.test.model.TestModule
 import org.jetbrains.kotlin.test.services.*
+import org.jetbrains.kotlin.test.services.configuration.loadModuleDescriptors
 
 abstract class AbstractFir2IrResultsConverter(
     testServices: TestServices
@@ -85,6 +82,7 @@ abstract class AbstractFir2IrResultsConverter(
         val libraries: List<KotlinLibrary> = resolveLibraries(module, compilerConfiguration)
         val (dependencies: List<ModuleDescriptor>, builtIns: KotlinBuiltIns?) = loadModuleDescriptors(
             libraries,
+            klibFactories,
             compilerConfiguration.languageVersionSettings,
             testServices
         )
@@ -135,38 +133,6 @@ abstract class AbstractFir2IrResultsConverter(
         fir2IrResult: Fir2IrActualizedResult,
         fir2KlibMetadataSerializer: Fir2KlibMetadataSerializer,
     ): IrBackendInput
-
-    private fun loadModuleDescriptors(
-        libraries: List<KotlinLibrary>,
-        languageVersionSettings: LanguageVersionSettings,
-        testServices: TestServices
-    ): Pair<List<ModuleDescriptor>, KotlinBuiltIns?> {
-        var builtInsModule: KotlinBuiltIns? = null
-        val dependencies = mutableListOf<ModuleDescriptorImpl>()
-
-        return libraries.map { library ->
-            testServices.libraryProvider.getOrCreateStdlibByPath(library.libraryFile.absolutePath) {
-                // TODO: check safety of the approach of creating a separate storage manager per library
-                val storageManager = LockBasedStorageManager("ModulesStructure")
-
-                val moduleDescriptor = klibFactories.DefaultDeserializedDescriptorFactory.createDescriptorOptionalBuiltIns(
-                    library,
-                    languageVersionSettings,
-                    storageManager,
-                    builtInsModule,
-                    packageAccessHandler = null,
-                    lookupTracker = LookupTracker.DO_NOTHING
-                )
-                dependencies += moduleDescriptor
-                moduleDescriptor.setDependencies(ArrayList(dependencies))
-
-                Pair(moduleDescriptor, library)
-            }.also { moduleDescriptor ->
-                val isBuiltIns = library.unresolvedDependencies.isEmpty()
-                if (isBuiltIns) builtInsModule = moduleDescriptor.builtIns
-            }
-        } to builtInsModule
-    }
 }
 
 // TODO: move somewhere

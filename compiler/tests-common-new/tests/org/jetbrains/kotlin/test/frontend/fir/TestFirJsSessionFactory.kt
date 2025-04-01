@@ -28,7 +28,7 @@ object TestFirJsSessionFactory {
         configuration: CompilerConfiguration,
         extensionRegistrars: List<FirExtensionRegistrar>,
     ): FirSession {
-        val resolvedLibraries = resolveLibraries(configuration, getAllJsDependenciesPaths(module, testServices))
+        val resolvedLibraries = resolveLibrariesStdlibFirst(configuration, getAllJsDependenciesPaths(module, testServices))
 
         val sharedLibrarySession = FirJsSessionFactory.createSharedLibrarySession(
             mainModuleName,
@@ -38,7 +38,7 @@ object TestFirJsSessionFactory {
         )
 
         return FirJsSessionFactory.createLibrarySession(
-            resolvedLibraries.map { it.library },
+            resolvedLibraries,
             sessionProvider,
             sharedLibrarySession,
             moduleDataProvider,

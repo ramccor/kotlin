@@ -91,7 +91,7 @@ internal class Fir2IrJsResultsConverter(testServices: TestServices) : Fir2IrJsWa
         get() = IrBackendInput::JsIrAfterFrontendBackendInput
 
     override fun resolveLibraries(module: TestModule, compilerConfiguration: CompilerConfiguration): List<KotlinLibrary> {
-        return resolveLibraries(compilerConfiguration, getAllJsDependenciesPaths(module, testServices)).map { it.library }
+        return resolveLibrariesStdlibFirst(compilerConfiguration, getAllJsDependenciesPaths(module, testServices))
     }
 }
 
@@ -101,6 +101,6 @@ internal class Fir2IrWasmResultsConverter(testServices: TestServices) : Fir2IrJs
         get() = IrBackendInput::WasmAfterFrontendBackendInput
 
     override fun resolveLibraries(module: TestModule, compilerConfiguration: CompilerConfiguration): List<KotlinLibrary> {
-        return resolveWasmLibraries(module, testServices, compilerConfiguration).map { it.library }
+        return resolveWasmLibraries(module, testServices, compilerConfiguration)
     }
 }
