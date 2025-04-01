@@ -69,13 +69,14 @@ object WebFir2IrPipelinePhase : PipelinePhase<WebFrontendPipelineArtifact, JsFir
                 lookupTracker = LookupTracker.DO_NOTHING
             )
             dependencies += moduleDescriptor
-            moduleDescriptor.setDependencies(ArrayList(dependencies))
 
             val isBuiltIns = resolvedLibrary.unresolvedDependencies.isEmpty()
             if (isBuiltIns) builtInsModule = moduleDescriptor.builtIns
 
             moduleDescriptor
         }
+
+        librariesDescriptors.forEach { it.setDependencies(librariesDescriptors.toList()) }
 
         val firResult = FirResult(firOutputs)
         return firResult.convertToIrAndActualize(
