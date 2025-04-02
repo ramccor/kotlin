@@ -106,10 +106,9 @@ val result by task<Jar> {
 }
 
 tasks.apiBuild {
-    inputJar.value(runtimeJar.flatMap { it.archiveFile })
+    dependsOn(result)
+    inputJar.value(result.flatMap { it.archiveFile })
 }
-
-setPublishableArtifact(result)
 
 apiValidation {
     ignoredPackages.add("kotlin.metadata.internal")
