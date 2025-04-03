@@ -97,7 +97,7 @@ val proguard by task<CacheableProguardTask> {
     configuration("metadata.pro")
 }
 
-val resultJar by task<Jar> {
+val result by task<Jar> {
     val pack = if (kotlinBuildProperties.proguard) proguard else runtimeJar
     dependsOn(pack)
     from {
@@ -105,7 +105,10 @@ val resultJar by task<Jar> {
     }
 }
 
-setPublishableArtifact(resultJar)
+tasks.apiBuild {
+    dependsOn(result)
+    inputJar.value(result.flatMap { it.archiveFile })
+}
 
 apiValidation {
     ignoredPackages.add("kotlin.metadata.internal")
