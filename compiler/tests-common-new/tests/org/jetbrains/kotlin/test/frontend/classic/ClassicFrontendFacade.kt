@@ -273,7 +273,7 @@ class ClassicFrontendFacade(
             knownIrProviders = listOf("kotlin.native.cinterop"), // FIXME use KonanLibraryProperResolver instead, as in production.
         )
 
-        return loadModuleDescriptors(libraries, factories, configuration.languageVersionSettings, testServices).first
+        return testServices.loadModuleDescriptors(libraries, configuration.languageVersionSettings) { factories }.first
     }
 
     private fun performJsModuleResolve(

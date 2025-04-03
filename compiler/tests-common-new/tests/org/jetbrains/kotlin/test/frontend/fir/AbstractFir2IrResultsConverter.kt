@@ -80,11 +80,10 @@ abstract class AbstractFir2IrResultsConverter(
         val fir2IrExtensions = createFir2IrExtensions(compilerConfiguration)
 
         val libraries: List<KotlinLibrary> = resolveLibraries(module, compilerConfiguration)
-        val (dependencies: List<ModuleDescriptor>, builtIns: KotlinBuiltIns?) = loadModuleDescriptors(
+        val (dependencies: List<ModuleDescriptor>, builtIns: KotlinBuiltIns?) = testServices.loadModuleDescriptors(
             libraries,
-            klibFactories,
             compilerConfiguration.languageVersionSettings,
-            testServices
+            ::klibFactories
         )
 
         val fir2IrConfiguration = createFir2IrConfiguration(compilerConfiguration, diagnosticReporter)

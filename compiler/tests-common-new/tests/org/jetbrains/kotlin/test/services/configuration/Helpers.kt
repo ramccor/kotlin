@@ -47,19 +47,19 @@ fun getFriendDependencies(module: TestModule, testServices: TestServices): Set<M
     getDependencies(module, testServices, DependencyRelation.FriendDependency)
         .filterIsInstanceTo<ModuleDescriptorImpl, MutableSet<ModuleDescriptorImpl>>(mutableSetOf())
 
-fun <L : KotlinLibrary> loadModuleDescriptors(
+fun <L : KotlinLibrary> TestServices.loadModuleDescriptors(
     libraries: List<L>,
-    klibFactories: KlibMetadataFactories,
     languageVersionSettings: LanguageVersionSettings,
-    testServices: TestServices,
+    klibFactories: () -> KlibMetadataFactories,
 ): Pair<List<ModuleDescriptorImpl>, KotlinBuiltIns?> {
     val storageManager = LockBasedStorageManager("ModulesStructure")
+    val klibFactories by lazy(klibFactories)
 
     val stdlibIndex: Int = libraries.indexOfFirst { it.isAnyPlatformStdlib }
     val stdlib: L? = libraries.getOrNull(stdlibIndex)
 
     val stdlibModule: ModuleDescriptorImpl? = if (stdlib != null) {
-        testServices.libraryProvider.getOrCreateStdlibByPath(stdlib.libraryFile.absolutePath) {
+        libraryProvider.getOrCreateStdlibByPath(stdlib.libraryFile.absolutePath) {
             val moduleDescriptor = klibFactories.DefaultDeserializedDescriptorFactory.createDescriptorAndNewBuiltIns(
                 stdlib,
                 languageVersionSettings,
@@ -78,7 +78,7 @@ fun <L : KotlinLibrary> loadModuleDescriptors(
     libraries.mapIndexedNotNullTo(allModules) { index, library ->
         if (index == stdlibIndex) return@mapIndexedNotNullTo null
 
-        testServices.libraryProvider.getOrCreateStdlibByPath(library.libraryFile.absolutePath) {
+        libraryProvider.getOrCreateStdlibByPath(library.libraryFile.absolutePath) {
             val moduleDescriptor = klibFactories.DefaultDeserializedDescriptorFactory.createDescriptorOptionalBuiltIns(
                 library,
                 languageVersionSettings,
