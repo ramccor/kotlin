@@ -669,18 +669,18 @@ class BodyGenerator(
         }
 
         // Some intrinsics are a special case because we want to remove them completely, including their arguments.
-        if (backendContext.configuration.get(WasmConfigurationKeys.WASM_ENABLE_ARRAY_RANGE_CHECKS) != true) {
-            if (call.symbol == wasmSymbols.rangeCheck) {
-                body.buildGetUnit()
-                return
-            }
-        }
-        if (backendContext.configuration.get(WasmConfigurationKeys.WASM_ENABLE_ASSERTS) != true) {
-            if (call.symbol in wasmSymbols.asserts) {
-                body.buildGetUnit()
-                return
-            }
-        }
+//        if (backendContext.configuration.get(WasmConfigurationKeys.WASM_ENABLE_ARRAY_RANGE_CHECKS) != true) {
+//            if (call.symbol == wasmSymbols.rangeCheck) {
+//                body.buildGetUnit()
+//                return
+//            }
+//        }
+//        if (backendContext.configuration.get(WasmConfigurationKeys.WASM_ENABLE_ASSERTS) != true) {
+//            if (call.symbol in wasmSymbols.asserts) {
+//                body.buildGetUnit()
+//                return
+//            }
+//        }
 
         call.arguments.forEach { generateExpression(it!!) }
 
