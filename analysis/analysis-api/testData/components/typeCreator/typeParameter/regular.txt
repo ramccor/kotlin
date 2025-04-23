@@ -1,2 +1,2 @@
 KtTypeParameter: T
-KaType: T
+KaType: T?

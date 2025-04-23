@@ -63,8 +63,11 @@ internal class KaFirTypeCreator(
     override fun buildTypeParameterType(symbol: KaTypeParameterSymbol, init: KaTypeParameterTypeBuilder.() -> Unit): KaTypeParameterType {
         withValidityAssertion {
             val builder = KaBaseTypeParameterTypeBuilder.BySymbol(symbol, token).apply(init)
-            val symbol = builder.symbol
-            val coneType = symbol.firSymbol.toConeType()
+            val firSymbol = builder.symbol.firSymbol
+            val coneType = ConeTypeParameterTypeImpl(
+                lookupTag = firSymbol.toConeType().lookupTag,
+                isMarkedNullable = builder.nullability.isNullable
+            )
             return coneType.asKtType() as KaTypeParameterType
         }
     }

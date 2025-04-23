@@ -1,2 +1,2 @@
 KtTypeParameter: reified T
-KaType: T
+KaType: T?

@@ -8,6 +8,7 @@ package org.jetbrains.kotlin.analysis.test.framework.services
 import org.jetbrains.kotlin.analysis.api.KaSession
 import org.jetbrains.kotlin.analysis.api.symbols.KaTypeParameterSymbol
 import org.jetbrains.kotlin.analysis.api.types.KaType
+import org.jetbrains.kotlin.analysis.api.types.KaTypeNullability
 import org.jetbrains.kotlin.name.ClassId
 import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.psi.*
@@ -35,8 +36,9 @@ object TypeParser {
                         }
                     }
                     else -> {
-                        buildTypeParameterType(typeParameter)
-
+                        buildTypeParameterType(typeParameter) {
+                            nullability = if (type is KtNullableType) KaTypeNullability.NULLABLE else KaTypeNullability.NON_NULLABLE
+                        }
                     }
                 }
             }
