@@ -689,7 +689,7 @@ class UklibConsumptionIT : KGPBaseTest() {
                 ),
             )
 
-            assertEquals<PrettyPrint<Map<String, Pair<Coordinate, List<RelativePath>>>>>(
+            assertEquals(
                 expected.prettyPrinted,
                 expected.mapValues {
                     normalizedProducerDependency(it.key)
