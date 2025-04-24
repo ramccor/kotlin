@@ -42,6 +42,13 @@
     />
 
     <registryKey
+        defaultValue="true"
+        description="Perform cache cleanup in deferred write action"
+        key="kotlin.analysis.lowMemoryCacheCleanup.deferred"
+        restartRequired="true"
+    />
+
+    <registryKey
         defaultValue="false"
         description="Enables post-compute-based Java Functions Cache (should be used only when data race is detected with less strict version)"
         key="kotlin.analysis.postComputeEnhancedJavaFunctionsCache"

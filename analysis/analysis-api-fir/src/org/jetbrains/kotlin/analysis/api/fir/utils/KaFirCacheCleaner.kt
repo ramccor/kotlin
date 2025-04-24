@@ -5,14 +5,16 @@
 
 package org.jetbrains.kotlin.analysis.api.fir.utils
 
+import com.intellij.openapi.application.ApplicationManager
+import com.intellij.openapi.application.ModalityState
 import com.intellij.openapi.diagnostic.Logger
-import com.intellij.openapi.diagnostic.debug
+import com.intellij.openapi.diagnostic.logger
+import com.intellij.openapi.diagnostic.trace
 import com.intellij.openapi.progress.ProgressManager
 import com.intellij.openapi.project.Project
 import org.jetbrains.kotlin.analysis.api.KaSession
 import org.jetbrains.kotlin.analysis.api.analyze
 import org.jetbrains.kotlin.analysis.api.platform.KaCachedService
-import org.jetbrains.kotlin.analysis.low.level.api.fir.LLFirInternals
 import org.jetbrains.kotlin.analysis.low.level.api.fir.sessions.LLFirSessionInvalidationService
 import org.jetbrains.kotlin.analysis.low.level.api.fir.statistics.LLStatisticsService
 import org.jetbrains.kotlin.analysis.low.level.api.fir.statistics.domains.LLAnalysisSessionStatistics
@@ -58,6 +60,59 @@ internal object KaFirNoOpCacheCleaner : KaFirCacheCleaner {
 }
 
 /**
+ * A deferred implementation of a cache cleaner.
+ *
+ * The implementation schedules a write action to perform the cleanup as soon as possible.
+ */
+internal class KaFirDeferredCacheCleaner(private val project: Project) : KaFirCacheCleaner {
+    companion object {
+        private val LOG = logger<KaFirDeferredCacheCleaner>()
+    }
+
+    @KaCachedService
+    private val analysisSessionStatistics: LLAnalysisSessionStatistics? by lazy(LazyThreadSafetyMode.PUBLICATION) {
+        LLStatisticsService.getInstance(project)?.analysisSessions
+    }
+
+    @KaCachedService
+    private val invalidationService: LLFirSessionInvalidationService by lazy(LazyThreadSafetyMode.PUBLICATION) {
+        LLFirSessionInvalidationService.getInstance(project)
+    }
+
+    override fun enterAnalysis() {}
+
+    override fun exitAnalysis() {}
+
+    override fun scheduleCleanup() {
+        LOG.trace("K2 cache cleanup is scheduled")
+        val cleanupScheduleMs = System.currentTimeMillis()
+
+        /**
+         * [ModalityState.any] is used here to invalidate caches no matter what.
+         * Otherwise, we might end up waiting for closing all modal dialogs,
+         * which effectively disables the cleaner.
+         * For instance, we will wait for find usages to be completed,
+         * but we need the cleaner to be called during the find usages operation.
+         *
+         * [performCleanup] guaranties that no model-changing activity will be called inside.
+         */
+        ApplicationManager.getApplication().invokeLater(
+            /* runnable = */ { performCleanup(cleanupScheduleMs) },
+            /* state = */ ModalityState.any(),
+            /* expired = */ project.disposed,
+        )
+    }
+
+    private fun performCleanup(cleanupScheduleMs: Long) {
+        LOG.trace("K2 cache cleanup requests write action")
+
+        ApplicationManager.getApplication().runWriteAction {
+            performCleanup(cleanupScheduleMs, invalidationService, analysisSessionStatistics, LOG)
+        }
+    }
+}
+
+/**
  * A stop-the-world implementation of a cache cleaner.
  *
  * It's impossible to clean up caches at a random point, as ongoing analyses will fail because their use-site sessions will be invalidated.
@@ -67,7 +122,7 @@ internal object KaFirNoOpCacheCleaner : KaFirCacheCleaner {
  */
 internal class KaFirStopWorldCacheCleaner(private val project: Project) : KaFirCacheCleaner {
     private companion object {
-        private val LOG = Logger.getInstance(KaFirStopWorldCacheCleaner::class.java)
+        private val LOG = logger<KaFirStopWorldCacheCleaner>()
 
         private const val CACHE_CLEANER_LOCK_TIMEOUT_MS = 50L
     }
@@ -77,6 +132,11 @@ internal class KaFirStopWorldCacheCleaner(private val project: Project) : KaFirC
     @KaCachedService
     private val analysisSessionStatistics: LLAnalysisSessionStatistics? by lazy(LazyThreadSafetyMode.PUBLICATION) {
         LLStatisticsService.getInstance(project)?.analysisSessions
+    }
+
+    @KaCachedService
+    private val invalidationService: LLFirSessionInvalidationService by lazy(LazyThreadSafetyMode.PUBLICATION) {
+        LLFirSessionInvalidationService.getInstance(project)
     }
 
     /**
@@ -154,7 +214,7 @@ internal class KaFirStopWorldCacheCleaner(private val project: Project) : KaFirC
             require(analyzerCount >= 0) { "Inconsistency in analyzer block counter" }
 
             if (cleanupLatch != null) {
-                LOG.debug { "Analysis complete in ${Thread.currentThread()}, $analyzerCount left before the K2 cache cleanup" }
+                LOG.trace { "Analysis complete in ${Thread.currentThread()}, $analyzerCount left before the K2 cache cleanup" }
             }
 
             // Clean up the caches if there's a postponed cleanup, and we have no more analyses
@@ -207,7 +267,7 @@ internal class KaFirStopWorldCacheCleaner(private val project: Project) : KaFirC
                     }
                 }
             } else if (existingLatch == null) {
-                LOG.debug { "K2 cache cleanup scheduled from ${Thread.currentThread()}, $analyzerCount analyses left" }
+                LOG.trace { "K2 cache cleanup scheduled from ${Thread.currentThread()}, $analyzerCount analyses left" }
                 cleanupScheduleMs = System.currentTimeMillis()
                 cleanupLatch = CountDownLatch(1)
             }
@@ -215,27 +275,41 @@ internal class KaFirStopWorldCacheCleaner(private val project: Project) : KaFirC
     }
 
     /**
-     * Cleans all K2 resolution caches.
-     *
-     * Must always run in `synchronized(this)` to prevent concurrent cleanups.
-     *
-     * N.B.: May re-throw exceptions from IJ Platform [rethrowIntellijPlatformExceptionIfNeeded].
+     * Must be synchronized outside to prevent concurrent cleanups.
      */
-    @OptIn(LLFirInternals::class)
     private fun performCleanup() {
-        try {
-            analysisSessionStatistics?.lowMemoryCacheCleanupInvocationCounter?.add(1)
-
-            val cleanupMs = measureTimeMillis {
-                val invalidationService = LLFirSessionInvalidationService.getInstance(project)
-                invalidationService.invalidateAll(includeLibraryModules = true)
-            }
-            val totalMs = System.currentTimeMillis() - cleanupScheduleMs
-            LOG.debug { "K2 cache cleanup complete from ${Thread.currentThread()} in $cleanupMs ms ($totalMs ms after the request)" }
-        } catch (e: Throwable) {
-            rethrowIntellijPlatformExceptionIfNeeded(e)
-
-            LOG.error("Could not clean up K2 caches", e)
-        }
+        performCleanup(cleanupScheduleMs, invalidationService, analysisSessionStatistics, LOG)
     }
+}
+
+/**
+ * Cleans all K2 resolution caches.
+ *
+ * Must be synchronized outside to prevent concurrent cleanups.
+ * Must not call any [model-changing][com.intellij.openapi.application.TransactionGuard] activity inside.
+ *
+ * N.B.: May re-throw exceptions from IJ Platform [rethrowIntellijPlatformExceptionIfNeeded].
+ *
+ * @param cleanupScheduleMs a timestamp when the currently postponed cleanup is scheduled, or an arbitrary value if no cleanup is scheduled.
+ *
+ * @see com.intellij.openapi.application.TransactionGuard
+ */
+private fun performCleanup(
+    cleanupScheduleMs: Long,
+    invalidationService: LLFirSessionInvalidationService,
+    analysisSessionStatistics: LLAnalysisSessionStatistics?,
+    logger: Logger,
+): Unit = try {
+    analysisSessionStatistics?.lowMemoryCacheCleanupInvocationCounter?.add(1)
+
+    val cleanupMs = measureTimeMillis {
+        invalidationService.invalidateAll(includeLibraryModules = true)
+    }
+
+    val totalMs = System.currentTimeMillis() - cleanupScheduleMs
+    logger.trace { "K2 cache cleanup complete from ${Thread.currentThread()} in $cleanupMs ms ($totalMs ms after the request)" }
+} catch (e: Throwable) {
+    rethrowIntellijPlatformExceptionIfNeeded(e)
+
+    logger.error("Could not clean up K2 caches", e)
 }
