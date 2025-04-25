@@ -19,6 +19,7 @@ import org.jetbrains.kotlin.analysis.low.level.api.fir.sessions.LLFirSessionInva
 import org.jetbrains.kotlin.analysis.low.level.api.fir.statistics.LLStatisticsService
 import org.jetbrains.kotlin.analysis.low.level.api.fir.statistics.domains.LLAnalysisSessionStatistics
 import org.jetbrains.kotlin.utils.exceptions.rethrowIntellijPlatformExceptionIfNeeded
+import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import kotlin.system.measureTimeMillis
@@ -154,6 +155,8 @@ internal class KaFirStopWorldCacheCleaner(private val project: Project) : KaFirC
      */
     private val analyzerDepth: ThreadLocal<Int> = ThreadLocal.withInitial { 0 }
 
+    private val activeThreads = ConcurrentHashMap.newKeySet<Thread>()
+
     /**
      * A latch preventing newly created analyses from running until the cache cleanup is complete.
      * [cleanupLatch] is `null` when there is no scheduled (postponed) cleanup.
@@ -186,14 +189,16 @@ internal class KaFirStopWorldCacheCleaner(private val project: Project) : KaFirC
         val existingLatch = cleanupLatch
         if (existingLatch != null) {
             // If there's an ongoing cleanup request, wait until it's complete
-            while (!existingLatch.await(CACHE_CLEANER_LOCK_TIMEOUT_MS, TimeUnit.MILLISECONDS)) {
+            do {
                 ProgressManager.checkCanceled()
-            }
+                if (activeThreads.none { it.state == Thread.State.RUNNABLE }) break
+            } while (!existingLatch.await(CACHE_CLEANER_LOCK_TIMEOUT_MS, TimeUnit.MILLISECONDS))
         }
 
         synchronized(lock) {
             // Register a top-level analysis block
             analyzerCount += 1
+            activeThreads.add(Thread.currentThread())
         }
 
         incAnalysisDepth()
@@ -210,6 +215,7 @@ internal class KaFirStopWorldCacheCleaner(private val project: Project) : KaFirC
         synchronized(lock) {
             // Unregister a top-level analysis block
             analyzerCount -= 1
+            activeThreads.remove(Thread.currentThread())
 
             require(analyzerCount >= 0) { "Inconsistency in analyzer block counter" }
 

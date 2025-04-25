@@ -42,7 +42,7 @@
     />
 
     <registryKey
-        defaultValue="true"
+        defaultValue="false"
         description="Perform cache cleanup in deferred write action"
         key="kotlin.analysis.lowMemoryCacheCleanup.deferred"
         restartRequired="true"

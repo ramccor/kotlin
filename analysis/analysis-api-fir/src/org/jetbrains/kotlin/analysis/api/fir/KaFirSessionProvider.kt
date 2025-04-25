@@ -62,7 +62,7 @@ internal class KaFirSessionProvider(project: Project) : KaBaseSessionProvider(pr
     private val cacheCleaner: KaFirCacheCleaner by lazy(LazyThreadSafetyMode.PUBLICATION) {
         when {
             !Registry.`is`("kotlin.analysis.lowMemoryCacheCleanup", true) -> KaFirNoOpCacheCleaner
-            Registry.`is`("kotlin.analysis.lowMemoryCacheCleanup.deferred", true) -> KaFirDeferredCacheCleaner(project)
+            Registry.`is`("kotlin.analysis.lowMemoryCacheCleanup.deferred", false) -> KaFirDeferredCacheCleaner(project)
             else -> KaFirStopWorldCacheCleaner(project)
         }
     }
