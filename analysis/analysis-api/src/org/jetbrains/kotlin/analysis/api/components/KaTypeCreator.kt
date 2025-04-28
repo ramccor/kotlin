@@ -53,6 +53,51 @@ public interface KaTypeCreator : KaSessionComponent {
     public fun buildTypeParameterType(symbol: KaTypeParameterSymbol, init: KaTypeParameterTypeBuilder.() -> Unit = {}): KaTypeParameterType
 
     /**
+     * Builds a [KaCapturedType] based on the given [type].
+     */
+    public fun buildCapturedType(type: KaCapturedType, init: KaCapturedTypeBuilder.() -> Unit = {}): KaCapturedType
+
+    /**
+     * Builds a [KaCapturedType] with the given [projection].
+     */
+    public fun buildCapturedType(projection: KaTypeProjection, init: KaCapturedTypeBuilder.() -> Unit = {}): KaCapturedType
+
+    /**
+     * Builds a [KaDefinitelyNotNullType] wrapping the given [type].
+     */
+    public fun buildDefinitelyNotNullType(
+        type: KaType,
+        init: KaDefinitelyNotNullTypeBuilder.() -> Unit = {}
+    ): KaDefinitelyNotNullType
+
+    /**
+     * Builds a [KaFlexibleType] based on the given [type].
+     */
+    public fun buildFlexibleType(type: KaFlexibleType, init: KaFlexibleTypeBuilder.() -> Unit = {}): KaFlexibleType
+
+    /**
+     * Builds a [KaFlexibleType] with the given [lowerBound] and [upperBound] bounds.
+     *
+     * The caller is supposed to provide a correct pair of bounds, i.e., the lower bound must be a subtype of the upper bound.
+     */
+    public fun buildFlexibleType(lowerBound: KaType, upperBound: KaType, init: KaFlexibleTypeBuilder.() -> Unit = {}): KaFlexibleType
+
+    /**
+     * Builds an [KaIntersectionType] based on the given [type].
+     */
+    public fun buildIntersectionType(type: KaIntersectionType, init: KaIntersectionTypeBuilder.() -> Unit = {}): KaIntersectionType
+
+    /**
+     * Builds an [KaIntersectionType] with the provided [conjuncts].
+     */
+    public fun buildIntersectionType(conjuncts: List<KaType>, init: KaIntersectionTypeBuilder.() -> Unit = {}): KaIntersectionType
+
+    /**
+     * Builds a [KaDynamicType].
+     */
+    public fun buildDynamicType(): KaDynamicType
+
+    /**
      * Builds a [KaStarTypeProjection] (`*`).
      */
     @KaExperimentalApi
@@ -95,4 +140,72 @@ public interface KaTypeParameterTypeBuilder : KaTypeBuilder {
      * Default value: [KaTypeNullability.NULLABLE].
      */
     public var nullability: KaTypeNullability
+}
+
+/**
+ * A builder for captured types.
+ *
+ * @see KaTypeCreator.buildCapturedType
+ */
+public interface KaCapturedTypeBuilder : KaTypeBuilder {
+    /**
+     * Default value: [KaTypeNullability.NON_NULLABLE].
+     */
+    public var nullability: KaTypeNullability
+
+    /**
+     * The source type argument of the captured type.
+     */
+    public var projection: KaTypeProjection
+}
+
+/**
+ * A builder for definitely-not-null types.
+ *
+ * @see KaTypeCreator.buildDefinitelyNotNullType
+ */
+public interface KaDefinitelyNotNullTypeBuilder : KaTypeBuilder {
+    /**
+     * Represents the wrapped type.
+     */
+    public var original: KaType
+}
+
+/**
+ * A builder for flexible types.
+ *
+ * @see KaTypeCreator.buildFlexibleType
+ */
+public interface KaFlexibleTypeBuilder : KaTypeBuilder {
+    /**
+     * Default value: [KaTypeNullability.NON_NULLABLE].
+     */
+    public var nullability: KaTypeNullability
+
+    /**
+     * The lower bound, such as `String` in `String!`.
+     */
+    public var lowerBound: KaType
+
+    /**
+     * The upper bound, such as `String?` in `String!`.
+     */
+    public var upperBound: KaType
+}
+
+/**
+ * A builder for intersection types.
+ *
+ * @see KaTypeCreator.buildIntersectionType
+ */
+public interface KaIntersectionTypeBuilder : KaTypeBuilder {
+    /**
+     * A list of individual types participating in the intersection.
+     */
+    public val conjuncts: List<KaType>
+
+    /**
+     * Adds a conjunct to the [conjuncts] list.
+     */
+    public fun conjunct(conjunct: KaType)
 }
