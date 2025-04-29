@@ -50250,12 +50250,6 @@ public class FirNativeCodegenBoxWithInlinedFunInKlibTestGenerated extends Abstra
       }
 
       @Test
-      @TestMetadata("localDelegatedPropertyWithInlinedFunInKlib.kt")
-      public void testLocalDelegatedPropertyWithInlinedFunInKlib() {
-        runTest("compiler/testData/codegen/boxInline/localFunInLambda/localDelegatedPropertyWithInlinedFunInKlib.kt");
-      }
-
-      @Test
       @TestMetadata("localFunInLambda.kt")
       public void testLocalFunInLambda() {
         runTest("compiler/testData/codegen/boxInline/localFunInLambda/localFunInLambda.kt");
