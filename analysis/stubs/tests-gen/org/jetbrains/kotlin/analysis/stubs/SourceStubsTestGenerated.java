@@ -2806,6 +2806,12 @@ public class SourceStubsTestGenerated extends AbstractSourceStubsTest {
     public void testExplicitBackingField() {
       runTest("compiler/testData/psi/propertyBackingField/explicitBackingField.kt");
     }
+
+    @Test
+    @TestMetadata("properties.kt")
+    public void testProperties() {
+      runTest("compiler/testData/psi/propertyBackingField/properties.kt");
+    }
   }
 
   @Nested

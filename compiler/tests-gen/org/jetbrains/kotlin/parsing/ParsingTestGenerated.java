@@ -2503,6 +2503,11 @@ public class ParsingTestGenerated extends AbstractParsingTest {
       public void testExplicitBackingField() {
         runTest("compiler/testData/psi/propertyBackingField/explicitBackingField.kt");
       }
+
+      @TestMetadata("properties.kt")
+      public void testProperties() {
+        runTest("compiler/testData/psi/propertyBackingField/properties.kt");
+      }
     }
 
     @TestMetadata("compiler/testData/psi/propertyDelegate")
