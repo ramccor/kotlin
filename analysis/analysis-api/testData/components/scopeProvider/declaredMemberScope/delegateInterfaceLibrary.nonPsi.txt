@@ -371,7 +371,7 @@ KaKotlinPropertySymbol:
     getContainingJvmClassName: I
     getContainingModule: KaLibraryModule "Library main"
     deprecationStatus: null
-  hasBackingField: false
+  hasBackingField: true
   hasGetter: true
   hasSetter: false
   initializer: null
@@ -661,7 +661,7 @@ KaKotlinPropertySymbol:
     getContainingJvmClassName: I
     getContainingModule: KaLibraryModule "Library main"
     deprecationStatus: null
-  hasBackingField: false
+  hasBackingField: true
   hasGetter: true
   hasSetter: true
   initializer: null

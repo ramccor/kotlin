@@ -84,7 +84,7 @@ KaKotlinPropertySymbol:
     getContainingJvmClassName: TypeAnnotationsOnPropertyReceiverTypeKt
     getContainingModule: KaSourceModule "Sources of main"
     deprecationStatus: null
-  hasBackingField: false
+  hasBackingField: true
   hasGetter: true
   hasSetter: false
   initializer: null
