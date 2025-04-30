@@ -114,6 +114,7 @@ val FirProperty.hasBackingField: Boolean
         if (isAbstract || isExpect) return false
         if (delegate != null) return false
         if (hasExplicitBackingField) return true
+        if (isLateInit) return true
         if (symbol is FirSyntheticPropertySymbol) return false
         if (isStatic) return false // For Enum.entries
         when (origin) {
