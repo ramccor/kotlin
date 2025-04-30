@@ -109,34 +109,32 @@ val FirPropertySymbol.canNarrowDownGetterType: Boolean
     get() = fir.canNarrowDownGetterType
 
 // See [BindingContext.BACKING_FIELD_REQUIRED]
-val FirProperty.hasBackingField: Boolean
+val FirPropertySymbol.hasBackingField: Boolean
     get() {
-        if (isAbstract || isExpect) return false
         if (delegate != null) return false
         if (hasExplicitBackingField) return true
         if (isLateInit) return true
-        if (symbol is FirSyntheticPropertySymbol) return false
+        if (this is FirSyntheticPropertySymbol) return false
         if (isStatic) return false // For Enum.entries
         when (origin) {
             is FirDeclarationOrigin.SubstitutionOverride -> return false
             FirDeclarationOrigin.IntersectionOverride -> return false
             FirDeclarationOrigin.Delegated -> return false
             else -> {
-                val getter = getter ?: return true
-                if (isVar && setter == null) return true
-                if (setter?.isCustom == false && setter?.isAbstract == false) return true
-                if (!getter.isCustom && !getter.isAbstract) return true
+                if (isExpect || isAbstract) return false
+                val getter = getterSymbol ?: return true
+                if (isVar && setterSymbol == null) return true
+                if (setterSymbol?.fir?.isCustom == false && setterSymbol?.isAbstract == false) return true
+                if (!getter.fir.isCustom && !getter.isAbstract) return true
 
-                return isReferredViaField == true
+                lazyResolveToPhase(FirResolvePhase.BODY_RESOLVE)
+                return fir.isReferredViaField == true
             }
         }
     }
 
-val FirPropertySymbol.hasBackingField: Boolean
-    get() {
-        lazyResolveToPhase(FirResolvePhase.BODY_RESOLVE)
-        return fir.hasBackingField
-    }
+val FirProperty.hasBackingField: Boolean
+    get() = symbol.hasBackingField
 
 fun FirDeclaration.getDanglingTypeConstraintsOrEmpty(): List<DanglingTypeConstraint> {
     return when (this) {
