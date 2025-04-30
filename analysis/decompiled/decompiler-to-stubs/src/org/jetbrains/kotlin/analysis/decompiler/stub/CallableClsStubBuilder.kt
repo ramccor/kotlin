@@ -313,7 +313,7 @@ private class PropertyClsStubBuilder(
                     KotlinPropertyAccessorStubImpl(
                         /* parent = */ callableStub,
                         /* isGetter = */ true,
-                        /* hasBody = */ false,
+                        /* hasBody = */ false, // TODO(KT-77208): should be true
                         /* hasBlockBody = */ true,
                     ),
                     flags = getterFlags,
