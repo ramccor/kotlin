@@ -12,11 +12,13 @@ import org.jetbrains.kotlin.fir.FirEvaluatorResult
 import org.jetbrains.kotlin.fir.declarations.*
 import org.jetbrains.kotlin.fir.declarations.impl.FirDefaultPropertyBackingField
 import org.jetbrains.kotlin.fir.declarations.impl.FirDefaultPropertyGetter
+import org.jetbrains.kotlin.fir.declarations.synthetic.FirSyntheticProperty
 import org.jetbrains.kotlin.fir.expressions.FirPropertyAccessExpression
 import org.jetbrains.kotlin.fir.references.impl.FirPropertyFromParameterResolvedNamedReference
 import org.jetbrains.kotlin.fir.symbols.FirBasedSymbol
 import org.jetbrains.kotlin.fir.symbols.impl.*
 import org.jetbrains.kotlin.fir.symbols.lazyResolveToPhase
+import org.jetbrains.kotlin.fir.types.FirImplicitTypeRef
 import org.jetbrains.kotlin.fir.types.coneType
 import org.jetbrains.kotlin.name.Name
 
@@ -111,11 +113,9 @@ val FirPropertySymbol.canNarrowDownGetterType: Boolean
 // See [BindingContext.BACKING_FIELD_REQUIRED]
 val FirPropertySymbol.hasBackingField: Boolean
     get() {
-        if (delegate != null) return false
+        if (!fir.mayHaveBackingField) return false
         if (hasExplicitBackingField) return true
         if (isLateInit) return true
-        if (this is FirSyntheticPropertySymbol) return false
-        if (isStatic) return false // For Enum.entries
         when (origin) {
             is FirDeclarationOrigin.SubstitutionOverride -> return false
             FirDeclarationOrigin.IntersectionOverride -> return false
@@ -123,15 +123,26 @@ val FirPropertySymbol.hasBackingField: Boolean
             else -> {
                 if (isExpect || isAbstract) return false
                 val getter = getterSymbol ?: return true
-                if (isVar && setterSymbol == null) return true
-                if (setterSymbol?.fir?.isCustom == false && setterSymbol?.isAbstract == false) return true
-                if (!getter.fir.isCustom && !getter.isAbstract) return true
+                val setter = setterSymbol
+                if (isVar && setter == null) return true
+                if (setter?.fir?.isCustom == false && !setter.isAbstract && !setter.isInline) return true
+                if (!getter.fir.isCustom && !getter.isAbstract && !getter.isInline) return true
+                if (getter.isInline && setter?.isInline != true) return false
 
                 lazyResolveToPhase(FirResolvePhase.BODY_RESOLVE)
                 return fir.isReferredViaField == true
             }
         }
     }
+
+val FirProperty.mayHaveBackingField: Boolean
+    get() = this !is FirSyntheticProperty &&
+            receiverParameter == null &&
+            returnTypeRef !is FirImplicitTypeRef &&
+            delegate == null &&
+            contextParameters.isEmpty() &&
+            typeParameters.isEmpty() &&
+            !isStatic // For Enum.entries
 
 val FirProperty.hasBackingField: Boolean
     get() = symbol.hasBackingField

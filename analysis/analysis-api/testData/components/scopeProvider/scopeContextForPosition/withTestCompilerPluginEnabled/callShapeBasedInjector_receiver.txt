@@ -86,7 +86,7 @@ scopes:
             type: kotlin/Int
           valueParameters: []
           visibility: LOCAL
-        hasBackingField: true
+        hasBackingField: false
         hasGetter: true
         hasSetter: false
         initializer: null

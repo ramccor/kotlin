@@ -329,11 +329,19 @@ private class KaFirKotlinPropertyKtPropertyBasedSymbol : KaFirKotlinPropertySymb
         get() = withValidityAssertion {
             if (backingPsi != null) {
                 val fastAnswer = when {
-                    backingPsi.isExpectDeclaration() -> false
-                    backingPsi.hasModifier(KtTokens.ABSTRACT_KEYWORD) -> false
+                    /** [mayHaveBackingField] */
+                    backingPsi.receiverTypeReference != null -> false
+                    backingPsi.typeReference == null && !backingPsi.hasDelegateExpressionOrInitializer() -> false
                     backingPsi.hasDelegate() -> false
+                    backingPsi.contextReceiverList != null -> false
+                    backingPsi.typeParameters.isNotEmpty() -> false
+
+                    /** [org.jetbrains.kotlin.fir.declarations.utils.hasBackingField] */
                     backingPsi.fieldDeclaration != null -> true
                     backingPsi.hasModifier(KtTokens.LATEINIT_KEYWORD) -> true
+                    backingPsi.hasModifier(KtTokens.INLINE_KEYWORD) -> false
+                    backingPsi.hasModifier(KtTokens.ABSTRACT_KEYWORD) -> false
+                    backingPsi.isExpectDeclaration() -> false
                     !backingPsi.hasModifier(KtTokens.FINAL_KEYWORD) && (backingPsi.containingClassOrObject as? KtClass)?.isInterface() == true -> false
                     !backingPsi.hasRegularGetter -> true
                     backingPsi.isVar && !backingPsi.hasRegularSetter -> true

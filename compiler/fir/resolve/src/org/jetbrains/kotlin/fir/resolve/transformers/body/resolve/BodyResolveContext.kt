@@ -12,7 +12,9 @@ import org.jetbrains.kotlin.fir.correspondingProperty
 import org.jetbrains.kotlin.fir.declarations.*
 import org.jetbrains.kotlin.fir.declarations.impl.FirDefaultPropertyAccessor
 import org.jetbrains.kotlin.fir.declarations.utils.isCompanion
+import org.jetbrains.kotlin.fir.declarations.utils.isInline
 import org.jetbrains.kotlin.fir.declarations.utils.isInner
+import org.jetbrains.kotlin.fir.declarations.utils.mayHaveBackingField
 import org.jetbrains.kotlin.fir.expressions.FirCallableReferenceAccess
 import org.jetbrains.kotlin.fir.expressions.FirWhenExpression
 import org.jetbrains.kotlin.fir.extensions.extensionService
@@ -934,10 +936,7 @@ class BodyResolveContext(
                 storeValueParameterIfNeeded(parameter, holder.session)
             }
 
-            if (!forContracts && receiverTypeRef == null && property.returnTypeRef !is FirImplicitTypeRef &&
-                !property.isLocal && property.delegate == null &&
-                property.contextParameters.isEmpty()
-            ) {
+            if (!forContracts && property.mayHaveBackingField && !property.isLocal && !accessor.isInline) {
                 storeBackingField(property, holder.session)
             }
 
