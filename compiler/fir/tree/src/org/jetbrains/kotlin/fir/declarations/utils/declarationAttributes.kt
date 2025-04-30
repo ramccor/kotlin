@@ -1,5 +1,5 @@
 /*
- * Copyright 2010-2021 JetBrains s.r.o. and Kotlin Programming Language contributors.
+ * Copyright 2010-2025 JetBrains s.r.o. and Kotlin Programming Language contributors.
  * Use of this source code is governed by the Apache 2.0 license that can be found in the license/LICENSE.txt file.
  */
 
@@ -123,8 +123,8 @@ val FirProperty.hasBackingField: Boolean
             else -> {
                 val getter = getter ?: return true
                 if (isVar && setter == null) return true
-                if (setter?.hasBody == false && setter?.isAbstract == false) return true
-                if (!getter.hasBody && !getter.isAbstract) return true
+                if (setter?.isCustom == false && setter?.isAbstract == false) return true
+                if (!getter.isCustom && !getter.isAbstract) return true
 
                 return isReferredViaField == true
             }

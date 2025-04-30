@@ -91,7 +91,7 @@ internal sealed interface KaFirBasePropertyAccessorSymbol : KaFirKtBasedSymbol<K
 
                 val property = owningKaProperty.backingPsi
                 property is KtProperty && property.hasDelegate()
-            } ?: firSymbol.fir.hasBody
+            } ?: firSymbol.fir.isCustom
         }
 
     val isDefaultImpl: Boolean

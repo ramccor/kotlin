@@ -60,7 +60,7 @@ KaKotlinPropertySymbol:
     getContainingJvmClassName: one.LibKt
     getContainingModule: KaLibraryModule "Library lib"
     deprecationStatus: null
-  hasBackingField: true
+  hasBackingField: false
   hasGetter: true
   hasSetter: false
   initializer: null

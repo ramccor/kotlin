@@ -19,7 +19,7 @@ import org.jetbrains.kotlin.analysis.api.symbols.KaSymbolModality
 import org.jetbrains.kotlin.analysis.api.symbols.pointers.KaSymbolPointer
 import org.jetbrains.kotlin.analysis.api.types.KaType
 import org.jetbrains.kotlin.descriptors.Visibility
-import org.jetbrains.kotlin.fir.declarations.utils.hasBody
+import org.jetbrains.kotlin.fir.declarations.utils.isCustom
 import org.jetbrains.kotlin.fir.declarations.utils.isExtension
 import org.jetbrains.kotlin.fir.declarations.utils.isOverride
 import org.jetbrains.kotlin.fir.declarations.utils.visibility
@@ -57,7 +57,7 @@ internal class KaFirSyntheticPropertyGetterSymbol(
 
     @Deprecated("Use `isCustom` instead", replaceWith = ReplaceWith("isCustom"))
     override val hasBody: Boolean
-        get() = withValidityAssertion { firSymbol.fir.hasBody }
+        get() = withValidityAssertion { firSymbol.fir.isCustom }
 
     override val modality: KaSymbolModality
         get() = withValidityAssertion { firSymbol.kaSymbolModality }
