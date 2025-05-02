@@ -242,6 +242,48 @@ public class FirWasmJsCodegenInteropTestGenerated extends AbstractFirWasmJsCodeg
   }
 
   @Test
+  @TestMetadata("nestedTypeAliasJSCodeArray.kt")
+  public void testNestedTypeAliasJSCodeArray() {
+    runTest("compiler/testData/codegen/boxWasmJsInterop/nestedTypeAliasJSCodeArray.kt");
+  }
+
+  @Test
+  @TestMetadata("nestedTypeAliasJSCodeSimple.kt")
+  public void testNestedTypeAliasJSCodeSimple() {
+    runTest("compiler/testData/codegen/boxWasmJsInterop/nestedTypeAliasJSCodeSimple.kt");
+  }
+
+  @Test
+  @TestMetadata("nestedTypeAliasJSExportSimple.kt")
+  public void testNestedTypeAliasJSExportSimple() {
+    runTest("compiler/testData/codegen/boxWasmJsInterop/nestedTypeAliasJSExportSimple.kt");
+  }
+
+  @Test
+  @TestMetadata("nestedTypeAliasLambda.kt")
+  public void testNestedTypeAliasLambda() {
+    runTest("compiler/testData/codegen/boxWasmJsInterop/nestedTypeAliasLambda.kt");
+  }
+
+  @Test
+  @TestMetadata("nestedTypeAliasSimple.kt")
+  public void testNestedTypeAliasSimple() {
+    runTest("compiler/testData/codegen/boxWasmJsInterop/nestedTypeAliasSimple.kt");
+  }
+
+  @Test
+  @TestMetadata("nestedTypeAliasSimpleWasmImport.kt")
+  public void testNestedTypeAliasSimpleWasmImport() {
+    runTest("compiler/testData/codegen/boxWasmJsInterop/nestedTypeAliasSimpleWasmImport.kt");
+  }
+
+  @Test
+  @TestMetadata("nestedTypeAliasWasmExport.kt")
+  public void testNestedTypeAliasWasmExport() {
+    runTest("compiler/testData/codegen/boxWasmJsInterop/nestedTypeAliasWasmExport.kt");
+  }
+
+  @Test
   @TestMetadata("noExceptions.kt")
   public void testNoExceptions() {
     runTest("compiler/testData/codegen/boxWasmJsInterop/noExceptions.kt");
