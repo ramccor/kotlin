@@ -85,3 +85,49 @@ Note:
 ./gradlew :native:objcexport-header-generator:check -Pkif.local
                                                   //  ^
 ```
+
+## Integration tests
+
+Currently K1 and K2 versions of ObjCExport are used together in IDE, so it's important to keep eye on structural equality of generated
+headers by both versions. Here is an example of how headers might be valid, but cause issues in IDE:
+
+```kotlin
+interface ValueStorage {
+    fun storeValue(value: Boolean)
+    fun storeValue(value: String)
+}
+```
+
+```c
+@protocol ValueStorage
+- (void)storeValue:(BOOL)value __attribute__((swift_name("storeValue(value:)")));
+- (void)storeValue_:(NSString)value __attribute__((swift_name("storeValue(value_:)")));
+@end
+```
+
+```c
+@protocol ValueStorage
+- (void)storeValue:(BOOL)value __attribute__((swift_name("storeValue(value:)")));
+- (void)storeValue__:(NSString)value __attribute__((swift_name("storeValue(value__:)")));
+@end
+```
+
+Both headers are valid, but because of mangling bug `swift_name` attributes are different. So user can pass parameter
+with name `value_` in Swift and code is going to be green, but at compile time there will be error about absence of parameter `value_`.
+
+To verify structural differences:
+
+1. We generate headers
+   in [GenerateObjCExportIntegrationTestData](test/org/jetbrains/kotlin/backend/konan/tests/integration/GenerateObjCExportIntegrationTestData.kt)
+2. Then compile both headers with `Indexer` and compare indexer result
+   in [ObjCExportIntegrationTest](test/org/jetbrains/kotlin/backend/konan/tests/integration/ObjCExportIntegrationTest.kt)
+
+### To run/debug integration test
+
+1. `./gradlew :native:objcexport-header-generator:check --continue` to generate test data (can also be done from IDE by calling K1 and AA
+   test groups
+   on [GenerateObjCExportIntegrationTestData](test/org/jetbrains/kotlin/backend/konan/tests/integration/GenerateObjCExportIntegrationTestData.kt))
+2. Run test [ObjCExportIntegrationTest](test/org/jetbrains/kotlin/backend/konan/tests/integration/ObjCExportIntegrationTest.kt) in IDE in
+   debug mode
+3. Instance of [IntegrationTestReport](test/org/jetbrains/kotlin/backend/konan/tests/integration/utils/IntegrationTestReport.kt) is going to
+   be created and can be inspected in debugger. 
