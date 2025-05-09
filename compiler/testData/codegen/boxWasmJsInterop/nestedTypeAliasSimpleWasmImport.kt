@@ -6,6 +6,8 @@
 export function add(x, y) { return x + y; }
 
 // FILE: nestedTypeAliasSimpleWasmImport.kt
+import kotlin.wasm.WasmImport
+
 class Holder {
     typealias I = Int
 }
