@@ -11,5 +11,11 @@ class AliasHolder {
 @JsExport
 fun foo(x: AliasHolder.TA): String = x.toString()
 
-fun box(): String =
-    if (foo(321u) == "321") "OK" else "FAIL"
+fun box(): String = "OK"
+
+// FILE: entry.mjs
+import { foo } from "./index.mjs";
+
+if (foo(0) !== "0") {
+    throw "Fail";
+}
