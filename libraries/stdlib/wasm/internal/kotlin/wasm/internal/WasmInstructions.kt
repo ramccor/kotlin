@@ -260,17 +260,14 @@ internal fun wasm_i64_or(a: Long, b: Long): Long =
 internal fun wasm_i64_xor(a: Long, b: Long): Long =
     implementedAsIntrinsic
 
-@PublishedApi
 @WasmOp(WasmOp.I64_SHL)
 internal fun wasm_i64_shl(a: Long, b: Long): Long =
     implementedAsIntrinsic
 
-@PublishedApi
 @WasmOp(WasmOp.I64_SHR_S)
 internal fun wasm_i64_shr_s(a: Long, b: Long): Long =
     implementedAsIntrinsic
 
-@PublishedApi
 @WasmOp(WasmOp.I64_SHR_U)
 internal fun wasm_i64_shr_u(a: Long, b: Long): Long =
     implementedAsIntrinsic
@@ -485,12 +482,10 @@ internal fun wasm_i32_clz(a: Int): Int =
 internal fun wasm_i64_clz(a: Long): Long =
     implementedAsIntrinsic
 
-@PublishedApi
 @WasmOp(WasmOp.I64_POPCNT)
 internal fun wasm_i64_popcnt(a: Long): Long =
     implementedAsIntrinsic
 
-@PublishedApi
 @WasmOp(WasmOp.I64_CTZ)
 internal fun wasm_i64_ctz(a: Long): Long =
     implementedAsIntrinsic

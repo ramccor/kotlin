@@ -105,8 +105,7 @@ internal fun <E> Array<E>.copyOfNulls(fromIndex: Int, toIndex: Int): Array<E?> {
     return result
 }
 
-@PublishedApi
-internal expect inline fun <E> arrayOfUninitializedElements(size: Int): Array<E>
+internal expect fun <E> arrayOfUninitializedElements(size: Int): Array<E>
 internal expect fun <T> Array<T>.copyOfUninitializedElements(newSize: Int): Array<T>
 internal expect fun <E> Array<E>.resetAt(index: Int)
 internal expect fun <E> Array<E>.resetRange(fromIndex: Int, toIndex: Int)
