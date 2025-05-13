@@ -38,6 +38,5 @@ public annotation class AssociatedObjectKey
  * Otherwise returns `null`.
  */
 @ExperimentalAssociatedObjects
-@Suppress("NON_PUBLIC_CALL_FROM_PUBLIC_INLINE")
 public inline fun <reified T : Annotation> KClass<*>.findAssociatedObject(): Any? =
-    findAssociatedObject(this, wasmTypeId<T>())
+    findAssociatedObject(this, T::class)

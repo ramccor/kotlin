@@ -7,14 +7,17 @@ package kotlin.wasm.internal
 
 import kotlin.reflect.KClass
 
+private fun getIdForKClass(klass: KClass<*>): Long? = when (klass) {
+    is KClassImpl<*> -> getTypeId(klass.rtti)
+    is KClassInterfaceImpl<*> -> klass.typeData.typeId
+    else -> null
+}
+
 @PublishedApi
-internal fun findAssociatedObject(klass: KClass<*>, key: Long): Any? {
-    val typeId = when (klass) {
-        is KClassImpl<*> -> getTypeId(klass.rtti)
-        is KClassInterfaceImpl<*> -> klass.typeData.typeId
-        else -> return null
-    }
-    return tryGetAssociatedObject(typeId, key)
+internal fun findAssociatedObject(klass: KClass<*>, key: KClass<*>): Any? {
+    val klassId = getIdForKClass(klass) ?: return null
+    val keyId = getIdForKClass(key) ?: return null
+    return tryGetAssociatedObject(klassId, keyId)
 }
 
 internal fun tryGetAssociatedObject(
