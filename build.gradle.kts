@@ -1156,7 +1156,7 @@ plugins.withType(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin:
         }
 
         npmInstallTaskProvider.configure {
-            args += listOf("--network-concurrency", "1", "--mutex", "network")
+            args += listOf("--network-concurrency", "1", "--mutex", "network", "--offline")
         }
     }
 }
