@@ -12,6 +12,7 @@ kotlin {
 }
 
 repositories {
+    maven(url = "file:///dump")
     maven("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/kotlin-dependencies")
     mavenCentral()
 }
