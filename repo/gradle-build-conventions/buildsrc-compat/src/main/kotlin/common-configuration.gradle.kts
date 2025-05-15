@@ -12,6 +12,7 @@ val kotlinVersion: String by rootProject.extra
 group = "org.jetbrains.kotlin"
 version = kotlinVersion
 
+project.addLocalRepository()
 project.configureJvmDefaultToolchain()
 project.addEmbeddedConfigurations()
 project.addImplicitDependenciesConfiguration()
@@ -41,6 +42,12 @@ afterEvaluate {
 
         configurations.findByName("kotlinCompilerPluginClasspath")
             ?.exclude("org.jetbrains.kotlin", "kotlin-scripting-compiler-embeddable")
+    }
+}
+
+fun Project.addLocalRepository() {
+    repositories {
+        maven(url = "file:///dump")
     }
 }
 
