@@ -4,6 +4,7 @@ plugins {
 }
 
 repositories {
+    maven(url = "file:///dump")
     mavenCentral()
     gradlePluginPortal()
 }
