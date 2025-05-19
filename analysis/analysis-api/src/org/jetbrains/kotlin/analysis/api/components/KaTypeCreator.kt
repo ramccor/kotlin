@@ -12,6 +12,7 @@ import org.jetbrains.kotlin.analysis.api.symbols.KaClassLikeSymbol
 import org.jetbrains.kotlin.analysis.api.symbols.KaTypeParameterSymbol
 import org.jetbrains.kotlin.analysis.api.types.*
 import org.jetbrains.kotlin.name.ClassId
+import org.jetbrains.kotlin.name.Name
 import org.jetbrains.kotlin.types.Variance
 
 public interface KaTypeCreator : KaSessionComponent {
@@ -114,6 +115,12 @@ public interface KaTypeCreator : KaSessionComponent {
      */
     @KaExperimentalApi
     public fun buildStarTypeProjection(): KaStarTypeProjection
+
+    /**
+     * Builds a [KaFunctionValueParameter] with the given [name] and [type].
+     */
+    @KaExperimentalApi
+    public fun buildValueParameter(name: Name?, type: KaType): KaFunctionValueParameter
 }
 
 public interface KaTypeBuilder : KaLifetimeOwner {
