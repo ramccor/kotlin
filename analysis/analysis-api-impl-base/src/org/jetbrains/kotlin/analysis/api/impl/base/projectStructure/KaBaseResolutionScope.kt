@@ -10,6 +10,7 @@ import com.intellij.openapi.module.Module
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiFile
 import com.intellij.psi.search.GlobalSearchScope
 import org.jetbrains.kotlin.analysis.api.platform.caches.getOrPut
 import org.jetbrains.kotlin.analysis.api.platform.projectStructure.KaResolutionScope
@@ -29,14 +30,13 @@ internal class KaBaseResolutionScope(
     private val analyzableModules: Set<KaModule>,
 ) : KaResolutionScope() {
     /**
-     * The cache has a major impact on Code Analysis, with a hit rate of >99% in local experiments. Other features like Completion and Find
-     * Usages also benefit, though with lesser impact.
-     *
-     * The cache size of 250 was chosen based on experiments (see KT-77578). It balances hit rate/performance with a sensible upper bound on
-     * memory size.
+     * The cache has a major impact on Code Analysis through [canBeAnalysed][org.jetbrains.kotlin.analysis.api.components.KaAnalysisScopeProvider.canBeAnalysed],
+     * with a hit rate of >99% in local experiments. However, the cache has a very low hit rate when the scope is used for index accesses,
+     * as indices are likely to throw many different virtual files at the cache. This is compared to a much more limited set of virtual
+     * files in Code Analysis. As such, the cache should only be used in [contains] functions which aren't used by indices.
      */
     private val virtualFileContainsCache = Caffeine.newBuilder()
-        .maximumSize(250)
+        .maximumSize(100)
         .build<VirtualFile, Boolean>()
 
     override fun getProject(): Project? = searchScope.project
@@ -45,7 +45,10 @@ internal class KaBaseResolutionScope(
 
     override fun isSearchInLibraries(): Boolean = searchScope.isSearchInLibraries
 
-    override fun contains(file: VirtualFile): Boolean = searchScopeContains(file) || isAccessibleDanglingFile(file)
+    override fun contains(file: VirtualFile): Boolean {
+        // As noted above, we don't want to use the virtual file cache for index accesses.
+        return searchScope.contains(file) || isAccessibleDanglingFile(file)
+    }
 
     override fun contains(element: PsiElement): Boolean {
         /**
@@ -55,15 +58,16 @@ internal class KaBaseResolutionScope(
          * The Analysis API separates dangling files and original files into separate modules. A dangling file element should not be
          * analyzable in its context module's session.
          */
-        val virtualFile = element.containingFile.virtualFile
-        return virtualFile != null && searchScopeContains(virtualFile) || isAccessibleDanglingFile(element)
+        val psiFile = element.containingFile
+        val virtualFile = psiFile.virtualFile
+        return virtualFile != null && cachedSearchScopeContains(virtualFile) || isAccessibleDanglingFile(psiFile)
     }
 
-    private fun searchScopeContains(virtualFile: VirtualFile): Boolean =
+    private fun cachedSearchScopeContains(virtualFile: VirtualFile): Boolean =
         virtualFileContainsCache.getOrPut(virtualFile) { searchScope.contains(virtualFile) }
 
-    private fun isAccessibleDanglingFile(element: PsiElement): Boolean {
-        val ktFile = element.containingFile as? KtFile ?: return false
+    private fun isAccessibleDanglingFile(psiFile: PsiFile): Boolean {
+        val ktFile = psiFile as? KtFile ?: return false
         if (!ktFile.isDangling) {
             return false
         }
