@@ -16,12 +16,19 @@ import org.jetbrains.kotlin.fir.declarations.FirFunction
 import org.jetbrains.kotlin.fir.expressions.FirExpression
 import org.jetbrains.kotlin.fir.expressions.FirFunctionCall
 import org.jetbrains.kotlin.fir.expressions.FirStatement
+import org.jetbrains.kotlin.fir.isClassLikeVisible
 import org.jetbrains.kotlin.fir.references.symbol
+import org.jetbrains.kotlin.fir.resolve.toClassSymbol
 import org.jetbrains.kotlin.fir.symbols.SymbolInternals
+import org.jetbrains.kotlin.fir.symbols.impl.FirClassSymbol
+import org.jetbrains.kotlin.fir.types.ConeKotlinType
+import org.jetbrains.kotlin.fir.types.ConeKotlinTypeProjection
 import org.jetbrains.kotlin.fir.types.coneType
+import org.jetbrains.kotlin.fir.types.renderForDebugging
 import org.jetbrains.kotlin.fir.types.resolvedType
 import org.jetbrains.kotlin.fir.types.toConeTypeProjection
 import org.jetbrains.kotlin.fir.types.type
+import org.jetbrains.kotlin.fir.visibilityChecker
 import kotlin.reflect.full.memberProperties
 
 class IEReporter(
@@ -60,6 +67,9 @@ class IEReporter(
 data class IEData(
     val exprType: String? = null,
     val exposeKind: String? = null,
+    val wholeType: String? = null,
+    val exposedType: String? = null,
+    val hasSuppression: String? = null,
 )
 
 object FirMyChecker : FirBasicExpressionChecker(MppCheckerKind.Common) {
@@ -69,25 +79,77 @@ object FirMyChecker : FirBasicExpressionChecker(MppCheckerKind.Common) {
         if (expression !is FirExpression) return
         val report = IEReporter(expression.source, context, reporter, FirErrors.MY_IE_ERROR)
 
+        val hasSuppression = context.suppressedDiagnostics.contains("INVISIBLE_MEMBER") ||
+                context.suppressedDiagnostics.contains("INVISIBLE_REFERENCE")
+
         val returnType = expression.resolvedType
-        if (returnType.isTypeVisibilityBroken(checkTypeArguments = true)) {
-            report(IEData(exprType = expression::class.simpleName, exposeKind = "RETURN_TYPE"))
+        returnType.isTypeVisibilityBroken()?.let { reason ->
+            report(
+                IEData(
+                    exprType = expression::class.simpleName,
+                    exposeKind = "RETURN_TYPE",
+                    wholeType = returnType.renderForDebugging(),
+                    exposedType = reason.name.asString(),
+                    hasSuppression = hasSuppression.toString()
+                )
+            )
         }
         if (expression is FirFunctionCall) {
             expression.calleeReference.symbol?.fir?.let { function ->
                 if (function is FirFunction) {
                     function.valueParameters.forEach { parameter ->
-                        if (parameter.returnTypeRef.coneType.isTypeVisibilityBroken(checkTypeArguments = true)) {
-                            report(IEData(exposeKind = "PARAMETER_TYPE"))
+                        parameter.returnTypeRef.coneType.isTypeVisibilityBroken()?.let { reason ->
+                            report(
+                                IEData(
+                                    exposeKind = "PARAMETER_TYPE",
+                                    wholeType = parameter.returnTypeRef.coneType.renderForDebugging(),
+                                    exposedType = reason.name.asString(),
+                                    hasSuppression = hasSuppression.toString()
+                                )
+                            )
                         }
                     }
                 }
             }
             expression.typeArguments.forEach { typeArgument ->
-                if (typeArgument.toConeTypeProjection().type?.isTypeVisibilityBroken(checkTypeArguments = true) == true) {
-                    report(IEData(exposeKind = "TYPE_ARGUMENT"))
+                typeArgument.toConeTypeProjection().type?.isTypeVisibilityBroken()?.let { reason ->
+                    report(
+                        IEData(
+                            exposeKind = "TYPE_ARGUMENT",
+                            wholeType = typeArgument.toConeTypeProjection().type?.renderForDebugging() ?: "null",
+                            exposedType = reason.name.asString(),
+                            hasSuppression = hasSuppression.toString()
+                        )
+                    )
                 }
             }
         }
+    }
+
+    @OptIn(SymbolInternals::class)
+    context(context: CheckerContext)
+    private fun ConeKotlinType.isTypeVisibilityBroken(): FirClassSymbol<*>? {
+
+        val visibilityChecker = context.session.visibilityChecker
+        val classSymbol = toClassSymbol(context.session)
+        val containingFile = context.containingFileSymbol
+        if (classSymbol == null || containingFile == null) return null
+        if (
+            !visibilityChecker.isClassLikeVisible(
+                symbol = classSymbol,
+                session = context.session,
+                useSiteFileSymbol = containingFile,
+                containingDeclarations = context.containingDeclarations
+            )
+        ) {
+            return classSymbol
+        }
+        for (typeArgument in typeArguments) {
+            if (typeArgument is ConeKotlinTypeProjection) {
+                val nested = typeArgument.type.isTypeVisibilityBroken()
+                if (nested != null) return nested
+            }
+        }
+        return null
     }
 }
