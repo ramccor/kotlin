@@ -96,7 +96,7 @@ public interface KaTypeCreator : KaSessionComponent {
     /**
      * Builds a [KaDynamicType].
      */
-    public fun buildDynamicType(): KaDynamicType
+    public fun buildDynamicType(init: KaDynamicTypeBuilder.() -> Unit = {}): KaDynamicType
 
     /**
      * Builds a [KaFunctionType] based on the given [classId].
@@ -116,7 +116,21 @@ public interface KaTypeCreator : KaSessionComponent {
     public fun buildStarTypeProjection(): KaStarTypeProjection
 }
 
-public interface KaTypeBuilder : KaLifetimeOwner
+public interface KaTypeBuilder : KaLifetimeOwner {
+    /**
+     * A list of annotation [ClassId]s, which are used to construct annotations of the resulting type.
+     *
+     * @see KaType.annotations
+     */
+    public val annotations: List<ClassId>
+
+    /**
+     * Adds [annotationClassId] to [annotations].
+     *
+     * @see KaType.annotations
+     */
+    public fun annotation(annotationClassId: ClassId)
+}
 
 /**
  * A builder for class types.
@@ -221,6 +235,13 @@ public interface KaIntersectionTypeBuilder : KaTypeBuilder {
      */
     public fun conjunct(conjunct: KaType)
 }
+
+/**
+ * A builder for dynamic types.
+ *
+ * @see KaTypeCreator.buildDynamicType
+ */
+public interface KaDynamicTypeBuilder : KaTypeBuilder
 
 /**
  * A builder for function types.

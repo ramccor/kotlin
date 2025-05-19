@@ -233,6 +233,9 @@ public abstract interface class org/jetbrains/kotlin/analysis/api/components/KaD
 	public abstract fun collectDiagnostics (Lorg/jetbrains/kotlin/psi/KtFile;Lorg/jetbrains/kotlin/analysis/api/components/KaDiagnosticCheckerFilter;)Ljava/util/Collection;
 }
 
+public abstract interface class org/jetbrains/kotlin/analysis/api/components/KaDynamicTypeBuilder : org/jetbrains/kotlin/analysis/api/components/KaTypeBuilder {
+}
+
 public abstract interface class org/jetbrains/kotlin/analysis/api/components/KaEvaluator : org/jetbrains/kotlin/analysis/api/components/KaSessionComponent {
 	public abstract fun evaluate (Lorg/jetbrains/kotlin/psi/KtExpression;)Lorg/jetbrains/kotlin/analysis/api/base/KaConstantValue;
 }
@@ -412,6 +415,8 @@ public abstract interface class org/jetbrains/kotlin/analysis/api/components/KaS
 }
 
 public abstract interface class org/jetbrains/kotlin/analysis/api/components/KaTypeBuilder : org/jetbrains/kotlin/analysis/api/lifetime/KaLifetimeOwner {
+	public abstract fun annotation (Lorg/jetbrains/kotlin/name/ClassId;)V
+	public abstract fun getAnnotations ()Ljava/util/List;
 }
 
 public abstract interface class org/jetbrains/kotlin/analysis/api/components/KaTypeCreator : org/jetbrains/kotlin/analysis/api/components/KaSessionComponent {
@@ -425,7 +430,8 @@ public abstract interface class org/jetbrains/kotlin/analysis/api/components/KaT
 	public static synthetic fun buildClassType$default (Lorg/jetbrains/kotlin/analysis/api/components/KaTypeCreator;Lorg/jetbrains/kotlin/name/ClassId;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lorg/jetbrains/kotlin/analysis/api/types/KaType;
 	public abstract fun buildDefinitelyNotNullType (Lorg/jetbrains/kotlin/analysis/api/types/KaType;Lkotlin/jvm/functions/Function1;)Lorg/jetbrains/kotlin/analysis/api/types/KaDefinitelyNotNullType;
 	public static synthetic fun buildDefinitelyNotNullType$default (Lorg/jetbrains/kotlin/analysis/api/components/KaTypeCreator;Lorg/jetbrains/kotlin/analysis/api/types/KaType;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lorg/jetbrains/kotlin/analysis/api/types/KaDefinitelyNotNullType;
-	public abstract fun buildDynamicType ()Lorg/jetbrains/kotlin/analysis/api/types/KaDynamicType;
+	public abstract fun buildDynamicType (Lkotlin/jvm/functions/Function1;)Lorg/jetbrains/kotlin/analysis/api/types/KaDynamicType;
+	public static synthetic fun buildDynamicType$default (Lorg/jetbrains/kotlin/analysis/api/components/KaTypeCreator;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lorg/jetbrains/kotlin/analysis/api/types/KaDynamicType;
 	public abstract fun buildFlexibleType (Lorg/jetbrains/kotlin/analysis/api/types/KaFlexibleType;Lkotlin/jvm/functions/Function1;)Lorg/jetbrains/kotlin/analysis/api/types/KaFlexibleType;
 	public abstract fun buildFlexibleType (Lorg/jetbrains/kotlin/analysis/api/types/KaType;Lorg/jetbrains/kotlin/analysis/api/types/KaType;Lkotlin/jvm/functions/Function1;)Lorg/jetbrains/kotlin/analysis/api/types/KaFlexibleType;
 	public static synthetic fun buildFlexibleType$default (Lorg/jetbrains/kotlin/analysis/api/components/KaTypeCreator;Lorg/jetbrains/kotlin/analysis/api/types/KaFlexibleType;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lorg/jetbrains/kotlin/analysis/api/types/KaFlexibleType;

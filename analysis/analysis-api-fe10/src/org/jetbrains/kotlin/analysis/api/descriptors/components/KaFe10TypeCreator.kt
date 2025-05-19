@@ -20,7 +20,10 @@ import org.jetbrains.kotlin.analysis.api.symbols.KaTypeParameterSymbol
 import org.jetbrains.kotlin.analysis.api.types.*
 import org.jetbrains.kotlin.builtins.StandardNames
 import org.jetbrains.kotlin.descriptors.ClassDescriptor
+import org.jetbrains.kotlin.descriptors.SourceElement
 import org.jetbrains.kotlin.descriptors.TypeParameterDescriptor
+import org.jetbrains.kotlin.descriptors.annotations.AnnotationDescriptor
+import org.jetbrains.kotlin.descriptors.annotations.AnnotationDescriptorImpl
 import org.jetbrains.kotlin.descriptors.annotations.Annotations
 import org.jetbrains.kotlin.descriptors.annotations.BuiltInAnnotationDescriptor
 import org.jetbrains.kotlin.incremental.components.NoLookupLocation
@@ -84,7 +87,7 @@ internal class KaFe10TypeCreator(
             TypeUtils.substituteProjectionsForParameters(descriptor, projections)
         } else {
             descriptor.defaultType
-        }
+        }.withAnnotations(builder.annotations)
 
         val typeWithNullability = TypeUtils.makeNullableAsSpecified(type, builder.nullability == KaTypeNullability.NULLABLE)
         return KaFe10UsualClassType(typeWithNullability as SimpleType, descriptor, analysisContext)
@@ -94,7 +97,7 @@ internal class KaFe10TypeCreator(
         withValidityAssertion {
             val builder = KaBaseTypeParameterTypeBuilder.BySymbol(symbol, token).apply(init)
             val descriptor = getSymbolDescriptor(builder.symbol) as? TypeParameterDescriptor
-            val kotlinType = descriptor?.defaultType
+            val kotlinType = descriptor?.defaultType?.withAnnotations(builder.annotations)
                 ?: ErrorUtils.createErrorType(ErrorTypeKind.NOT_FOUND_DESCRIPTOR_FOR_TYPE_PARAMETER, builder.toString())
             val typeWithNullability = TypeUtils.makeNullableAsSpecified(kotlinType, builder.nullability.isNullable)
             return typeWithNullability.toKtType(analysisContext) as KaTypeParameterType
@@ -131,7 +134,11 @@ internal class KaFe10TypeCreator(
                 )
             }
 
-            val kotlinType = CapturedType(typeProjection = projections, isMarkedNullable = builder.nullability.isNullable)
+            val kotlinType = CapturedType(
+                typeProjection = projections,
+                isMarkedNullable = builder.nullability.isNullable
+            ).withAnnotations(builder.annotations)
+
             return kotlinType.toKtType(analysisContext) as KaCapturedType
         }
     }
@@ -140,7 +147,9 @@ internal class KaFe10TypeCreator(
         withValidityAssertion {
             val builder = KaBaseDefinitelyNotNullTypeBuilder.ByType(type, token).apply(init)
             val originalType = builder.original as KaFe10Type
-            return DefinitelyNotNullType.makeDefinitelyNotNull(originalType.fe10Type)?.toKtType(analysisContext) as KaDefinitelyNotNullType
+            return DefinitelyNotNullType.makeDefinitelyNotNull(originalType.fe10Type)
+                ?.withAnnotations(builder.annotations)
+                ?.toKtType(analysisContext) as KaDefinitelyNotNullType
         }
     }
 
@@ -172,7 +181,11 @@ internal class KaFe10TypeCreator(
             val upperBound = builder.upperBound
             require(upperBound is KaFe10Type)
 
-            val kotlinType = FlexibleTypeImpl(lowerBound.fe10Type.asSimpleType(), upperBound.fe10Type.asSimpleType())
+            val kotlinType = FlexibleTypeImpl(
+                lowerBound.fe10Type.asSimpleType(),
+                upperBound.fe10Type.asSimpleType()
+            ).withAnnotations(builder.annotations)
+
             return kotlinType.toKtType(analysisContext) as KaFlexibleType
         }
     }
@@ -209,15 +222,16 @@ internal class KaFe10TypeCreator(
                 constructor = intersectionConstructor,
                 arguments = emptyList(),
                 nullable = false
-            )
+            ).withAnnotations(builder.annotations)
 
             return simpleType.toKtType(analysisContext) as KaIntersectionType
         }
     }
 
-    override fun buildDynamicType(): KaDynamicType {
+    override fun buildDynamicType(init: KaDynamicTypeBuilder.() -> Unit): KaDynamicType {
         withValidityAssertion {
-            val kotlinType = createDynamicType(analysisContext.builtIns)
+            val builder = KaBaseDynamicTypeBuilder(token).apply(init)
+            val kotlinType = createDynamicType(analysisContext.builtIns).withAnnotations(builder.annotations)
             return kotlinType.toKtType(analysisContext) as KaDynamicType
         }
     }
@@ -278,9 +292,32 @@ internal class KaFe10TypeCreator(
             TypeUtils.substituteProjectionsForParameters(descriptor, typeArguments)
         } else {
             descriptor.defaultType
-        }
+        }.withAnnotations(builder.annotations)
 
         val typeWithNullability = TypeUtils.makeNullableAsSpecified(type, builder.nullability == KaTypeNullability.NULLABLE)
         return KaFe10UsualClassType(typeWithNullability as SimpleType, descriptor, analysisContext)
+    }
+
+    private fun KotlinType.withAnnotations(annotationClassIds: List<ClassId>): KotlinType {
+        val annotations = annotationClassIds.mapNotNull { createAnnotation(it) }
+
+        if (annotations.isEmpty()) {
+            return this
+        }
+
+        return replaceAnnotations(Annotations.create(annotations + this.annotations))
+    }
+
+    private fun createAnnotation(annotationClassId: ClassId): AnnotationDescriptor? {
+        val fqName = annotationClassId.asSingleFqName()
+        val descriptor: ClassDescriptor = analysisContext.resolveSession
+            .getTopLevelClassifierDescriptors(fqName, NoLookupLocation.FROM_IDE)
+            .firstIsInstanceOrNull() ?: return null
+
+        return AnnotationDescriptorImpl(
+            descriptor.defaultType,
+            emptyMap(),
+            SourceElement.NO_SOURCE
+        )
     }
 }

@@ -26,7 +26,21 @@ abstract class KaBaseTypeCreator<T : KaSession> : KaBaseSessionComponent<T>(), K
 }
 
 @KaImplementationDetail
-sealed class KaBaseClassTypeBuilder : KaClassTypeBuilder {
+sealed class KaBaseTypeBuilder : KaTypeBuilder {
+    val backingAnnotations = mutableListOf<ClassId>()
+
+    override val annotations: List<ClassId>
+        get() = withValidityAssertion {
+            backingAnnotations
+        }
+
+    override fun annotation(annotationClassId: ClassId) = withValidityAssertion {
+        backingAnnotations += annotationClassId
+    }
+}
+
+@KaImplementationDetail
+sealed class KaBaseClassTypeBuilder : KaClassTypeBuilder, KaBaseTypeBuilder() {
     private val backingArguments = mutableListOf<KaTypeProjection>()
 
     override var nullability: KaTypeNullability = KaTypeNullability.NON_NULLABLE
@@ -55,7 +69,7 @@ sealed class KaBaseClassTypeBuilder : KaClassTypeBuilder {
 }
 
 @KaImplementationDetail
-sealed class KaBaseTypeParameterTypeBuilder : KaTypeParameterTypeBuilder {
+sealed class KaBaseTypeParameterTypeBuilder : KaTypeParameterTypeBuilder, KaBaseTypeBuilder() {
     override var nullability: KaTypeNullability = KaTypeNullability.NULLABLE
         get() = withValidityAssertion { field }
         set(value) {
@@ -71,7 +85,7 @@ sealed class KaBaseTypeParameterTypeBuilder : KaTypeParameterTypeBuilder {
 sealed class KaBaseCapturedTypeBuilder(
     baseProjection: KaTypeProjection,
     baseNullability: KaTypeNullability = KaTypeNullability.NON_NULLABLE
-) : KaCapturedTypeBuilder {
+) : KaCapturedTypeBuilder, KaBaseTypeBuilder() {
     override var nullability: KaTypeNullability = baseNullability
         get() = withValidityAssertion { field }
         set(value) {
@@ -89,7 +103,7 @@ sealed class KaBaseCapturedTypeBuilder(
 }
 
 @KaImplementationDetail
-sealed class KaBaseDefinitelyNotNullTypeBuilder : KaDefinitelyNotNullTypeBuilder {
+sealed class KaBaseDefinitelyNotNullTypeBuilder : KaDefinitelyNotNullTypeBuilder, KaBaseTypeBuilder() {
     class ByType(type: KaType, override val token: KaLifetimeToken) : KaBaseDefinitelyNotNullTypeBuilder() {
         override var original = type
             get() = withValidityAssertion { field }
@@ -100,7 +114,7 @@ sealed class KaBaseDefinitelyNotNullTypeBuilder : KaDefinitelyNotNullTypeBuilder
 }
 
 @KaImplementationDetail
-sealed class KaBaseFlexibleTypeBuilder(lowerBound: KaType, upperBound: KaType) : KaFlexibleTypeBuilder {
+sealed class KaBaseFlexibleTypeBuilder(lowerBound: KaType, upperBound: KaType) : KaFlexibleTypeBuilder, KaBaseTypeBuilder() {
     override var nullability: KaTypeNullability = KaTypeNullability.NON_NULLABLE
         get() = withValidityAssertion { field }
         set(value) {
@@ -128,7 +142,7 @@ sealed class KaBaseFlexibleTypeBuilder(lowerBound: KaType, upperBound: KaType) :
 
 @KaImplementationDetail
 sealed class KaBaseIntersectionTypeBuilder(private val backingConjuncts: MutableList<KaType> = mutableListOf()) :
-    KaIntersectionTypeBuilder {
+    KaIntersectionTypeBuilder, KaBaseTypeBuilder() {
 
     override val conjuncts: List<KaType> get() = withValidityAssertion { backingConjuncts }
 
@@ -144,7 +158,10 @@ sealed class KaBaseIntersectionTypeBuilder(private val backingConjuncts: Mutable
 }
 
 @KaImplementationDetail
-sealed class KaBaseFunctionTypeBuilder(session: KaSession) : KaFunctionTypeBuilder {
+class KaBaseDynamicTypeBuilder(override val token: KaLifetimeToken) : KaDynamicTypeBuilder, KaBaseTypeBuilder()
+
+@KaImplementationDetail
+sealed class KaBaseFunctionTypeBuilder(session: KaSession) : KaFunctionTypeBuilder, KaBaseTypeBuilder() {
     override var nullability: KaTypeNullability = KaTypeNullability.NON_NULLABLE
         get() = withValidityAssertion { field }
         set(value) {
