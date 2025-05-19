@@ -39,7 +39,6 @@ class IEReporter(
 ) {
     operator fun invoke(v: IEData) {
         val dataStr = buildList {
-            add(serializeLocation())
             addAll(serializeData(v))
         }.joinToString("; ")
         val str = "$borderTag $dataStr $borderTag"
