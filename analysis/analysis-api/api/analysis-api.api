@@ -259,6 +259,15 @@ public abstract interface class org/jetbrains/kotlin/analysis/api/components/KaF
 	public abstract fun setUpperBound (Lorg/jetbrains/kotlin/analysis/api/types/KaType;)V
 }
 
+public abstract interface class org/jetbrains/kotlin/analysis/api/components/KaFunctionTypeBuilder : org/jetbrains/kotlin/analysis/api/components/KaTypeBuilder {
+	public abstract fun contextParameter (Lorg/jetbrains/kotlin/analysis/api/base/KaContextReceiver;)V
+	public abstract fun getContextParameters ()Ljava/util/List;
+	public abstract fun getNullability ()Lorg/jetbrains/kotlin/analysis/api/types/KaTypeNullability;
+	public abstract fun getReceiverType ()Lorg/jetbrains/kotlin/analysis/api/types/KaType;
+	public abstract fun getReturnType ()Lorg/jetbrains/kotlin/analysis/api/types/KaType;
+	public abstract fun setNullability (Lorg/jetbrains/kotlin/analysis/api/types/KaTypeNullability;)V
+}
+
 public abstract interface class org/jetbrains/kotlin/analysis/api/components/KaImplicitReceiver : org/jetbrains/kotlin/analysis/api/components/KaScopeImplicitReceiverValue {
 	public abstract fun getOwnerSymbol ()Lorg/jetbrains/kotlin/analysis/api/symbols/KaSymbol;
 	public abstract fun getScopeIndexInTower ()I
@@ -421,6 +430,7 @@ public abstract interface class org/jetbrains/kotlin/analysis/api/components/KaT
 	public abstract fun buildFlexibleType (Lorg/jetbrains/kotlin/analysis/api/types/KaType;Lorg/jetbrains/kotlin/analysis/api/types/KaType;Lkotlin/jvm/functions/Function1;)Lorg/jetbrains/kotlin/analysis/api/types/KaFlexibleType;
 	public static synthetic fun buildFlexibleType$default (Lorg/jetbrains/kotlin/analysis/api/components/KaTypeCreator;Lorg/jetbrains/kotlin/analysis/api/types/KaFlexibleType;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lorg/jetbrains/kotlin/analysis/api/types/KaFlexibleType;
 	public static synthetic fun buildFlexibleType$default (Lorg/jetbrains/kotlin/analysis/api/components/KaTypeCreator;Lorg/jetbrains/kotlin/analysis/api/types/KaType;Lorg/jetbrains/kotlin/analysis/api/types/KaType;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lorg/jetbrains/kotlin/analysis/api/types/KaFlexibleType;
+	public abstract fun buildFunctionType (Lorg/jetbrains/kotlin/name/ClassId;Lkotlin/jvm/functions/Function1;)Lorg/jetbrains/kotlin/analysis/api/types/KaType;
 	public abstract fun buildIntersectionType (Ljava/util/List;Lkotlin/jvm/functions/Function1;)Lorg/jetbrains/kotlin/analysis/api/types/KaIntersectionType;
 	public abstract fun buildIntersectionType (Lorg/jetbrains/kotlin/analysis/api/types/KaIntersectionType;Lkotlin/jvm/functions/Function1;)Lorg/jetbrains/kotlin/analysis/api/types/KaIntersectionType;
 	public static synthetic fun buildIntersectionType$default (Lorg/jetbrains/kotlin/analysis/api/components/KaTypeCreator;Ljava/util/List;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lorg/jetbrains/kotlin/analysis/api/types/KaIntersectionType;

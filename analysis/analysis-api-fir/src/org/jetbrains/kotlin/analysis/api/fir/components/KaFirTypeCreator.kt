@@ -15,12 +15,15 @@ import org.jetbrains.kotlin.analysis.api.symbols.KaTypeParameterSymbol
 import org.jetbrains.kotlin.analysis.api.types.*
 import org.jetbrains.kotlin.fir.resolve.diagnostics.ConeUnresolvedSymbolError
 import org.jetbrains.kotlin.fir.resolve.providers.symbolProvider
+import org.jetbrains.kotlin.fir.resolve.withParameterNameAnnotation
 import org.jetbrains.kotlin.fir.scopes.impl.toConeType
 import org.jetbrains.kotlin.fir.types.*
 import org.jetbrains.kotlin.fir.types.impl.ConeTypeParameterTypeImpl
 import org.jetbrains.kotlin.fir.utils.exceptions.withConeTypeEntry
 import org.jetbrains.kotlin.name.ClassId
+import org.jetbrains.kotlin.name.Name
 import org.jetbrains.kotlin.types.model.CaptureStatus
+import org.jetbrains.kotlin.utils.addIfNotNull
 import org.jetbrains.kotlin.utils.exceptions.errorWithAttachment
 
 internal class KaFirTypeCreator(
@@ -197,5 +200,56 @@ internal class KaFirTypeCreator(
             val coneType = ConeDynamicType.create(rootModuleSession)
             return coneType.asKtType() as KaDynamicType
         }
+    }
+
+    override fun buildFunctionType(
+        classId: ClassId,
+        init: KaFunctionTypeBuilder.() -> Unit,
+    ): KaType {
+        withValidityAssertion {
+            return buildFunctionType(KaBaseFunctionTypeBuilder.ByClassId(classId, token, analysisSession).apply(init))
+        }
+    }
+
+    private fun buildFunctionType(builder: KaBaseFunctionTypeBuilder): KaType {
+        val lookupTag = when (builder) {
+            is KaBaseFunctionTypeBuilder.ByClassId -> {
+                val builderClassId = builder.classId
+                val numberOfParameters =
+                    builder.contextParameters.size + (if (builder.receiverType != null) 1 else 0) + builder.parameters.size
+                val functionNameWithParameterNumber = builderClassId.shortClassName.asString() + numberOfParameters
+                val updatedClassId = ClassId(builderClassId.packageFqName, Name.identifier(functionNameWithParameterNumber))
+                val classSymbol = rootModuleSession.symbolProvider.getClassLikeSymbolByClassId(updatedClassId)
+                    ?: return ConeErrorType(ConeUnresolvedSymbolError(updatedClassId)).asKtType()
+                classSymbol.toLookupTag()
+            }
+        }
+
+        val typeArguments = buildList {
+            addAll(builder.contextParameters.map { it.type.coneType })
+            addIfNotNull(builder.receiverType?.coneType)
+            addAll(builder.parameters.map { valueParameter ->
+                val parameterConeType = valueParameter.type.coneType
+                valueParameter.name?.let { name ->
+                    parameterConeType.withParameterNameAnnotation(
+                        name = name,
+                        element = null
+                    )
+                } ?: parameterConeType
+            })
+            add(builder.returnType.coneType)
+        }
+
+
+        val typeContext = rootModuleSession.typeContext
+        val coneType = typeContext.createSimpleType(
+            constructor = lookupTag,
+            arguments = typeArguments,
+            nullable = builder.nullability.isNullable,
+            isExtensionFunction = builder.receiverType != null,
+            attributes = listOf(CompilerConeAttributes.ContextFunctionTypeParams(builder.contextParameters.size))
+        ) as ConeClassLikeType
+
+        return coneType.asKtType()
     }
 }

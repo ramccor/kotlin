@@ -6,6 +6,7 @@
 package org.jetbrains.kotlin.analysis.api.components
 
 import org.jetbrains.kotlin.analysis.api.KaExperimentalApi
+import org.jetbrains.kotlin.analysis.api.base.KaContextReceiver
 import org.jetbrains.kotlin.analysis.api.lifetime.KaLifetimeOwner
 import org.jetbrains.kotlin.analysis.api.symbols.KaClassLikeSymbol
 import org.jetbrains.kotlin.analysis.api.symbols.KaTypeParameterSymbol
@@ -96,6 +97,17 @@ public interface KaTypeCreator : KaSessionComponent {
      * Builds a [KaDynamicType].
      */
     public fun buildDynamicType(): KaDynamicType
+
+    /**
+     * Builds a [KaFunctionType] based on the given [classId].
+     *
+     * Note that the given [classId] must not contain the number of parameters.
+     * The number of parameters is inferred from parameter properties in [KaFunctionTypeBuilder].
+     *
+     * I.e. for constructing `kotlin.Function3` the [classId] should be `kotlin.Function`,
+     * then the caller must provide 3 type parameters.
+     */
+    public fun buildFunctionType(classId: ClassId, init: KaFunctionTypeBuilder.() -> Unit): KaType
 
     /**
      * Builds a [KaStarTypeProjection] (`*`).
@@ -208,4 +220,58 @@ public interface KaIntersectionTypeBuilder : KaTypeBuilder {
      * Adds a conjunct to the [conjuncts] list.
      */
     public fun conjunct(conjunct: KaType)
+}
+
+/**
+ * A builder for function types.
+ *
+ * @see KaTypeCreator.buildFunctionType
+ */
+public interface KaFunctionTypeBuilder : KaTypeBuilder {
+    /**
+     * Default value: [KaTypeNullability.NON_NULLABLE].
+     */
+    public var nullability: KaTypeNullability
+
+    /**
+     * List of context receivers for the function type.
+     *
+     * @see KaFunctionType.contextReceivers
+     */
+    @OptIn(KaExperimentalApi::class)
+    public val contextParameters: List<KaContextReceiver>
+
+    /**
+     * Adds the given [contextParameter] to the [contextParameters] list.
+     */
+    @OptIn(KaExperimentalApi::class)
+    public fun contextParameter(contextParameter: KaContextReceiver)
+
+    /**
+     * Function receiver type.
+     *
+     * @see KaFunctionType.receiverType
+     */
+    public val receiverType: KaType?
+
+    /**
+     * Function value parameters.
+     *
+     * @see KaFunctionType.parameters
+     */
+    @KaExperimentalApi
+    public val parameters: List<KaFunctionValueParameter>
+
+    /**
+     * Adds the given [parameter] to the [parameters] list.
+     */
+    @KaExperimentalApi
+    public fun parameter(parameter: KaFunctionValueParameter)
+
+    /**
+     * Function return type.
+     *
+     * @see KaFunctionType.returnType
+     */
+    public val returnType: KaType
 }

@@ -18,15 +18,22 @@ import org.jetbrains.kotlin.analysis.api.lifetime.withValidityAssertion
 import org.jetbrains.kotlin.analysis.api.symbols.KaClassLikeSymbol
 import org.jetbrains.kotlin.analysis.api.symbols.KaTypeParameterSymbol
 import org.jetbrains.kotlin.analysis.api.types.*
+import org.jetbrains.kotlin.builtins.StandardNames
 import org.jetbrains.kotlin.descriptors.ClassDescriptor
 import org.jetbrains.kotlin.descriptors.TypeParameterDescriptor
+import org.jetbrains.kotlin.descriptors.annotations.Annotations
+import org.jetbrains.kotlin.descriptors.annotations.BuiltInAnnotationDescriptor
 import org.jetbrains.kotlin.incremental.components.NoLookupLocation
 import org.jetbrains.kotlin.name.ClassId
+import org.jetbrains.kotlin.name.Name
 import org.jetbrains.kotlin.name.SpecialNames
 import org.jetbrains.kotlin.resolve.calls.inference.CapturedType
+import org.jetbrains.kotlin.resolve.constants.StringValue
 import org.jetbrains.kotlin.types.*
 import org.jetbrains.kotlin.types.error.ErrorTypeKind
 import org.jetbrains.kotlin.types.error.ErrorUtils
+import org.jetbrains.kotlin.types.typeUtil.replaceAnnotations
+import org.jetbrains.kotlin.utils.addIfNotNull
 import org.jetbrains.kotlin.utils.addToStdlib.firstIsInstanceOrNull
 
 internal class KaFe10TypeCreator(
@@ -213,5 +220,67 @@ internal class KaFe10TypeCreator(
             val kotlinType = createDynamicType(analysisContext.builtIns)
             return kotlinType.toKtType(analysisContext) as KaDynamicType
         }
+    }
+
+    override fun buildFunctionType(
+        classId: ClassId,
+        init: KaFunctionTypeBuilder.() -> Unit,
+    ): KaType = withValidityAssertion {
+        buildFunctionType(KaBaseFunctionTypeBuilder.ByClassId(classId, token, analysisSession).apply(init))
+    }
+
+    private fun buildFunctionType(builder: KaBaseFunctionTypeBuilder): KaType {
+        val descriptor = when (builder) {
+            is KaBaseFunctionTypeBuilder.ByClassId -> {
+                val builderClassId = builder.classId
+                val numberOfParameters =
+                    builder.contextParameters.size + (if (builder.receiverType != null) 1 else 0) + builder.parameters.size
+                val functionNameWithParameterNumber = builderClassId.shortClassName.asString() + numberOfParameters
+                val updatedClassId = ClassId(builderClassId.packageFqName, Name.identifier(functionNameWithParameterNumber))
+                val fqName = updatedClassId.asSingleFqName()
+
+                val descriptor: ClassDescriptor? = analysisContext.resolveSession
+                    .getTopLevelClassifierDescriptors(fqName, NoLookupLocation.FROM_IDE)
+                    .firstIsInstanceOrNull()
+
+                if (descriptor == null) {
+                    val kotlinType = ErrorUtils.createErrorType(ErrorTypeKind.UNRESOLVED_CLASS_TYPE, updatedClassId.asString())
+                    return KaFe10ClassErrorType(kotlinType, analysisContext)
+                }
+
+                descriptor
+            }
+        }
+
+        val typeParameters = descriptor.typeConstructor.parameters
+
+        val typeArguments = buildList {
+            addAll(builder.contextParameters.map { (it.type as KaFe10Type).fe10Type })
+            addIfNotNull((builder.receiverType as KaFe10Type).fe10Type)
+            addAll(builder.parameters.map { valueParameter ->
+                val type = (valueParameter.type as KaFe10Type).fe10Type
+                val name = valueParameter.name
+                if (name != null) {
+                    val parameterNameAnnotation = BuiltInAnnotationDescriptor(
+                        analysisSession.analysisContext.builtIns,
+                        StandardNames.FqNames.parameterName,
+                        mapOf(StandardNames.NAME to StringValue(name.asString()))
+                    )
+                    type.replaceAnnotations(Annotations.create(type.annotations + parameterNameAnnotation))
+                } else {
+                    type
+                }
+            })
+            add((builder.returnType as KaFe10Type).fe10Type)
+        }.map { TypeProjectionImpl(it) }
+
+        val type = if (typeParameters.size == typeArguments.size) {
+            TypeUtils.substituteProjectionsForParameters(descriptor, typeArguments)
+        } else {
+            descriptor.defaultType
+        }
+
+        val typeWithNullability = TypeUtils.makeNullableAsSpecified(type, builder.nullability == KaTypeNullability.NULLABLE)
+        return KaFe10UsualClassType(typeWithNullability as SimpleType, descriptor, analysisContext)
     }
 }

@@ -7,6 +7,7 @@ package org.jetbrains.kotlin.analysis.api.impl.base.components
 
 import org.jetbrains.kotlin.analysis.api.KaImplementationDetail
 import org.jetbrains.kotlin.analysis.api.KaSession
+import org.jetbrains.kotlin.analysis.api.base.KaContextReceiver
 import org.jetbrains.kotlin.analysis.api.components.*
 import org.jetbrains.kotlin.analysis.api.impl.base.types.KaBaseStarTypeProjection
 import org.jetbrains.kotlin.analysis.api.impl.base.types.KaBaseTypeArgumentWithVariance
@@ -140,4 +141,51 @@ sealed class KaBaseIntersectionTypeBuilder(private val backingConjuncts: Mutable
 
     class ByConjuncts(conjuncts: List<KaType>, override val token: KaLifetimeToken) :
         KaBaseIntersectionTypeBuilder(conjuncts.toMutableList())
+}
+
+@KaImplementationDetail
+sealed class KaBaseFunctionTypeBuilder(session: KaSession) : KaFunctionTypeBuilder {
+    override var nullability: KaTypeNullability = KaTypeNullability.NON_NULLABLE
+        get() = withValidityAssertion { field }
+        set(value) {
+            withValidityAssertion { field = value }
+        }
+
+    private val backingContextParameters: MutableList<KaContextReceiver> = mutableListOf()
+
+    override val contextParameters: List<KaContextReceiver>
+        get() = withValidityAssertion { backingContextParameters }
+
+    override fun contextParameter(contextParameter: KaContextReceiver) {
+        withValidityAssertion {
+            backingContextParameters += contextParameter
+        }
+    }
+
+    private val backingParameters: MutableList<KaFunctionValueParameter> = mutableListOf()
+
+    override val parameters: List<KaFunctionValueParameter>
+        get() = withValidityAssertion { backingParameters }
+
+    override fun parameter(parameter: KaFunctionValueParameter) {
+        withValidityAssertion {
+            backingParameters += parameter
+        }
+    }
+
+    override var receiverType: KaType? = null
+        get() = withValidityAssertion { field }
+        set(value) {
+            withValidityAssertion { field = value }
+        }
+
+    override var returnType: KaType = session.builtinTypes.unit
+        get() = withValidityAssertion { field }
+        set(value) {
+            withValidityAssertion { field = value }
+        }
+
+    class ByClassId(classId: ClassId, override val token: KaLifetimeToken, session: KaSession) : KaBaseFunctionTypeBuilder(session) {
+        val classId: ClassId by validityAsserted(classId)
+    }
 }
