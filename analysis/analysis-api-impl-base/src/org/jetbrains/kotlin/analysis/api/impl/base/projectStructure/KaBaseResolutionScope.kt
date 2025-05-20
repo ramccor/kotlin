@@ -5,14 +5,12 @@
 
 package org.jetbrains.kotlin.analysis.api.impl.base.projectStructure
 
-import com.github.benmanes.caffeine.cache.Caffeine
 import com.intellij.openapi.module.Module
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.search.GlobalSearchScope
-import org.jetbrains.kotlin.analysis.api.platform.caches.getOrPut
 import org.jetbrains.kotlin.analysis.api.platform.projectStructure.KaResolutionScope
 import org.jetbrains.kotlin.analysis.api.projectStructure.*
 import org.jetbrains.kotlin.psi.KtFile
@@ -35,9 +33,18 @@ internal class KaBaseResolutionScope(
      * as indices are likely to throw many different virtual files at the cache. This is compared to a much more limited set of virtual
      * files in Code Analysis. As such, the cache should only be used in [contains] functions which aren't used by indices.
      */
-    private val virtualFileContainsCache = Caffeine.newBuilder()
-        .maximumSize(100)
-        .build<VirtualFile, Boolean>()
+//    private val virtualFileContainsCache = Caffeine.newBuilder()
+//        .maximumSize(100)
+//        .build<VirtualFile, Boolean>()
+
+//    private class LastVirtualFileData(
+//        val virtualFile: VirtualFile,
+//        val isContained: Boolean,
+//    )
+//
+//    private val lastVirtualFileCache = ThreadLocal<WeakReference<LastVirtualFileData>>()
+
+    private val lastVirtualFileCache = ThreadLocal<VirtualFile>()
 
     override fun getProject(): Project? = searchScope.project
 
@@ -63,8 +70,36 @@ internal class KaBaseResolutionScope(
         return virtualFile != null && cachedSearchScopeContains(virtualFile) || isAccessibleDanglingFile(psiFile)
     }
 
-    private fun cachedSearchScopeContains(virtualFile: VirtualFile): Boolean =
-        virtualFileContainsCache.getOrPut(virtualFile) { searchScope.contains(virtualFile) }
+    private fun cachedSearchScopeContains(virtualFile: VirtualFile): Boolean {
+//        return virtualFileContainsCache.getOrPut(virtualFile) { searchScope.contains(virtualFile) }
+
+//        val lastVirtualFileData = lastVirtualFileCache.get()?.get()
+//        if (lastVirtualFileData != null && lastVirtualFileData.virtualFile == virtualFile) {
+//            hits += 1
+//            return lastVirtualFileData.isContained
+//        }
+//
+//        misses += 1
+//
+//        // Problem: This adds a thread local access and multi-object allocation to every cache miss. :/
+//        val isContained = searchScope.contains(virtualFile)
+//        lastVirtualFileCache.set(WeakReference(LastVirtualFileData(virtualFile, isContained)))
+//        return isContained
+
+        val lastVirtualFile = lastVirtualFileCache.get()
+        if (lastVirtualFile == virtualFile) {
+//            hits += 1
+            return true
+        }
+
+//        misses += 1
+
+        val isContained = searchScope.contains(virtualFile)
+        if (isContained) {
+            lastVirtualFileCache.set(virtualFile)
+        }
+        return isContained
+    }
 
     private fun isAccessibleDanglingFile(psiFile: PsiFile): Boolean {
         val ktFile = psiFile as? KtFile ?: return false
@@ -85,4 +120,9 @@ internal class KaBaseResolutionScope(
         get() = searchScope
 
     override fun toString(): String = "Resolution scope for '$useSiteModule'. Underlying search scope: '$searchScope'"
+
+//    companion object {
+//        var hits: Long = 0
+//        var misses: Long = 0
+//    }
 }
