@@ -5,12 +5,15 @@
 
 package org.jetbrains.kotlin.analysis.api.impl.base.projectStructure
 
+import com.github.benmanes.caffeine.cache.Caffeine
+import com.github.benmanes.caffeine.cache.stats.ConcurrentStatsCounter
 import com.intellij.openapi.module.Module
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.search.GlobalSearchScope
+import org.jetbrains.kotlin.analysis.api.platform.caches.withStatsCounter
 import org.jetbrains.kotlin.analysis.api.platform.projectStructure.KaResolutionScope
 import org.jetbrains.kotlin.analysis.api.projectStructure.*
 import org.jetbrains.kotlin.psi.KtFile
@@ -32,19 +35,17 @@ internal class KaBaseResolutionScope(
      * with a hit rate of >99% in local experiments. However, the cache has a very low hit rate when the scope is used for index accesses,
      * as indices are likely to throw many different virtual files at the cache. This is compared to a much more limited set of virtual
      * files in Code Analysis. As such, the cache should only be used in [contains] functions which aren't used by indices.
+     *
+     * ONLY CACHES HAPPY VIRTUAL FILES
      */
-//    private val virtualFileContainsCache = Caffeine.newBuilder()
-//        .maximumSize(100)
-//        .build<VirtualFile, Boolean>()
+    private val virtualFileContainsCache = Caffeine.newBuilder()
+        .maximumSize(100)
+//        .withStatsCounter(statsCounter)
+        .build<VirtualFile, Boolean>()
 
-//    private class LastVirtualFileData(
-//        val virtualFile: VirtualFile,
-//        val isContained: Boolean,
-//    )
-//
-//    private val lastVirtualFileCache = ThreadLocal<WeakReference<LastVirtualFileData>>()
+    private class LastVirtualFileData(val virtualFile: VirtualFile, val isFirstEncounter: Boolean)
 
-    private val lastVirtualFileCache = ThreadLocal<VirtualFile>()
+    private val lastVirtualFileCache = ThreadLocal<LastVirtualFileData>()
 
     override fun getProject(): Project? = searchScope.project
 
@@ -55,6 +56,7 @@ internal class KaBaseResolutionScope(
     override fun contains(file: VirtualFile): Boolean {
         // As noted above, we don't want to use the virtual file cache for index accesses.
         return searchScope.contains(file) || isAccessibleDanglingFile(file)
+//        return cachedSearchScopeContains(file) || isAccessibleDanglingFile(file)
     }
 
     override fun contains(element: PsiElement): Boolean {
@@ -72,6 +74,7 @@ internal class KaBaseResolutionScope(
 
     private fun cachedSearchScopeContains(virtualFile: VirtualFile): Boolean {
 //        return virtualFileContainsCache.getOrPut(virtualFile) { searchScope.contains(virtualFile) }
+//        return virtualFileContainsCache.get(virtualFile) { searchScope.contains(virtualFile) } == true
 
 //        val lastVirtualFileData = lastVirtualFileCache.get()?.get()
 //        if (lastVirtualFileData != null && lastVirtualFileData.virtualFile == virtualFile) {
@@ -86,8 +89,27 @@ internal class KaBaseResolutionScope(
 //        lastVirtualFileCache.set(WeakReference(LastVirtualFileData(virtualFile, isContained)))
 //        return isContained
 
-        val lastVirtualFile = lastVirtualFileCache.get()
-        if (lastVirtualFile == virtualFile) {
+        val lastVirtualFileData = lastVirtualFileCache.get()
+        if (lastVirtualFileData != null && lastVirtualFileData.virtualFile == virtualFile) {
+            // I.e., including this hit, we've seen this thing 2 times now.
+            if (lastVirtualFileData.isFirstEncounter) {
+                virtualFileContainsCache.put(virtualFile, true)
+                lastVirtualFileCache.set(LastVirtualFileData(virtualFile, isFirstEncounter = false))
+            }
+//            // We don't want to update the cache needlessly, as we only need to know that we've seen it 2 times at most. This allows us to
+//            // avoid putting a value in the cache every time (timesSeen == 1).
+//            if (lastVirtualFileData.timesSeen < 2) {
+//
+//            }
+//            hits += 1
+//            threadLocalHits += 1
+            return true
+        } else if (virtualFileContainsCache.getIfPresent(virtualFile) == true) {
+            // TODO (marco): Big disadvantage here: We hit the virtual file cache every time, even in completion, where it's likely just
+            //  wasted time. Can we avoid this in any way?
+            // We can set this to `isFirstEncounter = false` immediately since the virtual file has already been added to the contains
+            // cache.
+            lastVirtualFileCache.set(LastVirtualFileData(virtualFile, isFirstEncounter = false))
 //            hits += 1
             return true
         }
@@ -96,7 +118,7 @@ internal class KaBaseResolutionScope(
 
         val isContained = searchScope.contains(virtualFile)
         if (isContained) {
-            lastVirtualFileCache.set(virtualFile)
+            lastVirtualFileCache.set(LastVirtualFileData(virtualFile, isFirstEncounter = true))
         }
         return isContained
     }
@@ -122,7 +144,10 @@ internal class KaBaseResolutionScope(
     override fun toString(): String = "Resolution scope for '$useSiteModule'. Underlying search scope: '$searchScope'"
 
 //    companion object {
+//        var threadLocalHits: Long = 0
 //        var hits: Long = 0
 //        var misses: Long = 0
+//
+//        val statsCounter = ConcurrentStatsCounter()
 //    }
 }
