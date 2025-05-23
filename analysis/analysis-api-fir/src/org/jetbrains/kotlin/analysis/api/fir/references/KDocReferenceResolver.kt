@@ -9,13 +9,11 @@ import com.intellij.psi.util.PsiTreeUtil
 import org.jetbrains.kotlin.analysis.api.KaSession
 import org.jetbrains.kotlin.analysis.api.components.KaScopeContext
 import org.jetbrains.kotlin.analysis.api.components.KaScopeKind
-import org.jetbrains.kotlin.analysis.api.fir.references.KDocReferenceResolver.canBeReferencedAsExtensionOn
 import org.jetbrains.kotlin.analysis.api.fir.references.KDocReferenceResolver.getTypeQualifiedExtensions
 import org.jetbrains.kotlin.analysis.api.scopes.KaScope
 import org.jetbrains.kotlin.analysis.api.symbols.*
 import org.jetbrains.kotlin.analysis.api.symbols.markers.KaDeclarationContainerSymbol
-import org.jetbrains.kotlin.analysis.api.types.KaType
-import org.jetbrains.kotlin.analysis.api.types.KaTypeParameterType
+import org.jetbrains.kotlin.analysis.api.types.*
 import org.jetbrains.kotlin.analysis.utils.printer.parentOfType
 import org.jetbrains.kotlin.analysis.utils.printer.parentsOfType
 import org.jetbrains.kotlin.load.java.possibleGetMethodNames
@@ -24,6 +22,7 @@ import org.jetbrains.kotlin.name.ClassId
 import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.name.Name
 import org.jetbrains.kotlin.psi.*
+import org.jetbrains.kotlin.types.Variance
 import org.jetbrains.kotlin.utils.addIfNotNull
 import org.jetbrains.kotlin.utils.addToStdlib.ifNotEmpty
 import kotlin.reflect.KClass
@@ -363,7 +362,7 @@ internal object KDocReferenceResolver {
         if (!possibleExtensionsLayers.any() || !possibleReceiversLayers.any()) return emptyList()
 
         return possibleReceiversLayers.first().flatMap { receiverClassSymbol ->
-            val receiverType = buildClassType(receiverClassSymbol)
+            val receiverType = receiverClassSymbol.defaultType
             possibleExtensionsLayers.map { extensionSymbolsLayer ->
                 extensionSymbolsLayer.filter { canBeReferencedAsExtensionOn(it, receiverType) }
                     .map { it.toResolveResult(receiverClassReference = receiverClassSymbol) }
@@ -397,43 +396,169 @@ internal object KDocReferenceResolver {
     /**
      * Returns true if we consider that [this] extension function prefixed with [actualReceiverType] in
      * a KDoc reference should be considered as legal and resolved, and false otherwise.
-     *
-     * This is **not** an actual type check, it is just an opinionated approximation.
-     * The main guideline was K1 KDoc resolve.
-     *
-     * This check might change in the future, as the Dokka team advances with KDoc rules.
      */
     private fun KaSession.canBeReferencedAsExtensionOn(symbol: KaCallableSymbol, actualReceiverType: KaType): Boolean {
         val extensionReceiverType = symbol.receiverParameter?.returnType ?: return false
-        return isPossiblySuperTypeOf(extensionReceiverType, actualReceiverType)
+        return isPossiblySubTypeOf(actualReceiverType, extensionReceiverType, hashSetOf())
     }
 
-    /**
-     * Same constraints as in [canBeReferencedAsExtensionOn].
-     *
-     * For a similar function in the `intellij` repository, see `isPossiblySubTypeOf`.
-     */
-    private fun KaSession.isPossiblySuperTypeOf(type: KaType, actualReceiverType: KaType): Boolean {
-        // Type parameters cannot act as receiver types in KDoc
-        if (actualReceiverType is KaTypeParameterType) return false
+    private fun KaSession.isPossiblySubTypeOf(
+        actualReceiverType: KaType,
+        expectedReceiverType: KaType,
+        visited: HashSet<Pair<KaType, KaType>>
+    ): Boolean {
+        val actualToExpectedPair = actualReceiverType to expectedReceiverType
 
-        if (type is KaTypeParameterType) {
-            return type.symbol.upperBounds.all { isPossiblySuperTypeOf(it, actualReceiverType) }
-        }
-
-        val receiverExpanded = actualReceiverType.expandedSymbol
-        val expectedExpanded = type.expandedSymbol
-
-        // if the underlying classes are equal, we consider the check successful
-        // despite the possibility of different type bounds
-        if (
-            receiverExpanded != null &&
-            receiverExpanded == expectedExpanded
-        ) {
+        if (!visited.add(actualToExpectedPair)) {
             return true
         }
 
-        return actualReceiverType.isSubtypeOf(type)
+        if (expectedReceiverType is KaTypeParameterType) {
+            return expectedReceiverType.symbol.upperBounds.all { isPossiblySubTypeOf(actualReceiverType, it, visited) }.also {
+                visited.remove(actualToExpectedPair)
+            }
+        }
+
+        return (actualReceiverType.isSubtypeOf(expectedReceiverType) || isSubtypeOfWithTypeParams(
+            actualReceiverType,
+            expectedReceiverType,
+            visited
+        )).also {
+            visited.remove(actualToExpectedPair)
+        }
+    }
+
+
+    /**
+     * Performs a subtyping check of two types with respect to their type parameters.
+     *
+     * ```kotlin
+     * interface T<A_0, A_1, ..., A_TN>
+     *
+     * class S<B_0, B_1, ..., B_SN> : T<...>
+     *
+     * fun T<E_0, E_1, ..., E_I>.extension() { }
+     *
+     * /** [S.extension] */
+     * fun documented() { }
+     * ```
+     *
+     * We check that `S.extension` is a valid reference with the following algorithm:
+     *
+     * - From `S<B_0, B_1, ..., B_M>`, derive the supertype instantiation `T<Z_0, Z_1, ..., Z_K>` according to the inheritance relationship.
+     *      * Any `Z_x` will either be a type parameter type from `S<B_0, B_1, ..., B_M>`,
+     *      or a concrete type from a regular type argument along the way to the supertype.
+     *
+     * - Compare `T<Z_0, Z_1, ..., Z_K>` against `T<E_0, E_1, ..., E_I>`,
+     * finding whether each type argument `E_x` matches with the type `Z_x`:
+     *      * If both `Z_x` and `E_x` are concrete types,
+     *      check that `Z_x` is a subtype of `E_x` according to the variance of the type parameter at the position.
+     *      It's important to note that if the variance in the base type is INVARIANT,
+     *      the extension can provide its own variance for the corresponding type parameter.
+     *      ```kotlin
+     *      interface A<T> // Check variance here first
+     *
+     *      class B: A<Int>
+     *
+     *      fun A<in Nothing>.foo() {} // If the original variance is INVARIANT, check variance here
+     *
+     *      fun main() {
+     *          B().foo() // Wouldn't be possible without the variance from the extension
+     *      }
+     *      ```
+     *
+     *      * If only `E_x` is a concrete type (and vice versa), check that `E_x` fits into the bounds of `Z_x`.
+     *      If `E_x` does not fit the bounds of `Z_x`, we cannot find an instantiation of `Z_x` which satisfies `E_x`.
+     *
+     *      * If both types are type parameter types, check that the bounds of `Z_x` and `E_x` overlap.
+     *      That is, there must be at least one type which can be an instantiation of both `Z_x` and `E_x`.
+     *
+     *      * Unless we are dealing with concrete types on both sides, covariance and contravariance do not need to be taken into account.
+     *      Variance is concerned with subtyping of two types when their type arguments have concrete instantiations
+     *      (e.g. `Type<Cat>` <: `Type<Animal>`),
+     *      but here we are concerned with finding a common instantiation of two type parameters (e.g. `Type<X>` and `Type<Y>`).
+     *      As long as the bounds overlap, we can instantiate both type parameters to the same type argument,
+     *      making the variance unimportant (all type parameters could be invariant).
+     */
+    private fun KaSession.isSubtypeOfWithTypeParams(
+        actualReceiverType: KaType,
+        expectedExtensionType: KaType,
+        visited: HashSet<Pair<KaType, KaType>>
+    ): Boolean {
+        if (expectedExtensionType !is KaClassType || expectedExtensionType.typeArguments.none()) {
+            return false
+        }
+
+        val actualSupertypesWithSelf = actualReceiverType.allSupertypes(shouldApproximate = true) + actualReceiverType
+        // Search for supertypes instantiations, which correspond to the expected receiver type
+        val compatibleSupertypesOfActualReceiverType =
+            actualSupertypesWithSelf
+                .filter { it.symbol == expectedExtensionType.symbol }
+                .filterIsInstance<KaClassType>()
+                .toList().ifEmpty { return false }
+
+        return compatibleSupertypesOfActualReceiverType.all { compatibleSupertype ->
+            // Default type parameters of the supertype
+            val compatibleTypeSymbolTypeParameters = compatibleSupertype.symbol.typeParameters
+
+            // Matching default type parameters with pairs of arguments from the actual type and from the receiver type
+            val typeArgumentsToMatch =
+                compatibleTypeSymbolTypeParameters.zip(compatibleSupertype.typeArguments.zip(expectedExtensionType.typeArguments))
+
+            typeArgumentsToMatch.all { (originalTypeParameter, actualToExpectedTypeArguments) ->
+                val (actualTypeArgument, extensionTypeArgument) = actualToExpectedTypeArguments
+
+                // It implies that the current extension type argument is `KaStarTypeProjection`,
+                // so it can be substituted with any actual type argument
+                if (extensionTypeArgument is KaStarTypeProjection) {
+                    return true
+                }
+
+                // Star projections can't be used in the argument lists of receiver types
+                if (actualTypeArgument is KaStarTypeProjection) {
+                    return false
+                }
+
+                if (extensionTypeArgument !is KaTypeArgumentWithVariance || actualTypeArgument !is KaTypeArgumentWithVariance) {
+                    return false
+                }
+
+                val actualTypeArgumentType = actualTypeArgument.type
+                val extensionTypeArgumentType = extensionTypeArgument.type
+
+                when (actualTypeArgumentType) {
+                    // Both are concrete types
+                    !is KaTypeParameterType if extensionTypeArgumentType !is KaTypeParameterType ->
+                        // Checking the default variance of the corresponding supertype parameter
+                        when (originalTypeParameter.variance) {
+                            Variance.INVARIANT -> when (extensionTypeArgument.variance) {
+                                // Checking if there is any variance provided by the extension
+                                Variance.INVARIANT -> actualTypeArgumentType == extensionTypeArgumentType
+                                Variance.OUT_VARIANCE -> isPossiblySubTypeOf(actualTypeArgumentType, extensionTypeArgumentType, visited)
+                                Variance.IN_VARIANCE -> isPossiblySubTypeOf(extensionTypeArgumentType, actualTypeArgumentType, visited)
+                            }
+                            Variance.OUT_VARIANCE -> isPossiblySubTypeOf(actualTypeArgumentType, extensionTypeArgumentType, visited)
+                            Variance.IN_VARIANCE -> isPossiblySubTypeOf(extensionTypeArgumentType, actualTypeArgumentType, visited)
+                        }
+                    // Both are type parameters -> bound checking
+                    is KaTypeParameterType if extensionTypeArgumentType is KaTypeParameterType -> actualTypeArgumentType.hasCommonSubtypeWith(
+                        extensionTypeArgumentType
+                    )
+                    // Actual argument is a type parameter, expected extension argument is concrete
+                    is KaTypeParameterType -> isPossiblySubTypeOf(
+                        extensionTypeArgumentType,
+                        actualTypeArgumentType,
+                        visited
+                    )
+                    // Actual type is concrete, expected extension argument is a type parameter
+                    else -> isPossiblySubTypeOf(
+                        actualTypeArgumentType,
+                        extensionTypeArgumentType,
+                        visited
+                    )
+                }
+            }
+        }
     }
 
     private fun KaSession.getNonImportedSymbolsByFullyQualifiedName(fqName: FqName): Collection<KaSymbol> = buildSet {
