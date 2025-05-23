@@ -3502,6 +3502,48 @@ public class Fe10IdeNormalAnalysisSourceModuleResolveCallTestGenerated extends A
         }
 
         @Test
+        @TestMetadata("candidateReceiverWithBoundedGeneric.kt")
+        public void testCandidateReceiverWithBoundedGeneric() {
+          runTest("analysis/analysis-api/testData/components/resolver/singleByPsi/kDoc/extensions/generics/candidateReceiverWithBoundedGeneric.kt");
+        }
+
+        @Test
+        @TestMetadata("extensionFunctionWithBoundedGeneric.kt")
+        public void testExtensionFunctionWithBoundedGeneric() {
+          runTest("analysis/analysis-api/testData/components/resolver/singleByPsi/kDoc/extensions/generics/extensionFunctionWithBoundedGeneric.kt");
+        }
+
+        @Test
+        @TestMetadata("extensionFunctionWithVariance.kt")
+        public void testExtensionFunctionWithVariance() {
+          runTest("analysis/analysis-api/testData/components/resolver/singleByPsi/kDoc/extensions/generics/extensionFunctionWithVariance.kt");
+        }
+
+        @Test
+        @TestMetadata("extensionsOnIterable.kt")
+        public void testExtensionsOnIterable() {
+          runTest("analysis/analysis-api/testData/components/resolver/singleByPsi/kDoc/extensions/generics/extensionsOnIterable.kt");
+        }
+
+        @Test
+        @TestMetadata("extensionsRecursiveGenericsWithVariousProjections.kt")
+        public void testExtensionsRecursiveGenericsWithVariousProjections() {
+          runTest("analysis/analysis-api/testData/components/resolver/singleByPsi/kDoc/extensions/generics/extensionsRecursiveGenericsWithVariousProjections.kt");
+        }
+
+        @Test
+        @TestMetadata("extensionsSimpleMultipleBounds.kt")
+        public void testExtensionsSimpleMultipleBounds() {
+          runTest("analysis/analysis-api/testData/components/resolver/singleByPsi/kDoc/extensions/generics/extensionsSimpleMultipleBounds.kt");
+        }
+
+        @Test
+        @TestMetadata("extensionsSimpleVarianceCases.kt")
+        public void testExtensionsSimpleVarianceCases() {
+          runTest("analysis/analysis-api/testData/components/resolver/singleByPsi/kDoc/extensions/generics/extensionsSimpleVarianceCases.kt");
+        }
+
+        @Test
         @TestMetadata("genericParameterReceiver.kt")
         public void testGenericParameterReceiver() {
           runTest("analysis/analysis-api/testData/components/resolver/singleByPsi/kDoc/extensions/generics/genericParameterReceiver.kt");
@@ -3514,9 +3556,57 @@ public class Fe10IdeNormalAnalysisSourceModuleResolveCallTestGenerated extends A
         }
 
         @Test
+        @TestMetadata("inVarianceReceiverType.kt")
+        public void testInVarianceReceiverType() {
+          runTest("analysis/analysis-api/testData/components/resolver/singleByPsi/kDoc/extensions/generics/inVarianceReceiverType.kt");
+        }
+
+        @Test
+        @TestMetadata("multipleBoundsGenericParameterReceiver.kt")
+        public void testMultipleBoundsGenericParameterReceiver() {
+          runTest("analysis/analysis-api/testData/components/resolver/singleByPsi/kDoc/extensions/generics/multipleBoundsGenericParameterReceiver.kt");
+        }
+
+        @Test
+        @TestMetadata("outVarianceReceiverType.kt")
+        public void testOutVarianceReceiverType() {
+          runTest("analysis/analysis-api/testData/components/resolver/singleByPsi/kDoc/extensions/generics/outVarianceReceiverType.kt");
+        }
+
+        @Test
+        @TestMetadata("typeParameterSubstitution.kt")
+        public void testTypeParameterSubstitution() {
+          runTest("analysis/analysis-api/testData/components/resolver/singleByPsi/kDoc/extensions/generics/typeParameterSubstitution.kt");
+        }
+
+        @Test
         @TestMetadata("typeWithGenericsReceiver.kt")
         public void testTypeWithGenericsReceiver() {
           runTest("analysis/analysis-api/testData/components/resolver/singleByPsi/kDoc/extensions/generics/typeWithGenericsReceiver.kt");
+        }
+
+        @Test
+        @TestMetadata("typeWithStarProjectionReceiver.kt")
+        public void testTypeWithStarProjectionReceiver() {
+          runTest("analysis/analysis-api/testData/components/resolver/singleByPsi/kDoc/extensions/generics/typeWithStarProjectionReceiver.kt");
+        }
+
+        @Test
+        @TestMetadata("typealiasedActualAndExpectedReceiversWithDifferentArguments.kt")
+        public void testTypealiasedActualAndExpectedReceiversWithDifferentArguments() {
+          runTest("analysis/analysis-api/testData/components/resolver/singleByPsi/kDoc/extensions/generics/typealiasedActualAndExpectedReceiversWithDifferentArguments.kt");
+        }
+
+        @Test
+        @TestMetadata("typealiasedGenericReceiver.kt")
+        public void testTypealiasedGenericReceiver() {
+          runTest("analysis/analysis-api/testData/components/resolver/singleByPsi/kDoc/extensions/generics/typealiasedGenericReceiver.kt");
+        }
+
+        @Test
+        @TestMetadata("typealiasedReceiversWithOutProjection.kt")
+        public void testTypealiasedReceiversWithOutProjection() {
+          runTest("analysis/analysis-api/testData/components/resolver/singleByPsi/kDoc/extensions/generics/typealiasedReceiversWithOutProjection.kt");
         }
       }
     }
