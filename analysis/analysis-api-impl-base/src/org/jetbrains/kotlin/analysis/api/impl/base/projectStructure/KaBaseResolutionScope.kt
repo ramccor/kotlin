@@ -8,6 +8,7 @@ package org.jetbrains.kotlin.analysis.api.impl.base.projectStructure
 import com.intellij.openapi.module.Module
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
+import com.intellij.openapi.vfs.VirtualFileWithId
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.search.GlobalSearchScope
@@ -27,30 +28,29 @@ internal class KaBaseResolutionScope(
     private val searchScope: GlobalSearchScope,
     private val analyzableModules: Set<KaModule>,
 ) : KaResolutionScope() {
+    // TODO (marco): Can we avoid volatile here?
+    //  - A volatile is expensive to write to (not read from) and we have to write frequently, especially in workloads where the cache isn't
+    //    as effective.
+    //  - It's not a problem if different threads see different versions of the variable.
+    //  - Non-volatile kinda simulates a thread local on a microscale, where only the local thread sees the new value and other threads
+    //    still see the old value.
+    //  In summary: `volatile` ensures that writes are immediately made visible to other threads, but (1) it's OK if different threads see
+    //  different values of the cache (all virtual files ever cached here are valid values) and (2) we'd actually like writes not to be made
+    //  visible to other threads immediately, since each thread might have its own file to analyze. A non-volatile variable might better
+    //  utilize the L1 cache of a CPU core..
     /**
+     * TODO (marco): Rewrite comment. Note that the cache is optimized for a high hit rate in Code Analysis while having a low passthrough
+     *  overhead for other workloads where the hit rate is low.
+     *
      * The cache has a major impact on Code Analysis through [canBeAnalysed][org.jetbrains.kotlin.analysis.api.components.KaAnalysisScopeProvider.canBeAnalysed],
      * with a hit rate of >99% in local experiments. However, the cache has a very low hit rate when the scope is used for index accesses,
      * as indices are likely to throw many different virtual files at the cache. This is compared to a much more limited set of virtual
      * files in Code Analysis. As such, the cache should only be used in [contains] functions which aren't used by indices.
+     *
+     * A negative value means that the cache is empty at the specific index. The cache also only stores virtual files that are contained in
+     * the resolution scope, as this applies to the vast majority of PSI elements check via `canBeAnalysed`.
      */
-//    private val virtualFileContainsCache = Caffeine.newBuilder()
-//        .maximumSize(100)
-//        .build<VirtualFile, Boolean>()
-
-//    private class LastVirtualFileData(
-//        val virtualFile: VirtualFile,
-//        val isContained: Boolean,
-//    )
-//
-//    private val lastVirtualFileCache = ThreadLocal<WeakReference<LastVirtualFileData>>()
-
-    private val lastVirtualFileCache = ThreadLocal<VirtualFile>()
-
-    override fun getProject(): Project? = searchScope.project
-
-    override fun isSearchInModuleContent(aModule: Module): Boolean = searchScope.isSearchInModuleContent(aModule)
-
-    override fun isSearchInLibraries(): Boolean = searchScope.isSearchInLibraries
+    private val virtualFileCache = IntArray(32) { -1 }
 
     override fun contains(file: VirtualFile): Boolean {
         // As noted above, we don't want to use the virtual file cache for index accesses.
@@ -71,34 +71,27 @@ internal class KaBaseResolutionScope(
     }
 
     private fun cachedSearchScopeContains(virtualFile: VirtualFile): Boolean {
-//        return virtualFileContainsCache.getOrPut(virtualFile) { searchScope.contains(virtualFile) }
+        // The cache depends on virtual file IDs. It can also only store *positive* virtual file IDs. "Real" virtual files are guaranteed to
+        // have positive IDs.
+        // TODO (marco): Instead of `< 0`, we can also choose one specific `Int` value for "no value".
+        val id = (virtualFile as? VirtualFileWithId)?.id
+        if (id == null || id < 0) {
+            return searchScope.contains(virtualFile)
+        }
 
-//        val lastVirtualFileData = lastVirtualFileCache.get()?.get()
-//        if (lastVirtualFileData != null && lastVirtualFileData.virtualFile == virtualFile) {
-//            hits += 1
-//            return lastVirtualFileData.isContained
-//        }
-//
-//        misses += 1
-//
-//        // Problem: This adds a thread local access and multi-object allocation to every cache miss. :/
-//        val isContained = searchScope.contains(virtualFile)
-//        lastVirtualFileCache.set(WeakReference(LastVirtualFileData(virtualFile, isContained)))
-//        return isContained
-
-        val lastVirtualFile = lastVirtualFileCache.get()
-        if (lastVirtualFile == virtualFile) {
-//            hits += 1
+        // Based on the ID, each virtual file is cached in a predetermined slot. This can lead to collisions if we're unlucky, but it also
+        // means that checking the cache and writing to it barely has any overhead. A smarter caching strategy would impose a larger
+        // overhead as well as the need for synchronization.
+        val index = id % virtualFileCache.size
+        if (virtualFileCache[index] == id) {
             return true
+        } else {
+            val isContained = searchScope.contains(virtualFile)
+            if (isContained) {
+                virtualFileCache[index] = id
+            }
+            return isContained
         }
-
-//        misses += 1
-
-        val isContained = searchScope.contains(virtualFile)
-        if (isContained) {
-            lastVirtualFileCache.set(virtualFile)
-        }
-        return isContained
     }
 
     private fun isAccessibleDanglingFile(psiFile: PsiFile): Boolean {
@@ -119,10 +112,11 @@ internal class KaBaseResolutionScope(
     override val underlyingSearchScope: GlobalSearchScope
         get() = searchScope
 
-    override fun toString(): String = "Resolution scope for '$useSiteModule'. Underlying search scope: '$searchScope'"
+    override fun getProject(): Project? = searchScope.project
 
-//    companion object {
-//        var hits: Long = 0
-//        var misses: Long = 0
-//    }
+    override fun isSearchInModuleContent(aModule: Module): Boolean = searchScope.isSearchInModuleContent(aModule)
+
+    override fun isSearchInLibraries(): Boolean = searchScope.isSearchInLibraries
+
+    override fun toString(): String = "Resolution scope for '$useSiteModule'. Underlying search scope: '$searchScope'"
 }
