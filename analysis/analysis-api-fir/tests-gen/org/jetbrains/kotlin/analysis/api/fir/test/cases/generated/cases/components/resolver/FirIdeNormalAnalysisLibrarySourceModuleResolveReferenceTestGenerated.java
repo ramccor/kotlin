@@ -3525,6 +3525,24 @@ public class FirIdeNormalAnalysisLibrarySourceModuleResolveReferenceTestGenerate
       }
 
       @Test
+      @TestMetadata("classPropertyVsOuterClass.kt")
+      public void testClassPropertyVsOuterClass() {
+        runTest("analysis/analysis-api/testData/components/resolver/singleByPsi/kDoc/localContext/classPropertyVsOuterClass.kt");
+      }
+
+      @Test
+      @TestMetadata("DanglingReference.kt")
+      public void testDanglingReference() {
+        runTest("analysis/analysis-api/testData/components/resolver/singleByPsi/kDoc/localContext/DanglingReference.kt");
+      }
+
+      @Test
+      @TestMetadata("FunctionAndLocalPropertyWithSameName.kt")
+      public void testFunctionAndLocalPropertyWithSameName() {
+        runTest("analysis/analysis-api/testData/components/resolver/singleByPsi/kDoc/localContext/FunctionAndLocalPropertyWithSameName.kt");
+      }
+
+      @Test
       @TestMetadata("LocalSemiFullQualifiedCallableName.kt")
       public void testLocalSemiFullQualifiedCallableName() {
         runTest("analysis/analysis-api/testData/components/resolver/singleByPsi/kDoc/localContext/LocalSemiFullQualifiedCallableName.kt");
@@ -3537,6 +3555,12 @@ public class FirIdeNormalAnalysisLibrarySourceModuleResolveReferenceTestGenerate
       }
 
       @Test
+      @TestMetadata("nestedClasses.kt")
+      public void testNestedClasses() {
+        runTest("analysis/analysis-api/testData/components/resolver/singleByPsi/kDoc/localContext/nestedClasses.kt");
+      }
+
+      @Test
       @TestMetadata("NonLocalSemiFullQualifiedCallableName.kt")
       public void testNonLocalSemiFullQualifiedCallableName() {
         runTest("analysis/analysis-api/testData/components/resolver/singleByPsi/kDoc/localContext/NonLocalSemiFullQualifiedCallableName.kt");
@@ -3546,6 +3570,12 @@ public class FirIdeNormalAnalysisLibrarySourceModuleResolveReferenceTestGenerate
       @TestMetadata("NonLocalSemiFullQualifiedClassName.kt")
       public void testNonLocalSemiFullQualifiedClassName() {
         runTest("analysis/analysis-api/testData/components/resolver/singleByPsi/kDoc/localContext/NonLocalSemiFullQualifiedClassName.kt");
+      }
+
+      @Test
+      @TestMetadata("overloadedCallablesPriorities.kt")
+      public void testOverloadedCallablesPriorities() {
+        runTest("analysis/analysis-api/testData/components/resolver/singleByPsi/kDoc/localContext/overloadedCallablesPriorities.kt");
       }
 
       @Test
@@ -3582,6 +3612,12 @@ public class FirIdeNormalAnalysisLibrarySourceModuleResolveReferenceTestGenerate
       @TestMetadata("SelfNonLocalProperty.kt")
       public void testSelfNonLocalProperty() {
         runTest("analysis/analysis-api/testData/components/resolver/singleByPsi/kDoc/localContext/SelfNonLocalProperty.kt");
+      }
+
+      @Test
+      @TestMetadata("shortNamesPriorities.kt")
+      public void testShortNamesPriorities() {
+        runTest("analysis/analysis-api/testData/components/resolver/singleByPsi/kDoc/localContext/shortNamesPriorities.kt");
       }
 
       @Test
@@ -3678,6 +3714,12 @@ public class FirIdeNormalAnalysisLibrarySourceModuleResolveReferenceTestGenerate
       @Test
       public void testAllFilesPresentInQualified() {
         KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("analysis/analysis-api/testData/components/resolver/singleByPsi/kDoc/qualified"), Pattern.compile("^(.+)\\.kt$"), null, true, "withTestCompilerPluginEnabled", "withErrors", "missingDependency");
+      }
+
+      @Test
+      @TestMetadata("fqnPriorities.kt")
+      public void testFqnPriorities() {
+        runTest("analysis/analysis-api/testData/components/resolver/singleByPsi/kDoc/qualified/fqnPriorities.kt");
       }
 
       @Nested
