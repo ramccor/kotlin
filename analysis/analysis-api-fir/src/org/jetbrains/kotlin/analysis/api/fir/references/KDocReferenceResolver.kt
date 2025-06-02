@@ -16,12 +16,17 @@ import org.jetbrains.kotlin.analysis.api.symbols.*
 import org.jetbrains.kotlin.analysis.api.symbols.markers.KaDeclarationContainerSymbol
 import org.jetbrains.kotlin.analysis.api.types.*
 import org.jetbrains.kotlin.analysis.utils.printer.parentOfType
+import org.jetbrains.kotlin.kdoc.parser.KDocKnownTag
 import org.jetbrains.kotlin.load.java.possibleGetMethodNames
 import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.name.Name
 import org.jetbrains.kotlin.name.isOneSegmentFQN
 import org.jetbrains.kotlin.psi.*
+import org.jetbrains.kotlin.psi.psiUtil.containingClass
+import org.jetbrains.kotlin.psi.psiUtil.containingClassOrObject
+import org.jetbrains.kotlin.psi.psiUtil.isPropertyParameter
 import org.jetbrains.kotlin.types.Variance
+import org.jetbrains.kotlin.utils.addIfNotNull
 import org.jetbrains.kotlin.utils.addToStdlib.ifNotEmpty
 import org.jetbrains.kotlin.utils.yieldIfNotNull
 
@@ -53,6 +58,7 @@ internal object KDocReferenceResolver {
      * @param selectedFqName the selected fully qualified name of the KDoc
      * @param fullFqName the whole fully qualified name of the KDoc
      * @param contextElement the context element in which the KDoc is defined
+     * @param containedTagSection the containing KDoc tag section (@constructor, @param, @property, etc.)
      *
      * @return the set of [KaSymbol](s) resolved from the fully qualified name
      *         based on the selected FqName and context element
@@ -62,13 +68,14 @@ internal object KDocReferenceResolver {
         selectedFqName: FqName,
         fullFqName: FqName,
         contextElement: KtElement,
+        containedTagSection: KDocKnownTag? = null
     ): Set<KaSymbol> {
         with(analysisSession) {
             //ensure file context is provided for "non-physical" code as well
             val contextDeclarationOrSelf = PsiTreeUtil.getContextOfType(contextElement, KtDeclaration::class.java, false)
                 ?: contextElement
             val fullSymbolsResolved =
-                resolveKdocFqName(fullFqName, contextDeclarationOrSelf)
+                resolveKdocFqName(fullFqName, contextDeclarationOrSelf, containedTagSection)
             if (selectedFqName == fullFqName) return fullSymbolsResolved.map { it.symbol }.toSet()
             if (fullSymbolsResolved.none()) {
                 val parent = fullFqName.parent()
@@ -155,7 +162,8 @@ internal object KDocReferenceResolver {
      */
     private fun KaSession.resolveKdocFqName(
         fqName: FqName,
-        contextElement: KtElement
+        contextElement: KtElement,
+        containedTagSection: KDocKnownTag?
     ): List<ResolveResult> {
         val shortName = fqName.shortName()
         if (fqName.isOneSegmentFQN()) {
@@ -163,13 +171,21 @@ internal object KDocReferenceResolver {
             getExtensionReceiverSymbolByThisQualifier(shortName, contextElement).ifNotEmpty { return this.toResolveResults() }
 
             // Search for symbols from the context declaration (self-links)
-            getSymbolsFromDeclaration(
+            getSymbolsFromContextDeclaration(
                 shortName,
                 contextElement,
+                containedTagSection
             ).ifNotEmpty { return this.toResolveResults() }
         }
-        val containingFile = contextElement.containingKtFile
-        val scopeContext = containingFile.scopeContext(contextElement)
+
+        // This is a workaround to shadow symbols from the secondary constructor in the resulting scope sequence.
+        // Context scopes of `KtSecondaryConstructor` contain parameters of this secondary constructor.
+        // To only allow these symbols to be seen inside @param/@constructor blocks, these symbols need to be handled only in `getSymbolsFromContextDeclaration`;
+        // here we have to adjust the position the scope context is taken for.
+        val adjustedContextElement = (contextElement as? KtConstructor<*>)?.containingClassOrObject ?: contextElement
+
+        val containingFile = adjustedContextElement.containingKtFile
+        val scopeContext = containingFile.scopeContext(adjustedContextElement)
         val scopeContextScopes = scopeContext.scopes.map { it.scope }
 
         val allScopesPossiblyContainingName = sequence {
@@ -267,30 +283,88 @@ internal object KDocReferenceResolver {
         return emptyList()
     }
 
-    private fun KaSession.getSymbolsFromDeclaration(name: Name, owner: KtElement): List<KaSymbol> = buildList {
-        if (owner is KtNamedDeclaration) {
-            if (owner.nameAsName == name) {
-                add(owner.symbol)
-            }
+    /**
+     * Retrieves suitable symbols from [contextElement].
+     *
+     * Note that [containedTagSection] directly affects the search result.
+     *
+     * - `@constructor` makes the constructor parameters symbols visible, then prioritizes them in the resulting collection.
+     *      This also makes the constructor symbol visible if the context element is a class.
+     *      Otherwise, when the context element itself is a constructor, the constructor symbol is always visible.
+     * - `@param` prioritizes parameters.
+     *      When attached to a primary constructor, makes the constructor symbol and its parameter symbols visible, then prioritizes them.
+     * - `@property` prioritizes properties.
+     *
+     * See this [KEEP on self-links](https://github.com/Kotlin/KEEP/blob/kdoc/Streamline-KDoc-ambiguity-references/proposals/kdoc/streamline-KDoc-ambiguity-references.md#self-links) for more details.
+     */
+    private fun KaSession.getSymbolsFromContextDeclaration(
+        name: Name,
+        contextElement: KtElement,
+        containedTagSection: KDocKnownTag?
+    ): List<KaSymbol> = buildList {
+        if (contextElement !is KtDeclaration) {
+            return@buildList
         }
-        if (owner is KtTypeParameterListOwner) {
-            for (typeParameter in owner.typeParameters) {
-                if (typeParameter.nameAsName == name) {
-                    add(typeParameter.symbol)
+
+        val isConstructorVisible = containedTagSection == KDocKnownTag.CONSTRUCTOR || containedTagSection == KDocKnownTag.PARAM
+
+        fun collectParametersAndProperties(declaration: KtDeclaration) {
+            if (declaration is KtTypeParameterListOwner) {
+                for (typeParameter in declaration.typeParameters) {
+                    if (typeParameter.nameAsName == name) {
+                        add(typeParameter.symbol)
+                    }
                 }
             }
-        }
-        if (owner is KtCallableDeclaration) {
-            for (typeParameter in owner.valueParameters) {
-                if (typeParameter.nameAsName == name) {
-                    add(typeParameter.symbol)
+
+            if (declaration is KtCallableDeclaration) {
+                for (valueParameter in declaration.valueParameters) {
+                    val valueParameterName = valueParameter.nameAsName
+                    if (valueParameterName != name) {
+                        continue
+                    }
+
+                    if (valueParameter.isPropertyParameter()) {
+                        val propertyByConstructorParameter =
+                            declaration.containingClass()?.classSymbol?.declaredMemberScope?.callables?.firstOrNull { callable ->
+                                callable is KaPropertySymbol && callable.isFromPrimaryConstructor && callable.name == valueParameterName
+                            }
+                        addIfNotNull(propertyByConstructorParameter)
+                    }
+
+                    if (declaration !is KtConstructor<*> || isConstructorVisible) {
+                        add(valueParameter.symbol)
+                    }
                 }
             }
         }
 
-        if (owner is KtClassOrObject) {
-            owner.primaryConstructor?.let { addAll(getSymbolsFromDeclaration(name, it)) }
+        if ((contextElement as? KtNamedDeclaration)?.nameAsName == name) {
+            add(contextElement.symbol)
         }
+
+        collectParametersAndProperties(contextElement)
+
+        if (contextElement is KtClassOrObject) {
+            val primaryConstructor = contextElement.primaryConstructor ?: return@buildList
+
+            if (contextElement.nameAsName == name && isConstructorVisible) {
+                addIfNotNull(primaryConstructor.symbol)
+            }
+
+            collectParametersAndProperties(primaryConstructor)
+        }
+    }.let { symbols ->
+        selfDeclarationsComparator(containedTagSection)?.let { comparator ->
+            symbols.sortedWith(comparator)
+        } ?: symbols
+    }
+
+    private fun selfDeclarationsComparator(containedTagSection: KDocKnownTag?) = when (containedTagSection) {
+        KDocKnownTag.CONSTRUCTOR -> compareByDescending<KaSymbol> { it is KaConstructorSymbol }.thenByDescending { it is KaParameterSymbol }
+        KDocKnownTag.PARAM -> compareByDescending<KaSymbol> { it is KaParameterSymbol }.thenByDescending { it is KaConstructorSymbol }
+        KDocKnownTag.PROPERTY -> compareByDescending { it is KaPropertySymbol }
+        else -> null
     }
 
     private fun KaSession.getCompositeCombinedMemberAndCompanionObjectScope(symbol: KaDeclarationContainerSymbol): KaScope =
