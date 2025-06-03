@@ -143,32 +143,31 @@ fun IElementType.toUnaryName(): Name? {
 fun IElementType.toFirOperation(): FirOperation =
     toFirOperationOrNull() ?: error("Cannot convert element type to FIR operation: $this")
 
-fun IElementType.toFirOperationOrNull(): FirOperation? =
-    when (this) {
-        KtTokens.LT -> FirOperation.LT
-        KtTokens.GT -> FirOperation.GT
-        KtTokens.LTEQ -> FirOperation.LT_EQ
-        KtTokens.GTEQ -> FirOperation.GT_EQ
-        KtTokens.EQEQ -> FirOperation.EQ
-        KtTokens.EXCLEQ -> FirOperation.NOT_EQ
-        KtTokens.EQEQEQ -> FirOperation.IDENTITY
-        KtTokens.EXCLEQEQEQ -> FirOperation.NOT_IDENTITY
+fun IElementType.toFirOperationOrNull(): FirOperation? = ktTokenToFirOperationMap[this]
 
-        KtTokens.EQ -> FirOperation.ASSIGN
-        KtTokens.PLUSEQ -> FirOperation.PLUS_ASSIGN
-        KtTokens.MINUSEQ -> FirOperation.MINUS_ASSIGN
-        KtTokens.MULTEQ -> FirOperation.TIMES_ASSIGN
-        KtTokens.DIVEQ -> FirOperation.DIV_ASSIGN
-        KtTokens.PERCEQ -> FirOperation.REM_ASSIGN
+private val ktTokenToFirOperationMap = mapOf(
+    KtTokens.LT to FirOperation.LT,
+    KtTokens.GT to FirOperation.GT,
+    KtTokens.LTEQ to FirOperation.LT_EQ,
+    KtTokens.GTEQ to FirOperation.GT_EQ,
+    KtTokens.EQEQ to FirOperation.EQ,
+    KtTokens.EXCLEQ to FirOperation.NOT_EQ,
+    KtTokens.EQEQEQ to FirOperation.IDENTITY,
+    KtTokens.EXCLEQEQEQ to FirOperation.NOT_IDENTITY,
 
-        KtTokens.IS_KEYWORD -> FirOperation.IS
-        KtTokens.NOT_IS -> FirOperation.NOT_IS
+    KtTokens.EQ to FirOperation.ASSIGN,
+    KtTokens.PLUSEQ to FirOperation.PLUS_ASSIGN,
+    KtTokens.MINUSEQ to FirOperation.MINUS_ASSIGN,
+    KtTokens.MULTEQ to FirOperation.TIMES_ASSIGN,
+    KtTokens.DIVEQ to FirOperation.DIV_ASSIGN,
+    KtTokens.PERCEQ to FirOperation.REM_ASSIGN,
 
-        KtTokens.AS_KEYWORD -> FirOperation.AS
-        KtTokens.AS_SAFE -> FirOperation.SAFE_AS
+    KtTokens.IS_KEYWORD to FirOperation.IS,
+    KtTokens.NOT_IS to FirOperation.NOT_IS,
 
-        else -> null
-    }
+    KtTokens.AS_KEYWORD to FirOperation.AS,
+    KtTokens.AS_SAFE to FirOperation.SAFE_AS,
+)
 
 fun FirExpression.generateNotNullOrOther(
     other: FirExpression, baseSource: KtSourceElement?,
