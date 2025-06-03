@@ -80,7 +80,7 @@ fun escapedStringToCharacter(text: String): CharacterWithDiagnostic {
     when (escape.length) {
         0 -> {
             // bare slash
-            return CharacterWithDiagnostic(DiagnosticKind.IllegalEscape)
+            return illegalEscapeDiagnostic
         }
         1 -> {
             // one-char escape
@@ -97,21 +97,23 @@ fun escapedStringToCharacter(text: String): CharacterWithDiagnostic {
             }
         }
     }
-    return CharacterWithDiagnostic(DiagnosticKind.IllegalEscape)
+    return illegalEscapeDiagnostic
 }
 
-internal fun translateEscape(c: Char): CharacterWithDiagnostic =
-    when (c) {
-        't' -> CharacterWithDiagnostic('\t')
-        'b' -> CharacterWithDiagnostic('\b')
-        'n' -> CharacterWithDiagnostic('\n')
-        'r' -> CharacterWithDiagnostic('\r')
-        '\'' -> CharacterWithDiagnostic('\'')
-        '\"' -> CharacterWithDiagnostic('\"')
-        '\\' -> CharacterWithDiagnostic('\\')
-        '$' -> CharacterWithDiagnostic('$')
-        else -> CharacterWithDiagnostic(DiagnosticKind.IllegalEscape)
-    }
+internal fun translateEscape(c: Char): CharacterWithDiagnostic = escapeCharToChartedWithDiagnosticMap[c] ?: illegalEscapeDiagnostic
+
+private val escapeCharToChartedWithDiagnosticMap = mapOf(
+    't' to CharacterWithDiagnostic('\t'),
+    'b' to CharacterWithDiagnostic('\b'),
+    'n' to CharacterWithDiagnostic('\n'),
+    'r' to CharacterWithDiagnostic('\r'),
+    '\'' to CharacterWithDiagnostic('\''),
+    '\"' to CharacterWithDiagnostic('\"'),
+    '\\' to CharacterWithDiagnostic('\\'),
+    '$' to CharacterWithDiagnostic('$'),
+)
+
+private val illegalEscapeDiagnostic = CharacterWithDiagnostic(DiagnosticKind.IllegalEscape)
 
 class CharacterWithDiagnostic {
     private val diagnostic: DiagnosticKind?
