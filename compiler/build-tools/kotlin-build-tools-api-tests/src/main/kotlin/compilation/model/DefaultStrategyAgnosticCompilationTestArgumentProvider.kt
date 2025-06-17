@@ -5,31 +5,40 @@
 
 package org.jetbrains.kotlin.buildtools.api.tests.compilation.model
 
-import org.jetbrains.kotlin.buildtools.api.tests.BaseTest
+import org.jetbrains.kotlin.buildtools.api.CompilationService
+import org.jetbrains.kotlin.buildtools.api.tests.compilation.BaseCompilationTest
+import org.jetbrains.kotlin.buildtools.api.v2.KotlinToolchain
+import org.jetbrains.kotlin.buildtools.api.v2.internal.compat.KotlinToolchainV1Adapter
 import org.junit.jupiter.api.Named.named
 import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.ArgumentsProvider
 import java.util.stream.Stream
-import kotlin.streams.asStream
 
 class DefaultStrategyAgnosticCompilationTestArgumentProvider : ArgumentsProvider {
     override fun provideArguments(context: ExtensionContext): Stream<out Arguments> {
-        return namedStrategyArguments().map { Arguments.of(it) }.asStream()
+        return namedStrategyArguments().map { Arguments.of(it) }.stream()
     }
 
     companion object {
-        fun namedStrategyArguments() = BaseTest.compilationService.let { compilationService ->
-            sequenceOf(
-                named(
-                    "in-process",
-                    compilationService.makeCompilerExecutionStrategyConfiguration().useInProcessStrategy()
-                ),
-                named(
-                    "within daemon",
-                    compilationService.makeCompilerExecutionStrategyConfiguration().useDaemonStrategy(emptyList())
-                ),
+        fun namedStrategyArguments(): List<Arguments> {
+            val kotlinToolchain = KotlinToolchain.loadImplementation(BaseCompilationTest::class.java.classLoader)
+            val kotlinToolchainV1Adapter =
+                KotlinToolchainV1Adapter(CompilationService.loadImplementation(BaseCompilationTest::class.java.classLoader))
+            val v1Args = listOf(
+                named("[v1]", kotlinToolchainV1Adapter) to named("in-process", kotlinToolchainV1Adapter.createInProcessExecutionPolicy()),
+                named("[v1]", kotlinToolchainV1Adapter) to named("within daemon", kotlinToolchainV1Adapter.createDaemonExecutionPolicy())
             )
+            val v2Args = if (kotlinToolchainV1Adapter::class == kotlinToolchain::class) {
+                emptyList()
+            } else {
+                listOf(
+                    named("[v2]", kotlinToolchain) to named("in-process", kotlinToolchain.createInProcessExecutionPolicy()),
+                    named("[v2]", kotlinToolchain) to named("within daemon", kotlinToolchain.createDaemonExecutionPolicy())
+                )
+            }
+
+            return (v1Args + v2Args).map { Arguments.of(it.first, it.second) }
         }
     }
 }

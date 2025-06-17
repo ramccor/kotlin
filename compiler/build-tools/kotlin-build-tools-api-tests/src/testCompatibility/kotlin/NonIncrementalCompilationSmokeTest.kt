@@ -5,11 +5,12 @@
 
 package org.jetbrains.kotlin.buildtools.api.tests
 
-import org.jetbrains.kotlin.buildtools.api.CompilerExecutionStrategyConfiguration
 import org.jetbrains.kotlin.buildtools.api.tests.compilation.BaseCompilationTest
 import org.jetbrains.kotlin.buildtools.api.tests.compilation.assertions.assertOutputs
 import org.jetbrains.kotlin.buildtools.api.tests.compilation.model.DefaultStrategyAgnosticCompilationTest
 import org.jetbrains.kotlin.buildtools.api.tests.compilation.model.project
+import org.jetbrains.kotlin.buildtools.api.v2.ExecutionPolicy
+import org.jetbrains.kotlin.buildtools.api.v2.KotlinToolchain
 import org.jetbrains.kotlin.test.TestMetadata
 import org.junit.jupiter.api.DisplayName
 
@@ -17,8 +18,8 @@ class NonIncrementalCompilationSmokeTest : BaseCompilationTest() {
     @DisplayName("Non-incremental compilation produces only expected outputs in multi-module setup")
     @DefaultStrategyAgnosticCompilationTest
     @TestMetadata("jvm-module-1")
-    fun multiModule(strategyConfig: CompilerExecutionStrategyConfiguration) {
-        project(strategyConfig) {
+    fun multiModule(kotlinToolchain: KotlinToolchain, executionPolicy: ExecutionPolicy) {
+        project(kotlinToolchain, executionPolicy) {
             val module1 = module("jvm-module-1")
             val module2 = module("jvm-module-2", listOf(module1))
 

@@ -5,17 +5,23 @@
 
 package org.jetbrains.kotlin.buildtools.api.tests.compilation
 
-import org.jetbrains.kotlin.buildtools.api.CompilerExecutionStrategyConfiguration
 import org.jetbrains.kotlin.buildtools.api.tests.compilation.assertions.assertCompiledSources
 import org.jetbrains.kotlin.buildtools.api.tests.compilation.assertions.assertNoCompiledSources
-import org.jetbrains.kotlin.buildtools.api.tests.compilation.scenario.scenario
 import org.jetbrains.kotlin.buildtools.api.tests.compilation.model.DefaultStrategyAgnosticCompilationTest
+import org.jetbrains.kotlin.buildtools.api.tests.compilation.model.Module
 import org.jetbrains.kotlin.buildtools.api.tests.compilation.scenario.assertAddedOutputs
 import org.jetbrains.kotlin.buildtools.api.tests.compilation.scenario.assertNoOutputSetChanges
 import org.jetbrains.kotlin.buildtools.api.tests.compilation.scenario.assertRemovedOutputs
+import org.jetbrains.kotlin.buildtools.api.tests.compilation.scenario.scenario
+import org.jetbrains.kotlin.buildtools.api.v2.ExecutionPolicy
+import org.jetbrains.kotlin.buildtools.api.v2.KotlinToolchain
+import org.jetbrains.kotlin.buildtools.api.v2.jvm.JvmIncrementalCompilationConfiguration
+import org.jetbrains.kotlin.buildtools.api.v2.jvm.JvmSnapshotBasedIncrementalCompilationConfiguration
+import org.jetbrains.kotlin.buildtools.api.v2.jvm.JvmSnapshotBasedIncrementalCompilationOptions
+import org.jetbrains.kotlin.buildtools.api.v2.jvm.JvmSnapshotBasedIncrementalCompilationOptions.Companion.KEEP_IC_CACHES_IN_MEMORY
 import org.jetbrains.kotlin.test.TestMetadata
 import org.junit.jupiter.api.DisplayName
-import java.util.UUID
+import java.util.*
 import kotlin.random.Random
 
 /**
@@ -25,8 +31,8 @@ class ExampleIncrementalScenarioTest : BaseCompilationTest() {
     @DefaultStrategyAgnosticCompilationTest
     @DisplayName("Sample scenario DSL IC test with a single module")
     @TestMetadata("jvm-module-1")
-    fun testScenario1(strategyConfig: CompilerExecutionStrategyConfiguration) {
-        scenario(strategyConfig) {
+    fun testScenario1(kotlinToolchain: KotlinToolchain, executionPolicy: ExecutionPolicy) {
+        scenario(kotlinToolchain, executionPolicy) {
             val module1 = module("jvm-module-1")
             // at this moment, the module is already initially built and ready for further incremental compilations
 
@@ -61,10 +67,15 @@ class ExampleIncrementalScenarioTest : BaseCompilationTest() {
     @DisplayName("Another sample scenario DSL IC test with a single module and custom IC options")
     @DefaultStrategyAgnosticCompilationTest
     @TestMetadata("jvm-module-1")
-    fun testScenario2(strategyConfig: CompilerExecutionStrategyConfiguration) {
-        scenario(strategyConfig) {
+    fun testScenario2(kotlinToolchain: KotlinToolchain, executionPolicy: ExecutionPolicy) {
+        scenario(kotlinToolchain, executionPolicy) {
             // compilation options may be modified
-            val module1 = module("jvm-module-1", incrementalCompilationOptionsModifier = { it.keepIncrementalCompilationCachesInMemory(false) })
+            val module1 = module(
+                "jvm-module-1",
+                incrementalCompilationOptionsModifier = {
+                    (it as JvmSnapshotBasedIncrementalCompilationConfiguration).options[KEEP_IC_CACHES_IN_MEMORY] = false
+                },
+            )
 
             module1.createFile(
                 "foobar.kt",
@@ -93,8 +104,8 @@ class ExampleIncrementalScenarioTest : BaseCompilationTest() {
     @DisplayName("Sample scenario DSL IC test with two modules")
     @DefaultStrategyAgnosticCompilationTest
     @TestMetadata("jvm-module-1")
-    fun testScenario3(strategyConfig: CompilerExecutionStrategyConfiguration) {
-        scenario(strategyConfig) {
+    fun testScenario3(kotlinToolchain: KotlinToolchain, executionPolicy: ExecutionPolicy) {
+        scenario(kotlinToolchain, executionPolicy) {
             val module1 = module("jvm-module-1")
             val module2 = module("jvm-module-2", listOf(module1))
 
@@ -124,8 +135,8 @@ class ExampleIncrementalScenarioTest : BaseCompilationTest() {
     @DefaultStrategyAgnosticCompilationTest
     @DisplayName("Sample scenario DSL IC test with versioned source file modification")
     @TestMetadata("jvm-module-1")
-    fun testScenario4(strategyConfig: CompilerExecutionStrategyConfiguration) {
-        scenario(strategyConfig) {
+    fun testScenario4(kotlinToolchain: KotlinToolchain, executionPolicy: ExecutionPolicy) {
+        scenario(kotlinToolchain, executionPolicy) {
             val module1 = module("jvm-module-1")
 
             // replaces bar.kt with bar.kt.1
@@ -141,8 +152,8 @@ class ExampleIncrementalScenarioTest : BaseCompilationTest() {
     @DefaultStrategyAgnosticCompilationTest
     @DisplayName("Sample scenario DSL IC test with versioned source file creation")
     @TestMetadata("jvm-module-1")
-    fun testScenario5(strategyConfig: CompilerExecutionStrategyConfiguration) {
-        scenario(strategyConfig) {
+    fun testScenario5(kotlinToolchain: KotlinToolchain, executionPolicy: ExecutionPolicy) {
+        scenario(kotlinToolchain, executionPolicy) {
             val module1 = module("jvm-module-1")
 
             // creates secret.kt from secret.kt.1

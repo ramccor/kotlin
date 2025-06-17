@@ -6,11 +6,11 @@
 package org.jetbrains.kotlin.buildtools.api.tests.compilation.model
 
 import org.jetbrains.kotlin.buildtools.api.CompilationResult
-import org.jetbrains.kotlin.buildtools.api.CompilerExecutionStrategyConfiguration
 import org.jetbrains.kotlin.buildtools.api.SourcesChanges
-import org.jetbrains.kotlin.buildtools.api.jvm.IncrementalJvmCompilationConfiguration
-import org.jetbrains.kotlin.buildtools.api.jvm.JvmCompilationConfiguration
 import org.jetbrains.kotlin.buildtools.api.tests.compilation.model.Module.Companion.EXECUTION_TIMEOUT_SECONDS
+import org.jetbrains.kotlin.buildtools.api.v2.ExecutionPolicy
+import org.jetbrains.kotlin.buildtools.api.v2.jvm.JvmSnapshotBasedIncrementalCompilationConfiguration
+import org.jetbrains.kotlin.buildtools.api.v2.jvm.operations.JvmCompilationOperation
 import java.nio.file.Path
 
 interface Module : Dependency {
@@ -20,7 +20,7 @@ interface Module : Dependency {
     /**
      * Compiler arguments in the format of the Kotlin compiler CLI
      */
-    val additionalCompilationArguments: List<String>
+    val compilationOperationConfig: (JvmCompilationOperation) -> Unit
 
     /**
      * Directory containing all the source (.kt) files of the module
@@ -47,22 +47,22 @@ interface Module : Dependency {
      */
     val icCachesDir: Path
 
-    val defaultStrategyConfig: CompilerExecutionStrategyConfiguration
+    val defaultStrategyConfig: ExecutionPolicy
 
     fun compile(
-        strategyConfig: CompilerExecutionStrategyConfiguration = defaultStrategyConfig,
+        strategyConfig: ExecutionPolicy = defaultStrategyConfig,
         forceOutput: LogLevel? = null,
-        compilationConfigAction: (JvmCompilationConfiguration) -> Unit = {},
+        compilationConfigAction: (JvmCompilationOperation) -> Unit = {},
         assertions: CompilationOutcome.(Module) -> Unit = {},
     ): CompilationResult
 
     fun compileIncrementally(
         sourcesChanges: SourcesChanges,
-        strategyConfig: CompilerExecutionStrategyConfiguration = defaultStrategyConfig,
+        strategyConfig: ExecutionPolicy = defaultStrategyConfig,
         forceOutput: LogLevel? = null,
         forceNonIncrementalCompilation: Boolean = false,
-        compilationConfigAction: (JvmCompilationConfiguration) -> Unit = {},
-        incrementalCompilationConfigAction: (IncrementalJvmCompilationConfiguration<*>) -> Unit = {},
+        compilationConfigAction: (JvmCompilationOperation) -> Unit = {},
+        incrementalCompilationConfigAction: (JvmSnapshotBasedIncrementalCompilationConfiguration) -> Unit = {},
         assertions: CompilationOutcome.(module: Module) -> Unit = {},
     ): CompilationResult
 

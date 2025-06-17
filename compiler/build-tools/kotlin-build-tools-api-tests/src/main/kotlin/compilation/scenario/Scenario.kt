@@ -6,10 +6,10 @@
 package org.jetbrains.kotlin.buildtools.api.tests.compilation.scenario
 
 import org.jetbrains.kotlin.buildtools.api.jvm.ClassSnapshotGranularity
-import org.jetbrains.kotlin.buildtools.api.jvm.IncrementalJvmCompilationConfiguration
-import org.jetbrains.kotlin.buildtools.api.jvm.JvmCompilationConfiguration
-import org.jetbrains.kotlin.buildtools.api.tests.compilation.model.Module
 import org.jetbrains.kotlin.buildtools.api.tests.compilation.model.SnapshotConfig
+import org.jetbrains.kotlin.buildtools.api.v2.JvmCompilerArguments
+import org.jetbrains.kotlin.buildtools.api.v2.jvm.JvmIncrementalCompilationConfiguration
+import org.jetbrains.kotlin.buildtools.api.v2.jvm.operations.JvmCompilationOperation
 
 interface Scenario {
     /**
@@ -31,9 +31,9 @@ interface Scenario {
         moduleName: String,
         dependencies: List<ScenarioModule> = emptyList(),
         snapshotConfig: SnapshotConfig = SnapshotConfig(ClassSnapshotGranularity.CLASS_MEMBER_LEVEL, true),
-        additionalCompilationArguments: List<String> = emptyList(),
-        compilationOptionsModifier: ((JvmCompilationConfiguration) -> Unit)? = null,
-        incrementalCompilationOptionsModifier: ((IncrementalJvmCompilationConfiguration<*>) -> Unit)? = null,
+        compilationOperationConfig: (JvmCompilationOperation) -> Unit = {},
+        compilationOptionsModifier: ((JvmCompilationOperation) -> Unit)? = null,
+        incrementalCompilationOptionsModifier: ((JvmIncrementalCompilationConfiguration) -> Unit)? = null,
     ): ScenarioModule
 
     /**
@@ -57,8 +57,8 @@ interface Scenario {
         moduleName: String,
         dependencies: List<ScenarioModule> = emptyList(),
         snapshotConfig: SnapshotConfig = SnapshotConfig(ClassSnapshotGranularity.CLASS_MEMBER_LEVEL, true),
-        additionalCompilationArguments: List<String> = emptyList(),
-        compilationOptionsModifier: ((JvmCompilationConfiguration) -> Unit)? = null,
-        incrementalCompilationOptionsModifier: ((IncrementalJvmCompilationConfiguration<*>) -> Unit)? = null,
+        compilationOperationConfig: (JvmCompilationOperation) -> Unit = {},
+        compilationOptionsModifier: ((JvmCompilationOperation) -> Unit)? = null,
+        incrementalCompilationOptionsModifier: ((JvmIncrementalCompilationConfiguration) -> Unit)? = null,
     ): ScenarioModule
 }

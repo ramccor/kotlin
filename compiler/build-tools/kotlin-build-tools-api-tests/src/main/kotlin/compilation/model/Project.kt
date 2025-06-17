@@ -5,20 +5,22 @@
 
 package org.jetbrains.kotlin.buildtools.api.tests.compilation.model
 
-import org.jetbrains.kotlin.buildtools.api.CompilerExecutionStrategyConfiguration
 import org.jetbrains.kotlin.buildtools.api.ProjectId
 import org.jetbrains.kotlin.buildtools.api.jvm.ClassSnapshotGranularity
-import org.jetbrains.kotlin.buildtools.api.tests.BaseTest
 import org.jetbrains.kotlin.buildtools.api.tests.compilation.BaseCompilationTest
+import org.jetbrains.kotlin.buildtools.api.v2.ExecutionPolicy
+import org.jetbrains.kotlin.buildtools.api.v2.JvmCompilerArguments
+import org.jetbrains.kotlin.buildtools.api.v2.KotlinToolchain
+import org.jetbrains.kotlin.buildtools.api.v2.jvm.operations.JvmCompilationOperation
 import java.nio.file.Path
 import java.nio.file.Paths
-import java.util.*
 import kotlin.io.path.copyToRecursively
 import kotlin.io.path.createDirectories
 import kotlin.io.path.isDirectory
 
 class Project(
-    val defaultStrategyConfig: CompilerExecutionStrategyConfiguration,
+    val kotlinToolchain: KotlinToolchain,
+    val defaultStrategyConfig: ExecutionPolicy,
     val projectDirectory: Path,
 ) {
     val projectId = ProjectId.RandomProjectUUID()
@@ -28,18 +30,19 @@ class Project(
         moduleName: String,
         dependencies: List<Module> = emptyList(),
         snapshotConfig: SnapshotConfig = SnapshotConfig(ClassSnapshotGranularity.CLASS_MEMBER_LEVEL, true),
-        additionalCompilationArguments: List<String> = emptyList(),
+        compilationOperationConfig: (JvmCompilationOperation) -> Unit = {},
     ): Module {
         val moduleDirectory = projectDirectory.resolve(moduleName)
         val sanitizedModuleName = moduleName.replace(invalidModuleNameCharactersRegex, "_")
         val module = JvmModule(
+            kotlinToolchain = kotlinToolchain,
             project = this,
             moduleName = sanitizedModuleName,
             moduleDirectory = moduleDirectory,
             dependencies = dependencies,
             defaultStrategyConfig = defaultStrategyConfig,
             snapshotConfig = snapshotConfig,
-            additionalCompilationArguments = additionalCompilationArguments
+            compilationOperationConfig = compilationOperationConfig
         )
         module.sourcesDirectory.createDirectories()
         val templatePath = Paths.get("src/main/resources/modules/$moduleName")
@@ -51,12 +54,12 @@ class Project(
     }
 
     fun endCompilationRound() {
-        BaseTest.compilationService.finishProjectCompilation(projectId)
+        kotlinToolchain.finishBuild(projectId)
     }
 }
 
-fun BaseCompilationTest.project(strategyConfig: CompilerExecutionStrategyConfiguration, action: Project.() -> Unit) {
-    Project(strategyConfig, workingDirectory).apply {
+fun BaseCompilationTest.project(kotlinToolchain: KotlinToolchain, strategyConfig: ExecutionPolicy, action: Project.() -> Unit) {
+    Project(kotlinToolchain, strategyConfig, workingDirectory).apply {
         action()
         endCompilationRound()
     }

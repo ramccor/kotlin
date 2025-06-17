@@ -6,11 +6,17 @@
 package org.jetbrains.kotlin.buildtools.api.tests.compilation.util
 
 import org.jetbrains.kotlin.buildtools.api.jvm.ClassSnapshotGranularity
-import org.jetbrains.kotlin.buildtools.api.jvm.ClasspathSnapshotBasedIncrementalJvmCompilationConfiguration
 import org.jetbrains.kotlin.buildtools.api.tests.compilation.model.SnapshotConfig
 import org.jetbrains.kotlin.buildtools.api.tests.compilation.scenario.Scenario
 import org.jetbrains.kotlin.buildtools.api.tests.compilation.scenario.ScenarioModule
-
+import org.jetbrains.kotlin.buildtools.api.v2.CommonCompilerArguments
+import org.jetbrains.kotlin.buildtools.api.v2.ExperimentalCompilerArgument
+import org.jetbrains.kotlin.buildtools.api.v2.JvmCompilerArguments
+import org.jetbrains.kotlin.buildtools.api.v2.jvm.JvmSnapshotBasedIncrementalCompilationConfiguration
+import org.jetbrains.kotlin.buildtools.api.v2.jvm.JvmSnapshotBasedIncrementalCompilationOptions
+import org.jetbrains.kotlin.buildtools.api.v2.jvm.JvmSnapshotBasedIncrementalCompilationOptions.Companion.USE_FIR_RUNNER
+import org.jetbrains.kotlin.buildtools.api.v2.jvm.operations.JvmCompilationOperation
+import org.jetbrains.kotlin.buildtools.api.v2.jvm.operations.JvmCompilationOperation.Companion.INCREMENTAL_COMPILATION
 
 fun Scenario.moduleWithoutInlineSnapshotting(
     moduleName: String,
@@ -21,13 +27,15 @@ fun Scenario.moduleWithoutInlineSnapshotting(
     snapshotConfig = SnapshotConfig(ClassSnapshotGranularity.CLASS_MEMBER_LEVEL, false),
 )
 
+@OptIn(ExperimentalCompilerArgument::class)
 fun Scenario.moduleWithFir(
     moduleName: String,
-    additionalCompilerArguments: List<String> = emptyList()
+    compilationOperationConfig: (JvmCompilationOperation) -> Unit = {},
 ) = module(
     moduleName = moduleName,
-    additionalCompilationArguments = additionalCompilerArguments + listOf("-Xuse-fir-ic"),
-    incrementalCompilationOptionsModifier = { incrementalOptions ->
-        (incrementalOptions as ClasspathSnapshotBasedIncrementalJvmCompilationConfiguration).useFirRunner(true)
+    compilationOperationConfig = {
+        compilationOperationConfig(it)
+        it.compilerArguments[CommonCompilerArguments.Companion.X_USE_FIR_IC] = true
+        (it[INCREMENTAL_COMPILATION] as? JvmSnapshotBasedIncrementalCompilationConfiguration)?.options[USE_FIR_RUNNER] = true
     }
 )

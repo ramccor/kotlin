@@ -41,7 +41,7 @@ private class StrategyAgnosticSnapshotterTestArgumentProvider : ArgumentsProvide
                 Arguments.of(namedStrategyArg, ClassSnapshotGranularity.CLASS_MEMBER_LEVEL, named("ignore inlined classes", false)),
                 Arguments.of(namedStrategyArg, ClassSnapshotGranularity.CLASS_MEMBER_LEVEL, named("use inlined classes", true)),
             )
-        }.asStream()
+        }.stream()
     }
 }
 

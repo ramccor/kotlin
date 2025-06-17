@@ -5,13 +5,12 @@
 
 package org.jetbrains.kotlin.buildtools.api.tests.compilation
 
-import org.jetbrains.kotlin.buildtools.api.CompilerExecutionStrategyConfiguration
-import org.jetbrains.kotlin.buildtools.api.jvm.ClassSnapshotGranularity
 import org.jetbrains.kotlin.buildtools.api.tests.compilation.model.DefaultStrategyAgnosticCompilationTest
-import org.jetbrains.kotlin.buildtools.api.tests.compilation.model.SnapshotConfig
 import org.jetbrains.kotlin.buildtools.api.tests.compilation.scenario.scenario
 import org.jetbrains.kotlin.buildtools.api.tests.compilation.util.compile
 import org.jetbrains.kotlin.buildtools.api.tests.compilation.util.execute
+import org.jetbrains.kotlin.buildtools.api.v2.ExecutionPolicy
+import org.jetbrains.kotlin.buildtools.api.v2.KotlinToolchain
 import org.jetbrains.kotlin.test.TestMetadata
 import org.junit.jupiter.api.DisplayName
 
@@ -20,8 +19,8 @@ class RegularInlineFunTest : BaseCompilationTest() {
     @DefaultStrategyAgnosticCompilationTest
     @DisplayName("When regular inline function changes, its call site is recompiled")
     @TestMetadata("ic-scenarios/regular-inline-fun/basic-change/lib")
-    fun testBasicCase(strategyConfig: CompilerExecutionStrategyConfiguration) {
-        scenario(strategyConfig) {
+    fun testBasicCase(kotlinToolchain: KotlinToolchain, executionPolicy: ExecutionPolicy) {
+        scenario(kotlinToolchain, executionPolicy) {
             val lib = module("ic-scenarios/regular-inline-fun/basic-change/lib")
             val app = module(
                 "ic-scenarios/regular-inline-fun/basic-change/app",

@@ -691,6 +691,20 @@ public abstract class org/jetbrains/kotlin/buildtools/api/v2/internal/BaseOption
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class org/jetbrains/kotlin/buildtools/api/v2/internal/compat/KotlinToolchainV1Adapter : org/jetbrains/kotlin/buildtools/api/v2/KotlinToolchain {
+	public fun <init> (Lorg/jetbrains/kotlin/buildtools/api/CompilationService;)V
+	public fun createDaemonExecutionPolicy (Ljava/util/List;)Lorg/jetbrains/kotlin/buildtools/api/v2/ExecutionPolicy;
+	public fun createInProcessExecutionPolicy ()Lorg/jetbrains/kotlin/buildtools/api/v2/ExecutionPolicy;
+	public fun executeOperation (Lorg/jetbrains/kotlin/buildtools/api/v2/BuildOperation;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun executeOperation (Lorg/jetbrains/kotlin/buildtools/api/v2/BuildOperation;Lorg/jetbrains/kotlin/buildtools/api/v2/ExecutionPolicy;Lorg/jetbrains/kotlin/buildtools/api/KotlinLogger;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun finishBuild (Lorg/jetbrains/kotlin/buildtools/api/ProjectId;)V
+	public fun getCompilerVersion ()Ljava/lang/String;
+	public fun getJs ()Lorg/jetbrains/kotlin/buildtools/api/v2/js/JsPlatformToolchain;
+	public fun getJvm ()Lorg/jetbrains/kotlin/buildtools/api/v2/jvm/JvmPlatformToolchain;
+	public fun getNative ()Lorg/jetbrains/kotlin/buildtools/api/v2/native/NativePlatformToolchain;
+	public fun getWasm ()Lorg/jetbrains/kotlin/buildtools/api/v2/js/WasmPlatformToolchain;
+}
+
 public abstract interface class org/jetbrains/kotlin/buildtools/api/v2/js/JsPlatformToolchain {
 }
 

@@ -11,4 +11,3 @@ import org.jetbrains.kotlin.buildtools.api.ExperimentalBuildToolsApi
 public abstract class BaseOption<V>(public val id: String) {
     override fun toString(): String = id
 }
-

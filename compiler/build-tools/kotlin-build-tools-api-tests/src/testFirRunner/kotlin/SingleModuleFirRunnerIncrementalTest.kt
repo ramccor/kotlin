@@ -3,17 +3,25 @@
  * Use of this source code is governed by the Apache 2.0 license that can be found in the license/LICENSE.txt file.
  */
 
-import org.jetbrains.kotlin.buildtools.api.CompilerExecutionStrategyConfiguration
-import org.jetbrains.kotlin.buildtools.api.jvm.ClasspathSnapshotBasedIncrementalJvmCompilationConfiguration
-import org.jetbrains.kotlin.buildtools.api.tests.compilation.assertions.*
 import org.jetbrains.kotlin.buildtools.api.tests.compilation.BaseCompilationTest
+import org.jetbrains.kotlin.buildtools.api.tests.compilation.assertions.*
 import org.jetbrains.kotlin.buildtools.api.tests.compilation.model.DefaultStrategyAgnosticCompilationTest
+import org.jetbrains.kotlin.buildtools.api.tests.compilation.model.Module
 import org.jetbrains.kotlin.buildtools.api.tests.compilation.scenario.*
 import org.jetbrains.kotlin.buildtools.api.tests.compilation.util.moduleWithFir
-import org.junit.jupiter.api.DisplayName
+import org.jetbrains.kotlin.buildtools.api.v2.CommonCompilerArguments
+import org.jetbrains.kotlin.buildtools.api.v2.CommonCompilerArguments.Companion.LANGUAGE_VERSION
+import org.jetbrains.kotlin.buildtools.api.v2.ExecutionPolicy
+import org.jetbrains.kotlin.buildtools.api.v2.KotlinToolchain
+import org.jetbrains.kotlin.buildtools.api.v2.enums.KotlinVersion
+import org.jetbrains.kotlin.buildtools.api.v2.jvm.JvmSnapshotBasedIncrementalCompilationConfiguration
+import org.jetbrains.kotlin.buildtools.api.v2.jvm.JvmSnapshotBasedIncrementalCompilationOptions
+import org.jetbrains.kotlin.buildtools.api.v2.jvm.JvmSnapshotBasedIncrementalCompilationOptions.Companion.USE_FIR_RUNNER
+import org.jetbrains.kotlin.buildtools.api.v2.jvm.operations.JvmCompilationOperation.Companion.INCREMENTAL_COMPILATION
 import org.jetbrains.kotlin.test.TestMetadata
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.assertThrows
-import java.util.UUID
+import java.util.*
 
 
 @DisplayName("Single module IC scenarios for FIR runner")
@@ -22,8 +30,8 @@ class SingleModuleFirRunnerIncrementalTest : BaseCompilationTest() {
     @DefaultStrategyAgnosticCompilationTest
     @DisplayName("Adding and removing the class")
     @TestMetadata("jvm-module-1")
-    fun testScenario1(strategyConfig: CompilerExecutionStrategyConfiguration) {
-        scenario(strategyConfig) {
+    fun testScenario1(kotlinToolchain: KotlinToolchain, executionPolicy: ExecutionPolicy) {
+        scenario(kotlinToolchain, executionPolicy) {
             val module1 = moduleWithFir("jvm-module-1")
 
             val randomString = UUID.randomUUID().toString()
@@ -56,15 +64,17 @@ class SingleModuleFirRunnerIncrementalTest : BaseCompilationTest() {
     @DefaultStrategyAgnosticCompilationTest
     @DisplayName("Throws an exception on using LV 1.9")
     @TestMetadata("jvm-module-1")
-    fun testScenario2(strategyConfig: CompilerExecutionStrategyConfiguration) {
-        scenario(strategyConfig) {
+    fun testScenario2(kotlinToolchain: KotlinToolchain, executionPolicy: ExecutionPolicy) {
+        scenario(kotlinToolchain, executionPolicy) {
             assertThrows<IllegalStateException>(
                 message = "Compilation does not fail on LV 1.9"
             ) {
                 // Throws on initial compilation
                 moduleWithFir(
                     moduleName = "jvm-module-1",
-                    additionalCompilerArguments = listOf("-language-version=1.9")
+                    compilationOperationConfig = {
+                        it.compilerArguments[LANGUAGE_VERSION] = KotlinVersion.V1_9
+                    },
                 )
             }
         }
@@ -73,17 +83,17 @@ class SingleModuleFirRunnerIncrementalTest : BaseCompilationTest() {
     @DefaultStrategyAgnosticCompilationTest
     @DisplayName("Throws an exception on missing -Xuse-fir-ic")
     @TestMetadata("jvm-module-1")
-    fun testScenario3(strategyConfig: CompilerExecutionStrategyConfiguration) {
-        scenario(strategyConfig) {
+    fun testScenario3(kotlinToolchain: KotlinToolchain, executionPolicy: ExecutionPolicy) {
+        scenario(kotlinToolchain, executionPolicy) {
             assertThrows<IllegalStateException>(
                 message = "Compilation does not fail on missing -Xuse-fir-ic"
             ) {
                 // Throws on initial compilation
                 module(
                     moduleName = "jvm-module-1",
-                    incrementalCompilationOptionsModifier = { incrementalOptions ->
-                        (incrementalOptions as ClasspathSnapshotBasedIncrementalJvmCompilationConfiguration).useFirRunner(true)
-                    }
+                    compilationOperationConfig = {
+                        (it[INCREMENTAL_COMPILATION] as? JvmSnapshotBasedIncrementalCompilationConfiguration)?.options[USE_FIR_RUNNER] = true
+                    },
                 )
             }
         }
