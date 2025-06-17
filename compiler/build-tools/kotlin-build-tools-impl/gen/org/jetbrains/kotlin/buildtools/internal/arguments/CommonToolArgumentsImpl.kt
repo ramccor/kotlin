@@ -3,6 +3,7 @@
 package org.jetbrains.kotlin.buildtools.`internal`.arguments
 
 import kotlin.Any
+import kotlin.Boolean
 import kotlin.OptIn
 import kotlin.String
 import kotlin.Suppress
@@ -26,6 +27,8 @@ public open class CommonToolArgumentsImpl : ArgumentsCommonToolArguments {
   override operator fun <V> `set`(key: ArgumentsCommonToolArguments.CommonToolArgument<V>, `value`: V) {
     optionsMap[key.id] = `value`
   }
+
+  public operator fun contains(key: ArgumentsCommonToolArguments.CommonToolArgument<*>): Boolean = key.id in optionsMap
 
   @Suppress("DEPRECATION")
   public fun toCompilerArguments(arguments: CommonToolArguments): CommonToolArguments {
