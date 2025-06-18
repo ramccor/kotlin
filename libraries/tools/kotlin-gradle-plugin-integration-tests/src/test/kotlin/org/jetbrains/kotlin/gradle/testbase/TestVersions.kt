@@ -32,7 +32,7 @@ interface TestVersions {
         const val G_8_12 = "8.12.1"
         const val G_8_13 = "8.13"
         const val G_8_14 = "8.14"
-        const val G_9_0 = "9.0.0-milestone-9"
+        const val G_9_0 = "9.0.0-rc-1"
 
         /**
          * Check [org.jetbrains.kotlin.gradle.GradleCompatibilityIT.testIncompatibleGradleVersion]
