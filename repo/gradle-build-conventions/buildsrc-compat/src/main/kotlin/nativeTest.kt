@@ -314,6 +314,19 @@ fun Project.nativeTest(
             tag?.let { includeTags(it) }
         }
 
+        project.findProperty("kotlin.native.tests.patterns")?.toString()?.let { testPatterns ->
+            filter {
+                testPatterns.split(',').forEach { pattern ->
+                    includeTestsMatching(pattern)
+                }
+
+                // Someone might specify the 'kotlin.native.tests.patterns' property
+                // and run multiple test tasks, e.g. using `:nativeCompilerTest`.
+                // In this case, it is fine if some of those test tasks don't have any matching tests:
+                isFailOnNoMatchingTests = false
+            }
+        }
+
         if (!allowParallelExecution) {
             systemProperty("junit.jupiter.execution.parallel.enabled", "false")
         }
