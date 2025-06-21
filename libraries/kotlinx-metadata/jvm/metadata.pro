@@ -5,14 +5,13 @@
 -keep class kotlin.Metadata
 # -dontshrink
 
+-dontnote **
+
 -keepdirectories META-INF/**
 
--dontnote **
--dontwarn org.jetbrains.kotlin.**
+-keep public class kotlin.metadata.* { public protected *; }
+-keep public class kotlin.metadata.jvm.* { public protected *; }
+-keep class kotlin.metadata.jvm.internal.JvmMetadataExtensions
 
--keep public class kotlin.metadata.* { *; }
--keep public class kotlin.metadata.jvm.* { *; }
--keep public class kotlin.metadata.internal.* { *; }
--keep class org.jetbrains.kotlin.protobuf.** {
-    public protected *;
-}
+# Required for protobuf java lite mode: https://github.com/protocolbuffers/protobuf/issues/6463
+-keepclassmembers class * extends org.jetbrains.kotlin.protobuf.AbstractMessageLite { <fields>; }

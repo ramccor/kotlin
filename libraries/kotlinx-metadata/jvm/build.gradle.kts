@@ -1,3 +1,5 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
 description = "Kotlin JVM metadata manipulation library"
 group = "org.jetbrains.kotlin"
 
@@ -36,10 +38,7 @@ dependencies {
     testImplementation(libs.intellij.asm)
     testImplementation(commonDependency("org.jetbrains.kotlin:kotlin-reflect")) { isTransitive = false }
 
-    proguardLibraryJars(project(":kotlin-metadata"))
-    proguardLibraryJars(project(":core:metadata"))
-    proguardLibraryJars(project(":core:metadata.jvm"))
-    proguardLibraryJars(protobufLite())
+    proguardLibraryJars(kotlinStdlib())
 }
 
 kotlin {
@@ -61,22 +60,21 @@ val unshaded by task<Jar> {
 }
 project.addArtifact("unshaded", unshaded, unshaded)
 
-val runtimeJar = runtimeJarWithRelocation {
+val relocatedJar by task<ShadowJar> {
+    configurations = listOf(embedded)
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    destinationDirectory.set(layout.buildDirectory.dir("libs"))
+    archiveClassifier.set("shadow")
+
     from(mainSourceSet.output)
     exclude("**/*.proto")
     relocate("org.jetbrains.kotlin", "kotlin.metadata.internal")
-}.apply {
-    configure {
-        manifest {
-            attributes("Automatic-Module-Name" to "kotlin.metadata.jvm")
-        }
-    }
 }
 
 val proguard by task<CacheableProguardTask> {
-    dependsOn(runtimeJar)
+    dependsOn(relocatedJar)
 
-    injars(mapOf("filter" to "!META-INF/versions/**"), runtimeJar.get().outputs.files)
+    injars(mapOf("filter" to "!META-INF/versions/**"), relocatedJar.get().outputs.files)
     outjars(fileFrom(base.libsDirectory.asFile.get(), "${base.archivesName.get()}-$version-proguard.jar"))
 
     javaLauncher.set(project.getToolchainLauncherFor(JdkMajorVersion.JDK_1_8))
@@ -98,14 +96,23 @@ val proguard by task<CacheableProguardTask> {
 }
 
 val resultJar by task<Jar> {
-    val pack = if (kotlinBuildProperties.proguard) proguard else runtimeJar
+    val pack = if (kotlinBuildProperties.proguard) proguard else relocatedJar
     dependsOn(pack)
+    setupPublicJar(base.archivesName.get())
     from {
         zipTree(pack.get().singleOutputFile(layout))
+    }
+
+    manifest {
+        attributes("Automatic-Module-Name" to "kotlin.metadata.jvm")
     }
 }
 
 setPublishableArtifact(resultJar)
+
+tasks.apiBuild {
+    inputJar.value(resultJar.flatMap { it.archiveFile })
+}
 
 apiValidation {
     ignoredPackages.add("kotlin.metadata.internal")
