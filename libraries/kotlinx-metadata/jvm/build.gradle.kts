@@ -111,6 +111,7 @@ val resultJar by task<Jar> {
 setPublishableArtifact(resultJar)
 
 tasks.apiBuild {
+    dependsOn(tasks.jar)
     inputJar.value(resultJar.flatMap { it.archiveFile })
 }
 
