@@ -1793,6 +1793,20 @@ sealed interface KaFirDiagnostic<PSI : PsiElement> : KaDiagnosticWithPsi<PSI> {
         val extraMessage: String
     }
 
+    interface UpperBoundViolatedInTypeOperatorOrParameterBoundsError : KaFirDiagnostic<PsiElement> {
+        override val diagnosticClass get() = UpperBoundViolatedInTypeOperatorOrParameterBoundsError::class
+        val expectedUpperBound: KaType
+        val actualUpperBound: KaType
+        val extraMessage: String
+    }
+
+    interface UpperBoundViolatedInTypeOperatorOrParameterBoundsWarning : KaFirDiagnostic<PsiElement> {
+        override val diagnosticClass get() = UpperBoundViolatedInTypeOperatorOrParameterBoundsWarning::class
+        val expectedUpperBound: KaType
+        val actualUpperBound: KaType
+        val extraMessage: String
+    }
+
     interface UpperBoundViolatedInTypealiasExpansion : KaFirDiagnostic<PsiElement> {
         override val diagnosticClass get() = UpperBoundViolatedInTypealiasExpansion::class
         val expectedUpperBound: KaType
