@@ -5,7 +5,7 @@ import lib.foo
 fun box() = abiTest {
     expectFailure(
         linkage(
-            "Function 'foo' can not be called: No function found for symbol 'lib/foo|foo(kotlin.Int){}[100]'." +
+            "Function 'foo' can not be called: No function found for symbol 'lib/foo'." +
                     " This looks like a cinterop-generated library issue. It could happen if there is a cinterop dependency" +
                     " generated with a different version of the Kotlin/Native compiler than the version used to compile this binary." +
                     " Please check that the project configuration is correct and has consistent versions of all required dependencies." +
