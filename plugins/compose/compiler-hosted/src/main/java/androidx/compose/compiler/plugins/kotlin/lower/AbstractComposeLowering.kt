@@ -31,6 +31,7 @@ import org.jetbrains.kotlin.builtins.PrimitiveType
 import org.jetbrains.kotlin.descriptors.ClassKind
 import org.jetbrains.kotlin.descriptors.DescriptorVisibilities
 import org.jetbrains.kotlin.descriptors.Modality
+import org.jetbrains.kotlin.descriptors.Visibilities
 import org.jetbrains.kotlin.fir.backend.FirMetadataSource
 import org.jetbrains.kotlin.fir.declarations.utils.klibSourceFile
 import org.jetbrains.kotlin.fir.lazy.Fir2IrLazyClass
@@ -124,21 +125,32 @@ abstract class AbstractComposeLowering(
 
     fun IrType.defaultParameterType(): IrType {
         val type = this
-        val constructorAccessible = !type.isPrimitiveType() &&
-                type.classOrNull?.owner?.primaryConstructor != null
+
         return when {
             type.isPrimitiveType() -> type
-            type.isInlineClassType() -> if (context.platform.isJvm() || constructorAccessible) {
-                if (type.unboxInlineClass().isPrimitiveType()) {
-                    type
+            type.isInlineClassType() -> {
+                val clazz = type.classOrNull?.owner
+                val primaryConstructor = clazz?.primaryConstructor
+                val classVisibility = clazz?.visibility?.delegate
+                val constructorVisibility = primaryConstructor?.visibility?.delegate
+
+                // if public type has private constructor, it is inaccessible for external uses,
+                // but private constructor for private type should be ok as far
+                // as we could not use that type in the first place
+                val constructorAccessible = (constructorVisibility != null && classVisibility != null
+                        && Visibilities.compare(constructorVisibility, classVisibility)?.let { it >= 0 } ?: false)
+                if (context.platform.isJvm() || constructorAccessible) {
+                    if (type.unboxInlineClass().isPrimitiveType()) {
+                        type
+                    } else {
+                        type.makeNullable()
+                    }
                 } else {
+                    // k/js and k/native: private constructors of value classes can be not accessible.
+                    // Therefore it won't be possible to create a "fake" default argument for calls.
+                    // Making it nullable allows to pass null.
                     type.makeNullable()
                 }
-            } else {
-                // k/js and k/native: private constructors of value classes can be not accessible.
-                // Therefore it won't be possible to create a "fake" default argument for calls.
-                // Making it nullable allows to pass null.
-                type.makeNullable()
             }
             else -> type.makeNullable()
         }
