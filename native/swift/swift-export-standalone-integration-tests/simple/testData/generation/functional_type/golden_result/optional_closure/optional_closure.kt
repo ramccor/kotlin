@@ -14,3 +14,19 @@ public fun __root___consume_opt_closure__TypesOfArguments__Swift_Optional_U28292
     }
     consume_opt_closure(__arg)
 }
+
+@ExportedBridge("__root___consume_producing_opt_closure__TypesOfArguments__Swift_Optional_U2829202D_U20Swift_Optional_U2829202D_U20Swift_Void____")
+public fun __root___consume_producing_opt_closure__TypesOfArguments__Swift_Optional_U2829202D_U20Swift_Optional_U2829202D_U20Swift_Void____(arg: kotlin.native.internal.NativePtr): Unit {
+    val __arg = if (arg == kotlin.native.internal.NativePtr.NULL) null else run {
+        val kotlinFun = convertBlockPtrToKotlinFunction<()->kotlin.native.internal.NativePtr>(arg);
+        {
+            if (kotlinFun() == kotlin.native.internal.NativePtr.NULL) null else run {
+        val kotlinFun = convertBlockPtrToKotlinFunction<()->Unit>(kotlinFun());
+        {
+            kotlinFun()
+        }
+    }
+        }
+    }
+    consume_producing_opt_closure(__arg)
+}
