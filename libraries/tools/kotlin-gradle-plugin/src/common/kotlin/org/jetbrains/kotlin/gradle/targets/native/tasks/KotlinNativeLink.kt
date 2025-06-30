@@ -14,19 +14,13 @@ import org.gradle.api.file.ConfigurableFileCollection
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.file.FileCollection
 import org.gradle.api.model.ObjectFactory
-import org.gradle.api.provider.Property
 import org.gradle.api.provider.ListProperty
+import org.gradle.api.provider.Property
 import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.*
 import org.jetbrains.kotlin.cli.common.arguments.K2NativeCompilerArguments
 import org.jetbrains.kotlin.commonizer.KonanDistribution
-import org.jetbrains.kotlin.compilerRunner.ArgumentUtils
-import org.jetbrains.kotlin.compilerRunner.KotlinCompilerArgumentsLogLevel
-import org.jetbrains.kotlin.compilerRunner.addBuildMetricsForTaskAction
-import org.jetbrains.kotlin.compilerRunner.getKonanCacheKind
-import org.jetbrains.kotlin.compilerRunner.getKonanCacheOrchestration
-import org.jetbrains.kotlin.compilerRunner.getKonanParallelThreads
-import org.jetbrains.kotlin.compilerRunner.isKonanIncrementalCompilationEnabled
+import org.jetbrains.kotlin.compilerRunner.*
 import org.jetbrains.kotlin.gradle.dsl.*
 import org.jetbrains.kotlin.gradle.internal.UsesClassLoadersCachingBuildService
 import org.jetbrains.kotlin.gradle.internal.properties.nativeProperties
@@ -42,13 +36,14 @@ import org.jetbrains.kotlin.gradle.targets.native.UsesKonanPropertiesBuildServic
 import org.jetbrains.kotlin.gradle.targets.native.internal.getOriginalPlatformLibrariesFor
 import org.jetbrains.kotlin.gradle.targets.native.tasks.CompilerPluginData
 import org.jetbrains.kotlin.gradle.targets.native.toolchain.KotlinNativeFromToolchainProvider
-import org.jetbrains.kotlin.gradle.targets.native.toolchain.NoopKotlinNativeProvider
 import org.jetbrains.kotlin.gradle.targets.native.toolchain.KotlinNativeProvider
+import org.jetbrains.kotlin.gradle.targets.native.toolchain.NoopKotlinNativeProvider
 import org.jetbrains.kotlin.gradle.targets.native.toolchain.UsesKotlinNativeBundleBuildService
 import org.jetbrains.kotlin.gradle.utils.*
 import org.jetbrains.kotlin.internal.compilerRunner.native.KotlinNativeCompilerRunner
 import org.jetbrains.kotlin.internal.compilerRunner.native.KotlinNativeToolRunner
 import org.jetbrains.kotlin.konan.target.CompilerOutputKind
+import org.jetbrains.kotlin.konan.target.HostManager
 import org.jetbrains.kotlin.project.model.LanguageSettings
 import org.jetbrains.kotlin.util.capitalizeDecapitalize.toLowerCaseAsciiOnly
 import java.io.File
@@ -228,6 +223,15 @@ constructor(
 
     @get:Internal
     val apiFiles: ConfigurableFileCollection = objectFactory.fileCollection()
+
+    @Suppress("unused")
+    @get:Internal
+    val crossCompilationSupported: Provider<Boolean> = objectFactory.property<Boolean>().convention(
+        project.provider {
+            HostManager().isEnabled(binary.compilation.konanTarget) ||
+                    binary.compilation.target.compilations.none { it.cinterops.isNotEmpty() }
+        }
+    )
 
     @get:Internal
     internal val externalDependenciesBuildCompilerArgs: ListProperty<String> = objectFactory.listProperty<String>().empty()
