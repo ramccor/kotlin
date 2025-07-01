@@ -224,6 +224,12 @@ constructor(
     @get:Internal
     val apiFiles: ConfigurableFileCollection = objectFactory.fileCollection()
 
+    /**
+     * Indicates whether cross-compilation is supported for the given binary's target.
+     *
+     * Cross-compilation is supported if the target is enabled by the host manager
+     * or if none of the target's compilations involve C interop dependencies.
+     */
     @Suppress("unused")
     @get:Internal
     val crossCompilationSupported: Provider<Boolean> = objectFactory.property<Boolean>().convention(
