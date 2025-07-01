@@ -5,7 +5,7 @@ fun test() {
         val otvValue = otvOwner.provide()
         if (otvValue is IntersectionArgument) {
             // expected: IntersectionArgument & ScopeOwner
-            <!DEBUG_INFO_EXPRESSION_TYPE("IntersectionArgument & ScopeOwner")!>otvValue<!>
+            <!DEBUG_INFO_EXPRESSION_TYPE("ScopeOwner")!>otvValue<!>
             // should fix OTv := ScopeOwner for scope navigation
             otvValue.function()
         }
@@ -20,15 +20,15 @@ fun test() {
         otvOwner.constrain(ScopeOwner())
         if (otvOwner === TypeVariableOwner<IntersectionArgument>()) {
             // expected: IntersectionArgument & ScopeOwner
-            <!DEBUG_INFO_EXPRESSION_TYPE("IntersectionArgument & BaseType")!>otvOwner.provide()<!>
+            <!DEBUG_INFO_EXPRESSION_TYPE("ScopeOwner")!>otvOwner.provide()<!>
             // should fix OTv := ScopeOwner for scope navigation
-            otvOwner.provide().<!UNRESOLVED_REFERENCE!>function<!>()
+            otvOwner.provide().function()
         }
         // expected: Interloper </: ScopeOwner
-        otvOwner.constrain(Interloper)
+        otvOwner.constrain(<!ARGUMENT_TYPE_MISMATCH("Interloper; ScopeOwner")!>Interloper<!>)
     }
     // expected: ScopeOwner
-    <!DEBUG_INFO_EXPRESSION_TYPE("BaseType")!>resultB<!>
+    <!DEBUG_INFO_EXPRESSION_TYPE("ScopeOwner")!>resultB<!>
 }
 
 

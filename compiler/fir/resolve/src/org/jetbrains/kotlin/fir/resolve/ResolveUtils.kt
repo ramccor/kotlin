@@ -541,6 +541,7 @@ fun BodyResolveComponents.transformExpressionUsingSmartcastInfo(expression: FirE
 
     val originalTypeWithAliases = expression.resolvedType
     val originalType = originalTypeWithAliases.fullyExpandedType()
+    if (originalType.contains { it is ConeTypeVariableType }) return expression
 
     val allUpperTypes = if (originalType !is ConeStubType) smartcastStatement.upperTypes + originalType else smartcastStatement.upperTypes
 
