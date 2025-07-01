@@ -66,18 +66,15 @@ import org.jetbrains.kotlin.fir.backend.utils.InjectedValue
 import org.jetbrains.kotlin.fir.declarations.*
 import org.jetbrains.kotlin.fir.declarations.utils.hasBody
 import org.jetbrains.kotlin.fir.diagnostics.ConeSyntaxDiagnostic
-import org.jetbrains.kotlin.fir.expressions.FirQualifiedAccessExpression
-import org.jetbrains.kotlin.fir.expressions.FirVariableAssignment
+import org.jetbrains.kotlin.fir.expressions.FirExpression
 import org.jetbrains.kotlin.fir.languageVersionSettings
 import org.jetbrains.kotlin.fir.lazy.AbstractFir2IrLazyDeclaration
 import org.jetbrains.kotlin.fir.pipeline.*
 import org.jetbrains.kotlin.fir.psi
 import org.jetbrains.kotlin.fir.references.FirReference
 import org.jetbrains.kotlin.fir.references.FirThisReference
-import org.jetbrains.kotlin.fir.references.toResolvedCallableSymbol
 import org.jetbrains.kotlin.fir.references.toResolvedSymbol
 import org.jetbrains.kotlin.fir.resolve.referencedMemberSymbol
-import org.jetbrains.kotlin.fir.resolve.substitution.substitutorByMap
 import org.jetbrains.kotlin.fir.symbols.FirBasedSymbol
 import org.jetbrains.kotlin.fir.symbols.impl.*
 import org.jetbrains.kotlin.fir.symbols.lazyResolveToPhaseRecursively
@@ -112,7 +109,6 @@ import org.jetbrains.kotlin.platform.isCommon
 import org.jetbrains.kotlin.platform.jvm.JvmPlatforms
 import org.jetbrains.kotlin.platform.jvm.isJvm
 import org.jetbrains.kotlin.psi.*
-import org.jetbrains.kotlin.psi.psiUtil.parentsWithSelf
 import org.jetbrains.kotlin.psi2ir.generators.fragments.EvaluatorFragmentInfo
 import org.jetbrains.kotlin.resolve.source.PsiSourceFile
 import org.jetbrains.kotlin.serialization.deserialization.descriptors.DeserializedContainerSource
@@ -186,8 +182,16 @@ internal class KaFirCompilerFacility(
 
         val mainFirFile = getFullyResolvedFirFile(mainFile)
 
+        val inlineStackData = retrieveInlineStackData(mainFirFile, resolutionFacade, target.debuggerExtension)
+
         val codeFragmentMappings = runIf(mainFile is KtCodeFragment) {
-            computeCodeFragmentMappings(mainFirFile, resolutionFacade, configuration, target.debuggerExtension)
+            computeCodeFragmentMappings(
+                mainFirFile,
+                resolutionFacade,
+                configuration,
+                inlineStackData.capturedReifiedTypeParameterMapping,
+                inlineStackData.inlineLambdaArgumentsToDepth
+            )
         }
 
         val actualizer = LLKindBasedPlatformActualizer(ImplementationPlatformKind.JVM)
@@ -961,17 +965,30 @@ internal class KaFirCompilerFacility(
             if (receiverClassId != null && parent is IrFunction) {
                 when (owner.kind) {
                     IrParameterKind.DispatchReceiver -> {
-                        return CodeFragmentCapturedValue.ContainingClass(receiverClassId, isCrossingInlineBounds = true)
+                        return CodeFragmentCapturedValue.ContainingClass(
+                            receiverClassId,
+                            isCrossingInlineBounds = true,
+                            depthRelativeToCurrentFrame = 0
+                        )
                     }
                     IrParameterKind.Context -> {
                         val contextParameterIndex = parent.parameters
                             .subList(0, owner.indexInParameters)
                             .count { it.kind == IrParameterKind.Context }
                         val labelName = receiverClassId.shortClassName
-                        return CodeFragmentCapturedValue.ContextReceiver(contextParameterIndex, labelName, isCrossingInlineBounds = true)
+                        return CodeFragmentCapturedValue.ContextReceiver(
+                            contextParameterIndex,
+                            labelName,
+                            isCrossingInlineBounds = true,
+                            depthRelativeToCurrentFrame = 0
+                        )
                     }
                     IrParameterKind.ExtensionReceiver -> {
-                        return CodeFragmentCapturedValue.ExtensionReceiver(parent.name.asString(), isCrossingInlineBounds = true)
+                        return CodeFragmentCapturedValue.ExtensionReceiver(
+                            parent.name.asString(),
+                            isCrossingInlineBounds = true,
+                            depthRelativeToCurrentFrame = 0
+                        )
                     }
                     IrParameterKind.Regular -> {}
                 }
@@ -983,15 +1000,20 @@ internal class KaFirCompilerFacility(
             val isMutated = false // TODO capture the usage somehow
 
             if (owner.origin == IrDeclarationOrigin.PROPERTY_DELEGATE) {
-                return CodeFragmentCapturedValue.LocalDelegate(name, isMutated, isCrossingInlineBounds = true)
+                return CodeFragmentCapturedValue.LocalDelegate(
+                    name,
+                    isMutated,
+                    isCrossingInlineBounds = true,
+                    depthRelativeToCurrentFrame = 0
+                )
             }
 
-            return CodeFragmentCapturedValue.Local(name, isMutated, isCrossingInlineBounds = true)
+            return CodeFragmentCapturedValue.Local(name, isMutated, isCrossingInlineBounds = true, depthRelativeToCurrentFrame = 0)
         }
 
         if (descriptor is IrBasedValueParameterDescriptor && owner is IrValueParameter) {
             val name = owner.name
-            return CodeFragmentCapturedValue.Local(name, isMutated = false, isCrossingInlineBounds = true)
+            return CodeFragmentCapturedValue.Local(name, isMutated = false, isCrossingInlineBounds = true, depthRelativeToCurrentFrame = 0)
         }
 
         return null
@@ -1039,11 +1061,12 @@ internal class KaFirCompilerFacility(
         mainFirFile: FirFile,
         resolutionFacade: LLResolutionFacade,
         configuration: CompilerConfiguration,
-        debuggerExtension: DebuggerExtension?,
+        reifiedTypeParametersMapping: Map<FirTypeParameterSymbol, ConeKotlinType>,
+        inlineLambdaArgumentsToDepth: Map<FirExpression, Int>,
     ): CodeFragmentMappings {
         val codeFragment = mainFirFile.codeFragment
 
-        val capturedData = CodeFragmentCapturedValueAnalyzer.analyze(resolutionFacade, codeFragment)
+        val capturedData = CodeFragmentCapturedValueAnalyzer.analyze(resolutionFacade, codeFragment, inlineLambdaArgumentsToDepth)
 
         val capturedSymbols = capturedData.symbols
         val capturedValues = capturedSymbols.map { it.value }
@@ -1055,118 +1078,13 @@ internal class KaFirCompilerFacility(
             injectedValues
         )
 
-        val capturedReifiedTypeParametersMap =
-            collectReifiedTypeParametersMapping(capturedData.reifiedTypeParameters, debuggerExtension).toMutableMap()
-
-        val typeSubstitutor = substitutorByMap(capturedReifiedTypeParametersMap, resolutionFacade.useSiteFirSession)
-
-        // The parameters are ordered in the map according the order of declaring function in execution stack, e.g.:
-        //
-        // fun <reified T3> foo3() {
-        //     ...suspension point...
-        // }
-        // fun <reified T2> foo2() {
-        //     foo3<T2>()
-        // }
-        // fun <reified T1> foo1() {
-        //     foo2<T1>()
-        // }
-        // ... entry point...
-        // fun main() {
-        //     foo1<Int>()
-        // }
-        //
-        // Parameters will be ordered as T3, T2, T1, i.e. argument follows the parameter.
-        // Thus, processing them in reversive order gives the transitive closure of substitution.
-        for (typeParameter in capturedReifiedTypeParametersMap.keys.reversed().iterator()) {
-            capturedReifiedTypeParametersMap[typeParameter] =
-                typeSubstitutor.substituteOrSelf(capturedReifiedTypeParametersMap[typeParameter]!!)
-        }
-
         return CodeFragmentMappings(
             capturedValues,
             capturedData.files,
             injectedValues,
             conversionData,
-            // It's vital to leave only parameters immediately captured by code fragment, as JVM ReifiedTypeInliner does not distinguish
-            // different type parameters with the same name
-            // See IntelliJ test:
-            // community/plugins/kotlin/jvm-debugger/test/testData/evaluation/singleBreakpoint/reifiedTypeParameters/crossfileInlining.kt
-            capturedReifiedTypeParametersMap.filterKeys { it in capturedData.reifiedTypeParameters })
-    }
-
-    private fun collectReifiedTypeParametersMapping(
-        capturedReifiedTypeParameters: Set<FirTypeParameterSymbol>,
-        debuggerExtension: DebuggerExtension?,
-    ): Map<FirTypeParameterSymbol, ConeKotlinType> {
-        fun ConeKotlinType.collectTypeParameters(destination: MutableSet<FirTypeParameterSymbol>) {
-            if (this is ConeTypeParameterType) {
-                destination.add(lookupTag.typeParameterSymbol)
-                return
-            }
-            typeArguments.forEach { typeArgument ->
-                typeArgument.type?.collectTypeParameters(destination)
-            }
-        }
-
-        fun FirTypeRef.collectTypeParameters(destination: MutableSet<FirTypeParameterSymbol>) =
-            (this as? FirResolvedTypeRef)?.coneType?.collectTypeParameters(destination)
-
-        // We need to save the order to make a substitution on the correct order later
-        val mapping = linkedMapOf<FirTypeParameterSymbol, FirTypeRef>()
-        if (debuggerExtension == null) return linkedMapOf()
-        val unmappedTypeParameters = capturedReifiedTypeParameters.toMutableSet()
-
-        // We basically roll back along the execution stack until either all required type parameters are mapped on arguments, or
-        // we are unable to proceed further for some reason
-        // (e.g., we've reached the execution stack beginning, or we failed to extract relevant info from the call)
-        // Note that there are cases when a reified type parameter is captured by code fragment, but we are still able to compile it
-        // without reification, that is why we avoid fast-failing here if not all the type parameters are mapped.
-        val stackIterator = debuggerExtension.stack.iterator()
-        while (unmappedTypeParameters.isNotEmpty() && stackIterator.hasNext()) {
-            val previousExprPsi = stackIterator.next() ?: continue
-            // Rolling back by parents trying to find type arguments
-            // The property setter call is a special case as it's represented as `FirVariableAssignment`
-            // and the type arguments should be extracted from its `lvalue`
-            val typeArgumentHolder: FirQualifiedAccessExpression =
-                previousExprPsi.parentsWithSelf.firstNotNullOfOrNull { psiElement ->
-                    if (psiElement is KtElement) {
-                        val fir = psiElement.getOrBuildFir(resolutionFacade)
-                        when (fir) {
-                            is FirQualifiedAccessExpression -> fir
-                            is FirVariableAssignment -> if (fir.lValue is FirQualifiedAccessExpression) {
-                                fir.lValue as FirQualifiedAccessExpression
-                            } else {
-                                null
-                            }
-                            else -> null
-                        }
-                    } else {
-                        null
-                    }
-                } ?: continue
-            val extractedFromPreviousExpression = extractReifiedTypeArguments(typeArgumentHolder)
-            for ((extractedParam, extractedArg) in extractedFromPreviousExpression) {
-                if (extractedParam in unmappedTypeParameters) {
-                    mapping[extractedParam] = extractedArg
-                    unmappedTypeParameters.remove(extractedParam)
-                    extractedArg.collectTypeParameters(unmappedTypeParameters)
-                }
-            }
-        }
-
-        return mapping.mapValues { (_, firTypeRef) -> firTypeRef.coneType }
-    }
-
-    private fun extractReifiedTypeArguments(typeArgumentsHolder: FirQualifiedAccessExpression): Map<FirTypeParameterSymbol, FirTypeRef> {
-        val callableSymbol = typeArgumentsHolder.calleeReference.toResolvedCallableSymbol() ?: return emptyMap()
-        return buildMap {
-            for ((typeParameterSymbol, typeArgument) in callableSymbol.typeParameterSymbols.zip(typeArgumentsHolder.typeArguments)) {
-                if (typeParameterSymbol.isReified && typeArgument is FirTypeProjectionWithVariance) {
-                    put(typeParameterSymbol, typeArgument.typeRef)
-                }
-            }
-        }
+            reifiedTypeParametersMapping
+        )
     }
 
     private class InjectedSymbolProvider(
