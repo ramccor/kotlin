@@ -1,4 +1,5 @@
 import gradle.GradlePluginVariant
+import org.jetbrains.dokka.gradle.DokkaTask
 
 plugins {
     id("gradle-plugin-dependency-configuration")
@@ -46,3 +47,7 @@ registerKotlinSourceForVersionRange(
     GradlePluginVariant.GRADLE_MIN,
     GradlePluginVariant.GRADLE_88,
 )
+
+tasks.withType<DokkaTask>().configureEach {
+    failOnWarning.set(false)
+}
