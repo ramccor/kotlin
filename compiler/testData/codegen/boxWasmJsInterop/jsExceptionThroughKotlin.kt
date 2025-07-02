@@ -114,6 +114,50 @@ fun catchAndRethrowJsExceptionAsThrowable() {
     }
 }
 
+@JsExport
+fun finallyJsPrimitive() {
+    rethrown = false
+    try {
+        throwSomeJsPrimitive()
+    } finally {
+        rethrown = true
+    }
+    rethrown = false
+}
+
+@JsExport
+fun finallyJsNumber() {
+    rethrown = false
+    try {
+        throwNumberFromJs()
+    } finally {
+        rethrown = true
+    }
+    rethrown = false
+}
+
+@JsExport
+fun finallyJsNull() {
+    rethrown = false
+    try {
+        throwNullFromJs()
+    } finally {
+        rethrown = true
+    }
+    rethrown = false
+}
+
+@JsExport
+fun finallyJsException() {
+    rethrown = false
+    try {
+        throwSomeJsException()
+    } finally {
+        rethrown = true
+    }
+    rethrown = false
+}
+
 var rethrown = false
 @JsExport
 fun getRethrown() = rethrown
@@ -134,6 +178,10 @@ import {
         catchAndRethrowJsNullAsThrowable,
         catchAndRethrowJsExceptionAsJsException,
         catchAndRethrowJsExceptionAsThrowable,
+        finallyJsPrimitive,
+        finallyJsNumber,
+        finallyJsNull,
+        finallyJsException,
         getRethrown,
     } from "./index.mjs"
 
@@ -144,7 +192,7 @@ try {
 } catch(e) {
     const t = typeof e;
     if (t !== "string") {
-        throw Error("Expected 'string', but '" + t +"' ('" + e.constructor.name + "') was received");
+        throw Error("Expected 'string', but '" + t +"' ('" + e?.constructor?.name + "') was received");
     }
 }
 
@@ -154,7 +202,7 @@ try {
 } catch(e) {
     const t = typeof e;
     if (t !== "number") {
-        throw Error("Expected 'number', but '" + t +"' ('" + e.constructor.name + "') was received");
+        throw Error("Expected 'number', but '" + t +"' ('" + e?.constructor?.name + "') was received");
     }
 }
 
@@ -172,7 +220,7 @@ try {
     nothrow += "runWithThrowJsException;";
 } catch(e) {
     if (!(e instanceof TypeError)) {
-        throw Error("Expected TypeError, but '" + e.name +"' ('" + e.constructor.name + "') was received");
+        throw Error("Expected TypeError, but '" + e.name +"' ('" + e?.constructor?.name + "') was received");
     }
 }
 
@@ -182,7 +230,7 @@ try {
 } catch(e) {
     const t = typeof e;
     if (t !== "string") {
-        throw Error("Expected 'string', but '" + t +"' ('" + e.constructor.name + "') was received");
+        throw Error("Expected 'string', but '" + t +"' ('" + e?.constructor?.name + "') was received");
     }
     if (!getRethrown()) {
         throw Error("It wasn't rethrown in catchAndRethrowJsPrimitiveAsJsException");
@@ -195,10 +243,10 @@ try {
 } catch(e) {
     const t = typeof e;
     if (t !== "number") {
-        throw Error("Expected 'number', but '" + t +"' ('" + e.constructor.name + "') was received");
+        throw Error("Expected 'number', but '" + t +"' ('" + e?.constructor?.name + "') was received");
     }
     if (!getRethrown()) {
-        throw Error("It wasn't rethrown in catchAndRethrowJsPrimitiveAsJsException");
+        throw Error("It wasn't rethrown in catchAndRethrowJsNumberAsJsException");
     }
 }
 
@@ -210,7 +258,7 @@ try {
         throw Error("Expected 'null', but '" + e +"' was received");
     }
     if (!getRethrown()) {
-        throw Error("It wasn't rethrown in catchAndRethrowJsPrimitiveAsJsException");
+        throw Error("It wasn't rethrown in catchAndRethrowJsNullAsJsException");
     }
 }
 
@@ -220,7 +268,7 @@ try {
 } catch(e) {
     const t = typeof e;
     if (t !== "string") {
-        throw Error("Expected 'string', but '" + t +"' ('" + e.constructor.name + "') was received");
+        throw Error("Expected 'string', but '" + t +"' ('" + e?.constructor?.name + "') was received");
     }
     if (!getRethrown()) {
         throw Error("It wasn't rethrown in catchAndRethrowJsPrimitiveAsThrowable");
@@ -233,10 +281,10 @@ try {
 } catch(e) {
     const t = typeof e;
     if (t !== "number") {
-        throw Error("Expected 'number', but '" + t +"' ('" + e.constructor.name + "') was received");
+        throw Error("Expected 'number', but '" + t +"' ('" + e?.constructor?.name + "') was received");
     }
     if (!getRethrown()) {
-        throw Error("It wasn't rethrown in catchAndRethrowJsPrimitiveAsThrowable");
+        throw Error("It wasn't rethrown in catchAndRethrowJsNumberAsThrowable");
     }
 }
 
@@ -248,7 +296,7 @@ try {
         throw Error("Expected 'null', but '" + e +"' was received");
     }
     if (!getRethrown()) {
-        throw Error("It wasn't rethrown in catchAndRethrowJsPrimitiveAsThrowable");
+        throw Error("It wasn't rethrown in catchAndRethrowJsNullAsThrowable");
     }
 }
 
@@ -257,10 +305,10 @@ try {
     nothrow += "catchAndRethrowJsExceptionAsJsException;";
 } catch(e) {
     if (!(e instanceof TypeError)) {
-        throw Error("Expected TypeError, but '" + e.name +"' ('" + e.constructor.name + "') was received");
+        throw Error("Expected TypeError, but '" + e.name +"' ('" + e?.constructor?.name + "') was received");
     }
     if (!getRethrown()) {
-        throw Error("It wasn't rethrown in catchAndRethrowJsExceptionAsThrowable");
+        throw Error("It wasn't rethrown in catchAndRethrowJsExceptionAsJsException");
     }
 }
 
@@ -269,10 +317,60 @@ try {
     nothrow += "catchAndRethrowJsExceptionAsThrowable;";
 } catch(e) {
     if (!(e instanceof TypeError)) {
-        throw Error("Expected TypeError, but '" + e.name +"' ('" + e.constructor.name + "') was received");
+        throw Error("Expected TypeError, but '" + e.name +"' ('" + e?.constructor?.name + "') was received");
     }
     if (!getRethrown()) {
         throw Error("It wasn't rethrown in catchAndRethrowJsExceptionAsThrowable");
+    }
+}
+
+try {
+    finallyJsPrimitive()
+    nothrow += "finallyJsPrimitive;";
+} catch(e) {
+    const t = typeof e;
+    if (t !== "string") {
+        throw Error("Expected 'string', but '" + t +"' ('" + e?.constructor?.name + "') was received");
+    }
+    if (!getRethrown()) {
+        throw Error("It wasn't rethrown in finallyJsPrimitive");
+    }
+}
+
+try {
+    finallyJsNumber()
+    nothrow += "finallyJsNumber;";
+} catch(e) {
+    const t = typeof e;
+    if (t !== "number") {
+        throw Error("Expected 'number', but '" + t +"' ('" + e?.constructor?.name + "') was received");
+    }
+    if (!getRethrown()) {
+        throw Error("It wasn't rethrown in finallyJsNumber");
+    }
+}
+
+try {
+    finallyJsNull()
+    nothrow += "finallyJsNull;";
+} catch(e) {
+    if (e !== null) {
+        throw Error("Expected 'null', but '" + e +"' was received");
+    }
+    if (!getRethrown()) {
+        throw Error("It wasn't rethrown in finallyJsNull");
+    }
+}
+
+try {
+    finallyJsException()
+    nothrow += "finallyJsException;";
+} catch(e) {
+    if (!(e instanceof TypeError)) {
+        throw Error("Expected TypeError, but '" + e.name +"' ('" + e?.constructor?.name + "') was received");
+    }
+    if (!getRethrown()) {
+        throw Error("It wasn't rethrown in finallyJsException");
     }
 }
 
