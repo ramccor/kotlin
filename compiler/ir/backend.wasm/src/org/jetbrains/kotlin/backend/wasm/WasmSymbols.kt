@@ -81,6 +81,7 @@ class WasmSymbols(
     override val throwTypeCastException = getInternalFunction("THROW_CCE")
     val throwTypeCastWithInfoException = getInternalFunction("THROW_CCE_WITH_INFO")
     override val throwIAE = getInternalFunction("THROW_IAE")
+    val throwOOB = getInternalFunction("THROW_OOB")
     val throwNoBranchMatchedException =
         getInternalFunction("throwNoBranchMatchedException")
     override val throwUninitializedPropertyAccessException =

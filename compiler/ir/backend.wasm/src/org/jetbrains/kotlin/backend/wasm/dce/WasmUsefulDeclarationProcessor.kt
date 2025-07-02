@@ -99,6 +99,10 @@ internal class WasmUsefulDeclarationProcessor(
                 context.irBuiltIns.booleanType.enqueueRuntimeClassOrAny(from, "intrinsic boxBoolean")
                 true
             }
+            context.wasmSymbols.rangeCheck -> {
+                context.wasmSymbols.throwOOB.owner.enqueue(context.wasmSymbols.rangeCheck.owner, "intrinsic rangeCheck")
+                true
+            }
             else -> false
         }
 
