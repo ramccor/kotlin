@@ -47,7 +47,3 @@ registerKotlinSourceForVersionRange(
     GradlePluginVariant.GRADLE_MIN,
     GradlePluginVariant.GRADLE_88,
 )
-
-tasks.withType<DokkaTask>().configureEach {
-    failOnWarning.set(false)
-}
