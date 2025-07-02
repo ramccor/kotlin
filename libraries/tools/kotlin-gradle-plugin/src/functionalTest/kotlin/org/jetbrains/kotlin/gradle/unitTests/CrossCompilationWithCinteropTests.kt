@@ -66,8 +66,8 @@ class CrossCompilationWithCinteropTests {
             "compileKotlinMacosX64 task should be enabled"
         }
 
-        assert(linkMacosX64.crossCompilationSupported.get()) {
-            "linkMacosX64 task should support cross-compilation"
+        assert(linkLinuxX64.crossCompilationSupported.get()) {
+            "linkLinuxX64 task should support cross-compilation"
         }
 
         assert(linkMingwX64.crossCompilationSupported.get()) {
