@@ -32,14 +32,54 @@ abstract class AbstractTypeApproximator(
         const val CACHE_FOR_INCORPORATION_MAX_SIZE = 500
     }
 
+    private val visitedCapturedTypes = mutableSetOf<CapturedTypeMarker>()
+    private val doneSuper = mutableMapOf<CapturedTypeMarker, KotlinTypeMarker?>()
+    private val doneSub = mutableMapOf<CapturedTypeMarker, KotlinTypeMarker?>()
+
     // null means that this input type is the result, i.e. input type not contains not-allowed kind of types
     // type <: resultType
-    fun approximateToSuperType(type: KotlinTypeMarker, conf: TypeApproximatorConfiguration): KotlinTypeMarker? =
-        approximateToSuperType(type, conf, -type.typeDepthForApproximation())
+    fun approximateToSuperType(type: KotlinTypeMarker, conf: TypeApproximatorConfiguration): KotlinTypeMarker? {
+        return approximateToSuperType(type, conf, -type.typeDepthForApproximation()).also {
+            extracted()
+
+        }
+    }
 
     // resultType <: type
-    fun approximateToSubType(type: KotlinTypeMarker, conf: TypeApproximatorConfiguration): KotlinTypeMarker? =
-        approximateToSubType(type, conf, -type.typeDepthForApproximation())
+    fun approximateToSubType(type: KotlinTypeMarker, conf: TypeApproximatorConfiguration): KotlinTypeMarker? {
+        return approximateToSubType(type, conf, -type.typeDepthForApproximation()).also {
+            extracted()
+        }
+    }
+
+    private fun extracted() {
+        check(visitedCapturedTypes.isEmpty())
+        if (doneSuper.isEmpty() && doneSub.isEmpty()) return
+
+        val leftCapturedTypes = (doneSuper + doneSub).filter { it.value?.isCapturedType() == true }
+
+        if (leftCapturedTypes.isEmpty()) return
+
+        val substitutor = typeSubstitutorByTypeConstructor(
+            leftCapturedTypes.entries.associateBy(
+                { it.key.typeConstructor() as TypeConstructorMarker },
+                { it.value!! }
+            )
+        )
+
+        leftCapturedTypes.forEach { entry ->
+            val captured = entry.value!!.asRigidType()!!.asCapturedTypeUnwrappingDnn()!!
+            @OptIn(K2Only::class)
+            captured.updateContent { type ->
+                substitutor.safeSubstitute(type).takeIf { it !== type }
+            }
+        }
+    }
+
+    fun clear() {
+        doneSub.clear()
+        doneSuper.clear()
+    }
 
     fun clearCache() {
         cacheForIncorporationConfigToSubtypeDirection.clear()
@@ -57,7 +97,7 @@ abstract class AbstractTypeApproximator(
                 // todo -- fix builtIns. Now builtIns here is DefaultBuiltIns
                 (if (!conf.approximateErrorTypes) null else type.defaultResult(toSuper)).toApproximationResult()
 
-            depth > 3 ->
+            depth > 3 && !isK2 ->
                 type.defaultResult(toSuper).toApproximationResult()
 
             else -> null
@@ -336,7 +376,7 @@ abstract class AbstractTypeApproximator(
             TypeApproximatorConfiguration.IntersectionStrategy.TO_UPPER_BOUND_IF_SUPERTYPE -> {
                 if (!toSuper) return type.defaultResult(toSuper = false)
                 val resultType = commonSuperType(newTypes)
-                approximateToSuperType(resultType, conf) ?: resultType
+                approximateToSuperType(resultType, conf, depth) ?: resultType
             }
         }
 
@@ -365,7 +405,35 @@ abstract class AbstractTypeApproximator(
         return createTypeWithUpperBoundForIntersectionResult(intersectionType, alternativeTypeApproximated)
     }
 
+
     private fun approximateCapturedType(
+        capturedType: CapturedTypeMarker,
+        conf: TypeApproximatorConfiguration,
+        toSuper: Boolean,
+        depth: Int,
+    ): KotlinTypeMarker? {
+        when {
+            toSuper && doneSuper.contains(capturedType) -> return doneSuper.getValue(capturedType)
+            !toSuper && doneSub.contains(capturedType) -> return doneSub.getValue(capturedType)
+        }
+
+        if (!visitedCapturedTypes.add(capturedType)) return capturedType
+
+        val result = doApproximateCapturedType(capturedType, conf, toSuper, depth)
+        visitedCapturedTypes.remove(capturedType)
+
+        if (!isK2) return result
+        if (capturedType.captureStatus() != CaptureStatus.FROM_EXPRESSION) return result
+
+        when {
+            toSuper -> doneSuper.put(capturedType, result)
+            else -> doneSub.put(capturedType, result)
+        }
+
+        return result
+    }
+
+    private fun doApproximateCapturedType(
         capturedType: CapturedTypeMarker,
         conf: TypeApproximatorConfiguration,
         toSuper: Boolean,
@@ -407,17 +475,30 @@ abstract class AbstractTypeApproximator(
         val approximatedSubType by lazy(LazyThreadSafetyMode.NONE) { approximateToSubType(baseSubType, conf, depth) }
 
         if (!conf.shouldApproximateCapturedType(ctx, capturedType)) {
-            /**
-             * Here everything is ok if bounds for this captured type should not be approximated.
-             * But. If such bounds contains some unauthorized types, then we cannot leave this captured type "as is".
-             * And we cannot create new capture type, because meaning of new captured type is not clear.
-             * So, we will just approximate such types
-             *
-             * TODO remove workaround when we can create captured types with external identity KT-65228.
-             * todo handle flexible types
-             */
-            if (approximatedSuperType == null && approximatedSubType == null) {
-                return null
+            when {
+                isK2 && conf != TypeApproximatorConfiguration.IncorporationConfiguration ->
+                    @OptIn(K2Only::class)
+                    return capturedType.substituteContent { componentType, isSuperType ->
+                        when {
+                            isSuperType -> approximateToSuperType(componentType, conf, depth)
+                            else -> approximateToSubType(componentType, conf, depth)
+                        }
+                    }
+                else -> {
+                    /**
+                     * Here everything is ok if bounds for this captured type should not be approximated.
+                     * But. If such bounds contains some unauthorized types, then we cannot leave this captured type "as is".
+                     * And we cannot create new capture type, because meaning of new captured type is not clear.
+                     * So, we will just approximate such types
+                     */
+
+                    check(!isK2 || capturedType.captureStatus() == CaptureStatus.FROM_EXPRESSION)
+                    check(!isK2 || conf == TypeApproximatorConfiguration.IncorporationConfiguration)
+
+                    if (approximatedSuperType == null && approximatedSubType == null) {
+                        return null
+                    }
+                }
             }
         }
         val baseResult = if (toSuper) approximatedSuperType ?: baseSuperType else approximatedSubType ?: baseSubType
@@ -613,6 +694,11 @@ abstract class AbstractTypeApproximator(
                 continue@loop
             }
 
+            if (isK2 && capturedType != null && visitedCapturedTypes.contains(capturedType) && conf.shouldApproximateCapturedType(ctx, capturedType)) {
+                newArguments[index] = createStarProjection(parameter)
+                continue
+            }
+
             when (effectiveVariance) {
                 null -> {
                     return if (!conf.approximateErrorTypes) {
@@ -713,7 +799,7 @@ abstract class AbstractTypeApproximator(
                     // like if Inv would be declared as `interface Inv<T : CharSequence>` (see test approximationLeavesNonTrivialLowerBound.kt)
                     //
                     // In that case the next condition after that doesn't help because in case of both non-trivial bounds, it chooses the upper one
-                    if (argumentType.typeConstructor().isCapturedTypeConstructor()) {
+                    if (argumentType.typeConstructor().isCapturedTypeConstructor() && conf.shouldApproximateCapturedType(ctx, argumentType.lowerBoundIfFlexible().asCapturedTypeUnwrappingDnn()!!)) {
                         val subType = approximateToSubType(argumentType, conf, depth) ?: continue@loop
                         if (shouldUseSubTypeForCapturedArgument(subType, argumentType, conf, depth)) {
                             newArguments[index] = createTypeArgument(subType, TypeVariance.IN)

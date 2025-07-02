@@ -65,6 +65,8 @@ class ConstraintInjector(
             constraintOwner: TypeConstructorMarker,
             referencedVariable: TypeConstructorMarker,
         )
+
+        fun buildCurrentSubstitutor(): TypeSubstitutorMarker
     }
 
     context(c: Context)

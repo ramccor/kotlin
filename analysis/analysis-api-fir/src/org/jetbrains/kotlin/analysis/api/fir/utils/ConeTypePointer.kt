@@ -122,7 +122,7 @@ private class ConeCapturedTypePointer(
     private val lowerTypePointer = coneType.constructor.lowerType?.createPointer(builder)
     private val isMarkedNullable = coneType.isMarkedNullable
     private val coneProjectionPointer = ConeTypeProjectionPointer(coneType.constructor.projection, builder)
-    private val constructorSupertypePointers = coneType.constructor.supertypes?.map { it.createPointer(builder) }
+    private val constructorSupertypePointers = coneType.constructor.supertypes.map { it.createPointer(builder) }
 
     private val typeParameterSymbolPointer: KaSymbolPointer<KaTypeParameterSymbol>? = run {
         val typeParameterLookupTag = coneType.constructor.typeParameterMarker as? ConeTypeParameterLookupTag
@@ -137,7 +137,7 @@ private class ConeCapturedTypePointer(
         val lowerType = lowerTypePointer?.let { it.restore(session) ?: return null }
 
         val constructorProjection = coneProjectionPointer.restore(session) ?: return null
-        val constructorSupertypes = constructorSupertypePointers?.let { it.restore(session) ?: return null }
+        val constructorSupertypes = constructorSupertypePointers.let { it.restore(session) ?: return null }
 
         val constructorTypeParameterMarker = if (typeParameterSymbolPointer != null) {
             val typeParameterSymbol = with(session) { typeParameterSymbolPointer.restoreSymbol() } ?: return null

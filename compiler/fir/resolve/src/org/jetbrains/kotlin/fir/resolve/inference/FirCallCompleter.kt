@@ -119,6 +119,7 @@ class FirCallCompleter(
 
                 val finalSubstitutor = readOnlyConstraintStorage
                     .buildAbstractResultingSubstitutor(session.typeContext) as ConeSubstitutor
+                session.typeApproximator.clear()
                 call.transformSingle(
                     createCompletionResultsWriter(finalSubstitutor),
                     null

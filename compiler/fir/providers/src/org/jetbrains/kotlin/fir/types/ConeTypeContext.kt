@@ -326,7 +326,13 @@ interface ConeTypeContext : TypeSystemContext, TypeSystemOptimizationContext, Ty
     }
 
     override fun areEqualTypeConstructors(c1: TypeConstructorMarker, c2: TypeConstructorMarker): Boolean {
-        return c1 == c2
+        if (c1 == c2) return true
+
+        if (c1 is ConeCapturedTypeConstructor && c2 is ConeCapturedTypeConstructor) {
+            return (c1.original ?: c1) === (c2.original ?: c2)
+        }
+
+        return false
     }
 
     override fun TypeConstructorMarker.isDenotable(): Boolean {

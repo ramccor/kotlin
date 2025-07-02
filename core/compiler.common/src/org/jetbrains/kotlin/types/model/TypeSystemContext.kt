@@ -257,6 +257,14 @@ interface TypeSystemInferenceExtensionContext : TypeSystemContext, TypeSystemBui
      */
     fun CapturedTypeMarker.hasRawSuperType(): Boolean
 
+    @K2Only
+    fun CapturedTypeMarker.substituteContent(block: (KotlinTypeMarker, isSupertype: Boolean) -> KotlinTypeMarker?): KotlinTypeMarker?
+
+    @K2Only
+    fun CapturedTypeMarker.updateContent(
+        block: (KotlinTypeMarker) -> KotlinTypeMarker?
+    )
+
     fun TypeVariableMarker.defaultType(): SimpleTypeMarker
 
     fun createTypeWithUpperBoundForIntersectionResult(

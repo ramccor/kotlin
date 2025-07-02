@@ -8,6 +8,10 @@ package org.jetbrains.kotlin.fir.resolve.substitution
 import org.jetbrains.kotlin.fir.types.*
 import org.jetbrains.kotlin.fir.types.impl.ConeClassLikeTypeImpl
 import org.jetbrains.kotlin.fir.utils.exceptions.withConeTypeEntry
+import org.jetbrains.kotlin.types.model.K2Only
+import org.jetbrains.kotlin.types.model.TypeConstructorMarker
+import org.jetbrains.kotlin.types.model.TypeSystemContext
+import org.jetbrains.kotlin.types.model.typeConstructor
 import org.jetbrains.kotlin.utils.addToStdlib.runIf
 import org.jetbrains.kotlin.utils.exceptions.errorWithAttachment
 
@@ -18,6 +22,9 @@ abstract class AbstractConeSubstitutor(protected val typeContext: ConeTypeContex
         val newType = substituteOrNull(type) ?: return null
         return wrapProjection(projection, newType)
     }
+
+    private val visited = mutableSetOf<ConeCapturedType>()
+    private val resultFor = mutableMapOf<ConeCapturedType, ConeKotlinType?>()
 
     companion object {
         fun ConeKotlinType.updateNullabilityIfNeeded(originalType: ConeKotlinType, typeContext: ConeTypeContext): ConeKotlinType {
@@ -33,6 +40,7 @@ abstract class AbstractConeSubstitutor(protected val typeContext: ConeTypeContex
         updateNullabilityIfNeeded(originalType, typeContext)
 
     override fun substituteOrNull(type: ConeKotlinType): ConeKotlinType? {
+        // gather captured types, too
         val newType = substituteType(type)
 
         if (newType != null && type is ConeDefinitelyNotNullType) {
@@ -70,11 +78,32 @@ abstract class AbstractConeSubstitutor(protected val typeContext: ConeTypeContex
             is ConeClassLikeType -> this.substituteArguments()
             is ConeLookupTagBasedType, is ConeTypeVariableType -> return null
             is ConeFlexibleType -> this.mapTypesOrNull(typeContext) { substituteOrNull(it) }
-            is ConeCapturedType -> return this.substitute(::substituteOrNull)
+            is ConeCapturedType -> with(typeContext) { substituteCaptured() }
             is ConeDefinitelyNotNullType -> this.substituteOriginal()
             is ConeIntersectionType -> this.substituteIntersectedTypes()
             is ConeStubType -> return null
             is ConeIntegerLiteralType -> return null
+        }
+    }
+
+    context(_: ConeTypeContext)
+    private fun ConeCapturedType.substituteCaptured(): ConeKotlinType? {
+        return when {
+            resultFor.contains(this) -> resultFor[this]
+            visited.add(this) -> this.substitute { componentType, isSupertype -> substituteOrNull(componentType) }.also { result ->
+                resultFor[this] = result
+
+                if (result != null) {
+                    val substitutor = createTypeSubstitutorByTypeConstructor(
+                        mapOf(this.constructor to result), typeContext, approximateIntegerLiterals = false,
+                    )
+
+                    result.updateTypes(substitutor::substituteOrNull)
+                }
+
+                visited.remove(this)
+            }
+            else -> this
         }
     }
 

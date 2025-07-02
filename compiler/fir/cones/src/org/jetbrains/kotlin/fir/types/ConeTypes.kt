@@ -179,12 +179,67 @@ fun ConeKotlinType.unwrapToSimpleTypeUsingLowerBound(): ConeSimpleKotlinType {
 sealed interface ConeTypeConstructorMarker : TypeConstructorMarker
 
 class ConeCapturedTypeConstructor(
-    val projection: ConeTypeProjection,
-    val lowerType: ConeKotlinType?,
+    projection: ConeTypeProjection,
+    lowerType: ConeKotlinType?,
     val captureStatus: CaptureStatus,
-    var supertypes: List<ConeKotlinType>? = null,
-    val typeParameterMarker: TypeParameterMarker? = null
-) : CapturedTypeConstructorMarker, ConeTypeConstructorMarker
+    supertypes: List<ConeKotlinType> = emptyList(),
+    val typeParameterMarker: TypeParameterMarker? = null,
+    val original: ConeCapturedTypeConstructor? = null,
+) : CapturedTypeConstructorMarker, ConeTypeConstructorMarker {
+
+    var projection: ConeTypeProjection = projection
+        private set
+    var lowerType: ConeKotlinType? = lowerType
+        private set
+    var supertypes: List<ConeKotlinType> = supertypes
+        private set
+
+    fun substitutedCopy(
+        projection: ConeTypeProjection,
+        lowerType: ConeKotlinType?,
+        supertypes: List<ConeKotlinType>,
+        preserveOriginal: Boolean = true,
+    ): ConeCapturedTypeConstructor {
+        return ConeCapturedTypeConstructor(
+            projection, lowerType,
+            captureStatus,
+            supertypes,
+            typeParameterMarker,
+            original ?: this,
+        )
+    }
+
+    fun updateTypeContents(
+        projection: ConeTypeProjection,
+        lowerType: ConeKotlinType?,
+        supertypes: List<ConeKotlinType>,
+    ) {
+        this.projection = projection
+        this.lowerType = lowerType
+        this.supertypes = supertypes
+    }
+
+    fun updateSupertypes(supertypes: List<ConeKotlinType>) {
+        this.supertypes = supertypes
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is ConeCapturedTypeConstructor) return false
+
+        if ((original ?: this) !== (other.original ?: other)) return false
+
+        if (projection != other.projection) return false
+        if (lowerType != other.lowerType) return false
+        if (lowerType != other.lowerType) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return original?.hashCode() ?: System.identityHashCode(this)
+    }
+}
 
 data class ConeCapturedType(
     val isMarkedNullable: Boolean = false,

@@ -9,6 +9,7 @@ import org.jetbrains.kotlin.builtins.functions.AllowedToUsedOnlyInK1
 import org.jetbrains.kotlin.builtins.functions.FunctionTypeKind
 import org.jetbrains.kotlin.config.LanguageFeature
 import org.jetbrains.kotlin.descriptors.Modality
+import org.jetbrains.kotlin.fir.FirSession
 import org.jetbrains.kotlin.fir.declarations.utils.modality
 import org.jetbrains.kotlin.fir.diagnostics.ConeIntermediateDiagnostic
 import org.jetbrains.kotlin.fir.isPrimitiveNumberOrUnsignedNumberType
@@ -20,7 +21,9 @@ import org.jetbrains.kotlin.fir.resolve.providers.symbolProvider
 import org.jetbrains.kotlin.fir.resolve.substitution.AbstractConeSubstitutor
 import org.jetbrains.kotlin.fir.resolve.substitution.ConeSubstitutor
 import org.jetbrains.kotlin.fir.resolve.substitution.createTypeSubstitutorByTypeConstructor
+import org.jetbrains.kotlin.fir.resolve.substitution.substitute
 import org.jetbrains.kotlin.fir.resolve.substitution.substitutorByMap
+import org.jetbrains.kotlin.fir.resolve.substitution.updateTypes
 import org.jetbrains.kotlin.fir.symbols.ConeTypeParameterLookupTag
 import org.jetbrains.kotlin.fir.symbols.impl.FirAnonymousObjectSymbol
 import org.jetbrains.kotlin.fir.symbols.impl.FirRegularClassSymbol
@@ -405,12 +408,27 @@ interface ConeInferenceContext : TypeSystemInferenceExtensionContext, ConeTypeCo
 
     override fun CapturedTypeMarker.hasRawSuperType(): Boolean {
         require(this is ConeCapturedType)
-        return constructor.supertypes?.any(ConeKotlinType::isRaw) == true
+        return constructor.supertypes.any(ConeKotlinType::isRaw)
+    }
+
+    @K2Only
+    override fun CapturedTypeMarker.substituteContent(block: (KotlinTypeMarker, isSupertype: Boolean) -> KotlinTypeMarker?): KotlinTypeMarker? {
+        require(this is ConeCapturedType)
+        return substitute { componentType, isSupertype -> block(componentType, isSupertype) as ConeKotlinType? }
     }
 
     override fun DefinitelyNotNullTypeMarker.original(): ConeSimpleKotlinType {
         require(this is ConeDefinitelyNotNullType)
         return this.original
+    }
+
+    @K2Only
+    override fun CapturedTypeMarker.updateContent(
+        block: (KotlinTypeMarker) -> KotlinTypeMarker?
+    ) {
+        require(this is ConeCapturedType)
+        @Suppress("UNCHECKED_CAST")
+        updateTypes(block as (ConeKotlinType) -> ConeKotlinType?)
     }
 
     override fun typeSubstitutorByTypeConstructor(map: Map<TypeConstructorMarker, KotlinTypeMarker>): ConeSubstitutor {

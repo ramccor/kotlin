@@ -535,6 +535,18 @@ interface ClassicTypeSystemContext : TypeSystemInferenceExtensionContext, TypeSy
         error("Is not expected to be called in K1")
     }
 
+    @K2Only
+    override fun CapturedTypeMarker.substituteContent(block: (KotlinTypeMarker, Boolean) -> KotlinTypeMarker?): KotlinTypeMarker? {
+        error("Is not expected to be called in K1")
+    }
+
+    @K2Only
+    override fun CapturedTypeMarker.updateContent(
+        block: (KotlinTypeMarker) -> KotlinTypeMarker?
+    ) {
+        TODO("Not yet implemented")
+    }
+
     override fun KotlinTypeMarker.isNullableType(): Boolean {
         require(this is KotlinType, this::errorMessage)
         return TypeUtils.isNullableType(this)
