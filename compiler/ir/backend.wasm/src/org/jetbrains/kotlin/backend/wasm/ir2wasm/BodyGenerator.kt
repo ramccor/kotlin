@@ -668,13 +668,23 @@ class BodyGenerator(
             return
         }
 
-        // Some intrinsics are a special case because we want to remove them completely, including their arguments.
-        if (backendContext.configuration.get(WasmConfigurationKeys.WASM_ENABLE_ARRAY_RANGE_CHECKS) != true) {
-            if (call.symbol == wasmSymbols.rangeCheck) {
-                body.buildGetUnit()
-                return
-            }
+
+        if (call.symbol == wasmSymbols.rangeCheck) {
+//            index < 0 || index >= size
+            generateExpression(call.arguments[0]!!)
+            body.buildConstI32(0, location)
+            body.buildInstr(WasmOp.I32_LT_S, location)
+            generateExpression(call.arguments[0]!!)
+            generateExpression(call.arguments[1]!!)
+            body.buildInstr(WasmOp.I32_GE_U, location)
+            body.buildInstr(WasmOp.I32_OR, location)
+            body.buildIf("OOB")
+            body.buildCall(wasmFileCodegenContext.referenceFunction(backendContext.wasmSymbols.throwOOB), location)
+            body.buildEnd()
+            body.buildGetUnit()
+            return
         }
+
         if (backendContext.configuration.get(WasmConfigurationKeys.WASM_ENABLE_ASSERTS) != true) {
             if (call.symbol in wasmSymbols.asserts) {
                 body.buildGetUnit()
