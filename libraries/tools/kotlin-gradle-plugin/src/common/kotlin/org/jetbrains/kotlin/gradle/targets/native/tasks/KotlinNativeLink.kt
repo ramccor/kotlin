@@ -232,12 +232,10 @@ constructor(
      */
     @Suppress("unused")
     @get:Internal
-    val crossCompilationSupported: Provider<Boolean> = objectFactory.property<Boolean>().convention(
-        project.provider {
-            HostManager().isEnabled(binary.compilation.konanTarget) ||
-                    binary.compilation.target.compilations.none { it.cinterops.isNotEmpty() }
-        }
-    )
+    val crossCompilationSupported: Provider<Boolean> = project.provider {
+        HostManager().isEnabled(binary.compilation.konanTarget) ||
+                binary.compilation.target.compilations.none { it.cinterops.isNotEmpty() }
+    }
 
     @get:Internal
     internal val externalDependenciesBuildCompilerArgs: ListProperty<String> = objectFactory.listProperty<String>().empty()
