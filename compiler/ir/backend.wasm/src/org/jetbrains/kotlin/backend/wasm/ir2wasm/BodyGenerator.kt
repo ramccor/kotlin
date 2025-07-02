@@ -455,9 +455,10 @@ block {
             catchBlock.origin == SYNTHETIC_CATCH_FOR_FINALLY_EXPRESSION -> {
                 body.buildTry(resultType) {
                     generateExpression(aTry.tryResult)
-                    body.buildCatchAll()
 
                     if (backendContext.isWasmJsTarget) {
+                        body.buildCatchAll()
+
                         buildFinallyBody(catchBlock)
                         body.buildInstr(
                             WasmOp.RETHROW,
@@ -466,7 +467,8 @@ block {
                         )
                     } else {
                         // WasmEdge and maybe some other standalone VMs don't support rethrow instruction.
-                        body.buildRefNull(rawExceptionType.getHeapType(), SourceLocation.NoLocation(""))
+                        body.buildCatch(exceptionTagId)
+
                         buildCatchBlockBody(catchBlock)
                     }
                 }
