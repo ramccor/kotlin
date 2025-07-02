@@ -49,8 +49,10 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinCompilation
 import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformType
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilerExecutionStrategy
+import plugins.KotlinBuildPublishingPlugin.Companion.DEFAULT_MAIN_PUBLICATION_NAME
 import plugins.configureDefaultPublishing
 import plugins.configureKotlinPomAttributes
+import plugins.signLibraryPublication
 
 /**
  * We have to handle the returned provider lazily, because the publication's artifactId
@@ -107,8 +109,8 @@ fun Project.configureCommonPublicationSettingsForGradle(
                     }
                 }
         }
+        configureDefaultPublishing(signingRequired)
     }
-    configureDefaultPublishing(signingRequired)
 }
 
 /**
@@ -502,9 +504,10 @@ fun Project.reconfigureMainSourcesSetForGradlePlugin(
 /**
  * Adding plugin variants: https://docs.gradle.org/current/userguide/implementing_gradle_plugins.html#plugin-with-variants
  */
-fun Project.createGradlePluginVariant(
+private fun Project.createGradlePluginVariant(
     variant: GradlePluginVariant,
     commonSourceSet: SourceSet,
+    publishShadowedJar: Boolean,
 ): SourceSet {
     val variantSourceSet = sourceSets.create(variant.sourceSetName) {
         excludeGradleCommonDependencies(this)
@@ -584,6 +587,10 @@ fun Project.createGradlePluginVariant(
     }
 
     registerValidatePluginTasks(variantSourceSet)
+
+    if (publishShadowedJar) {
+        publishShadowedJar(variantSourceSet, commonSourceSet)
+    }
 
     return variantSourceSet
 }
@@ -830,4 +837,59 @@ fun Project.registerKotlinSourceForVersionRange(
                 }
             }
         }
+}
+
+fun Project.configureGradlePluginDependency(
+    withPublication: Boolean,
+) {
+    plugins.apply("java-library")
+    plugins.apply("org.jetbrains.kotlin.jvm")
+    if (withPublication) {
+        plugins.apply("maven-publish")
+    }
+
+    configureBuildToolsApiVersionForGradleCompatibility()
+    configureCommonPublicationSettingsForGradle(signLibraryPublication)
+    addBomCheckTask()
+    extensions.extraProperties["kotlin.stdlib.default.dependency"] = "false"
+
+    val commonSourceSet = createGradleCommonSourceSet()
+    reconfigureMainSourcesSetForGradlePlugin(commonSourceSet)
+    createGradlePluginVariants(
+        commonSourceSet = commonSourceSet,
+        publishShadowedJar = false
+    )
+
+    if (withPublication) {
+        (extensions.getByName("publishing") as PublishingExtension).apply {
+            publications {
+                register<MavenPublication>(DEFAULT_MAIN_PUBLICATION_NAME) {
+                    from(components["java"])
+                    suppressAllPomMetadataWarnings() // Don't warn about additional published variants
+                }
+            }
+        }
+    }
+}
+
+fun Project.createGradlePluginVariants(
+    commonSourceSet: SourceSet,
+    publishShadowedJar: Boolean,
+) {
+    listOf(
+        GradlePluginVariant.GRADLE_80,
+        GradlePluginVariant.GRADLE_81,
+        GradlePluginVariant.GRADLE_82,
+        GradlePluginVariant.GRADLE_85,
+        GradlePluginVariant.GRADLE_86,
+        GradlePluginVariant.GRADLE_88,
+        GradlePluginVariant.GRADLE_811,
+        GradlePluginVariant.GRADLE_813,
+    ).forEach { variant ->
+        createGradlePluginVariant(
+            variant = variant,
+            commonSourceSet = commonSourceSet,
+            publishShadowedJar = publishShadowedJar,
+        )
+    }
 }

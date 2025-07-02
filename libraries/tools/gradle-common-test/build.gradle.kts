@@ -1,9 +1,9 @@
 import gradle.GradlePluginVariant
 import kotlin.io.path.pathString
 
-plugins {
-    id("gradle-plugin-dependency-configuration")
-}
+configureGradlePluginDependency(
+    withPublication = false
+)
 
 val dependenciesToCheck = listOf(
     project(":kotlin-gradle-plugin"),
@@ -12,13 +12,8 @@ val dependenciesToCheck = listOf(
 
 dependencies {
     dependenciesToCheck.forEach {
-        commonImplementation(it)
+        "commonImplementation"(it)
     }
-}
-
-publishing.publications.clear()
-publishing.publications.configureEach {
-    error("Don't declare publications in afterEvaluate")
 }
 
 val testGradleCommon = tasks.register("testGradleCommon")
