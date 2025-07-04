@@ -209,7 +209,7 @@ class LineNumberMapper(private val expressionCodegen: ExpressionCodegen) {
         else
             this
 
-        return firstFunctionInlineBlock?.inlineDeclaration?.parentClassOrNull ?: irFunction.parentAsClass
+        return firstFunctionInlineBlock?.inlineDeclaration?.parentClassOrNull ?: irFunction.parentClassOrNull!!
     }
 
     // TODO KT-69366 This function is not working correctly if default argument was a reference
