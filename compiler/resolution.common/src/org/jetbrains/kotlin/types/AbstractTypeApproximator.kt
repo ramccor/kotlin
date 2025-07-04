@@ -32,9 +32,14 @@ abstract class AbstractTypeApproximator(
         const val CACHE_FOR_INCORPORATION_MAX_SIZE = 500
     }
 
-    private val visitedCapturedTypes = mutableSetOf<CapturedTypeMarker>()
-    private val doneSuper = mutableMapOf<CapturedTypeMarker, KotlinTypeMarker?>()
-    private val doneSub = mutableMapOf<CapturedTypeMarker, KotlinTypeMarker?>()
+    private class Cache {
+        val visitedCapturedTypes = mutableSetOf<CapturedTypeMarker>()
+        val doneSuper = mutableMapOf<CapturedTypeMarker, KotlinTypeMarker?>()
+        val doneSub = mutableMapOf<CapturedTypeMarker, KotlinTypeMarker?>()
+    }
+
+
+    private val caches = mutableMapOf<TypeApproximatorConfiguration, Cache>()
 
     // null means that this input type is the result, i.e. input type not contains not-allowed kind of types
     // type <: resultType
@@ -53,32 +58,31 @@ abstract class AbstractTypeApproximator(
     }
 
     private fun extracted() {
-        check(visitedCapturedTypes.isEmpty())
-        if (doneSuper.isEmpty() && doneSub.isEmpty()) return
-
-        val leftCapturedTypes = (doneSuper + doneSub).filter { it.value?.isCapturedType() == true }
-
-        if (leftCapturedTypes.isEmpty()) return
-
-        val substitutor = typeSubstitutorByTypeConstructor(
-            leftCapturedTypes.entries.associateBy(
-                { it.key.typeConstructor() as TypeConstructorMarker },
-                { it.value!! }
-            )
-        )
-
-        leftCapturedTypes.forEach { entry ->
-            val captured = entry.value!!.asRigidType()!!.asCapturedTypeUnwrappingDnn()!!
-            @OptIn(K2Only::class)
-            captured.updateContent { type ->
-                substitutor.safeSubstitute(type).takeIf { it !== type }
-            }
-        }
+        //check(visitedCapturedTypes.isEmpty())
+//        if (doneSuper.isEmpty() && doneSub.isEmpty()) return
+//
+//        val leftCapturedTypes = (doneSuper + doneSub).filter { it.value?.isCapturedType() == true }
+//
+//        if (leftCapturedTypes.isEmpty()) return
+//
+//        val substitutor = typeSubstitutorByTypeConstructor(
+//            leftCapturedTypes.entries.associateBy(
+//                { it.key.typeConstructor() as TypeConstructorMarker },
+//                { it.value!! }
+//            )
+//        )
+//
+//        leftCapturedTypes.forEach { entry ->
+//            val captured = entry.value!!.asRigidType()!!.asCapturedTypeUnwrappingDnn()!!
+//            @OptIn(K2Only::class)
+//            captured.updateContent { type ->
+//                substitutor.safeSubstitute(type).takeIf { it !== type }
+//            }
+//        }
     }
 
     fun clear() {
-        doneSub.clear()
-        doneSuper.clear()
+        caches.clear()
     }
 
     fun clearCache() {
@@ -412,6 +416,11 @@ abstract class AbstractTypeApproximator(
         toSuper: Boolean,
         depth: Int,
     ): KotlinTypeMarker? {
+        val cache = caches.getOrPut(conf) { Cache() }
+        val visitedCapturedTypes = cache.visitedCapturedTypes
+        val doneSuper = cache.doneSuper
+        val doneSub = cache.doneSub
+
         when {
             toSuper && doneSuper.contains(capturedType) -> return doneSuper.getValue(capturedType)
             !toSuper && doneSub.contains(capturedType) -> return doneSub.getValue(capturedType)
@@ -476,14 +485,14 @@ abstract class AbstractTypeApproximator(
 
         if (!conf.shouldApproximateCapturedType(ctx, capturedType)) {
             when {
-                isK2 && conf != TypeApproximatorConfiguration.IncorporationConfiguration ->
-                    @OptIn(K2Only::class)
-                    return capturedType.substituteContent { componentType, isSuperType ->
-                        when {
-                            isSuperType -> approximateToSuperType(componentType, conf, depth)
-                            else -> approximateToSubType(componentType, conf, depth)
-                        }
-                    }
+//                isK2 && conf != TypeApproximatorConfiguration.IncorporationConfiguration ->
+//                    @OptIn(K2Only::class)
+//                    return capturedType.substituteContent { componentType, isSuperType ->
+//                        when {
+//                            isSuperType -> approximateToSuperType(componentType, conf, depth)
+//                            else -> approximateToSubType(componentType, conf, depth)
+//                        }
+//                    }
                 else -> {
                     /**
                      * Here everything is ok if bounds for this captured type should not be approximated.
@@ -492,8 +501,8 @@ abstract class AbstractTypeApproximator(
                      * So, we will just approximate such types
                      */
 
-                    check(!isK2 || capturedType.captureStatus() == CaptureStatus.FROM_EXPRESSION)
-                    check(!isK2 || conf == TypeApproximatorConfiguration.IncorporationConfiguration)
+                    //check(!isK2 || capturedType.captureStatus() == CaptureStatus.FROM_EXPRESSION)
+                    //check(!isK2 || conf == TypeApproximatorConfiguration.IncorporationConfiguration)
 
                     if (approximatedSuperType == null && approximatedSubType == null) {
                         return null
@@ -694,7 +703,7 @@ abstract class AbstractTypeApproximator(
                 continue@loop
             }
 
-            if (isK2 && capturedType != null && visitedCapturedTypes.contains(capturedType) && conf.shouldApproximateCapturedType(ctx, capturedType)) {
+            if (isK2 && capturedType != null && caches[conf]?.visitedCapturedTypes?.contains(capturedType) == true && conf.shouldApproximateCapturedType(ctx, capturedType)) {
                 newArguments[index] = createStarProjection(parameter)
                 continue
             }
