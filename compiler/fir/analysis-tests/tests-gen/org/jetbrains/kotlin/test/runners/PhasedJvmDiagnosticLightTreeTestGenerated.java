@@ -55960,6 +55960,12 @@ public class PhasedJvmDiagnosticLightTreeTestGenerated extends AbstractPhasedJvm
         }
 
         @Test
+        @TestMetadata("LocalDelegate.kt")
+        public void testLocalDelegate() {
+          runTest("compiler/fir/analysis-tests/testData/resolve/extraCheckers/unused/LocalDelegate.kt");
+        }
+
+        @Test
         @TestMetadata("LocalFunction.kt")
         public void testLocalFunction() {
           runTest("compiler/fir/analysis-tests/testData/resolve/extraCheckers/unused/LocalFunction.kt");
