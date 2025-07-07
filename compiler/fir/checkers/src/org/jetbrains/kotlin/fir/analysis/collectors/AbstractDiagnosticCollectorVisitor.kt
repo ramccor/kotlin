@@ -303,7 +303,7 @@ abstract class AbstractDiagnosticCollectorVisitor(
         val oldContext = context.inlineFunctionBodyContext
         return try {
             if (isInline) {
-                context = context.setInlineFunctionBodyContext(createInlineFunctionBodyContext(function, context.session))
+                context = context.setInlineFunctionBodyContext(createInlineFunctionBodyContext(function, context.session, oldContext))
             }
             block()
         } finally {

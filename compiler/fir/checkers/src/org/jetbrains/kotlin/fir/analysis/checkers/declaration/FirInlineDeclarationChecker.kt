@@ -60,6 +60,7 @@ object FirInlineDeclarationChecker : FirFunctionChecker(MppCheckerKind.Common) {
         val inlineFunEffectiveVisibility: EffectiveVisibility,
         private val inlinableParameters: List<FirValueParameterSymbol>,
         val session: FirSession,
+        val parentInlineContext: InlineFunctionBodyContext?,
     ) {
         private val isEffectivelyPrivateApiFunction: Boolean = inlineFunEffectiveVisibility.privateApi
 
@@ -577,7 +578,11 @@ private fun FirValueParameter.isInlinable(session: FirSession): Boolean {
     return !fullyExpandedType.isMarkedNullable && fullyExpandedType.functionTypeKind(session)?.isInlineable == true
 }
 
-fun createInlineFunctionBodyContext(function: FirFunction, session: FirSession): FirInlineDeclarationChecker.InlineFunctionBodyContext {
+fun createInlineFunctionBodyContext(
+    function: FirFunction,
+    session: FirSession,
+    parentInlineContext: FirInlineDeclarationChecker.InlineFunctionBodyContext?
+): FirInlineDeclarationChecker.InlineFunctionBodyContext {
     val inlineableParameters = function.valueParameters.mapNotNull { p -> p.takeIf { it.isInlinable(session) }?.symbol }
 
     return FirInlineDeclarationChecker.InlineFunctionBodyContext(
@@ -585,6 +590,7 @@ fun createInlineFunctionBodyContext(function: FirFunction, session: FirSession):
         function.publishedApiEffectiveVisibility ?: function.effectiveVisibility,
         inlineableParameters,
         session,
+        parentInlineContext,
     )
 }
 
