@@ -1,5 +1,7 @@
 // CHECK_TYPE_WITH_EXACT
 // JVM_ABI_K1_K2_DIFF: KT-78111
+// IGNORE_BACKEND: WASM
+// WASM_MUTE_REASON: Wasm does not support null leaking
 
 class Buildee<CT> {
     fun yield(arg: CT) {}

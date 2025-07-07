@@ -1256,6 +1256,12 @@ public class K1WasmCodegenBoxTestGenerated extends AbstractK1WasmCodegenBoxTest 
     }
 
     @Test
+    @TestMetadata("unchecked_cast14.kt")
+    public void testUnchecked_cast14() {
+      runTest("compiler/testData/codegen/box/basics/unchecked_cast14.kt");
+    }
+
+    @Test
     @TestMetadata("unchecked_cast2.kt")
     public void testUnchecked_cast2() {
       runTest("compiler/testData/codegen/box/basics/unchecked_cast2.kt");

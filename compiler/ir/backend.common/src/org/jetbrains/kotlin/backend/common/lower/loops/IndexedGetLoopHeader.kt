@@ -7,12 +7,14 @@ package org.jetbrains.kotlin.backend.common.lower.loops
 
 import org.jetbrains.kotlin.backend.common.CommonBackendContext
 import org.jetbrains.kotlin.backend.common.lower.DeclarationIrBuilder
+import org.jetbrains.kotlin.backend.common.possibleGenericTypeUpCast
 import org.jetbrains.kotlin.ir.IrStatement
 import org.jetbrains.kotlin.ir.builders.irCall
 import org.jetbrains.kotlin.ir.builders.irGet
 import org.jetbrains.kotlin.ir.declarations.IrVariable
 import org.jetbrains.kotlin.ir.expressions.IrExpression
 import org.jetbrains.kotlin.ir.expressions.IrLoop
+import org.jetbrains.kotlin.ir.expressions.IrTypeOperatorCall
 import org.jetbrains.kotlin.ir.expressions.impl.IrWhileLoopImpl
 import org.jetbrains.kotlin.ir.util.implicitCastIfNeededTo
 
@@ -42,7 +44,11 @@ class IndexedGetLoopHeader(
             val get = irCall(indexedGetFun.symbol, indexedGetFun.returnType).apply {
                 arguments[0] = irGet(headerInfo.objectVariable)
                 arguments[1] = irGet(inductionVariable)
-            }.implicitCastIfNeededTo(loopVariable?.type ?: indexedGetFun.returnType)
+            }.implicitCastIfNeededTo(loopVariable?.type ?: indexedGetFun.returnType).also {
+                if (it is IrTypeOperatorCall) {
+                    it.possibleGenericTypeUpCast = true
+                }
+            }
             // The call could be wrapped in an IMPLICIT_NOTNULL type-cast (see comment in ForLoopsLowering.gatherLoopVariableInfo()).
             // Find and replace the call to preserve any type-casts.
             loopVariable?.initializer = loopVariable?.initializer?.transform(InitializerCallReplacer(get), null)

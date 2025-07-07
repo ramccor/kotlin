@@ -12,6 +12,7 @@ import org.jetbrains.kotlin.backend.common.lower.DeclarationIrBuilder
 import org.jetbrains.kotlin.backend.common.lower.at
 import org.jetbrains.kotlin.backend.common.lower.createIrBuilder
 import org.jetbrains.kotlin.backend.common.lower.irNot
+import org.jetbrains.kotlin.backend.common.possibleGenericTypeUpCast
 import org.jetbrains.kotlin.backend.wasm.WasmBackendContext
 import org.jetbrains.kotlin.backend.wasm.instanceCheckForExternalClass
 import org.jetbrains.kotlin.backend.wasm.ir2wasm.getRuntimeClass
@@ -28,6 +29,7 @@ import org.jetbrains.kotlin.ir.types.*
 import org.jetbrains.kotlin.ir.util.*
 import org.jetbrains.kotlin.ir.util.isNullable
 import org.jetbrains.kotlin.ir.visitors.transformChildrenVoid
+import org.jetbrains.kotlin.name.FqName
 
 
 class WasmTypeOperatorLowering(val context: WasmBackendContext) : FileLoweringPass {
@@ -41,6 +43,7 @@ class WasmBaseTypeOperatorTransformer(val context: WasmBackendContext) : IrEleme
     private val builtIns = context.irBuiltIns
     private val jsToKotlinAnyAdapter get() = symbols.jsRelatedSymbols.jsInteropAdapters.jsToKotlinAnyAdapter
     private val kotlinToJsAnyAdapter get() = symbols.jsRelatedSymbols.jsInteropAdapters.kotlinToJsAnyAdapter
+    private val wasmCharArrayFqName = FqName("kotlin.wasm.internal.WasmCharArray")
 
     private lateinit var builder: DeclarationIrBuilder
 
@@ -105,7 +108,7 @@ class WasmBaseTypeOperatorTransformer(val context: WasmBackendContext) : IrEleme
     private fun generateCCE(valueProvider: () -> IrExpression, fromType: IrType, toType: IrType): IrExpression {
         val klass = toType.erasedUpperBound
 
-        if (klass.isEffectivelyExternal() && klass.isInterface) {
+        if (klass.isEffectivelyExternal()) {
             return builder.irCall(context.symbols.throwTypeCastException)
         }
 
@@ -291,7 +294,8 @@ class WasmBaseTypeOperatorTransformer(val context: WasmBackendContext) : IrEleme
         val expressionType = expression.type
 
         if (toType != context.irBuiltIns.nothingType &&
-            fromType.erasedUpperBound.isSubclassOf(expressionType.erasedUpperBound)
+            fromType.erasedUpperBound.isSubclassOf(expressionType.erasedUpperBound) &&
+            (toType.isMarkedNullable() || !fromType.isMarkedNullable())
         ) {
             return narrowType(fromType, expressionType, expression.argument)
         }
@@ -318,12 +322,21 @@ class WasmBaseTypeOperatorTransformer(val context: WasmBackendContext) : IrEleme
         }
     }
 
+    private fun possiblyGenericTypeCast(expression: IrTypeOperatorCall) =
+        expression.argument.type.classOrNull?.owner?.isEffectivelyExternal() != true &&
+                expression.possibleGenericTypeUpCast == true &&
+                expression.typeOperand.classFqName != wasmCharArrayFqName
+
     private fun lowerImplicitCast(expression: IrTypeOperatorCall): IrExpression =
-        narrowType(
-            fromType = expression.argument.type,
-            toType = expression.typeOperand,
-            value = expression.argument
-        )
+        if (possiblyGenericTypeCast(expression)) {
+            lowerCast(expression, isSafe = false)
+        } else {
+            narrowType(
+                fromType = expression.argument.type,
+                toType = expression.typeOperand,
+                value = expression.argument
+            )
+        }
 
     private fun generateTypeCheckWithTypeParameter(argument: IrExpression, toType: IrType): IrExpression {
         val typeParameter = toType.classifierOrNull?.owner as? IrTypeParameter

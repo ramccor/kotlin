@@ -8,6 +8,7 @@ package org.jetbrains.kotlin.backend.wasm.lower
 import org.jetbrains.kotlin.backend.common.FileLoweringPass
 import org.jetbrains.kotlin.backend.common.IrElementTransformerVoidWithContext
 import org.jetbrains.kotlin.backend.common.lower.createIrBuilder
+import org.jetbrains.kotlin.backend.common.possibleGenericTypeUpCast
 import org.jetbrains.kotlin.backend.wasm.WasmBackendContext
 import org.jetbrains.kotlin.ir.backend.js.utils.realOverrideTarget
 import org.jetbrains.kotlin.ir.builders.irImplicitCast
@@ -53,9 +54,9 @@ class GenericReturnTypeLowering(val context: WasmBackendContext) : FileLoweringP
             function.realOverrideTarget.returnType.eraseUpperBoundType()
 
         val callType = call.type
+        if (callType.isNothing()) return call
 
         if (erasedReturnType != call.type) {
-            if (callType.isNothing()) return call
             if (erasedReturnType.isSubtypeOf(callType, context.typeSystem)) return call
 
             // Erase type parameter from call return type
@@ -67,7 +68,9 @@ class GenericReturnTypeLowering(val context: WasmBackendContext) : FileLoweringP
             )
 
             context.createIrBuilder(scopeOwnerSymbol).apply {
-                return irImplicitCast(newCall, call.type)
+                return irImplicitCast(newCall, call.type).also {
+                    it.possibleGenericTypeUpCast = true
+                }
             }
         }
         return call
