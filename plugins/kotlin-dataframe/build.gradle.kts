@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm")
+    id("java-test-fixtures")
 }
 
 dependencies {
@@ -8,26 +9,24 @@ dependencies {
     embedded(project(":kotlin-dataframe-compiler-plugin.k2")) { isTransitive = false }
     embedded(project(":kotlin-dataframe-compiler-plugin.cli")) { isTransitive = false }
 
-    testApi(project(":kotlin-dataframe-compiler-plugin.cli"))
+    testFixturesApi(project(":kotlin-dataframe-compiler-plugin.cli"))
     testRuntimeOnly(libs.dataframe.core.dev)
     testRuntimeOnly(libs.dataframe.csv.dev)
-    testApi(platform(libs.junit.bom))
-    testImplementation(libs.junit.jupiter.api)
+    testFixturesApi(platform(libs.junit.bom))
+    testFixturesApi(libs.junit.jupiter.api)
     testRuntimeOnly(libs.junit.jupiter.engine)
-    testApi(projectTests(":compiler:tests-common-new"))
-    testApi(projectTests(":compiler:test-infrastructure"))
-    testApi(projectTests(":compiler:test-infrastructure-utils"))
-    testApi(projectTests(":compiler:fir:analysis-tests"))
-    testApi(projectTests(":js:js.tests"))
-    testApi(project(":compiler:fir:plugin-utils"))
+    testFixturesApi(projectTests(":compiler:tests-common-new"))
+    testFixturesApi(projectTests(":compiler:test-infrastructure"))
+    testFixturesApi(projectTests(":compiler:test-infrastructure-utils"))
+    testFixturesApi(projectTests(":compiler:fir:analysis-tests"))
+    testFixturesApi(projectTests(":js:js.tests"))
+    testFixturesApi(project(":compiler:fir:plugin-utils"))
 }
 
 sourceSets {
     "main" { projectDefault() }
-    "test" {
-        projectDefault()
-        generatedTestDir()
-    }
+    "test" { generatedTestDir() }
+    "testFixtures" { projectDefault() }
 }
 
 projectTest(parallel = true, jUnitMode = JUnitMode.JUnit5) {
