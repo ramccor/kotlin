@@ -14,7 +14,6 @@ import org.jetbrains.kotlin.sir.providers.SirParentProvider
 import org.jetbrains.kotlin.sir.providers.SirSession
 import org.jetbrains.kotlin.sir.providers.utils.containingModule
 import org.jetbrains.kotlin.sir.providers.utils.updateImport
-import org.jetbrains.kotlin.sir.providers.withSessions
 import org.jetbrains.kotlin.sir.util.SirPlatformModule
 import org.jetbrains.kotlin.sir.util.addChild
 
@@ -25,14 +24,18 @@ public class SirParentProviderImpl(
 
     private val createdExtensionsForModule: MutableMap<SirModule, MutableMap<SirEnum, SirExtension>> = mutableMapOf()
 
-    override fun KaDeclarationSymbol.getOriginalSirParent(ktAnalysisSession: KaSession): SirElement = sirSession.withSessions {
-        this@getOriginalSirParent.containingDeclaration?.toSir()?.primaryDeclaration
-            ?: this@getOriginalSirParent.containingModule.sirModule()
+    context(ka: KaSession)
+    override fun KaDeclarationSymbol.getOriginalSirParent(): SirElement = with(sirSession) {
+        with(ka) {
+            this@getOriginalSirParent.containingDeclaration?.toSir()?.primaryDeclaration
+                ?: this@getOriginalSirParent.containingModule.sirModule()
+        }
     }
 
-    override fun KaDeclarationSymbol.getSirParent(ktAnalysisSession: KaSession): SirDeclarationContainer {
+    context(ka: KaSession)
+    override fun KaDeclarationSymbol.getSirParent(): SirDeclarationContainer {
         val symbol = this@getSirParent
-        val parentSymbol = with(ktAnalysisSession) { symbol.containingDeclaration }
+        val parentSymbol = with(ka) { symbol.containingDeclaration }
 
         return if (parentSymbol == null) {
             // top level function. -> parent is either extension for package, of plain module in case of <root> package
@@ -43,7 +46,7 @@ public class SirParentProviderImpl(
                 else -> null
             } ?: error("encountered unknown origin: $symbol. This exception should be reworked during KT-65980")
 
-            val ktModule = with(ktAnalysisSession) { symbol.containingModule }
+            val ktModule = with(ka) { symbol.containingModule }
             val sirModule = with(sirSession) { ktModule.sirModule() }
             return if (packageFqName.isRoot || sirModule is SirPlatformModule) {
                 sirModule
@@ -71,7 +74,7 @@ public class SirParentProviderImpl(
         } else {
             with(sirSession) {
                 if (symbol is KaClassSymbol && parentSymbol is KaNamedClassSymbol && parentSymbol.classKind == KaClassKind.INTERFACE) {
-                    with(ktAnalysisSession) {
+                    with(ka) {
                         parentSymbol.containingModule.sirModule()
                     }
                 } else {

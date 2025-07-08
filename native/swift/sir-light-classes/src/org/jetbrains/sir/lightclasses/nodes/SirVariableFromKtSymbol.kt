@@ -6,6 +6,7 @@
 package org.jetbrains.sir.lightclasses.nodes
 
 import org.jetbrains.kotlin.analysis.api.KaExperimentalApi
+import org.jetbrains.kotlin.analysis.api.analyze
 import org.jetbrains.kotlin.analysis.api.symbols.*
 import org.jetbrains.kotlin.analysis.api.types.KaClassType
 import org.jetbrains.kotlin.sir.*
@@ -19,11 +20,10 @@ import org.jetbrains.kotlin.utils.addToStdlib.ifFalse
 import org.jetbrains.sir.lightclasses.SirFromKtSymbol
 import org.jetbrains.sir.lightclasses.extensions.*
 import org.jetbrains.sir.lightclasses.extensions.documentation
-import org.jetbrains.sir.lightclasses.extensions.lazyWithSessions
-import org.jetbrains.sir.lightclasses.extensions.withSessions
 import org.jetbrains.sir.lightclasses.utils.*
 import org.jetbrains.sir.lightclasses.utils.translateReturnType
 import org.jetbrains.sir.lightclasses.utils.translatedAttributes
+import kotlin.lazy
 
 internal abstract class SirAbstractVariableFromKtSymbol(
     override val ktSymbol: KaVariableSymbol,
@@ -35,11 +35,17 @@ internal abstract class SirAbstractVariableFromKtSymbol(
     override val origin: SirOrigin by lazy {
         KotlinSource(ktSymbol)
     }
-    override val name: String by lazyWithSessions {
-        ktSymbol.sirDeclarationName()
+    override val name: String by lazy {
+        with(sirSession) {
+            analyze(useSiteModule) {
+                ktSymbol.sirDeclarationName()
+            }
+        }
     }
     override val type: SirType by lazy {
-        translateReturnType()
+        analyze(sirSession.useSiteModule) {
+            translateReturnType()
+        }
     }
     override val getter: SirGetter by lazy {
         ((ktSymbol as? KaPropertySymbol)?.let {
@@ -64,8 +70,10 @@ internal abstract class SirAbstractVariableFromKtSymbol(
     }
 
     override var parent: SirDeclarationParent
-        get() = withSessions {
-            ktSymbol.getSirParent(useSiteSession)
+        get() = with(sirSession) {
+            analyze(useSiteModule) {
+                ktSymbol.getSirParent()
+            }
         }
         set(_) = Unit
 
@@ -101,17 +109,20 @@ internal class SirEnumEntriesStaticPropertyFromKtSymbol(
     override val name: String
         get() = "allCases"
 
-    override val type: SirType by lazyWithSessions {
-        SirArrayType(
-            (ktSymbol.returnType as KaClassType)
-                .typeArguments.first().type!!
-                .translateType(
-                    useSiteSession,
-                    reportErrorType = { error("Can't translate return type in ${ktSymbol.render()}: ${it}") },
-                    reportUnsupportedType = { error("Can't translate return type in ${ktSymbol.render()}: type is not supported") },
-                    processTypeImports = ktSymbol.containingModule.sirModule()::updateImports
+    override val type: SirType by lazy {
+        with(sirSession) {
+            analyze(useSiteModule) {
+                SirArrayType(
+                    (ktSymbol.returnType as KaClassType)
+                        .typeArguments.first().type!!
+                        .translateType(
+                            reportErrorType = { error("Can't translate return type in ${ktSymbol.render()}: ${it}") },
+                            reportUnsupportedType = { error("Can't translate return type in ${ktSymbol.render()}: type is not supported") },
+                            processTypeImports = ktSymbol.containingModule.sirModule()::updateImports
+                        )
                 )
-        )
+            }
+        }
     }
 }
 

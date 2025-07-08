@@ -5,6 +5,7 @@
 
 package org.jetbrains.sir.lightclasses.utils
 
+import org.jetbrains.kotlin.analysis.api.analyze
 import org.jetbrains.kotlin.analysis.api.symbols.KaClassSymbol
 import org.jetbrains.kotlin.analysis.api.symbols.KaNamedFunctionSymbol
 import org.jetbrains.kotlin.analysis.api.symbols.KaSymbol
@@ -13,7 +14,6 @@ import org.jetbrains.kotlin.sir.SirFunction
 import org.jetbrains.kotlin.sir.providers.SirSession
 import org.jetbrains.kotlin.sir.providers.SirTranslationResult
 import org.jetbrains.kotlin.sir.providers.source.KotlinSource
-import org.jetbrains.kotlin.sir.providers.withSessions
 import org.jetbrains.kotlin.sir.util.allParameters
 import org.jetbrains.sir.lightclasses.nodes.SirBinaryMathOperatorTrampolineFunction
 import org.jetbrains.sir.lightclasses.nodes.SirComparisonOperatorTrampolineFunction
@@ -21,6 +21,7 @@ import org.jetbrains.sir.lightclasses.nodes.SirFunctionFromKtSymbol
 import org.jetbrains.sir.lightclasses.nodes.SirRenamedFunction
 import org.jetbrains.sir.lightclasses.nodes.SirSubscriptTrampoline
 import org.jetbrains.sir.lightclasses.nodes.SirUnaryMathOperatorTrampolineFunction
+import kotlin.lazy
 
 public sealed class SirOperatorTranslationStrategy(public val kaSymbol: KaNamedFunctionSymbol) {
     public companion object {
@@ -154,14 +155,16 @@ public sealed class SirOperatorTranslationStrategy(public val kaSymbol: KaNamedF
             when (kaSymbol.name.asString()) {
                 "get" -> {
                     val getterFunction = SirRenamedFunction(kaSymbol, sirSession = sirSession)
-                    val setterFunction = sirSession.withSessions {
-                        (kaSymbol.containingSymbol as? KaClassSymbol)?.declaredMemberScope?.callables
-                            ?.filterIsInstance<KaNamedFunctionSymbol>()
-                            ?.filter { it.isOperator && it.name.asString() == "set" }
-                            ?.mapNotNull { it.toSir().primaryDeclaration as? SirFunction }
-                            ?.firstOrNull {
-                                it.allParameters.dropLast(1) == getterFunction.allParameters && it.allParameters.lastOrNull()?.type == getterFunction.returnType
-                            }
+                    val setterFunction: SirFunction? = with(sirSession) {
+                        analyze(useSiteModule) {
+                            (kaSymbol.containingSymbol as? KaClassSymbol)?.declaredMemberScope?.callables
+                                ?.filterIsInstance<KaNamedFunctionSymbol>()
+                                ?.filter { it.isOperator && it.name.asString() == "set" }
+                                ?.mapNotNull { it.toSir().primaryDeclaration as? SirFunction }
+                                ?.firstOrNull {
+                                    it.allParameters.dropLast(1) == getterFunction.allParameters && it.allParameters.lastOrNull()?.type == getterFunction.returnType
+                                }
+                        }
                     }
 
                     return SirTranslationResult.OperatorSubscript(

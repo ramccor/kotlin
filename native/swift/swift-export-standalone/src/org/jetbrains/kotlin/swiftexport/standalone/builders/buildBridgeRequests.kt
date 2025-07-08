@@ -5,13 +5,12 @@
 
 package org.jetbrains.kotlin.swiftexport.standalone.builders
 
-import org.jetbrains.kotlin.analysis.api.KaSession
 import org.jetbrains.kotlin.sir.*
 import org.jetbrains.kotlin.sir.bridge.BridgeGenerator
 import org.jetbrains.kotlin.sir.bridge.BridgeRequest
-import org.jetbrains.kotlin.sir.providers.SirAndKaSession
+import org.jetbrains.kotlin.sir.providers.SirSession
 
-internal fun SirAndKaSession.buildBridgeRequests(generator: BridgeGenerator, container: SirDeclarationContainer): List<BridgeRequest> = buildList {
+internal fun SirSession.buildBridgeRequests(generator: BridgeGenerator, container: SirDeclarationContainer): List<BridgeRequest> = buildList {
         addAll(
             container
                 .allCallables()

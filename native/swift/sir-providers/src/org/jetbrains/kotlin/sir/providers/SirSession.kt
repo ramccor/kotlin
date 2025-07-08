@@ -56,13 +56,16 @@ public interface SirSession :
 
     override fun KaDeclarationSymbol.sirDeclarationName(): String = with(declarationNamer) { this@sirDeclarationName.sirDeclarationName() }
 
+    context(ka: KaSession)
     override fun KaDeclarationSymbol.toSir(): SirTranslationResult = with(declarationProvider) { this@toSir.toSir() }
 
-    override fun KaDeclarationSymbol.getSirParent(ktAnalysisSession: KaSession): SirDeclarationParent =
-        with(parentProvider) { this@getSirParent.getSirParent(ktAnalysisSession) }
+    context(ka: KaSession)
+    override fun KaDeclarationSymbol.getSirParent(): SirDeclarationParent =
+        with(parentProvider) { this@getSirParent.getSirParent() }
 
-    override fun KaDeclarationSymbol.getOriginalSirParent(ktAnalysisSession: KaSession): SirElement =
-        with(parentProvider) { this@getOriginalSirParent.getOriginalSirParent(ktAnalysisSession) }
+    context(ka: KaSession)
+    override fun KaDeclarationSymbol.getOriginalSirParent(): SirElement =
+        with(parentProvider) { this@getOriginalSirParent.getOriginalSirParent() }
 
     override fun SirDeclaration.trampolineDeclarations(): List<SirDeclaration> = with (trampolineDeclarationsProvider) {
         this@trampolineDeclarations.trampolineDeclarations()
@@ -70,31 +73,27 @@ public interface SirSession :
 
     override fun KaModule.sirModule(): SirModule = with(moduleProvider) { this@sirModule.sirModule() }
 
+    context(ka: KaSession)
     override fun KaType.translateType(
-        ktAnalysisSession: KaSession,
         reportErrorType: (String) -> Nothing,
         reportUnsupportedType: () -> Nothing,
         processTypeImports: (List<SirImport>) -> Unit,
     ): SirType =
         with(typeProvider) {
             this@translateType.translateType(
-                ktAnalysisSession,
                 reportErrorType,
                 reportUnsupportedType,
                 processTypeImports
             )
         }
 
-    @Deprecated("Use this.sirAvailability instead", ReplaceWith("this.sirAvailability(ktAnalysisSession)"))
-    @Suppress("DEPRECATION")
-    override fun KaDeclarationSymbol.sirVisibility(ktAnalysisSession: KaSession): SirVisibility? =
-        with(visibilityChecker) { this@sirVisibility.sirVisibility(ktAnalysisSession) }
+    context(ka: KaSession)
+    override fun KaDeclarationSymbol.sirAvailability(): SirAvailability =
+        with(visibilityChecker) { this@sirAvailability.sirAvailability() }
 
-    override fun KaDeclarationSymbol.sirAvailability(ktAnalysisSession: KaSession): SirAvailability =
-        with(visibilityChecker) { this@sirAvailability.sirAvailability(ktAnalysisSession) }
-
-    override fun Sequence<KaDeclarationSymbol>.extractDeclarations(kaSession: KaSession): Sequence<SirDeclaration> =
-        with(childrenProvider) { this@extractDeclarations.extractDeclarations(kaSession) }
+    context (ka: KaSession)
+    override fun Sequence<KaDeclarationSymbol>.extractDeclarations(): Sequence<SirDeclaration> =
+        with(childrenProvider) { this@extractDeclarations.extractDeclarations() }
 }
 
 /**
@@ -208,14 +207,8 @@ public sealed interface SirTranslationResult {
  * A single entry point to create a lazy wrapper around the given [KaDeclarationSymbol].
  */
 public interface SirDeclarationProvider {
+    context(ka: KaSession)
     public fun KaDeclarationSymbol.toSir(): SirTranslationResult
-
-    @Deprecated(
-        "This is provided for compatibility with external code. Prefer structured result version",
-        level = DeprecationLevel.WARNING,
-        replaceWith = ReplaceWith("this.toSIR().allDeclarations")
-    )
-    public fun KaDeclarationSymbol.sirDeclarations(): List<SirDeclaration> = toSir().allDeclarations
 }
 
 /**
@@ -226,7 +219,8 @@ public interface SirDeclarationProvider {
  *
  */
 public interface SirParentProvider {
-    public fun KaDeclarationSymbol.getSirParent(ktAnalysisSession: KaSession): SirDeclarationParent
+    context(ka: KaSession)
+    public fun KaDeclarationSymbol.getSirParent(): SirDeclarationParent
 
     /**
      * Get original sir parent
@@ -234,10 +228,10 @@ public interface SirParentProvider {
      * When that is the case, [SirParentProvider] attempts to relocate children declarations into the most appropriate place.
      * This method returns the original intended parent declaration that the receiver may have been relocated from.
      *
-     * @param ktAnalysisSession session
      * @return Sir element for original parent symbol. This is the same as [getSirParent] if the receiver was never relocated.
      */
-    public fun KaDeclarationSymbol.getOriginalSirParent(ktAnalysisSession: KaSession): SirElement
+    context(ka: KaSession)
+    public fun KaDeclarationSymbol.getOriginalSirParent(): SirElement
 }
 
 /**
@@ -260,10 +254,12 @@ public interface SirModuleProvider {
 //  as it acts as a combination of several other provider (declaration, trampoline, visibility)
 public interface SirChildrenProvider {
 
-    public fun KaScope.extractDeclarations(ktAnalysisSession: KaSession): Sequence<SirDeclaration> =
-        declarations.extractDeclarations(ktAnalysisSession)
+    context (ka: KaSession)
+    public fun KaScope.extractDeclarations(): Sequence<SirDeclaration> =
+        declarations.extractDeclarations()
 
-    public fun Sequence<KaDeclarationSymbol>.extractDeclarations(kaSession: KaSession): Sequence<SirDeclaration>
+    context (ka: KaSession)
+    public fun Sequence<KaDeclarationSymbol>.extractDeclarations(): Sequence<SirDeclaration>
 }
 
 public interface SirTypeProvider {
@@ -282,8 +278,8 @@ public interface SirTypeProvider {
      *
      * [processTypeImports] is called with the imports required to use the resulting type properly.
      */
+    context(ka: KaSession)
     public fun KaType.translateType(
-        ktAnalysisSession: KaSession,
         reportErrorType: (String) -> Nothing,
         reportUnsupportedType: () -> Nothing,
         processTypeImports: (List<SirImport>) -> Unit,
@@ -294,34 +290,8 @@ public interface SirTypeProvider {
 
 public interface SirVisibilityChecker {
     /**
-     * Determines visibility of the given [KaDeclarationSymbol].
-     * @return null if symbol should not be exposed to SIR completely.
-     */
-    @Deprecated(
-        "Use sirAvailability instead",
-        level = DeprecationLevel.WARNING,
-        replaceWith = ReplaceWith("this.sirAvailability(ktAnalysisSession)")
-    )
-    public fun KaDeclarationSymbol.sirVisibility(ktAnalysisSession: KaSession): SirVisibility? =
-        this.sirAvailability(ktAnalysisSession).visibility
-
-    /**
      * Determines availability of the given [KaDeclarationSymbol].
      */
-    public fun KaDeclarationSymbol.sirAvailability(ktAnalysisSession: KaSession): SirAvailability
-}
-
-/**
- * TODO: KT-78603 drop this [KaSession] inheritance as it is prohibited and can lead to unexpected problems
- */
-@OptIn(KaImplementationDetail::class)
-public interface SirAndKaSession : KaSession, SirSession
-
-public inline fun <T> SirSession.withSessions(crossinline block: SirAndKaSession.() -> T): T {
-    return analyze(this.useSiteModule) {
-        @OptIn(KaImplementationDetail::class)
-        object : SirSession by this@withSessions, KaSession by this@analyze, SirAndKaSession {
-            override val useSiteModule: KaModule get() = this@analyze.useSiteModule
-        }.block()
-    }
+    context(ka: KaSession)
+    public fun KaDeclarationSymbol.sirAvailability(): SirAvailability
 }

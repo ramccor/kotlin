@@ -5,10 +5,11 @@
 
 package org.jetbrains.kotlin.swiftexport.standalone.builders
 
+import org.jetbrains.kotlin.analysis.api.analyze
 import org.jetbrains.kotlin.analysis.api.symbols.*
 import org.jetbrains.kotlin.sir.*
 import org.jetbrains.kotlin.sir.bridge.*
-import org.jetbrains.kotlin.sir.providers.SirAndKaSession
+import org.jetbrains.kotlin.sir.providers.SirSession
 import org.jetbrains.kotlin.sir.providers.source.KotlinPropertyAccessorOrigin
 import org.jetbrains.kotlin.sir.providers.source.KotlinSource
 import org.jetbrains.kotlin.sir.providers.source.kaSymbolOrNull
@@ -16,7 +17,7 @@ import org.jetbrains.kotlin.sir.providers.utils.isAbstract
 import org.jetbrains.kotlin.sir.util.*
 import org.jetbrains.kotlin.utils.addIfNotNull
 
-internal fun SirAndKaSession.constructFunctionBridgeRequests(function: SirFunction, generator: BridgeGenerator): List<FunctionBridgeRequest> {
+internal fun SirSession.constructFunctionBridgeRequests(function: SirFunction, generator: BridgeGenerator): List<FunctionBridgeRequest> {
     val fqName = function.kaSymbolOrNull<KaFunctionSymbol>()
         ?.callableId?.asSingleFqName()
         ?.pathSegments()?.map { it.toString() }
@@ -27,7 +28,7 @@ internal fun SirAndKaSession.constructFunctionBridgeRequests(function: SirFuncti
     )
 }
 
-internal fun SirAndKaSession.constructFunctionBridgeRequests(variable: SirVariable, generator: BridgeGenerator): List<FunctionBridgeRequest> {
+internal fun SirSession.constructFunctionBridgeRequests(variable: SirVariable, generator: BridgeGenerator): List<FunctionBridgeRequest> {
     val fqName = when (val origin = variable.origin) {
         is KotlinSource -> variable.kaSymbolOrNull<KaVariableSymbol>()
             ?.callableId?.asSingleFqName()
@@ -48,34 +49,36 @@ internal fun SirAndKaSession.constructFunctionBridgeRequests(variable: SirVariab
     return res.toList()
 }
 
-internal fun SirAndKaSession.constructFunctionBridgeRequests(init: SirInit, generator: BridgeGenerator): List<FunctionBridgeRequest> {
-    if (init.origin is SirOrigin.KotlinBaseInitOverride) {
-        val names = init.parameters.map { it.argumentName!! }
-        init.body = SirFunctionBody(buildList {
-            add("super.init(${names.joinToString(separator = ", ") { "$it: $it" }})")
-        })
-        return emptyList()
-    }
+internal fun SirSession.constructFunctionBridgeRequests(init: SirInit, generator: BridgeGenerator): List<FunctionBridgeRequest> {
+    return analyze(sirSession.useSiteModule) {
+        if (init.origin is SirOrigin.KotlinBaseInitOverride) {
+            val names = init.parameters.map { it.argumentName!! }
+            init.body = SirFunctionBody(buildList {
+                add("super.init(${names.joinToString(separator = ", ") { "$it: $it" }})")
+            })
+            return@analyze emptyList()
+        }
 
-    val constructedClassSymbol = (init.parent as SirClass).kaSymbolOrNull<KaClassSymbol>()
-    if (constructedClassSymbol?.modality?.isAbstract() != false) {
-        return emptyList()
-    }
-    // Array constructors are not supported by bridge generator for now.
-    if (constructedClassSymbol.defaultType.isArrayOrPrimitiveArray) {
-        return emptyList()
-    }
-    val fqName = init.kaSymbolOrNull<KaConstructorSymbol>()
-        ?.containingClassId?.asSingleFqName()
-        ?.pathSegments()?.map { it.toString() }
-        ?: return emptyList()
+        val constructedClassSymbol = (init.parent as SirClass).kaSymbolOrNull<KaClassSymbol>()
+        if (constructedClassSymbol?.modality?.isAbstract() != false) {
+            return@analyze emptyList()
+        }
+        // Array constructors are not supported by bridge generator for now.
+        if (constructedClassSymbol.defaultType.isArrayOrPrimitiveArray) {
+            return@analyze emptyList()
+        }
+        val fqName = init.kaSymbolOrNull<KaConstructorSymbol>()
+            ?.containingClassId?.asSingleFqName()
+            ?.pathSegments()?.map { it.toString() }
+            ?: return@analyze emptyList()
 
-    return listOfNotNull(
-        patchCallableBodyAndGenerateRequest(init, generator, fqName)
-    )
+        return@analyze listOfNotNull(
+            patchCallableBodyAndGenerateRequest(init, generator, fqName)
+        )
+    }
 }
 
-internal fun SirAndKaSession.constructPropertyAccessorsBridgeRequests(function: SirFunction, generator: BridgeGenerator): List<FunctionBridgeRequest> {
+internal fun SirSession.constructPropertyAccessorsBridgeRequests(function: SirFunction, generator: BridgeGenerator): List<FunctionBridgeRequest> {
     val fqName = (function.origin as? KotlinPropertyAccessorOrigin)?.propertySymbol
         ?.callableId?.asSingleFqName()
         ?.pathSegments()?.map { it.toString() }
@@ -86,7 +89,7 @@ internal fun SirAndKaSession.constructPropertyAccessorsBridgeRequests(function: 
     )
 }
 
-private fun SirAndKaSession.patchCallableBodyAndGenerateRequest(
+private fun SirSession.patchCallableBodyAndGenerateRequest(
     callable: SirCallable,
     generator: BridgeGenerator,
     fqName: List<String>,
@@ -109,17 +112,19 @@ private fun SirAndKaSession.patchCallableBodyAndGenerateRequest(
     return request
 }
 
-private fun SirAndKaSession.isSupported(type: SirType): Boolean = when (type) {
-    is SirNominalType -> {
-        val declarationSupported = when (val declaration = type.typeDeclaration) {
-            is SirTypealias -> isSupported(declaration.type)
-            else -> type.typeDeclaration.kaSymbolOrNull<KaNamedClassSymbol>()?.sirAvailability(useSiteSession)?.let { it is SirAvailability.Available } != false
+private fun SirSession.isSupported(type: SirType): Boolean = analyze(useSiteModule) {
+    when (type) {
+        is SirNominalType -> {
+            val declarationSupported = when (val declaration = type.typeDeclaration) {
+                is SirTypealias -> isSupported(declaration.type)
+                else -> type.typeDeclaration.kaSymbolOrNull<KaNamedClassSymbol>()?.sirAvailability()?.let { it is SirAvailability.Available } != false
+            }
+            declarationSupported && type.typeArguments.all(::isSupported)
         }
-        declarationSupported && type.typeArguments.all(::isSupported)
+        is SirFunctionalType -> isSupported(type.returnType) && type.parameterTypes.all(::isSupported)
+        is SirExistentialType -> type.protocols.all { it.kaSymbolOrNull<KaClassSymbol>()?.sirAvailability() is SirAvailability.Available != false }
+        else -> false
     }
-    is SirFunctionalType -> isSupported(type.returnType) && type.parameterTypes.all(::isSupported)
-    is SirExistentialType -> type.protocols.all { it.kaSymbolOrNull<KaClassSymbol>()?.sirAvailability(useSiteSession) is SirAvailability.Available != false }
-    else -> false
 }
 
 private val SirCallable.bridgeSuffix: String

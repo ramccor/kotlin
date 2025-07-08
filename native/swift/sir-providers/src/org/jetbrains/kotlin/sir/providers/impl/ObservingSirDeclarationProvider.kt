@@ -5,6 +5,7 @@
 
 package org.jetbrains.kotlin.sir.providers.impl
 
+import org.jetbrains.kotlin.analysis.api.KaSession
 import org.jetbrains.kotlin.analysis.api.symbols.*
 import org.jetbrains.kotlin.sir.providers.SirTranslationResult
 import org.jetbrains.kotlin.sir.providers.SirDeclarationProvider
@@ -14,6 +15,7 @@ public class ObservingSirDeclarationProvider(
     private val kaClassReferenceHandler: SirKaClassReferenceHandler? = null,
 ) : SirDeclarationProvider {
 
+    context(ka: KaSession)
     override fun KaDeclarationSymbol.toSir(): SirTranslationResult {
         if (this is KaClassLikeSymbol) {
             kaClassReferenceHandler?.onClassReference(this)

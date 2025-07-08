@@ -6,6 +6,7 @@
 package org.jetbrains.sir.lightclasses.nodes
 
 import org.jetbrains.kotlin.analysis.api.KaExperimentalApi
+import org.jetbrains.kotlin.analysis.api.analyze
 import org.jetbrains.kotlin.analysis.api.components.DefaultTypeClassIds
 import org.jetbrains.kotlin.analysis.api.export.utilities.isCloneable
 import org.jetbrains.kotlin.analysis.api.symbols.*
@@ -26,13 +27,12 @@ import org.jetbrains.kotlin.utils.filterIsInstanceAnd
 import org.jetbrains.sir.lightclasses.BindableBridgedType
 import org.jetbrains.sir.lightclasses.SirFromKtSymbol
 import org.jetbrains.sir.lightclasses.extensions.documentation
-import org.jetbrains.sir.lightclasses.extensions.lazyWithSessions
-import org.jetbrains.sir.lightclasses.extensions.withSessions
 import org.jetbrains.sir.lightclasses.utils.*
 import org.jetbrains.sir.lightclasses.utils.OverrideStatus
 import org.jetbrains.sir.lightclasses.utils.computeIsOverride
 import org.jetbrains.sir.lightclasses.utils.superClassDeclaration
 import org.jetbrains.sir.lightclasses.utils.translatedAttributes
+import kotlin.lazy
 
 internal fun createSirClassFromKtSymbol(
     ktSymbol: KaNamedClassSymbol,
@@ -74,10 +74,14 @@ internal class SirEnumClassFromKtSymbol(
     ktSymbol,
     sirSession
 ) {
-    override val superClass: SirNominalType? by lazyWithSessions {
-        // TODO: this super class as default will become obsolete with the KT-66855
-        SirNominalType(KotlinRuntimeModule.kotlinBase).also {
-            ktSymbol.containingModule.sirModule()
+    override val superClass: SirNominalType? by lazy {
+        with(sirSession) {
+            analyze(useSiteModule) {
+                // TODO: this super class as default will become obsolete with the KT-66855
+                SirNominalType(KotlinRuntimeModule.kotlinBase).also {
+                    ktSymbol.containingModule.sirModule()
+                }
+            }
         }
     }
     override val protocols: List<SirProtocol> = super.protocols + listOf(SirSwiftModule.caseIterable)
@@ -109,38 +113,56 @@ internal abstract class SirAbstractClassFromKtSymbol(
         ktSymbol.documentation()
     }
 
-    override val name: String by lazyWithSessions {
-        (this@SirAbstractClassFromKtSymbol.relocatedDeclarationNamePrefix() ?: "") + ktSymbol.sirDeclarationName()
+    override val name: String by lazy {
+        with(sirSession) {
+            analyze(useSiteModule) {
+                (this@SirAbstractClassFromKtSymbol.relocatedDeclarationNamePrefix() ?: "") + ktSymbol.sirDeclarationName()
+            }
+        }
     }
 
     override var parent: SirDeclarationParent
-        get() = withSessions {
-            ktSymbol.getSirParent(useSiteSession)
+        get() = with(sirSession) {
+            analyze(useSiteModule) {
+                ktSymbol.getSirParent()
+            }
         }
         set(_) = Unit
 
-    override val superClass: SirNominalType? by lazyWithSessions {
-        ktSymbol.superTypes.filterIsInstanceAnd<KaClassType> {
-            it.isRegularClass && it.classId != DefaultTypeClassIds.ANY
-        }.firstOrNull()?.let {
-            it.symbol.toSir().allDeclarations.firstIsInstanceOrNull<SirClass>()
-                ?.also { ktSymbol.containingModule.sirModule().updateImport(SirImport(it.containingModule().name)) }
-                ?.let { SirNominalType(it) }
-        } ?: let {
-            SirNominalType(KotlinRuntimeModule.kotlinBase)
+    override val superClass: SirNominalType? by lazy {
+        with(sirSession) {
+            analyze(useSiteModule) {
+                ktSymbol.superTypes.filterIsInstanceAnd<KaClassType> {
+                    it.isRegularClass && it.classId != DefaultTypeClassIds.ANY
+                }.firstOrNull()?.let {
+                    it.symbol.toSir().allDeclarations.firstIsInstanceOrNull<SirClass>()
+                        ?.also { ktSymbol.containingModule.sirModule().updateImport(SirImport(it.containingModule().name)) }
+                        ?.let { SirNominalType(it) }
+                } ?: let {
+                    SirNominalType(KotlinRuntimeModule.kotlinBase)
+                }
+            }
         }
     }
 
-    override val declarations: List<SirDeclaration> by lazyWithSessions {
-        childDeclarations + syntheticDeclarations()
+    override val declarations: List<SirDeclaration> by lazy {
+        with(sirSession) {
+            analyze(useSiteModule) {
+                childDeclarations + syntheticDeclarations()
+            }
+        }
     }
 
     override val attributes: List<SirAttribute> by lazy { this.translatedAttributes }
 
-    protected val childDeclarations: List<SirDeclaration> by lazyWithSessions {
-        ktSymbol.combinedDeclaredMemberScope
-            .extractDeclarations(useSiteSession)
-            .toList()
+    protected val childDeclarations: List<SirDeclaration> by lazy {
+        with(sirSession) {
+            analyze(useSiteModule) {
+                ktSymbol.combinedDeclaredMemberScope
+                    .extractDeclarations()
+                    .toList()
+            }
+        }
     }
 
     private fun kotlinBaseInitDeclaration(): SirDeclaration = buildInitCopy(KotlinRuntimeModule.kotlinBaseDesignatedInit) {
@@ -171,26 +193,34 @@ internal abstract class SirAbstractClassFromKtSymbol(
         )
     }
 
-    override val protocols: List<SirProtocol> by lazyWithSessions {
-        (translatedProtocols + listOf(KotlinRuntimeSupportModule.kotlinBridged))
-            .filter { superClassDeclaration?.declaresConformance(it) != true }
+    override val protocols: List<SirProtocol> by lazy {
+        with(sirSession) {
+            analyze(useSiteModule) {
+                (translatedProtocols + listOf(KotlinRuntimeSupportModule.kotlinBridged))
+                    .filter { superClassDeclaration?.declaresConformance(it) != true }
+            }
+        }
     }
 
     @OptIn(KaExperimentalApi::class)
-    private val translatedProtocols: List<SirProtocol> by lazyWithSessions {
-        ktSymbol.superTypes
-            .filterIsInstance<KaClassType>()
-            .mapNotNull { it.expandedSymbol }
-            .filter { it.classKind == KaClassKind.INTERFACE }
-            .filter { it.typeParameters.isEmpty() } //Exclude generics
-            .filterNot { it.isCloneable }
-            .flatMap {
-                it.toSir().allDeclarations.filterIsInstance<SirProtocol>().also {
-                    it.forEach {
-                        ktSymbol.containingModule.sirModule().updateImport(SirImport(it.containingModule().name))
+    private val translatedProtocols: List<SirProtocol> by lazy {
+        with(sirSession) {
+            analyze(useSiteModule) {
+                ktSymbol.superTypes
+                    .filterIsInstance<KaClassType>()
+                    .mapNotNull { it.expandedSymbol }
+                    .filter { it.classKind == KaClassKind.INTERFACE }
+                    .filter { it.typeParameters.isEmpty() } //Exclude generics
+                    .filterNot { it.isCloneable }
+                    .flatMap {
+                        it.toSir().allDeclarations.filterIsInstance<SirProtocol>().also {
+                            it.forEach {
+                                ktSymbol.containingModule.sirModule().updateImport(SirImport(it.containingModule().name))
+                            }
+                        }
                     }
-                }
             }
+        }
     }
 }
 

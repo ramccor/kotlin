@@ -18,7 +18,6 @@ import org.jetbrains.kotlin.analysis.project.structure.builder.buildKtSourceModu
 import org.jetbrains.kotlin.platform.TargetPlatform
 import org.jetbrains.kotlin.sir.*
 import org.jetbrains.kotlin.sir.builder.buildModule
-import org.jetbrains.kotlin.sir.providers.SirAndKaSession
 import org.jetbrains.kotlin.sir.providers.SirSession
 import org.jetbrains.kotlin.sir.providers.impl.SirKaClassReferenceHandler
 import org.jetbrains.kotlin.sir.providers.impl.SirOneToOneModuleProvider
@@ -52,11 +51,11 @@ internal fun buildSirSession(
  * The result is stored as a side effect in [this.sirSession]'s [org.jetbrains.kotlin.sir.providers.SirModuleProvider].
  * [scopeToDeclarations] allows filtering declarations during translation.
  */
-internal fun SirAndKaSession.translateModule(
+internal fun SirSession.translateModule(
     module: KaLibraryModule,
     scopeToDeclarations: (KaScope) -> Sequence<KaDeclarationSymbol> = { it.declarations },
-): SirModule {
-    val scope = KlibScope(module, useSiteSession)
+): SirModule = analyze(useSiteModule) {
+    val scope = KlibScope(module, this)
     extractAllTransitively(scopeToDeclarations(scope))
         .toList()
         .forEach { (oldParent, children) ->
@@ -67,21 +66,23 @@ internal fun SirAndKaSession.translateModule(
                     newParent.addChild { declaration }
                 }
         }
-    return module.sirModule()
+    return@analyze module.sirModule()
 }
 
-private fun SirAndKaSession.extractAllTransitively(
-    declarations: Sequence<KaDeclarationSymbol>,
-): Sequence<Pair<SirDeclarationParent, List<SirDeclaration>>> = generateSequence(
-    declarations.extractDeclarations(useSiteSession).groupBy { it.parent }.toList()
-) {
-    it.flatMap { (_, children) ->
-        children
-            .filterIsInstance<SirDeclarationContainer>()
-            .map { it to it.declarations }
-    }.takeIf { it.isNotEmpty() }
-}.flatten()
 
+private fun SirSession.extractAllTransitively(
+    declarations: Sequence<KaDeclarationSymbol>,
+): Sequence<Pair<SirDeclarationParent, List<SirDeclaration>>> = analyze(this.useSiteModule) {
+    generateSequence(
+        declarations.extractDeclarations().groupBy { it.parent }.toList()
+    ) {
+        it.flatMap { (_, children) ->
+            children
+                .filterIsInstance<SirDeclarationContainer>()
+                .map { it to it.declarations }
+        }.takeIf { it.isNotEmpty() }
+    }.flatten()
+}
 
 /**
  * [useSiteModule] a target for creating Analysis API session via [analyze].

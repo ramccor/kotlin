@@ -20,7 +20,6 @@ import org.jetbrains.kotlin.sir.providers.SirTypeProvider.ErrorTypeStrategy
 import org.jetbrains.kotlin.sir.providers.source.KotlinRuntimeElement
 import org.jetbrains.kotlin.sir.providers.source.KotlinSource
 import org.jetbrains.kotlin.sir.providers.utils.KotlinRuntimeModule
-import org.jetbrains.kotlin.sir.providers.withSessions
 import org.jetbrains.kotlin.sir.util.SirSwiftModule
 import org.jetbrains.kotlin.utils.addToStdlib.firstIsInstance
 import org.jetbrains.kotlin.utils.addToStdlib.firstIsInstanceOrNull
@@ -37,8 +36,8 @@ public class SirTypeProviderImpl(
         val processTypeImports: (List<SirImport>) -> Unit,
     )
 
+    context(ka: KaSession)
     override fun KaType.translateType(
-        ktAnalysisSession: KaSession,
         reportErrorType: (String) -> Nothing,
         reportUnsupportedType: () -> Nothing,
         processTypeImports: (List<SirImport>) -> Unit,
@@ -50,6 +49,7 @@ public class SirTypeProviderImpl(
         )
     )
 
+    context(ka: KaSession)
     private fun KaType.translateType(
         ctx: TypeTranslationCtx,
     ): SirType =
@@ -58,95 +58,104 @@ public class SirTypeProviderImpl(
             .handleImports(ctx.processTypeImports)
 
     @OptIn(KaNonPublicApi::class)
+    context(ka: KaSession)
     private fun buildSirType(ktType: KaType, ctx: TypeTranslationCtx): SirType {
-        fun buildPrimitiveType(ktType: KaType): SirType? = sirSession.withSessions {
-            when {
-                ktType.isCharType -> SirNominalType(SirSwiftModule.utf16CodeUnit)
-                ktType.isUnitType -> SirNominalType(SirSwiftModule.void)
+        fun buildPrimitiveType(ktType: KaType): SirType? = with(sirSession) {
+            with(ka) {
+                when {
+                    ktType.isCharType -> SirNominalType(SirSwiftModule.utf16CodeUnit)
+                    ktType.isUnitType -> SirNominalType(SirSwiftModule.void)
 
-                ktType.isByteType -> SirNominalType(SirSwiftModule.int8)
-                ktType.isShortType -> SirNominalType(SirSwiftModule.int16)
-                ktType.isIntType -> SirNominalType(SirSwiftModule.int32)
-                ktType.isLongType -> SirNominalType(SirSwiftModule.int64)
+                    ktType.isByteType -> SirNominalType(SirSwiftModule.int8)
+                    ktType.isShortType -> SirNominalType(SirSwiftModule.int16)
+                    ktType.isIntType -> SirNominalType(SirSwiftModule.int32)
+                    ktType.isLongType -> SirNominalType(SirSwiftModule.int64)
 
-                ktType.isUByteType -> SirNominalType(SirSwiftModule.uint8)
-                ktType.isUShortType -> SirNominalType(SirSwiftModule.uint16)
-                ktType.isUIntType -> SirNominalType(SirSwiftModule.uint32)
-                ktType.isULongType -> SirNominalType(SirSwiftModule.uint64)
+                    ktType.isUByteType -> SirNominalType(SirSwiftModule.uint8)
+                    ktType.isUShortType -> SirNominalType(SirSwiftModule.uint16)
+                    ktType.isUIntType -> SirNominalType(SirSwiftModule.uint32)
+                    ktType.isULongType -> SirNominalType(SirSwiftModule.uint64)
 
-                ktType.isBooleanType -> SirNominalType(SirSwiftModule.bool)
+                    ktType.isBooleanType -> SirNominalType(SirSwiftModule.bool)
 
-                ktType.isDoubleType -> SirNominalType(SirSwiftModule.double)
-                ktType.isFloatType -> SirNominalType(SirSwiftModule.float)
+                    ktType.isDoubleType -> SirNominalType(SirSwiftModule.double)
+                    ktType.isFloatType -> SirNominalType(SirSwiftModule.float)
 
-                else -> null
+                    else -> null
+                }
+                    ?.optionalIfNeeded(ktType)
             }
-                ?.optionalIfNeeded(ktType)
         }
 
-        fun buildRegularType(kaType: KaType): SirType = sirSession.withSessions {
-            fun KaTypeProjection.sirType(): SirType = when (this) {
-                is KaStarTypeProjection -> SirNominalType(KotlinRuntimeModule.kotlinBase)
-                is KaTypeArgumentWithVariance -> buildSirType(type, ctx)
-            }
-            when (kaType) {
-                is KaUsualClassType -> {
-                    when {
-                        kaType.isNothingType -> SirNominalType(SirSwiftModule.never)
-                        kaType.isStringType -> SirNominalType(SirSwiftModule.string)
-                        kaType.isAnyType -> SirNominalType(KotlinRuntimeModule.kotlinBase)
+        fun buildRegularType(kaType: KaType): SirType = with(sirSession) {
+            with(ka) {
+                fun KaTypeProjection.sirType(): SirType = when (this) {
+                    is KaStarTypeProjection -> SirNominalType(KotlinRuntimeModule.kotlinBase)
+                    is KaTypeArgumentWithVariance -> buildSirType(type, ctx)
+                }
+                when (kaType) {
+                    is KaUsualClassType -> {
+                        when {
+                            kaType.isNothingType -> SirNominalType(SirSwiftModule.never)
+                            kaType.isStringType -> SirNominalType(SirSwiftModule.string)
+                            kaType.isAnyType -> SirNominalType(KotlinRuntimeModule.kotlinBase)
 
-                        kaType.isClassType(StandardClassIds.List) -> {
-                            SirArrayType(
-                                kaType.typeArguments.single().sirType()
-                            )
-                        }
+                            kaType.isClassType(StandardClassIds.List) -> {
+                                SirArrayType(
+                                    kaType.typeArguments.single().sirType()
+                                )
+                            }
 
-                        kaType.isClassType(StandardClassIds.Set) -> {
-                            SirNominalType(
-                                SirSwiftModule.set,
-                                listOf(kaType.typeArguments.single().sirType())
-                            )
-                        }
+                            kaType.isClassType(StandardClassIds.Set) -> {
+                                SirNominalType(
+                                    SirSwiftModule.set,
+                                    listOf(kaType.typeArguments.single().sirType())
+                                )
+                            }
 
-                        kaType.isClassType(StandardClassIds.Map) -> {
-                            SirDictionaryType(
-                                kaType.typeArguments.first().sirType(),
-                                kaType.typeArguments.last().sirType()
-                            )
-                        }
+                            kaType.isClassType(StandardClassIds.Map) -> {
+                                SirDictionaryType(
+                                    kaType.typeArguments.first().sirType(),
+                                    kaType.typeArguments.last().sirType()
+                                )
+                            }
 
-                        else -> {
-                            val classSymbol = kaType.symbol
-                            when (classSymbol.sirAvailability(useSiteSession)) {
-                                is SirAvailability.Available, is SirAvailability.Hidden ->
-                                    if (classSymbol is KaClassSymbol && classSymbol.classKind == KaClassKind.INTERFACE) {
-                                        SirExistentialType(classSymbol.toSir().allDeclarations.firstIsInstance<SirProtocol>())
-                                    } else {
-                                        ctx.nominalTypeFromClassSymbol(classSymbol)
-                                    }
-                                is SirAvailability.Unavailable -> null
+                            else -> {
+                                val classSymbol = kaType.symbol
+                                when (classSymbol.sirAvailability()) {
+                                    is SirAvailability.Available, is SirAvailability.Hidden ->
+                                        if (classSymbol is KaClassSymbol && classSymbol.classKind == KaClassKind.INTERFACE) {
+                                            SirExistentialType(classSymbol.toSir().allDeclarations.firstIsInstance<SirProtocol>())
+                                        } else {
+                                            nominalTypeFromClassSymbol(classSymbol)
+                                        }
+                                    is SirAvailability.Unavailable -> null
+                                }
                             }
                         }
+                            ?.optionalIfNeeded(kaType)
+                            ?: SirUnsupportedType
                     }
-                        ?.optionalIfNeeded(kaType)
-                        ?: SirUnsupportedType
-                }
-                is KaFunctionType -> {
-                    if (kaType.isSuspendFunctionType) {
-                        return@withSessions SirUnsupportedType
-                    } else {
-                        SirFunctionalType(
-                            parameterTypes = listOfNotNull(kaType.receiverType?.translateType(ctx)) + kaType.parameterTypes.map { it.translateType(ctx) },
-                            returnType = kaType.returnType.translateType(ctx)
-                        ).optionalIfNeeded(kaType)
+                    is KaFunctionType -> {
+                        if (kaType.isSuspendFunctionType) {
+                            SirUnsupportedType
+                        } else {
+                            SirFunctionalType(
+                                parameterTypes = listOfNotNull(kaType.receiverType?.translateType(ctx)) + kaType.parameterTypes.map {
+                                    it.translateType(
+                                        ctx
+                                    )
+                                },
+                                returnType = kaType.returnType.translateType(ctx)
+                            ).optionalIfNeeded(kaType)
+                        }
                     }
+                    is KaTypeParameterType -> ctx.translateTypeParameterType(kaType)
+                    is KaErrorType
+                        -> SirErrorType(kaType.errorMessage)
+                    else
+                        -> SirErrorType("Unexpected type $kaType")
                 }
-                is KaTypeParameterType -> ctx.translateTypeParameterType(kaType)
-                is KaErrorType
-                    -> SirErrorType(kaType.errorMessage)
-                else
-                    -> SirErrorType("Unexpected type $kaType")
             }
         }
 
@@ -155,21 +164,25 @@ public class SirTypeProviderImpl(
             ?: buildRegularType(ktType)
     }
 
-    private fun TypeTranslationCtx.translateTypeParameterType(type: KaTypeParameterType): SirType = sirSession.withSessions {
-        val symbol = type.symbol
-        val fallbackType = SirUnsupportedType
-        if (symbol.isReified) return@withSessions fallbackType
-        return@withSessions when (symbol.upperBounds.size) {
-            0 -> SirNominalType(KotlinRuntimeModule.kotlinBase).optional()
-            1 -> {
-                val upperBound = symbol.upperBounds.single().translateType(this@translateTypeParameterType)
-                if (type.isMarkedNullable) {
-                    upperBound.optional()
-                } else {
-                    upperBound
+    context(ka: KaSession)
+    private fun TypeTranslationCtx.translateTypeParameterType(type: KaTypeParameterType): SirType = with(sirSession) {
+        with(ka) {
+            val symbol = type.symbol
+            val fallbackType = SirUnsupportedType
+            if (symbol.isReified) {
+                fallbackType
+            } else when (symbol.upperBounds.size) {
+                0 -> SirNominalType(KotlinRuntimeModule.kotlinBase).optional()
+                1 -> {
+                    val upperBound = symbol.upperBounds.single().translateType(this@translateTypeParameterType)
+                    if (type.isMarkedNullable) {
+                        upperBound.optional()
+                    } else {
+                        upperBound
+                    }
                 }
+                else -> fallbackType
             }
-            else -> fallbackType
         }
     }
 
@@ -186,15 +199,14 @@ public class SirTypeProviderImpl(
         return this
     }
 
+    context(ka: KaSession)
     private fun SirType.handleImports(
         processTypeImports: (List<SirImport>) -> Unit,
     ): SirType {
         fun SirDeclaration.extractImport() {
             when (val origin = this.origin) {
                 is KotlinSource -> {
-                    val ktModule = sirSession.withSessions {
-                        origin.symbol.containingModule
-                    }
+                    val ktModule = with(ka) {origin.symbol.containingModule }
                     val sirModule = with(sirSession) {
                         ktModule.sirModule()
                     }
@@ -225,11 +237,13 @@ public class SirTypeProviderImpl(
         return this
     }
 
-    private fun TypeTranslationCtx.nominalTypeFromClassSymbol(symbol: KaClassLikeSymbol): SirNominalType? = sirSession.withSessions {
+    context(ka: KaSession)
+    private fun nominalTypeFromClassSymbol(symbol: KaClassLikeSymbol): SirNominalType? = with(sirSession) {
         symbol.toSir().allDeclarations.firstIsInstanceOrNull<SirNamedDeclaration>()?.let(::SirNominalType)
     }
 
-    private fun SirType.optionalIfNeeded(originalKtType: KaType): SirType = sirSession.withSessions {
+    context(ka: KaSession)
+    private fun SirType.optionalIfNeeded(originalKtType: KaType): SirType = with(ka) {
         if (originalKtType.isMarkedNullable && !originalKtType.isTypealiasToNullableType) {
             optional()
         } else {
@@ -237,12 +251,11 @@ public class SirTypeProviderImpl(
         }
     }
 
+    context(ka: KaSession)
     private val KaType.isTypealiasToNullableType: Boolean
-        get() = sirSession.withSessions {
-            (symbol as? KaTypeAliasSymbol)
-                .takeIf { it?.expandedType?.isMarkedNullable == true }
-                ?.let { return@let true }
-                ?: false
-        }
+        get() = (symbol as? KaTypeAliasSymbol)
+            .takeIf { with(ka) { it?.expandedType?.isMarkedNullable == true } }
+            ?.let { return@let true }
+            ?: false
 }
 

@@ -5,6 +5,7 @@
 
 package org.jetbrains.sir.lightclasses.nodes
 
+import org.jetbrains.kotlin.analysis.api.analyze
 import org.jetbrains.kotlin.analysis.api.symbols.*
 import org.jetbrains.kotlin.sir.*
 import org.jetbrains.kotlin.sir.providers.SirSession
@@ -13,11 +14,10 @@ import org.jetbrains.kotlin.sir.providers.utils.throwsAnnotation
 import org.jetbrains.sir.lightclasses.SirFromKtSymbol
 import org.jetbrains.sir.lightclasses.extensions.*
 import org.jetbrains.sir.lightclasses.extensions.documentation
-import org.jetbrains.sir.lightclasses.extensions.lazyWithSessions
-import org.jetbrains.sir.lightclasses.extensions.withSessions
 import org.jetbrains.sir.lightclasses.utils.*
 import org.jetbrains.sir.lightclasses.utils.translateParameters
 import org.jetbrains.sir.lightclasses.utils.translateReturnType
+import kotlin.lazy
 
 internal open class SirFunctionFromKtSymbol(
     override val ktSymbol: KaFunctionSymbol,
@@ -28,25 +28,41 @@ internal open class SirFunctionFromKtSymbol(
     override val origin: SirOrigin by lazy {
         KotlinSource(ktSymbol)
     }
-    override val name: String by lazyWithSessions {
-        ktSymbol.sirDeclarationName()
+    override val name: String by lazy {
+        with(sirSession) {
+            analyze(useSiteModule) {
+                ktSymbol.sirDeclarationName()
+            }
+        }
     }
     override val extensionReceiverParameter: SirParameter? by lazy {
-        translateExtensionParameter()
+        analyze(sirSession.useSiteModule) {
+            translateExtensionParameter()
+        }
     }
     override val parameters: List<SirParameter> by lazy {
-        translateParameters()
+        analyze(sirSession.useSiteModule) {
+            translateParameters()
+        }
     }
     override val returnType: SirType by lazy {
-        translateReturnType()
+        analyze(sirSession.useSiteModule) {
+            translateReturnType()
+        }
     }
-    override val documentation: String? by lazyWithSessions {
-        ktSymbol.documentation()
+    override val documentation: String? by lazy {
+        with(sirSession) {
+            analyze(useSiteModule) {
+                ktSymbol.documentation()
+            }
+        }
     }
 
     override var parent: SirDeclarationParent
-        get() = withSessions {
-            ktSymbol.getSirParent(useSiteSession)
+        get() = with(sirSession) {
+            analyze(useSiteModule) {
+                ktSymbol.getSirParent()
+            }
         }
         set(_) = Unit
 

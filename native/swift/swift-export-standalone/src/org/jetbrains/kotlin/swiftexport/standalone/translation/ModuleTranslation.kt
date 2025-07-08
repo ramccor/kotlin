@@ -13,12 +13,10 @@ import org.jetbrains.kotlin.sir.*
 import org.jetbrains.kotlin.sir.util.*
 import org.jetbrains.kotlin.sir.bridge.BridgeRequest
 import org.jetbrains.kotlin.sir.bridge.createBridgeGenerator
-import org.jetbrains.kotlin.sir.providers.SirAndKaSession
 import org.jetbrains.kotlin.sir.providers.SirSession
 import org.jetbrains.kotlin.sir.providers.impl.SirKaClassReferenceHandler
 import org.jetbrains.kotlin.sir.providers.utils.KotlinRuntimeModule
 import org.jetbrains.kotlin.sir.providers.utils.updateImport
-import org.jetbrains.kotlin.sir.providers.withSessions
 import org.jetbrains.kotlin.sir.util.allParameters
 import org.jetbrains.kotlin.swiftexport.standalone.InputModule
 import org.jetbrains.kotlin.swiftexport.standalone.SwiftExportModule
@@ -54,11 +52,12 @@ internal fun translateModulePublicApi(module: InputModule, kaModules: KaModules,
                     .addIfNotNull(symbol.classId?.asSingleFqName())
             }
         }
-        buildSirSession(module.name, kaModules, config, module.config, externalTypeReferenceHandler).withSessions {
+        val sirSession = buildSirSession(module.name, kaModules, config, module.config, externalTypeReferenceHandler)
+        with(sirSession) {
             val sirModule = translateModule(
                 module = kaModules.mainModules.single { it.libraryName == module.name }
             )
-            val bridgeRequests = sirSession.withSessions { buildBridgeRequests(bridgeGenerator, sirModule) }
+            val bridgeRequests = buildBridgeRequests(bridgeGenerator, sirModule)
             sirSession.createTranslationResult(sirModule, config, module.config, externalTypeDeclarationReferences, bridgeRequests)
         }
     }
@@ -125,7 +124,7 @@ internal fun translateCrossReferencingModulesTransitively(
                 // Copy new references to avoid concurrent modification exception.
                 it.currentlyProcessing = it.unprocessedReferences.toList()
                 it.unprocessedReferences.clear()
-                val sirModule = it.sirSession.withSessions {
+                val sirModule = with(it.sirSession) {
                     translateModule(module = it.kaModule) { scope ->
                         scope.classifiers
                             .filterIsInstance<KaClassLikeSymbol>()
@@ -135,7 +134,7 @@ internal fun translateCrossReferencingModulesTransitively(
                 it.processedReferences += it.currentlyProcessing
                 it.currentlyProcessing = emptyList()
                 // Touch all declarations
-                it.sirSession.withSessions {
+                with(it.sirSession) {
                     deepTouch(sirModule)
                 }
                 forceComputeSupertypes(sirModule)
@@ -150,7 +149,7 @@ internal fun translateCrossReferencingModulesTransitively(
             config,
             it.moduleConfig,
             emptyMap(),
-            it.sirSession.withSessions { buildBridgeRequests(bridgeGenerator, sirModule) }
+            with(it.sirSession) { buildBridgeRequests(bridgeGenerator, sirModule) }
         )
     }
 }
@@ -161,9 +160,9 @@ internal fun translateCrossReferencingModulesTransitively(
  */
 private fun forceComputeSupertypes(container: SirDeclarationContainer) {
     when (container) {
-            // This invokes SirKaClassReferenceHandler under the hood for Kotlin-exported types.
+        // This invokes SirKaClassReferenceHandler under the hood for Kotlin-exported types.
         is SirProtocolConformingDeclaration -> container.protocols
-            // This invokes SirKaClassReferenceHandler under the hood for Kotlin-exported types.
+        // This invokes SirKaClassReferenceHandler under the hood for Kotlin-exported types.
         is SirClassInhertingDeclaration -> container.superClass
         else -> {}
     }
@@ -182,7 +181,7 @@ private fun SirSession.createTranslationResult(
     sirModule.updateImport(SirImport(config.runtimeSupportModuleName))
     sirModule.updateImport(SirImport(config.runtimeModuleName))
     val bridgesName = "${moduleConfig.bridgeModuleName}_${sirModule.name}"
-    val bridges = sirSession.withSessions { generateModuleBridges(sirModule, bridgesName, bridgeRequests) }
+    val bridges = generateModuleBridges(sirModule, bridgesName, bridgeRequests)
     // Serialize SirModule to sources to avoid leakage of SirSession (and KaSession, likely) outside the analyze call.
     val swiftSourceCode = SirAsSwiftSourcesPrinter.print(
         sirModule,
@@ -208,7 +207,7 @@ private fun SirSession.createTranslationResult(
 /**
  * Generates method bodies for functions in [sirModule], as well as Kotlin and C [BridgeSources].
  */
-private fun SirAndKaSession.generateModuleBridges(sirModule: SirModule, bridgeModuleName: String, bridgeRequests: List<BridgeRequest>): BridgeSources {
+private fun generateModuleBridges(sirModule: SirModule, bridgeModuleName: String, bridgeRequests: List<BridgeRequest>): BridgeSources {
     if (bridgeRequests.isNotEmpty()) {
         sirModule.updateImport(
             SirImport(
@@ -231,7 +230,7 @@ internal class TranslationResult(
     val externalTypeDeclarationReferences: Map<KaLibraryModule, List<FqName>>,
 )
 
-private fun SirAndKaSession.deepTouch(container: SirDeclarationContainer) {
+private fun SirSession.deepTouch(container: SirDeclarationContainer) {
     container
         .allCallables()
         .forEach {

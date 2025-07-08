@@ -32,7 +32,6 @@ public class IdeSirSession(
         declarationsProvider = StubbingSirDeclarationProvider(
             sirSession = sirSession,
             declarationsProvider = SirDeclarationFromKtSymbolProvider(
-                ktModule = kaModule,
                 sirSession = sirSession,
             )
         )

@@ -5,6 +5,7 @@
 
 package org.jetbrains.sir.lightclasses.utils
 
+import org.jetbrains.kotlin.analysis.api.analyze
 import org.jetbrains.kotlin.analysis.api.symbols.KaNamedClassSymbol
 import org.jetbrains.kotlin.sir.SirDeclaration
 import org.jetbrains.kotlin.sir.SirDeclarationContainer
@@ -13,18 +14,19 @@ import org.jetbrains.kotlin.sir.util.swiftFqNameOrNull
 import org.jetbrains.kotlin.sir.util.swiftParentNamePrefix
 import org.jetbrains.kotlin.utils.addToStdlib.ifTrue
 import org.jetbrains.sir.lightclasses.SirFromKtSymbol
-import org.jetbrains.sir.lightclasses.extensions.withSessions
 import kotlin.math.max
 
 
 internal inline fun <reified S : KaNamedClassSymbol, reified T> T.relocatedDeclarationNamePrefix(): String? where T : SirFromKtSymbol<S>, T : SirDeclaration =
-    withSessions {
-        ktSymbol.getOriginalSirParent(this@withSessions).let { originalParent ->
-            (originalParent != parent && originalParent !is SirModule).ifTrue {
-                (originalParent as? SirDeclarationContainer)?.swiftFqNameOrNull?.let {
-                    it.removePrefix(it.commonPrefixWith(this@relocatedDeclarationNamePrefix.swiftParentNamePrefix ?: ""))
-                }?.removePrefix(".")?.replace(".", "_")
-            }?.let { "_${it}_" }
+    with(sirSession) {
+        analyze(useSiteModule) {
+            ktSymbol.getOriginalSirParent().let { originalParent ->
+                (originalParent != parent && originalParent !is SirModule).ifTrue {
+                    (originalParent as? SirDeclarationContainer)?.swiftFqNameOrNull?.let {
+                        it.removePrefix(it.commonPrefixWith(this@relocatedDeclarationNamePrefix.swiftParentNamePrefix ?: ""))
+                    }?.removePrefix(".")?.replace(".", "_")
+                }?.let { "_${it}_" }
+            }
         }
     }
 

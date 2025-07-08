@@ -5,6 +5,7 @@
 
 package org.jetbrains.kotlin.sir.providers.impl
 
+import org.jetbrains.kotlin.analysis.api.KaSession
 import org.jetbrains.kotlin.analysis.api.symbols.*
 import org.jetbrains.kotlin.sir.providers.SirTranslationResult
 import org.jetbrains.kotlin.sir.providers.SirDeclarationProvider
@@ -15,6 +16,7 @@ public class CachingSirDeclarationProvider(
 
     private val visitedDeclarations: MutableMap<KaDeclarationSymbol, SirTranslationResult> = mutableMapOf()
 
+    context(ka: KaSession)
     override fun KaDeclarationSymbol.toSir(): SirTranslationResult {
         return visitedDeclarations.getOrPut(this@toSir) {
             with(declarationsProvider) { this@toSir.toSir() }

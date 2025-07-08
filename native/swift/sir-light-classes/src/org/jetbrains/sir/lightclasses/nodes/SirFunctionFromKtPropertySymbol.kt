@@ -5,6 +5,7 @@
 
 package org.jetbrains.sir.lightclasses.nodes
 
+import org.jetbrains.kotlin.analysis.api.analyze
 import org.jetbrains.kotlin.analysis.api.symbols.KaPropertyAccessorSymbol
 import org.jetbrains.kotlin.analysis.api.symbols.KaPropertyGetterSymbol
 import org.jetbrains.kotlin.analysis.api.symbols.KaPropertySetterSymbol
@@ -25,9 +26,7 @@ import org.jetbrains.kotlin.sir.providers.source.KotlinPropertyAccessorOrigin
 import org.jetbrains.kotlin.sir.providers.utils.throwsAnnotation
 import org.jetbrains.sir.lightclasses.SirFromKtSymbol
 import org.jetbrains.sir.lightclasses.extensions.documentation
-import org.jetbrains.sir.lightclasses.extensions.lazyWithSessions
 import org.jetbrains.sir.lightclasses.extensions.sirModality
-import org.jetbrains.sir.lightclasses.extensions.withSessions
 import org.jetbrains.sir.lightclasses.utils.OverrideStatus
 import org.jetbrains.sir.lightclasses.utils.computeIsOverride
 import org.jetbrains.sir.lightclasses.utils.translateExtensionParameter
@@ -35,6 +34,7 @@ import org.jetbrains.sir.lightclasses.utils.translateParameters
 import org.jetbrains.sir.lightclasses.utils.translateReturnType
 import org.jetbrains.sir.lightclasses.utils.translatedAttributes
 import kotlin.getValue
+import kotlin.lazy
 
 /**
  * Kotlin extension property accessors in Swift
@@ -49,29 +49,45 @@ internal class SirFunctionFromKtPropertySymbol(
     override val origin: SirOrigin by lazy {
         KotlinPropertyAccessorOrigin(ktSymbol, ktPropertySymbol)
     }
-    override val name: String by lazyWithSessions {
-        val prefix = when (ktSymbol) {
-            is KaPropertyGetterSymbol -> "get"
-            is KaPropertySetterSymbol -> "set"
+    override val name: String by lazy {
+        with(sirSession) {
+            analyze(useSiteModule) {
+                val prefix = when (ktSymbol) {
+                    is KaPropertyGetterSymbol -> "get"
+                    is KaPropertySetterSymbol -> "set"
+                }
+                prefix + ktPropertySymbol.sirDeclarationName().replaceFirstChar { it.titlecase() }
+            }
         }
-        prefix + ktPropertySymbol.sirDeclarationName().replaceFirstChar { it.titlecase() }
     }
     override val extensionReceiverParameter: SirParameter? by lazy {
-        translateExtensionParameter()
+        analyze(sirSession.useSiteModule) {
+            translateExtensionParameter()
+        }
     }
     override val parameters: List<SirParameter> by lazy {
-        translateParameters()
+        analyze(sirSession.useSiteModule) {
+            translateParameters()
+        }
     }
     override val returnType: SirType by lazy {
-        translateReturnType()
+        analyze(sirSession.useSiteModule) {
+            translateReturnType()
+        }
     }
-    override val documentation: String? by lazyWithSessions {
-        ktPropertySymbol.documentation()
+    override val documentation: String? by lazy {
+        with(sirSession) {
+            analyze(useSiteModule) {
+                ktPropertySymbol.documentation()
+            }
+        }
     }
 
     override var parent: SirDeclarationParent
-        get() = withSessions {
-            ktPropertySymbol.getSirParent(useSiteSession)
+        get() = with(sirSession) {
+            analyze(useSiteModule) {
+                ktPropertySymbol.getSirParent()
+            }
         }
         set(_) = Unit
 

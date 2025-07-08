@@ -10,26 +10,30 @@ import org.jetbrains.kotlin.analysis.api.symbols.KaDeclarationSymbol
 import org.jetbrains.kotlin.sir.SirAvailability
 import org.jetbrains.kotlin.sir.SirDeclaration
 import org.jetbrains.kotlin.sir.SirVisibility
-import org.jetbrains.kotlin.sir.providers.SirAndKaSession
 import org.jetbrains.kotlin.sir.providers.SirChildrenProvider
 import org.jetbrains.kotlin.sir.providers.SirSession
-import org.jetbrains.kotlin.sir.providers.withSessions
 
 public class SirDeclarationChildrenProviderImpl(private val sirSession: SirSession) : SirChildrenProvider {
-    override fun Sequence<KaDeclarationSymbol>.extractDeclarations(kaSession: KaSession): Sequence<SirDeclaration> =
-        sirSession.withSessions {
+    context (ka: KaSession)
+    override fun Sequence<KaDeclarationSymbol>.extractDeclarations(): Sequence<SirDeclaration> = with(sirSession) {
+        with(ka) {
             filter { isAccessible(it) }
                 .flatMap { it.toSir().allDeclarations }
                 .flatMap { listOf(it) + it.trampolineDeclarations() }
         }
+    }
 
-    private fun SirAndKaSession.isAccessible(symbol: KaDeclarationSymbol): Boolean =
-        when (val availability = symbol.sirAvailability(useSiteSession)) {
-            is SirAvailability.Available -> when (availability.visibility) {
-                SirVisibility.PUBLIC, SirVisibility.PACKAGE -> true
-                SirVisibility.PRIVATE, SirVisibility.FILEPRIVATE, SirVisibility.INTERNAL -> false
+    context (sir: SirSession, ka: KaSession)
+    private fun isAccessible(symbol: KaDeclarationSymbol): Boolean = with(sir) {
+        with(ka) {
+            when (val availability = symbol.sirAvailability()) {
+                is SirAvailability.Available -> when (availability.visibility) {
+                    SirVisibility.PUBLIC, SirVisibility.PACKAGE -> true
+                    SirVisibility.PRIVATE, SirVisibility.FILEPRIVATE, SirVisibility.INTERNAL -> false
+                }
+                is SirAvailability.Unavailable -> false
+                is SirAvailability.Hidden -> true // these will need to be stubbed at some later stage
             }
-            is SirAvailability.Unavailable -> false
-            is SirAvailability.Hidden -> true // these will need to be stubbed at some later stage
         }
+    }
 }
