@@ -3,7 +3,7 @@
   "component": {
     "group": "org.jetbrains.kotlin",
     "module": "kotlin-test",
-    "version": "2.2.255-SNAPSHOT",
+    "version": "ArtifactsTest.version",
     "attributes": {
       "org.gradle.status": "integration"
     }
@@ -36,48 +36,48 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-test-common",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           }
         },
         {
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-test-annotations-common",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           }
         }
       ],
       "files": [
         {
-          "name": "kotlin-test-2.2.255-SNAPSHOT-all.jar",
-          "url": "kotlin-test-2.2.255-SNAPSHOT-all.jar",
-          "size": 17160,
-          "sha512": "ee4fa63540628b15beac3138d1cdf83f9d9764dbf2839069cb1e4a25f82d56afbc32bf2bdf5274baf26f75dd03e60146ed3073230d0a90dbff2970143915fede",
-          "sha256": "e64a1dabd372c6dcd3c00e1e30cc96e5c25823af5b90ffa3779624468e8d1a22",
-          "sha1": "416e6e074b7d902a61813d2d239d80a3195f6458",
-          "md5": "07c7529db14b09d96a43587cece8ef29"
+          "name": "kotlin-test-ArtifactsTest.version-all.jar",
+          "url": "kotlin-test-ArtifactsTest.version-all.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "kotlin-test-framework-junit5",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         },
         {
           "group": "org.jetbrains.kotlin",
           "name": "kotlin-test-framework-junit",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         },
         {
           "group": "org.jetbrains.kotlin",
           "name": "kotlin-test-framework-testng",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         },
         {
           "group": "org.jetbrains.kotlin",
           "name": "kotlin-test",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -95,7 +95,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-stdlib",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           }
         }
       ],
@@ -104,26 +104,26 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-test-common",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           }
         },
         {
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-test-annotations-common",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           }
         }
       ],
       "files": [
         {
-          "name": "kotlin-test-2.2.255-SNAPSHOT.jar",
-          "url": "kotlin-test-2.2.255-SNAPSHOT.jar",
-          "size": 238415,
-          "sha512": "cd68731d8ad04eb7582054b52fba2250a9ae93202765458f788a70eb96525f869e4b0f60fe1e39e4b86a7183bd54cf263297aa38d83b8a4f2f2c0b8190d0a95a",
-          "sha256": "4ae26994288160757f69dbf024cc94bfad328e6b4a2dd073b656349614e2296a",
-          "sha1": "e5f80d652ef25dee15f3f7819b6c29fd17ecb7b3",
-          "md5": "c46475257f43c4b4aaf00b7e670e24f3"
+          "name": "kotlin-test-ArtifactsTest.version.jar",
+          "url": "kotlin-test-ArtifactsTest.version.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ]
     },
@@ -141,7 +141,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-stdlib",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           }
         }
       ],
@@ -150,26 +150,26 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-test-common",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           }
         },
         {
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-test-annotations-common",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           }
         }
       ],
       "files": [
         {
-          "name": "kotlin-test-2.2.255-SNAPSHOT.jar",
-          "url": "kotlin-test-2.2.255-SNAPSHOT.jar",
-          "size": 238415,
-          "sha512": "cd68731d8ad04eb7582054b52fba2250a9ae93202765458f788a70eb96525f869e4b0f60fe1e39e4b86a7183bd54cf263297aa38d83b8a4f2f2c0b8190d0a95a",
-          "sha256": "4ae26994288160757f69dbf024cc94bfad328e6b4a2dd073b656349614e2296a",
-          "sha1": "e5f80d652ef25dee15f3f7819b6c29fd17ecb7b3",
-          "md5": "c46475257f43c4b4aaf00b7e670e24f3"
+          "name": "kotlin-test-ArtifactsTest.version.jar",
+          "url": "kotlin-test-ArtifactsTest.version.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ]
     },
@@ -186,13 +186,13 @@
       },
       "files": [
         {
-          "name": "kotlin-test-2.2.255-SNAPSHOT-sources.jar",
-          "url": "kotlin-test-2.2.255-SNAPSHOT-sources.jar",
-          "size": 49788,
-          "sha512": "e304fbc6a1f5b9741bf29c164bd907ae9e5f0aaceecfe8712febbe89c06d2d7dcc56a6cd17ad17ada8beb5c3be247ac1618574ceb1e927c186c89982eddd55ed",
-          "sha256": "5f0ef3235d9e69216d67ea30df8f3f4b3fd3f6201fcc1d83698bff1114c7fa4e",
-          "sha1": "d6f5698d2a12f5a10d0f22bffdbeb0bd5680f44f",
-          "md5": "10f2df79e130e351c9334456392dd947"
+          "name": "kotlin-test-ArtifactsTest.version-sources.jar",
+          "url": "kotlin-test-ArtifactsTest.version-sources.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ]
     },
@@ -209,14 +209,14 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-test-common",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           }
         },
         {
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-test-annotations-common",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           }
         }
       ]
@@ -232,10 +232,10 @@
         "org.jetbrains.kotlin.platform.type": "js"
       },
       "available-at": {
-        "url": "../../kotlin-test-js/2.2.255-SNAPSHOT/kotlin-test-js-2.2.255-SNAPSHOT.module",
+        "url": "../../kotlin-test-js/ArtifactsTest.version/kotlin-test-js-ArtifactsTest.version.module",
         "group": "org.jetbrains.kotlin",
         "module": "kotlin-test-js",
-        "version": "2.2.255-SNAPSHOT"
+        "version": "ArtifactsTest.version"
       }
     },
     {
@@ -249,10 +249,10 @@
         "org.jetbrains.kotlin.platform.type": "js"
       },
       "available-at": {
-        "url": "../../kotlin-test-js/2.2.255-SNAPSHOT/kotlin-test-js-2.2.255-SNAPSHOT.module",
+        "url": "../../kotlin-test-js/ArtifactsTest.version/kotlin-test-js-ArtifactsTest.version.module",
         "group": "org.jetbrains.kotlin",
         "module": "kotlin-test-js",
-        "version": "2.2.255-SNAPSHOT"
+        "version": "ArtifactsTest.version"
       }
     },
     {
@@ -267,10 +267,10 @@
         "org.jetbrains.kotlin.platform.type": "js"
       },
       "available-at": {
-        "url": "../../kotlin-test-js/2.2.255-SNAPSHOT/kotlin-test-js-2.2.255-SNAPSHOT.module",
+        "url": "../../kotlin-test-js/ArtifactsTest.version/kotlin-test-js-ArtifactsTest.version.module",
         "group": "org.jetbrains.kotlin",
         "module": "kotlin-test-js",
-        "version": "2.2.255-SNAPSHOT"
+        "version": "ArtifactsTest.version"
       }
     },
     {
@@ -283,21 +283,21 @@
         "org.jetbrains.kotlin.platform.type": "jvm"
       },
       "available-at": {
-        "url": "../../kotlin-test-junit/2.2.255-SNAPSHOT/kotlin-test-junit-2.2.255-SNAPSHOT.module",
+        "url": "../../kotlin-test-junit/ArtifactsTest.version/kotlin-test-junit-ArtifactsTest.version.module",
         "group": "org.jetbrains.kotlin",
         "module": "kotlin-test-junit",
-        "version": "2.2.255-SNAPSHOT"
+        "version": "ArtifactsTest.version"
       },
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "kotlin-test-framework",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         },
         {
           "group": "org.jetbrains.kotlin",
           "name": "kotlin-test-framework-junit",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -311,21 +311,21 @@
         "org.jetbrains.kotlin.platform.type": "jvm"
       },
       "available-at": {
-        "url": "../../kotlin-test-junit/2.2.255-SNAPSHOT/kotlin-test-junit-2.2.255-SNAPSHOT.module",
+        "url": "../../kotlin-test-junit/ArtifactsTest.version/kotlin-test-junit-ArtifactsTest.version.module",
         "group": "org.jetbrains.kotlin",
         "module": "kotlin-test-junit",
-        "version": "2.2.255-SNAPSHOT"
+        "version": "ArtifactsTest.version"
       },
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "kotlin-test-framework",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         },
         {
           "group": "org.jetbrains.kotlin",
           "name": "kotlin-test-framework-junit",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -341,21 +341,21 @@
         "org.jetbrains.kotlin.platform.type": "jvm"
       },
       "available-at": {
-        "url": "../../kotlin-test-junit/2.2.255-SNAPSHOT/kotlin-test-junit-2.2.255-SNAPSHOT.module",
+        "url": "../../kotlin-test-junit/ArtifactsTest.version/kotlin-test-junit-ArtifactsTest.version.module",
         "group": "org.jetbrains.kotlin",
         "module": "kotlin-test-junit",
-        "version": "2.2.255-SNAPSHOT"
+        "version": "ArtifactsTest.version"
       },
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "kotlin-test-framework",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         },
         {
           "group": "org.jetbrains.kotlin",
           "name": "kotlin-test-framework-junit",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -369,21 +369,21 @@
         "org.jetbrains.kotlin.platform.type": "jvm"
       },
       "available-at": {
-        "url": "../../kotlin-test-junit5/2.2.255-SNAPSHOT/kotlin-test-junit5-2.2.255-SNAPSHOT.module",
+        "url": "../../kotlin-test-junit5/ArtifactsTest.version/kotlin-test-junit5-ArtifactsTest.version.module",
         "group": "org.jetbrains.kotlin",
         "module": "kotlin-test-junit5",
-        "version": "2.2.255-SNAPSHOT"
+        "version": "ArtifactsTest.version"
       },
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "kotlin-test-framework-junit5",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         },
         {
           "group": "org.jetbrains.kotlin",
           "name": "kotlin-test-framework",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -397,21 +397,21 @@
         "org.jetbrains.kotlin.platform.type": "jvm"
       },
       "available-at": {
-        "url": "../../kotlin-test-junit5/2.2.255-SNAPSHOT/kotlin-test-junit5-2.2.255-SNAPSHOT.module",
+        "url": "../../kotlin-test-junit5/ArtifactsTest.version/kotlin-test-junit5-ArtifactsTest.version.module",
         "group": "org.jetbrains.kotlin",
         "module": "kotlin-test-junit5",
-        "version": "2.2.255-SNAPSHOT"
+        "version": "ArtifactsTest.version"
       },
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "kotlin-test-framework-junit5",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         },
         {
           "group": "org.jetbrains.kotlin",
           "name": "kotlin-test-framework",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -427,21 +427,21 @@
         "org.jetbrains.kotlin.platform.type": "jvm"
       },
       "available-at": {
-        "url": "../../kotlin-test-junit5/2.2.255-SNAPSHOT/kotlin-test-junit5-2.2.255-SNAPSHOT.module",
+        "url": "../../kotlin-test-junit5/ArtifactsTest.version/kotlin-test-junit5-ArtifactsTest.version.module",
         "group": "org.jetbrains.kotlin",
         "module": "kotlin-test-junit5",
-        "version": "2.2.255-SNAPSHOT"
+        "version": "ArtifactsTest.version"
       },
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "kotlin-test-framework-junit5",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         },
         {
           "group": "org.jetbrains.kotlin",
           "name": "kotlin-test-framework",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -455,21 +455,21 @@
         "org.jetbrains.kotlin.platform.type": "jvm"
       },
       "available-at": {
-        "url": "../../kotlin-test-testng/2.2.255-SNAPSHOT/kotlin-test-testng-2.2.255-SNAPSHOT.module",
+        "url": "../../kotlin-test-testng/ArtifactsTest.version/kotlin-test-testng-ArtifactsTest.version.module",
         "group": "org.jetbrains.kotlin",
         "module": "kotlin-test-testng",
-        "version": "2.2.255-SNAPSHOT"
+        "version": "ArtifactsTest.version"
       },
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "kotlin-test-framework",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         },
         {
           "group": "org.jetbrains.kotlin",
           "name": "kotlin-test-framework-testng",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -483,21 +483,21 @@
         "org.jetbrains.kotlin.platform.type": "jvm"
       },
       "available-at": {
-        "url": "../../kotlin-test-testng/2.2.255-SNAPSHOT/kotlin-test-testng-2.2.255-SNAPSHOT.module",
+        "url": "../../kotlin-test-testng/ArtifactsTest.version/kotlin-test-testng-ArtifactsTest.version.module",
         "group": "org.jetbrains.kotlin",
         "module": "kotlin-test-testng",
-        "version": "2.2.255-SNAPSHOT"
+        "version": "ArtifactsTest.version"
       },
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "kotlin-test-framework",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         },
         {
           "group": "org.jetbrains.kotlin",
           "name": "kotlin-test-framework-testng",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -513,21 +513,21 @@
         "org.jetbrains.kotlin.platform.type": "jvm"
       },
       "available-at": {
-        "url": "../../kotlin-test-testng/2.2.255-SNAPSHOT/kotlin-test-testng-2.2.255-SNAPSHOT.module",
+        "url": "../../kotlin-test-testng/ArtifactsTest.version/kotlin-test-testng-ArtifactsTest.version.module",
         "group": "org.jetbrains.kotlin",
         "module": "kotlin-test-testng",
-        "version": "2.2.255-SNAPSHOT"
+        "version": "ArtifactsTest.version"
       },
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "kotlin-test-framework",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         },
         {
           "group": "org.jetbrains.kotlin",
           "name": "kotlin-test-framework-testng",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -542,10 +542,10 @@
         "org.jetbrains.kotlin.wasm.target": "js"
       },
       "available-at": {
-        "url": "../../kotlin-test-wasm-js/2.2.255-SNAPSHOT/kotlin-test-wasm-js-2.2.255-SNAPSHOT.module",
+        "url": "../../kotlin-test-wasm-js/ArtifactsTest.version/kotlin-test-wasm-js-ArtifactsTest.version.module",
         "group": "org.jetbrains.kotlin",
         "module": "kotlin-test-wasm-js",
-        "version": "2.2.255-SNAPSHOT"
+        "version": "ArtifactsTest.version"
       }
     },
     {
@@ -559,10 +559,10 @@
         "org.jetbrains.kotlin.wasm.target": "js"
       },
       "available-at": {
-        "url": "../../kotlin-test-wasm-js/2.2.255-SNAPSHOT/kotlin-test-wasm-js-2.2.255-SNAPSHOT.module",
+        "url": "../../kotlin-test-wasm-js/ArtifactsTest.version/kotlin-test-wasm-js-ArtifactsTest.version.module",
         "group": "org.jetbrains.kotlin",
         "module": "kotlin-test-wasm-js",
-        "version": "2.2.255-SNAPSHOT"
+        "version": "ArtifactsTest.version"
       }
     },
     {
@@ -577,10 +577,10 @@
         "org.jetbrains.kotlin.wasm.target": "js"
       },
       "available-at": {
-        "url": "../../kotlin-test-wasm-js/2.2.255-SNAPSHOT/kotlin-test-wasm-js-2.2.255-SNAPSHOT.module",
+        "url": "../../kotlin-test-wasm-js/ArtifactsTest.version/kotlin-test-wasm-js-ArtifactsTest.version.module",
         "group": "org.jetbrains.kotlin",
         "module": "kotlin-test-wasm-js",
-        "version": "2.2.255-SNAPSHOT"
+        "version": "ArtifactsTest.version"
       }
     },
     {
@@ -594,10 +594,10 @@
         "org.jetbrains.kotlin.wasm.target": "wasi"
       },
       "available-at": {
-        "url": "../../kotlin-test-wasm-wasi/2.2.255-SNAPSHOT/kotlin-test-wasm-wasi-2.2.255-SNAPSHOT.module",
+        "url": "../../kotlin-test-wasm-wasi/ArtifactsTest.version/kotlin-test-wasm-wasi-ArtifactsTest.version.module",
         "group": "org.jetbrains.kotlin",
         "module": "kotlin-test-wasm-wasi",
-        "version": "2.2.255-SNAPSHOT"
+        "version": "ArtifactsTest.version"
       }
     },
     {
@@ -611,10 +611,10 @@
         "org.jetbrains.kotlin.wasm.target": "wasi"
       },
       "available-at": {
-        "url": "../../kotlin-test-wasm-wasi/2.2.255-SNAPSHOT/kotlin-test-wasm-wasi-2.2.255-SNAPSHOT.module",
+        "url": "../../kotlin-test-wasm-wasi/ArtifactsTest.version/kotlin-test-wasm-wasi-ArtifactsTest.version.module",
         "group": "org.jetbrains.kotlin",
         "module": "kotlin-test-wasm-wasi",
-        "version": "2.2.255-SNAPSHOT"
+        "version": "ArtifactsTest.version"
       }
     },
     {
@@ -629,10 +629,10 @@
         "org.jetbrains.kotlin.wasm.target": "wasi"
       },
       "available-at": {
-        "url": "../../kotlin-test-wasm-wasi/2.2.255-SNAPSHOT/kotlin-test-wasm-wasi-2.2.255-SNAPSHOT.module",
+        "url": "../../kotlin-test-wasm-wasi/ArtifactsTest.version/kotlin-test-wasm-wasi-ArtifactsTest.version.module",
         "group": "org.jetbrains.kotlin",
         "module": "kotlin-test-wasm-wasi",
-        "version": "2.2.255-SNAPSHOT"
+        "version": "ArtifactsTest.version"
       }
     }
   ]

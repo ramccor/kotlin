@@ -3,7 +3,7 @@
   "component": {
     "group": "org.jetbrains.kotlin",
     "module": "kotlinx-atomicfu-runtime",
-    "version": "2.2.255-SNAPSHOT",
+    "version": "ArtifactsTest.version",
     "attributes": {
       "org.gradle.status": "integration"
     }
@@ -25,13 +25,13 @@
       },
       "files": [
         {
-          "name": "kotlinx-atomicfu-runtime-2.2.255-SNAPSHOT.klib",
-          "url": "kotlinx-atomicfu-runtime-2.2.255-SNAPSHOT.klib",
-          "size": 17195,
-          "sha512": "0fd0acd91fe6afef9ac59ae8ed9b0a49ea81beaaa1783a3d38596dc8426e08a5d3f51c2af923a5fb52b0ac79e86f6ca784acef5b7630a0262f2b830a609fd3ff",
-          "sha256": "827dc33bdcc74d8e63178d024fe15eb1414762b6004efdfb7a128ab150b22821",
-          "sha1": "52526dd61e412b32e102169a2cd2f9e2c5e0a681",
-          "md5": "754526ccb6ce3aac8d04243d9ed65c61"
+          "name": "kotlinx-atomicfu-runtime-ArtifactsTest.version.klib",
+          "url": "kotlinx-atomicfu-runtime-ArtifactsTest.version.klib",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ]
     },
@@ -46,13 +46,13 @@
       },
       "files": [
         {
-          "name": "kotlinx-atomicfu-runtime-2.2.255-SNAPSHOT.klib",
-          "url": "kotlinx-atomicfu-runtime-2.2.255-SNAPSHOT.klib",
-          "size": 17195,
-          "sha512": "0fd0acd91fe6afef9ac59ae8ed9b0a49ea81beaaa1783a3d38596dc8426e08a5d3f51c2af923a5fb52b0ac79e86f6ca784acef5b7630a0262f2b830a609fd3ff",
-          "sha256": "827dc33bdcc74d8e63178d024fe15eb1414762b6004efdfb7a128ab150b22821",
-          "sha1": "52526dd61e412b32e102169a2cd2f9e2c5e0a681",
-          "md5": "754526ccb6ce3aac8d04243d9ed65c61"
+          "name": "kotlinx-atomicfu-runtime-ArtifactsTest.version.klib",
+          "url": "kotlinx-atomicfu-runtime-ArtifactsTest.version.klib",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ]
     },
@@ -76,13 +76,13 @@
       },
       "files": [
         {
-          "name": "kotlinx-atomicfu-runtime-2.2.255-SNAPSHOT-sources.jar",
-          "url": "kotlinx-atomicfu-runtime-2.2.255-SNAPSHOT-sources.jar",
-          "size": 6087,
-          "sha512": "ae506676b06747671f351546ee5beab30eef710199b782620392f88331b001b4c06e8f876776ef8e7cbc8ce583fbd64502df7b5639926aa18302a22b8fe62a46",
-          "sha256": "e31f1431e2fe8c33ba56e9bffadf789faa63a946be222eefe03e7f0b7e29b57f",
-          "sha1": "28b89efb0e9b34d848e5627070b72ff0fb7d9e94",
-          "md5": "486f4ae214fc14a5b19c76452ec8b352"
+          "name": "kotlinx-atomicfu-runtime-ArtifactsTest.version-sources.jar",
+          "url": "kotlinx-atomicfu-runtime-ArtifactsTest.version-sources.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ]
     }

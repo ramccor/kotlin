@@ -3,7 +3,7 @@
   "component": {
     "group": "org.jetbrains.kotlin",
     "module": "kotlin-js-plain-objects",
-    "version": "2.2.255-SNAPSHOT",
+    "version": "ArtifactsTest.version",
     "attributes": {
       "org.gradle.status": "integration"
     }
@@ -25,13 +25,13 @@
       },
       "files": [
         {
-          "name": "kotlin-js-plain-objects-2.2.255-SNAPSHOT.klib",
-          "url": "kotlin-js-plain-objects-2.2.255-SNAPSHOT.klib",
-          "size": 4165,
-          "sha512": "3ab20b9103deb085fc1bbcd8302a5acfdcab85008ae48cc6fa12e948249037aec828fe11bc2a8d8277f1420dcb3b4088f5c8aa9f259487d7cb6237cadb210900",
-          "sha256": "1a086ec0ffcbf2b8d87e704ee6987e3d4f2e746ef7d1648810cd3396b1b2e6d4",
-          "sha1": "29a44e1e7a902c40da4d6166b6cefa8694487371",
-          "md5": "a822fed7a3b3a5212f87767753b55c75"
+          "name": "kotlin-js-plain-objects-ArtifactsTest.version.klib",
+          "url": "kotlin-js-plain-objects-ArtifactsTest.version.klib",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ]
     },
@@ -46,13 +46,13 @@
       },
       "files": [
         {
-          "name": "kotlin-js-plain-objects-2.2.255-SNAPSHOT.klib",
-          "url": "kotlin-js-plain-objects-2.2.255-SNAPSHOT.klib",
-          "size": 4165,
-          "sha512": "3ab20b9103deb085fc1bbcd8302a5acfdcab85008ae48cc6fa12e948249037aec828fe11bc2a8d8277f1420dcb3b4088f5c8aa9f259487d7cb6237cadb210900",
-          "sha256": "1a086ec0ffcbf2b8d87e704ee6987e3d4f2e746ef7d1648810cd3396b1b2e6d4",
-          "sha1": "29a44e1e7a902c40da4d6166b6cefa8694487371",
-          "md5": "a822fed7a3b3a5212f87767753b55c75"
+          "name": "kotlin-js-plain-objects-ArtifactsTest.version.klib",
+          "url": "kotlin-js-plain-objects-ArtifactsTest.version.klib",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ]
     },
@@ -76,13 +76,13 @@
       },
       "files": [
         {
-          "name": "kotlin-js-plain-objects-2.2.255-SNAPSHOT-sources.jar",
-          "url": "kotlin-js-plain-objects-2.2.255-SNAPSHOT-sources.jar",
-          "size": 800,
-          "sha512": "4c809a6603366a71fe69c3be78e8b9bc0788bb5f7f2f9ea734a17fc5fd491fdf1fdf4d52d5cfd3f0222482b2b36bfb35def8eb72094abc16976aa39a29bd1d1f",
-          "sha256": "486f8c29a6c6c96a4185e630ce8aca24b5ea27a013f4239c00f53ab79412ad29",
-          "sha1": "bacb42b0412f9b67df82c1e69ca07b1bf91d55e3",
-          "md5": "68bad8373ed4802735386f6f2ef232fb"
+          "name": "kotlin-js-plain-objects-ArtifactsTest.version-sources.jar",
+          "url": "kotlin-js-plain-objects-ArtifactsTest.version-sources.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ]
     }

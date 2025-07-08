@@ -3,7 +3,7 @@
   "component": {
     "group": "org.jetbrains.kotlin",
     "module": "js-plain-objects",
-    "version": "2.2.255-SNAPSHOT",
+    "version": "ArtifactsTest.version",
     "attributes": {
       "org.gradle.status": "integration"
     }
@@ -24,13 +24,13 @@
       },
       "files": [
         {
-          "name": "js-plain-objects-2.2.255-SNAPSHOT-sources.jar",
-          "url": "js-plain-objects-2.2.255-SNAPSHOT-sources.jar",
-          "size": 3158,
-          "sha512": "230c2a52a18564550fdc6526bc6efd1271ed7745dca5b4ac9900753507d34228c9d4f8fe25cb00d7972e5446fa150d17c9095cf4bd5f9309b3aed5f56f92b39d",
-          "sha256": "52e6efecd6e913e3c37f8b0e488581351875d5095f86dba8ade70095f58c5d14",
-          "sha1": "cf686a4859276715d4b43a6e8c10713a1cc3bf46",
-          "md5": "58e5cea8d5e51cae690bf89693799e51"
+          "name": "js-plain-objects-ArtifactsTest.version-sources.jar",
+          "url": "js-plain-objects-ArtifactsTest.version-sources.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ]
     },
@@ -49,7 +49,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugins-bom",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -86,7 +86,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -118,13 +118,13 @@
       ],
       "files": [
         {
-          "name": "js-plain-objects-2.2.255-SNAPSHOT.jar",
-          "url": "js-plain-objects-2.2.255-SNAPSHOT.jar",
-          "size": 12921,
-          "sha512": "b08aaaffd7cd027db88da8bae1c91ebab537fd0289fdb81ea17a0521b6f03ffd4829a432940101c8afa8f8f6327b59a82f0dccd9cc734a3fee425981722f79a4",
-          "sha256": "21e239cddfdfee8cc2bff5b32002e49839aaaad42273049550c61f77a20a0e43",
-          "sha1": "1a9f2414965760453b3d40c73c9c613bcac20ef0",
-          "md5": "8e6cc0d79d0d8bcb3168ceb474305953"
+          "name": "js-plain-objects-ArtifactsTest.version.jar",
+          "url": "js-plain-objects-ArtifactsTest.version.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ]
     },
@@ -143,7 +143,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -176,7 +176,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugins-bom",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -212,13 +212,13 @@
       ],
       "files": [
         {
-          "name": "js-plain-objects-2.2.255-SNAPSHOT.jar",
-          "url": "js-plain-objects-2.2.255-SNAPSHOT.jar",
-          "size": 12921,
-          "sha512": "b08aaaffd7cd027db88da8bae1c91ebab537fd0289fdb81ea17a0521b6f03ffd4829a432940101c8afa8f8f6327b59a82f0dccd9cc734a3fee425981722f79a4",
-          "sha256": "21e239cddfdfee8cc2bff5b32002e49839aaaad42273049550c61f77a20a0e43",
-          "sha1": "1a9f2414965760453b3d40c73c9c613bcac20ef0",
-          "md5": "8e6cc0d79d0d8bcb3168ceb474305953"
+          "name": "js-plain-objects-ArtifactsTest.version.jar",
+          "url": "js-plain-objects-ArtifactsTest.version.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ]
     },
@@ -233,20 +233,20 @@
       },
       "files": [
         {
-          "name": "js-plain-objects-2.2.255-SNAPSHOT-gradle80-sources.jar",
-          "url": "js-plain-objects-2.2.255-SNAPSHOT-gradle80-sources.jar",
-          "size": 3158,
-          "sha512": "230c2a52a18564550fdc6526bc6efd1271ed7745dca5b4ac9900753507d34228c9d4f8fe25cb00d7972e5446fa150d17c9095cf4bd5f9309b3aed5f56f92b39d",
-          "sha256": "52e6efecd6e913e3c37f8b0e488581351875d5095f86dba8ade70095f58c5d14",
-          "sha1": "cf686a4859276715d4b43a6e8c10713a1cc3bf46",
-          "md5": "58e5cea8d5e51cae690bf89693799e51"
+          "name": "js-plain-objects-ArtifactsTest.version-gradle80-sources.jar",
+          "url": "js-plain-objects-ArtifactsTest.version-gradle80-sources.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "js-plain-objects",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -266,7 +266,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugins-bom",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -303,7 +303,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -341,20 +341,20 @@
       ],
       "files": [
         {
-          "name": "js-plain-objects-2.2.255-SNAPSHOT-gradle80.jar",
-          "url": "js-plain-objects-2.2.255-SNAPSHOT-gradle80.jar",
-          "size": 12921,
-          "sha512": "b08aaaffd7cd027db88da8bae1c91ebab537fd0289fdb81ea17a0521b6f03ffd4829a432940101c8afa8f8f6327b59a82f0dccd9cc734a3fee425981722f79a4",
-          "sha256": "21e239cddfdfee8cc2bff5b32002e49839aaaad42273049550c61f77a20a0e43",
-          "sha1": "1a9f2414965760453b3d40c73c9c613bcac20ef0",
-          "md5": "8e6cc0d79d0d8bcb3168ceb474305953"
+          "name": "js-plain-objects-ArtifactsTest.version-gradle80.jar",
+          "url": "js-plain-objects-ArtifactsTest.version-gradle80.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "js-plain-objects",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -374,7 +374,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugins-bom",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -411,7 +411,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -449,20 +449,20 @@
       ],
       "files": [
         {
-          "name": "js-plain-objects-2.2.255-SNAPSHOT-gradle80.jar",
-          "url": "js-plain-objects-2.2.255-SNAPSHOT-gradle80.jar",
-          "size": 12921,
-          "sha512": "b08aaaffd7cd027db88da8bae1c91ebab537fd0289fdb81ea17a0521b6f03ffd4829a432940101c8afa8f8f6327b59a82f0dccd9cc734a3fee425981722f79a4",
-          "sha256": "21e239cddfdfee8cc2bff5b32002e49839aaaad42273049550c61f77a20a0e43",
-          "sha1": "1a9f2414965760453b3d40c73c9c613bcac20ef0",
-          "md5": "8e6cc0d79d0d8bcb3168ceb474305953"
+          "name": "js-plain-objects-ArtifactsTest.version-gradle80.jar",
+          "url": "js-plain-objects-ArtifactsTest.version-gradle80.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "js-plain-objects",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -477,20 +477,20 @@
       },
       "files": [
         {
-          "name": "js-plain-objects-2.2.255-SNAPSHOT-gradle81-sources.jar",
-          "url": "js-plain-objects-2.2.255-SNAPSHOT-gradle81-sources.jar",
-          "size": 3158,
-          "sha512": "230c2a52a18564550fdc6526bc6efd1271ed7745dca5b4ac9900753507d34228c9d4f8fe25cb00d7972e5446fa150d17c9095cf4bd5f9309b3aed5f56f92b39d",
-          "sha256": "52e6efecd6e913e3c37f8b0e488581351875d5095f86dba8ade70095f58c5d14",
-          "sha1": "cf686a4859276715d4b43a6e8c10713a1cc3bf46",
-          "md5": "58e5cea8d5e51cae690bf89693799e51"
+          "name": "js-plain-objects-ArtifactsTest.version-gradle81-sources.jar",
+          "url": "js-plain-objects-ArtifactsTest.version-gradle81-sources.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "js-plain-objects",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -510,7 +510,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugins-bom",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -547,7 +547,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -585,20 +585,20 @@
       ],
       "files": [
         {
-          "name": "js-plain-objects-2.2.255-SNAPSHOT-gradle81.jar",
-          "url": "js-plain-objects-2.2.255-SNAPSHOT-gradle81.jar",
-          "size": 12921,
-          "sha512": "b08aaaffd7cd027db88da8bae1c91ebab537fd0289fdb81ea17a0521b6f03ffd4829a432940101c8afa8f8f6327b59a82f0dccd9cc734a3fee425981722f79a4",
-          "sha256": "21e239cddfdfee8cc2bff5b32002e49839aaaad42273049550c61f77a20a0e43",
-          "sha1": "1a9f2414965760453b3d40c73c9c613bcac20ef0",
-          "md5": "8e6cc0d79d0d8bcb3168ceb474305953"
+          "name": "js-plain-objects-ArtifactsTest.version-gradle81.jar",
+          "url": "js-plain-objects-ArtifactsTest.version-gradle81.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "js-plain-objects",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -618,7 +618,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugins-bom",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -655,7 +655,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -693,20 +693,20 @@
       ],
       "files": [
         {
-          "name": "js-plain-objects-2.2.255-SNAPSHOT-gradle81.jar",
-          "url": "js-plain-objects-2.2.255-SNAPSHOT-gradle81.jar",
-          "size": 12921,
-          "sha512": "b08aaaffd7cd027db88da8bae1c91ebab537fd0289fdb81ea17a0521b6f03ffd4829a432940101c8afa8f8f6327b59a82f0dccd9cc734a3fee425981722f79a4",
-          "sha256": "21e239cddfdfee8cc2bff5b32002e49839aaaad42273049550c61f77a20a0e43",
-          "sha1": "1a9f2414965760453b3d40c73c9c613bcac20ef0",
-          "md5": "8e6cc0d79d0d8bcb3168ceb474305953"
+          "name": "js-plain-objects-ArtifactsTest.version-gradle81.jar",
+          "url": "js-plain-objects-ArtifactsTest.version-gradle81.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "js-plain-objects",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -721,20 +721,20 @@
       },
       "files": [
         {
-          "name": "js-plain-objects-2.2.255-SNAPSHOT-gradle82-sources.jar",
-          "url": "js-plain-objects-2.2.255-SNAPSHOT-gradle82-sources.jar",
-          "size": 3158,
-          "sha512": "230c2a52a18564550fdc6526bc6efd1271ed7745dca5b4ac9900753507d34228c9d4f8fe25cb00d7972e5446fa150d17c9095cf4bd5f9309b3aed5f56f92b39d",
-          "sha256": "52e6efecd6e913e3c37f8b0e488581351875d5095f86dba8ade70095f58c5d14",
-          "sha1": "cf686a4859276715d4b43a6e8c10713a1cc3bf46",
-          "md5": "58e5cea8d5e51cae690bf89693799e51"
+          "name": "js-plain-objects-ArtifactsTest.version-gradle82-sources.jar",
+          "url": "js-plain-objects-ArtifactsTest.version-gradle82-sources.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "js-plain-objects",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -754,7 +754,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugins-bom",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -791,7 +791,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -829,20 +829,20 @@
       ],
       "files": [
         {
-          "name": "js-plain-objects-2.2.255-SNAPSHOT-gradle82.jar",
-          "url": "js-plain-objects-2.2.255-SNAPSHOT-gradle82.jar",
-          "size": 12921,
-          "sha512": "b08aaaffd7cd027db88da8bae1c91ebab537fd0289fdb81ea17a0521b6f03ffd4829a432940101c8afa8f8f6327b59a82f0dccd9cc734a3fee425981722f79a4",
-          "sha256": "21e239cddfdfee8cc2bff5b32002e49839aaaad42273049550c61f77a20a0e43",
-          "sha1": "1a9f2414965760453b3d40c73c9c613bcac20ef0",
-          "md5": "8e6cc0d79d0d8bcb3168ceb474305953"
+          "name": "js-plain-objects-ArtifactsTest.version-gradle82.jar",
+          "url": "js-plain-objects-ArtifactsTest.version-gradle82.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "js-plain-objects",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -862,7 +862,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugins-bom",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -899,7 +899,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -937,20 +937,20 @@
       ],
       "files": [
         {
-          "name": "js-plain-objects-2.2.255-SNAPSHOT-gradle82.jar",
-          "url": "js-plain-objects-2.2.255-SNAPSHOT-gradle82.jar",
-          "size": 12921,
-          "sha512": "b08aaaffd7cd027db88da8bae1c91ebab537fd0289fdb81ea17a0521b6f03ffd4829a432940101c8afa8f8f6327b59a82f0dccd9cc734a3fee425981722f79a4",
-          "sha256": "21e239cddfdfee8cc2bff5b32002e49839aaaad42273049550c61f77a20a0e43",
-          "sha1": "1a9f2414965760453b3d40c73c9c613bcac20ef0",
-          "md5": "8e6cc0d79d0d8bcb3168ceb474305953"
+          "name": "js-plain-objects-ArtifactsTest.version-gradle82.jar",
+          "url": "js-plain-objects-ArtifactsTest.version-gradle82.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "js-plain-objects",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -965,20 +965,20 @@
       },
       "files": [
         {
-          "name": "js-plain-objects-2.2.255-SNAPSHOT-gradle85-sources.jar",
-          "url": "js-plain-objects-2.2.255-SNAPSHOT-gradle85-sources.jar",
-          "size": 3158,
-          "sha512": "230c2a52a18564550fdc6526bc6efd1271ed7745dca5b4ac9900753507d34228c9d4f8fe25cb00d7972e5446fa150d17c9095cf4bd5f9309b3aed5f56f92b39d",
-          "sha256": "52e6efecd6e913e3c37f8b0e488581351875d5095f86dba8ade70095f58c5d14",
-          "sha1": "cf686a4859276715d4b43a6e8c10713a1cc3bf46",
-          "md5": "58e5cea8d5e51cae690bf89693799e51"
+          "name": "js-plain-objects-ArtifactsTest.version-gradle85-sources.jar",
+          "url": "js-plain-objects-ArtifactsTest.version-gradle85-sources.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "js-plain-objects",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -998,7 +998,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugins-bom",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -1035,7 +1035,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -1073,20 +1073,20 @@
       ],
       "files": [
         {
-          "name": "js-plain-objects-2.2.255-SNAPSHOT-gradle85.jar",
-          "url": "js-plain-objects-2.2.255-SNAPSHOT-gradle85.jar",
-          "size": 12921,
-          "sha512": "b08aaaffd7cd027db88da8bae1c91ebab537fd0289fdb81ea17a0521b6f03ffd4829a432940101c8afa8f8f6327b59a82f0dccd9cc734a3fee425981722f79a4",
-          "sha256": "21e239cddfdfee8cc2bff5b32002e49839aaaad42273049550c61f77a20a0e43",
-          "sha1": "1a9f2414965760453b3d40c73c9c613bcac20ef0",
-          "md5": "8e6cc0d79d0d8bcb3168ceb474305953"
+          "name": "js-plain-objects-ArtifactsTest.version-gradle85.jar",
+          "url": "js-plain-objects-ArtifactsTest.version-gradle85.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "js-plain-objects",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -1106,7 +1106,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugins-bom",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -1143,7 +1143,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -1181,20 +1181,20 @@
       ],
       "files": [
         {
-          "name": "js-plain-objects-2.2.255-SNAPSHOT-gradle85.jar",
-          "url": "js-plain-objects-2.2.255-SNAPSHOT-gradle85.jar",
-          "size": 12921,
-          "sha512": "b08aaaffd7cd027db88da8bae1c91ebab537fd0289fdb81ea17a0521b6f03ffd4829a432940101c8afa8f8f6327b59a82f0dccd9cc734a3fee425981722f79a4",
-          "sha256": "21e239cddfdfee8cc2bff5b32002e49839aaaad42273049550c61f77a20a0e43",
-          "sha1": "1a9f2414965760453b3d40c73c9c613bcac20ef0",
-          "md5": "8e6cc0d79d0d8bcb3168ceb474305953"
+          "name": "js-plain-objects-ArtifactsTest.version-gradle85.jar",
+          "url": "js-plain-objects-ArtifactsTest.version-gradle85.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "js-plain-objects",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -1209,20 +1209,20 @@
       },
       "files": [
         {
-          "name": "js-plain-objects-2.2.255-SNAPSHOT-gradle86-sources.jar",
-          "url": "js-plain-objects-2.2.255-SNAPSHOT-gradle86-sources.jar",
-          "size": 3158,
-          "sha512": "230c2a52a18564550fdc6526bc6efd1271ed7745dca5b4ac9900753507d34228c9d4f8fe25cb00d7972e5446fa150d17c9095cf4bd5f9309b3aed5f56f92b39d",
-          "sha256": "52e6efecd6e913e3c37f8b0e488581351875d5095f86dba8ade70095f58c5d14",
-          "sha1": "cf686a4859276715d4b43a6e8c10713a1cc3bf46",
-          "md5": "58e5cea8d5e51cae690bf89693799e51"
+          "name": "js-plain-objects-ArtifactsTest.version-gradle86-sources.jar",
+          "url": "js-plain-objects-ArtifactsTest.version-gradle86-sources.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "js-plain-objects",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -1242,7 +1242,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugins-bom",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -1279,7 +1279,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -1317,20 +1317,20 @@
       ],
       "files": [
         {
-          "name": "js-plain-objects-2.2.255-SNAPSHOT-gradle86.jar",
-          "url": "js-plain-objects-2.2.255-SNAPSHOT-gradle86.jar",
-          "size": 12921,
-          "sha512": "b08aaaffd7cd027db88da8bae1c91ebab537fd0289fdb81ea17a0521b6f03ffd4829a432940101c8afa8f8f6327b59a82f0dccd9cc734a3fee425981722f79a4",
-          "sha256": "21e239cddfdfee8cc2bff5b32002e49839aaaad42273049550c61f77a20a0e43",
-          "sha1": "1a9f2414965760453b3d40c73c9c613bcac20ef0",
-          "md5": "8e6cc0d79d0d8bcb3168ceb474305953"
+          "name": "js-plain-objects-ArtifactsTest.version-gradle86.jar",
+          "url": "js-plain-objects-ArtifactsTest.version-gradle86.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "js-plain-objects",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -1350,7 +1350,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugins-bom",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -1387,7 +1387,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -1425,20 +1425,20 @@
       ],
       "files": [
         {
-          "name": "js-plain-objects-2.2.255-SNAPSHOT-gradle86.jar",
-          "url": "js-plain-objects-2.2.255-SNAPSHOT-gradle86.jar",
-          "size": 12921,
-          "sha512": "b08aaaffd7cd027db88da8bae1c91ebab537fd0289fdb81ea17a0521b6f03ffd4829a432940101c8afa8f8f6327b59a82f0dccd9cc734a3fee425981722f79a4",
-          "sha256": "21e239cddfdfee8cc2bff5b32002e49839aaaad42273049550c61f77a20a0e43",
-          "sha1": "1a9f2414965760453b3d40c73c9c613bcac20ef0",
-          "md5": "8e6cc0d79d0d8bcb3168ceb474305953"
+          "name": "js-plain-objects-ArtifactsTest.version-gradle86.jar",
+          "url": "js-plain-objects-ArtifactsTest.version-gradle86.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "js-plain-objects",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -1453,20 +1453,20 @@
       },
       "files": [
         {
-          "name": "js-plain-objects-2.2.255-SNAPSHOT-gradle88-sources.jar",
-          "url": "js-plain-objects-2.2.255-SNAPSHOT-gradle88-sources.jar",
-          "size": 3158,
-          "sha512": "230c2a52a18564550fdc6526bc6efd1271ed7745dca5b4ac9900753507d34228c9d4f8fe25cb00d7972e5446fa150d17c9095cf4bd5f9309b3aed5f56f92b39d",
-          "sha256": "52e6efecd6e913e3c37f8b0e488581351875d5095f86dba8ade70095f58c5d14",
-          "sha1": "cf686a4859276715d4b43a6e8c10713a1cc3bf46",
-          "md5": "58e5cea8d5e51cae690bf89693799e51"
+          "name": "js-plain-objects-ArtifactsTest.version-gradle88-sources.jar",
+          "url": "js-plain-objects-ArtifactsTest.version-gradle88-sources.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "js-plain-objects",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -1486,7 +1486,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugins-bom",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -1523,7 +1523,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -1561,20 +1561,20 @@
       ],
       "files": [
         {
-          "name": "js-plain-objects-2.2.255-SNAPSHOT-gradle88.jar",
-          "url": "js-plain-objects-2.2.255-SNAPSHOT-gradle88.jar",
-          "size": 12921,
-          "sha512": "b08aaaffd7cd027db88da8bae1c91ebab537fd0289fdb81ea17a0521b6f03ffd4829a432940101c8afa8f8f6327b59a82f0dccd9cc734a3fee425981722f79a4",
-          "sha256": "21e239cddfdfee8cc2bff5b32002e49839aaaad42273049550c61f77a20a0e43",
-          "sha1": "1a9f2414965760453b3d40c73c9c613bcac20ef0",
-          "md5": "8e6cc0d79d0d8bcb3168ceb474305953"
+          "name": "js-plain-objects-ArtifactsTest.version-gradle88.jar",
+          "url": "js-plain-objects-ArtifactsTest.version-gradle88.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "js-plain-objects",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -1594,7 +1594,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugins-bom",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -1631,7 +1631,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -1669,20 +1669,20 @@
       ],
       "files": [
         {
-          "name": "js-plain-objects-2.2.255-SNAPSHOT-gradle88.jar",
-          "url": "js-plain-objects-2.2.255-SNAPSHOT-gradle88.jar",
-          "size": 12921,
-          "sha512": "b08aaaffd7cd027db88da8bae1c91ebab537fd0289fdb81ea17a0521b6f03ffd4829a432940101c8afa8f8f6327b59a82f0dccd9cc734a3fee425981722f79a4",
-          "sha256": "21e239cddfdfee8cc2bff5b32002e49839aaaad42273049550c61f77a20a0e43",
-          "sha1": "1a9f2414965760453b3d40c73c9c613bcac20ef0",
-          "md5": "8e6cc0d79d0d8bcb3168ceb474305953"
+          "name": "js-plain-objects-ArtifactsTest.version-gradle88.jar",
+          "url": "js-plain-objects-ArtifactsTest.version-gradle88.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "js-plain-objects",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -1697,20 +1697,20 @@
       },
       "files": [
         {
-          "name": "js-plain-objects-2.2.255-SNAPSHOT-gradle811-sources.jar",
-          "url": "js-plain-objects-2.2.255-SNAPSHOT-gradle811-sources.jar",
-          "size": 3158,
-          "sha512": "230c2a52a18564550fdc6526bc6efd1271ed7745dca5b4ac9900753507d34228c9d4f8fe25cb00d7972e5446fa150d17c9095cf4bd5f9309b3aed5f56f92b39d",
-          "sha256": "52e6efecd6e913e3c37f8b0e488581351875d5095f86dba8ade70095f58c5d14",
-          "sha1": "cf686a4859276715d4b43a6e8c10713a1cc3bf46",
-          "md5": "58e5cea8d5e51cae690bf89693799e51"
+          "name": "js-plain-objects-ArtifactsTest.version-gradle811-sources.jar",
+          "url": "js-plain-objects-ArtifactsTest.version-gradle811-sources.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "js-plain-objects",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -1730,7 +1730,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugins-bom",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -1767,7 +1767,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -1805,20 +1805,20 @@
       ],
       "files": [
         {
-          "name": "js-plain-objects-2.2.255-SNAPSHOT-gradle811.jar",
-          "url": "js-plain-objects-2.2.255-SNAPSHOT-gradle811.jar",
-          "size": 12921,
-          "sha512": "b08aaaffd7cd027db88da8bae1c91ebab537fd0289fdb81ea17a0521b6f03ffd4829a432940101c8afa8f8f6327b59a82f0dccd9cc734a3fee425981722f79a4",
-          "sha256": "21e239cddfdfee8cc2bff5b32002e49839aaaad42273049550c61f77a20a0e43",
-          "sha1": "1a9f2414965760453b3d40c73c9c613bcac20ef0",
-          "md5": "8e6cc0d79d0d8bcb3168ceb474305953"
+          "name": "js-plain-objects-ArtifactsTest.version-gradle811.jar",
+          "url": "js-plain-objects-ArtifactsTest.version-gradle811.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "js-plain-objects",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -1838,7 +1838,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugins-bom",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -1875,7 +1875,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -1913,20 +1913,20 @@
       ],
       "files": [
         {
-          "name": "js-plain-objects-2.2.255-SNAPSHOT-gradle811.jar",
-          "url": "js-plain-objects-2.2.255-SNAPSHOT-gradle811.jar",
-          "size": 12921,
-          "sha512": "b08aaaffd7cd027db88da8bae1c91ebab537fd0289fdb81ea17a0521b6f03ffd4829a432940101c8afa8f8f6327b59a82f0dccd9cc734a3fee425981722f79a4",
-          "sha256": "21e239cddfdfee8cc2bff5b32002e49839aaaad42273049550c61f77a20a0e43",
-          "sha1": "1a9f2414965760453b3d40c73c9c613bcac20ef0",
-          "md5": "8e6cc0d79d0d8bcb3168ceb474305953"
+          "name": "js-plain-objects-ArtifactsTest.version-gradle811.jar",
+          "url": "js-plain-objects-ArtifactsTest.version-gradle811.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "js-plain-objects",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -1941,20 +1941,20 @@
       },
       "files": [
         {
-          "name": "js-plain-objects-2.2.255-SNAPSHOT-gradle813-sources.jar",
-          "url": "js-plain-objects-2.2.255-SNAPSHOT-gradle813-sources.jar",
-          "size": 3158,
-          "sha512": "230c2a52a18564550fdc6526bc6efd1271ed7745dca5b4ac9900753507d34228c9d4f8fe25cb00d7972e5446fa150d17c9095cf4bd5f9309b3aed5f56f92b39d",
-          "sha256": "52e6efecd6e913e3c37f8b0e488581351875d5095f86dba8ade70095f58c5d14",
-          "sha1": "cf686a4859276715d4b43a6e8c10713a1cc3bf46",
-          "md5": "58e5cea8d5e51cae690bf89693799e51"
+          "name": "js-plain-objects-ArtifactsTest.version-gradle813-sources.jar",
+          "url": "js-plain-objects-ArtifactsTest.version-gradle813-sources.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "js-plain-objects",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -1974,7 +1974,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugins-bom",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -2011,7 +2011,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -2049,20 +2049,20 @@
       ],
       "files": [
         {
-          "name": "js-plain-objects-2.2.255-SNAPSHOT-gradle813.jar",
-          "url": "js-plain-objects-2.2.255-SNAPSHOT-gradle813.jar",
-          "size": 12921,
-          "sha512": "b08aaaffd7cd027db88da8bae1c91ebab537fd0289fdb81ea17a0521b6f03ffd4829a432940101c8afa8f8f6327b59a82f0dccd9cc734a3fee425981722f79a4",
-          "sha256": "21e239cddfdfee8cc2bff5b32002e49839aaaad42273049550c61f77a20a0e43",
-          "sha1": "1a9f2414965760453b3d40c73c9c613bcac20ef0",
-          "md5": "8e6cc0d79d0d8bcb3168ceb474305953"
+          "name": "js-plain-objects-ArtifactsTest.version-gradle813.jar",
+          "url": "js-plain-objects-ArtifactsTest.version-gradle813.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "js-plain-objects",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -2082,7 +2082,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugins-bom",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -2119,7 +2119,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -2157,20 +2157,20 @@
       ],
       "files": [
         {
-          "name": "js-plain-objects-2.2.255-SNAPSHOT-gradle813.jar",
-          "url": "js-plain-objects-2.2.255-SNAPSHOT-gradle813.jar",
-          "size": 12921,
-          "sha512": "b08aaaffd7cd027db88da8bae1c91ebab537fd0289fdb81ea17a0521b6f03ffd4829a432940101c8afa8f8f6327b59a82f0dccd9cc734a3fee425981722f79a4",
-          "sha256": "21e239cddfdfee8cc2bff5b32002e49839aaaad42273049550c61f77a20a0e43",
-          "sha1": "1a9f2414965760453b3d40c73c9c613bcac20ef0",
-          "md5": "8e6cc0d79d0d8bcb3168ceb474305953"
+          "name": "js-plain-objects-ArtifactsTest.version-gradle813.jar",
+          "url": "js-plain-objects-ArtifactsTest.version-gradle813.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "js-plain-objects",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -2184,13 +2184,13 @@
       },
       "files": [
         {
-          "name": "js-plain-objects-2.2.255-SNAPSHOT-javadoc.jar",
-          "url": "js-plain-objects-2.2.255-SNAPSHOT-javadoc.jar",
-          "size": 257,
-          "sha512": "2dd30c1b0f576649990edb3feb381d1bd9528a540dad44bd53066ba0f9e755f096a8cda8b1f9bd5c349ccb2c2a636ae75da1d72ab399b6e7bfea76c2d43665e8",
-          "sha256": "4200a274bbbdfe19ef5418d3013075dddaca4d2f14c85bade6652dc6d8ad42ce",
-          "sha1": "a3977689da6c6aaef495bd2d3fd8bc990fa7f2e0",
-          "md5": "0d8fbffcbd5c9c755debe1fe381fe6b5"
+          "name": "js-plain-objects-ArtifactsTest.version-javadoc.jar",
+          "url": "js-plain-objects-ArtifactsTest.version-javadoc.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ]
     }

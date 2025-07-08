@@ -3,7 +3,7 @@
   "component": {
     "group": "org.jetbrains.kotlin",
     "module": "kotlin-test-annotations-common",
-    "version": "2.2.255-SNAPSHOT",
+    "version": "ArtifactsTest.version",
     "attributes": {
       "org.gradle.status": "integration"
     }
@@ -24,7 +24,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-test",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           }
         }
       ]

@@ -1,10 +1,10 @@
 {
   "formatVersion": "1.1",
   "component": {
-    "url": "../../kotlin-stdlib/2.2.255-SNAPSHOT/kotlin-stdlib-2.2.255-SNAPSHOT.module",
+    "url": "../../kotlin-stdlib/ArtifactsTest.version/kotlin-stdlib-ArtifactsTest.version.module",
     "group": "org.jetbrains.kotlin",
     "module": "kotlin-stdlib",
-    "version": "2.2.255-SNAPSHOT",
+    "version": "ArtifactsTest.version",
     "attributes": {
       "org.gradle.status": "integration"
     }
@@ -27,13 +27,13 @@
       },
       "files": [
         {
-          "name": "kotlin-stdlib-js-2.2.255-SNAPSHOT.klib",
-          "url": "kotlin-stdlib-js-2.2.255-SNAPSHOT.klib",
-          "size": 7094294,
-          "sha512": "10b5b8463f8fd55de2a214235e015b4ea2ba69d23cecbd2a4597f1f6c787189dcb9a40b10bc4f55843c169b078e29b5602eb392dd0c88130d5466afe5064c1bc",
-          "sha256": "7df45c51bad3f628805b39ef82b89ac591c5e20ae52aa744280944bdb7451178",
-          "sha1": "2ecd2ededda0e37b58f12f2df59bc792aa2c526a",
-          "md5": "68a535831447b2304cf276d653c57d4d"
+          "name": "kotlin-stdlib-js-ArtifactsTest.version.klib",
+          "url": "kotlin-stdlib-js-ArtifactsTest.version.klib",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ]
     },
@@ -49,13 +49,13 @@
       },
       "files": [
         {
-          "name": "kotlin-stdlib-js-2.2.255-SNAPSHOT.klib",
-          "url": "kotlin-stdlib-js-2.2.255-SNAPSHOT.klib",
-          "size": 7094294,
-          "sha512": "10b5b8463f8fd55de2a214235e015b4ea2ba69d23cecbd2a4597f1f6c787189dcb9a40b10bc4f55843c169b078e29b5602eb392dd0c88130d5466afe5064c1bc",
-          "sha256": "7df45c51bad3f628805b39ef82b89ac591c5e20ae52aa744280944bdb7451178",
-          "sha1": "2ecd2ededda0e37b58f12f2df59bc792aa2c526a",
-          "md5": "68a535831447b2304cf276d653c57d4d"
+          "name": "kotlin-stdlib-js-ArtifactsTest.version.klib",
+          "url": "kotlin-stdlib-js-ArtifactsTest.version.klib",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ]
     },
@@ -72,13 +72,13 @@
       },
       "files": [
         {
-          "name": "kotlin-stdlib-js-2.2.255-SNAPSHOT-sources.jar",
-          "url": "kotlin-stdlib-js-2.2.255-SNAPSHOT-sources.jar",
-          "size": 4529471,
-          "sha512": "e4d558206bf52345215a640b878587e7d76331f8ce13003d52990fc4cfea971dfcbd42242795c5e3cd92aac76caac2c9e97b7a0d638b2e24763e1a104cdd32b6",
-          "sha256": "a1f3948f440879428563310e2a555980bff78c7a9f4848a4ad7dae5a4310817d",
-          "sha1": "b1bab3ca30594d048559145157b57664c156a2dc",
-          "md5": "351047c48c84c212a8e4da9823c16c37"
+          "name": "kotlin-stdlib-js-ArtifactsTest.version-sources.jar",
+          "url": "kotlin-stdlib-js-ArtifactsTest.version-sources.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ]
     }

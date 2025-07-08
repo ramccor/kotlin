@@ -3,7 +3,7 @@
   "component": {
     "group": "org.jetbrains.kotlin",
     "module": "kotlin-gradle-build-metrics",
-    "version": "2.2.255-SNAPSHOT",
+    "version": "ArtifactsTest.version",
     "attributes": {
       "org.gradle.status": "integration"
     }
@@ -27,13 +27,13 @@
       },
       "files": [
         {
-          "name": "kotlin-gradle-build-metrics-2.2.255-SNAPSHOT.jar",
-          "url": "kotlin-gradle-build-metrics-2.2.255-SNAPSHOT.jar",
-          "size": 12998,
-          "sha512": "004687ee4d184449e0b54e823872ae391557c9a0210c90c6d30a1d6ead441bade9619636eec75481093a61e76678d862db2f4dcaca9fbfde2f8c2de18681a55c",
-          "sha256": "694d8b9a854ce3fb7264fda8ead9ddf2263fb9f2f553a1540504602e896161a0",
-          "sha1": "d90c79b8d1da45cff05f46865f87249ba3365852",
-          "md5": "b287d4840b99f5e56cd0b8c3853e6693"
+          "name": "kotlin-gradle-build-metrics-ArtifactsTest.version.jar",
+          "url": "kotlin-gradle-build-metrics-ArtifactsTest.version.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ]
     },
@@ -50,13 +50,13 @@
       },
       "files": [
         {
-          "name": "kotlin-gradle-build-metrics-2.2.255-SNAPSHOT.jar",
-          "url": "kotlin-gradle-build-metrics-2.2.255-SNAPSHOT.jar",
-          "size": 12998,
-          "sha512": "004687ee4d184449e0b54e823872ae391557c9a0210c90c6d30a1d6ead441bade9619636eec75481093a61e76678d862db2f4dcaca9fbfde2f8c2de18681a55c",
-          "sha256": "694d8b9a854ce3fb7264fda8ead9ddf2263fb9f2f553a1540504602e896161a0",
-          "sha1": "d90c79b8d1da45cff05f46865f87249ba3365852",
-          "md5": "b287d4840b99f5e56cd0b8c3853e6693"
+          "name": "kotlin-gradle-build-metrics-ArtifactsTest.version.jar",
+          "url": "kotlin-gradle-build-metrics-ArtifactsTest.version.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ]
     },
@@ -70,13 +70,13 @@
       },
       "files": [
         {
-          "name": "kotlin-gradle-build-metrics-2.2.255-SNAPSHOT-sources.jar",
-          "url": "kotlin-gradle-build-metrics-2.2.255-SNAPSHOT-sources.jar",
-          "size": 2445,
-          "sha512": "e38d4293c9bded0044d13ae00db81ff43c79534d787381083caf911e09adb795a3ac32abe8550e94db13a6cf643297a17a504ef7b801849c9ab2f25ae295b604",
-          "sha256": "b67e93a0710b5785187cb0e83a53cdc0a94aff1de59e048ce3476c85978ee031",
-          "sha1": "2ab7d4b33fb8e34c0f8bc4ff8e8027d56e22ae0c",
-          "md5": "5ef74b6f4769dffe506bbe59402b8abd"
+          "name": "kotlin-gradle-build-metrics-ArtifactsTest.version-sources.jar",
+          "url": "kotlin-gradle-build-metrics-ArtifactsTest.version-sources.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ]
     },
@@ -90,13 +90,13 @@
       },
       "files": [
         {
-          "name": "kotlin-gradle-build-metrics-2.2.255-SNAPSHOT-javadoc.jar",
-          "url": "kotlin-gradle-build-metrics-2.2.255-SNAPSHOT-javadoc.jar",
-          "size": 257,
-          "sha512": "2dd30c1b0f576649990edb3feb381d1bd9528a540dad44bd53066ba0f9e755f096a8cda8b1f9bd5c349ccb2c2a636ae75da1d72ab399b6e7bfea76c2d43665e8",
-          "sha256": "4200a274bbbdfe19ef5418d3013075dddaca4d2f14c85bade6652dc6d8ad42ce",
-          "sha1": "a3977689da6c6aaef495bd2d3fd8bc990fa7f2e0",
-          "md5": "0d8fbffcbd5c9c755debe1fe381fe6b5"
+          "name": "kotlin-gradle-build-metrics-ArtifactsTest.version-javadoc.jar",
+          "url": "kotlin-gradle-build-metrics-ArtifactsTest.version-javadoc.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ]
     }

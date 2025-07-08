@@ -1,10 +1,10 @@
 {
   "formatVersion": "1.1",
   "component": {
-    "url": "../../kotlin-test/2.2.255-SNAPSHOT/kotlin-test-2.2.255-SNAPSHOT.module",
+    "url": "../../kotlin-test/ArtifactsTest.version/kotlin-test-ArtifactsTest.version.module",
     "group": "org.jetbrains.kotlin",
     "module": "kotlin-test",
-    "version": "2.2.255-SNAPSHOT",
+    "version": "ArtifactsTest.version",
     "attributes": {
       "org.gradle.status": "integration"
     }
@@ -30,19 +30,19 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-stdlib",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           }
         }
       ],
       "files": [
         {
-          "name": "kotlin-test-wasm-js-2.2.255-SNAPSHOT.klib",
-          "url": "kotlin-test-wasm-js-2.2.255-SNAPSHOT.klib",
-          "size": 194117,
-          "sha512": "49a71a2d9936ad641c1dc6a9d5386560d12350bb9e7146b1ab97a727a5547ac507506bb5e2fa2c929ce67ac72dd39c93a0dc26cb0cda2386b2e145fb11f9042b",
-          "sha256": "be3a5847a9eef3ce661bab403ae43f4f5d5735161e3850f2f0f4f01b72eb4bb7",
-          "sha1": "eb2fe6417c8ddfcbbeb17b5d3b220e253a2fd1ae",
-          "md5": "0956085ebc34233cd81a41e9c85e32e0"
+          "name": "kotlin-test-wasm-js-ArtifactsTest.version.klib",
+          "url": "kotlin-test-wasm-js-ArtifactsTest.version.klib",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ]
     },
@@ -61,19 +61,19 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-stdlib",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           }
         }
       ],
       "files": [
         {
-          "name": "kotlin-test-wasm-js-2.2.255-SNAPSHOT.klib",
-          "url": "kotlin-test-wasm-js-2.2.255-SNAPSHOT.klib",
-          "size": 194117,
-          "sha512": "49a71a2d9936ad641c1dc6a9d5386560d12350bb9e7146b1ab97a727a5547ac507506bb5e2fa2c929ce67ac72dd39c93a0dc26cb0cda2386b2e145fb11f9042b",
-          "sha256": "be3a5847a9eef3ce661bab403ae43f4f5d5735161e3850f2f0f4f01b72eb4bb7",
-          "sha1": "eb2fe6417c8ddfcbbeb17b5d3b220e253a2fd1ae",
-          "md5": "0956085ebc34233cd81a41e9c85e32e0"
+          "name": "kotlin-test-wasm-js-ArtifactsTest.version.klib",
+          "url": "kotlin-test-wasm-js-ArtifactsTest.version.klib",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ]
     },
@@ -90,13 +90,13 @@
       },
       "files": [
         {
-          "name": "kotlin-test-wasm-js-2.2.255-SNAPSHOT-sources.jar",
-          "url": "kotlin-test-wasm-js-2.2.255-SNAPSHOT-sources.jar",
-          "size": 74755,
-          "sha512": "2a865a76e4fb6f64d94a21383e916043d41094ec4d70f7eb564aa735fa44809ebcab38dc5f37086f4dd8587af16b26d1a7941cfebeb5c0760d0d79cb712a3b55",
-          "sha256": "51f875e15bb56fbe5be9e637d1801f9a1716d7ad28db2ae6197282bd19dee1c6",
-          "sha1": "73c61616c54577e8f7bd970568a9b29613f328c6",
-          "md5": "18a9c9ced068272df661582c2563bc2d"
+          "name": "kotlin-test-wasm-js-ArtifactsTest.version-sources.jar",
+          "url": "kotlin-test-wasm-js-ArtifactsTest.version-sources.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ]
     }

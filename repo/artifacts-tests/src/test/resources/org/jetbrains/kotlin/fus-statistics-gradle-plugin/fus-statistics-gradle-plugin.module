@@ -3,7 +3,7 @@
   "component": {
     "group": "org.jetbrains.kotlin",
     "module": "fus-statistics-gradle-plugin",
-    "version": "2.2.255-SNAPSHOT",
+    "version": "ArtifactsTest.version",
     "attributes": {
       "org.gradle.status": "integration"
     }
@@ -24,13 +24,13 @@
       },
       "files": [
         {
-          "name": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT-sources.jar",
-          "url": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT-sources.jar",
-          "size": 29656,
-          "sha512": "af48e6320d04cad36715584ae9936c73c05a6a58aace35047b55baac24deb6f7c75a3ed204edacdcf5f3bb381910b9e7cee79021304b66bee837261bd0229083",
-          "sha256": "d936b6067978d1f4d1e2c6ba89cb569d242382642ff64c535cd6c046e0ca1ff0",
-          "sha1": "79bcec8a5a477de74f9b76f870974950bae17f46",
-          "md5": "a73f2d1ed8ef43c555a244c4bb177d20"
+          "name": "fus-statistics-gradle-plugin-ArtifactsTest.version-sources.jar",
+          "url": "fus-statistics-gradle-plugin-ArtifactsTest.version-sources.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ]
     },
@@ -49,7 +49,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -81,13 +81,13 @@
       ],
       "files": [
         {
-          "name": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT.jar",
-          "url": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT.jar",
-          "size": 159672,
-          "sha512": "5f74805160b47a1b781ef6718250dcaa48f1758d5514c20b9e1d4b09ec5208451721cba19e11d643240e7ce03e79ef8925d7c1aa0cf4185a0cb05b7cedd264f1",
-          "sha256": "636816dd47e8197cb49e6513f0494a9207cc2e67153d565a7bd0beb4e6858831",
-          "sha1": "f4d72f58de3c1b7e4014739bae2368e0da077562",
-          "md5": "88174cfe2879e64c13502bc45dd9f273"
+          "name": "fus-statistics-gradle-plugin-ArtifactsTest.version.jar",
+          "url": "fus-statistics-gradle-plugin-ArtifactsTest.version.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ]
     },
@@ -106,7 +106,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -138,13 +138,13 @@
       ],
       "files": [
         {
-          "name": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT.jar",
-          "url": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT.jar",
-          "size": 159672,
-          "sha512": "5f74805160b47a1b781ef6718250dcaa48f1758d5514c20b9e1d4b09ec5208451721cba19e11d643240e7ce03e79ef8925d7c1aa0cf4185a0cb05b7cedd264f1",
-          "sha256": "636816dd47e8197cb49e6513f0494a9207cc2e67153d565a7bd0beb4e6858831",
-          "sha1": "f4d72f58de3c1b7e4014739bae2368e0da077562",
-          "md5": "88174cfe2879e64c13502bc45dd9f273"
+          "name": "fus-statistics-gradle-plugin-ArtifactsTest.version.jar",
+          "url": "fus-statistics-gradle-plugin-ArtifactsTest.version.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ]
     },
@@ -159,20 +159,20 @@
       },
       "files": [
         {
-          "name": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT-gradle80-sources.jar",
-          "url": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT-gradle80-sources.jar",
-          "size": 29656,
-          "sha512": "af48e6320d04cad36715584ae9936c73c05a6a58aace35047b55baac24deb6f7c75a3ed204edacdcf5f3bb381910b9e7cee79021304b66bee837261bd0229083",
-          "sha256": "d936b6067978d1f4d1e2c6ba89cb569d242382642ff64c535cd6c046e0ca1ff0",
-          "sha1": "79bcec8a5a477de74f9b76f870974950bae17f46",
-          "md5": "a73f2d1ed8ef43c555a244c4bb177d20"
+          "name": "fus-statistics-gradle-plugin-ArtifactsTest.version-gradle80-sources.jar",
+          "url": "fus-statistics-gradle-plugin-ArtifactsTest.version-gradle80-sources.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "fus-statistics-gradle-plugin",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -192,7 +192,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -230,20 +230,20 @@
       ],
       "files": [
         {
-          "name": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT-gradle80.jar",
-          "url": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT-gradle80.jar",
-          "size": 159672,
-          "sha512": "5f74805160b47a1b781ef6718250dcaa48f1758d5514c20b9e1d4b09ec5208451721cba19e11d643240e7ce03e79ef8925d7c1aa0cf4185a0cb05b7cedd264f1",
-          "sha256": "636816dd47e8197cb49e6513f0494a9207cc2e67153d565a7bd0beb4e6858831",
-          "sha1": "f4d72f58de3c1b7e4014739bae2368e0da077562",
-          "md5": "88174cfe2879e64c13502bc45dd9f273"
+          "name": "fus-statistics-gradle-plugin-ArtifactsTest.version-gradle80.jar",
+          "url": "fus-statistics-gradle-plugin-ArtifactsTest.version-gradle80.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "fus-statistics-gradle-plugin",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -263,7 +263,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -301,20 +301,20 @@
       ],
       "files": [
         {
-          "name": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT-gradle80.jar",
-          "url": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT-gradle80.jar",
-          "size": 159672,
-          "sha512": "5f74805160b47a1b781ef6718250dcaa48f1758d5514c20b9e1d4b09ec5208451721cba19e11d643240e7ce03e79ef8925d7c1aa0cf4185a0cb05b7cedd264f1",
-          "sha256": "636816dd47e8197cb49e6513f0494a9207cc2e67153d565a7bd0beb4e6858831",
-          "sha1": "f4d72f58de3c1b7e4014739bae2368e0da077562",
-          "md5": "88174cfe2879e64c13502bc45dd9f273"
+          "name": "fus-statistics-gradle-plugin-ArtifactsTest.version-gradle80.jar",
+          "url": "fus-statistics-gradle-plugin-ArtifactsTest.version-gradle80.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "fus-statistics-gradle-plugin",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -329,20 +329,20 @@
       },
       "files": [
         {
-          "name": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT-gradle81-sources.jar",
-          "url": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT-gradle81-sources.jar",
-          "size": 29656,
-          "sha512": "af48e6320d04cad36715584ae9936c73c05a6a58aace35047b55baac24deb6f7c75a3ed204edacdcf5f3bb381910b9e7cee79021304b66bee837261bd0229083",
-          "sha256": "d936b6067978d1f4d1e2c6ba89cb569d242382642ff64c535cd6c046e0ca1ff0",
-          "sha1": "79bcec8a5a477de74f9b76f870974950bae17f46",
-          "md5": "a73f2d1ed8ef43c555a244c4bb177d20"
+          "name": "fus-statistics-gradle-plugin-ArtifactsTest.version-gradle81-sources.jar",
+          "url": "fus-statistics-gradle-plugin-ArtifactsTest.version-gradle81-sources.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "fus-statistics-gradle-plugin",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -362,7 +362,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -400,20 +400,20 @@
       ],
       "files": [
         {
-          "name": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT-gradle81.jar",
-          "url": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT-gradle81.jar",
-          "size": 159672,
-          "sha512": "5f74805160b47a1b781ef6718250dcaa48f1758d5514c20b9e1d4b09ec5208451721cba19e11d643240e7ce03e79ef8925d7c1aa0cf4185a0cb05b7cedd264f1",
-          "sha256": "636816dd47e8197cb49e6513f0494a9207cc2e67153d565a7bd0beb4e6858831",
-          "sha1": "f4d72f58de3c1b7e4014739bae2368e0da077562",
-          "md5": "88174cfe2879e64c13502bc45dd9f273"
+          "name": "fus-statistics-gradle-plugin-ArtifactsTest.version-gradle81.jar",
+          "url": "fus-statistics-gradle-plugin-ArtifactsTest.version-gradle81.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "fus-statistics-gradle-plugin",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -433,7 +433,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -471,20 +471,20 @@
       ],
       "files": [
         {
-          "name": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT-gradle81.jar",
-          "url": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT-gradle81.jar",
-          "size": 159672,
-          "sha512": "5f74805160b47a1b781ef6718250dcaa48f1758d5514c20b9e1d4b09ec5208451721cba19e11d643240e7ce03e79ef8925d7c1aa0cf4185a0cb05b7cedd264f1",
-          "sha256": "636816dd47e8197cb49e6513f0494a9207cc2e67153d565a7bd0beb4e6858831",
-          "sha1": "f4d72f58de3c1b7e4014739bae2368e0da077562",
-          "md5": "88174cfe2879e64c13502bc45dd9f273"
+          "name": "fus-statistics-gradle-plugin-ArtifactsTest.version-gradle81.jar",
+          "url": "fus-statistics-gradle-plugin-ArtifactsTest.version-gradle81.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "fus-statistics-gradle-plugin",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -499,20 +499,20 @@
       },
       "files": [
         {
-          "name": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT-gradle82-sources.jar",
-          "url": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT-gradle82-sources.jar",
-          "size": 29656,
-          "sha512": "af48e6320d04cad36715584ae9936c73c05a6a58aace35047b55baac24deb6f7c75a3ed204edacdcf5f3bb381910b9e7cee79021304b66bee837261bd0229083",
-          "sha256": "d936b6067978d1f4d1e2c6ba89cb569d242382642ff64c535cd6c046e0ca1ff0",
-          "sha1": "79bcec8a5a477de74f9b76f870974950bae17f46",
-          "md5": "a73f2d1ed8ef43c555a244c4bb177d20"
+          "name": "fus-statistics-gradle-plugin-ArtifactsTest.version-gradle82-sources.jar",
+          "url": "fus-statistics-gradle-plugin-ArtifactsTest.version-gradle82-sources.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "fus-statistics-gradle-plugin",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -532,7 +532,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -570,20 +570,20 @@
       ],
       "files": [
         {
-          "name": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT-gradle82.jar",
-          "url": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT-gradle82.jar",
-          "size": 159672,
-          "sha512": "5f74805160b47a1b781ef6718250dcaa48f1758d5514c20b9e1d4b09ec5208451721cba19e11d643240e7ce03e79ef8925d7c1aa0cf4185a0cb05b7cedd264f1",
-          "sha256": "636816dd47e8197cb49e6513f0494a9207cc2e67153d565a7bd0beb4e6858831",
-          "sha1": "f4d72f58de3c1b7e4014739bae2368e0da077562",
-          "md5": "88174cfe2879e64c13502bc45dd9f273"
+          "name": "fus-statistics-gradle-plugin-ArtifactsTest.version-gradle82.jar",
+          "url": "fus-statistics-gradle-plugin-ArtifactsTest.version-gradle82.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "fus-statistics-gradle-plugin",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -603,7 +603,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -641,20 +641,20 @@
       ],
       "files": [
         {
-          "name": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT-gradle82.jar",
-          "url": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT-gradle82.jar",
-          "size": 159672,
-          "sha512": "5f74805160b47a1b781ef6718250dcaa48f1758d5514c20b9e1d4b09ec5208451721cba19e11d643240e7ce03e79ef8925d7c1aa0cf4185a0cb05b7cedd264f1",
-          "sha256": "636816dd47e8197cb49e6513f0494a9207cc2e67153d565a7bd0beb4e6858831",
-          "sha1": "f4d72f58de3c1b7e4014739bae2368e0da077562",
-          "md5": "88174cfe2879e64c13502bc45dd9f273"
+          "name": "fus-statistics-gradle-plugin-ArtifactsTest.version-gradle82.jar",
+          "url": "fus-statistics-gradle-plugin-ArtifactsTest.version-gradle82.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "fus-statistics-gradle-plugin",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -669,20 +669,20 @@
       },
       "files": [
         {
-          "name": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT-gradle85-sources.jar",
-          "url": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT-gradle85-sources.jar",
-          "size": 29656,
-          "sha512": "af48e6320d04cad36715584ae9936c73c05a6a58aace35047b55baac24deb6f7c75a3ed204edacdcf5f3bb381910b9e7cee79021304b66bee837261bd0229083",
-          "sha256": "d936b6067978d1f4d1e2c6ba89cb569d242382642ff64c535cd6c046e0ca1ff0",
-          "sha1": "79bcec8a5a477de74f9b76f870974950bae17f46",
-          "md5": "a73f2d1ed8ef43c555a244c4bb177d20"
+          "name": "fus-statistics-gradle-plugin-ArtifactsTest.version-gradle85-sources.jar",
+          "url": "fus-statistics-gradle-plugin-ArtifactsTest.version-gradle85-sources.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "fus-statistics-gradle-plugin",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -702,7 +702,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -740,20 +740,20 @@
       ],
       "files": [
         {
-          "name": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT-gradle85.jar",
-          "url": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT-gradle85.jar",
-          "size": 159672,
-          "sha512": "5f74805160b47a1b781ef6718250dcaa48f1758d5514c20b9e1d4b09ec5208451721cba19e11d643240e7ce03e79ef8925d7c1aa0cf4185a0cb05b7cedd264f1",
-          "sha256": "636816dd47e8197cb49e6513f0494a9207cc2e67153d565a7bd0beb4e6858831",
-          "sha1": "f4d72f58de3c1b7e4014739bae2368e0da077562",
-          "md5": "88174cfe2879e64c13502bc45dd9f273"
+          "name": "fus-statistics-gradle-plugin-ArtifactsTest.version-gradle85.jar",
+          "url": "fus-statistics-gradle-plugin-ArtifactsTest.version-gradle85.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "fus-statistics-gradle-plugin",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -773,7 +773,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -811,20 +811,20 @@
       ],
       "files": [
         {
-          "name": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT-gradle85.jar",
-          "url": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT-gradle85.jar",
-          "size": 159672,
-          "sha512": "5f74805160b47a1b781ef6718250dcaa48f1758d5514c20b9e1d4b09ec5208451721cba19e11d643240e7ce03e79ef8925d7c1aa0cf4185a0cb05b7cedd264f1",
-          "sha256": "636816dd47e8197cb49e6513f0494a9207cc2e67153d565a7bd0beb4e6858831",
-          "sha1": "f4d72f58de3c1b7e4014739bae2368e0da077562",
-          "md5": "88174cfe2879e64c13502bc45dd9f273"
+          "name": "fus-statistics-gradle-plugin-ArtifactsTest.version-gradle85.jar",
+          "url": "fus-statistics-gradle-plugin-ArtifactsTest.version-gradle85.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "fus-statistics-gradle-plugin",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -839,20 +839,20 @@
       },
       "files": [
         {
-          "name": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT-gradle86-sources.jar",
-          "url": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT-gradle86-sources.jar",
-          "size": 29656,
-          "sha512": "af48e6320d04cad36715584ae9936c73c05a6a58aace35047b55baac24deb6f7c75a3ed204edacdcf5f3bb381910b9e7cee79021304b66bee837261bd0229083",
-          "sha256": "d936b6067978d1f4d1e2c6ba89cb569d242382642ff64c535cd6c046e0ca1ff0",
-          "sha1": "79bcec8a5a477de74f9b76f870974950bae17f46",
-          "md5": "a73f2d1ed8ef43c555a244c4bb177d20"
+          "name": "fus-statistics-gradle-plugin-ArtifactsTest.version-gradle86-sources.jar",
+          "url": "fus-statistics-gradle-plugin-ArtifactsTest.version-gradle86-sources.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "fus-statistics-gradle-plugin",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -872,7 +872,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -910,20 +910,20 @@
       ],
       "files": [
         {
-          "name": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT-gradle86.jar",
-          "url": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT-gradle86.jar",
-          "size": 159672,
-          "sha512": "5f74805160b47a1b781ef6718250dcaa48f1758d5514c20b9e1d4b09ec5208451721cba19e11d643240e7ce03e79ef8925d7c1aa0cf4185a0cb05b7cedd264f1",
-          "sha256": "636816dd47e8197cb49e6513f0494a9207cc2e67153d565a7bd0beb4e6858831",
-          "sha1": "f4d72f58de3c1b7e4014739bae2368e0da077562",
-          "md5": "88174cfe2879e64c13502bc45dd9f273"
+          "name": "fus-statistics-gradle-plugin-ArtifactsTest.version-gradle86.jar",
+          "url": "fus-statistics-gradle-plugin-ArtifactsTest.version-gradle86.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "fus-statistics-gradle-plugin",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -943,7 +943,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -981,20 +981,20 @@
       ],
       "files": [
         {
-          "name": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT-gradle86.jar",
-          "url": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT-gradle86.jar",
-          "size": 159672,
-          "sha512": "5f74805160b47a1b781ef6718250dcaa48f1758d5514c20b9e1d4b09ec5208451721cba19e11d643240e7ce03e79ef8925d7c1aa0cf4185a0cb05b7cedd264f1",
-          "sha256": "636816dd47e8197cb49e6513f0494a9207cc2e67153d565a7bd0beb4e6858831",
-          "sha1": "f4d72f58de3c1b7e4014739bae2368e0da077562",
-          "md5": "88174cfe2879e64c13502bc45dd9f273"
+          "name": "fus-statistics-gradle-plugin-ArtifactsTest.version-gradle86.jar",
+          "url": "fus-statistics-gradle-plugin-ArtifactsTest.version-gradle86.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "fus-statistics-gradle-plugin",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -1009,20 +1009,20 @@
       },
       "files": [
         {
-          "name": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT-gradle88-sources.jar",
-          "url": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT-gradle88-sources.jar",
-          "size": 29656,
-          "sha512": "af48e6320d04cad36715584ae9936c73c05a6a58aace35047b55baac24deb6f7c75a3ed204edacdcf5f3bb381910b9e7cee79021304b66bee837261bd0229083",
-          "sha256": "d936b6067978d1f4d1e2c6ba89cb569d242382642ff64c535cd6c046e0ca1ff0",
-          "sha1": "79bcec8a5a477de74f9b76f870974950bae17f46",
-          "md5": "a73f2d1ed8ef43c555a244c4bb177d20"
+          "name": "fus-statistics-gradle-plugin-ArtifactsTest.version-gradle88-sources.jar",
+          "url": "fus-statistics-gradle-plugin-ArtifactsTest.version-gradle88-sources.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "fus-statistics-gradle-plugin",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -1042,7 +1042,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -1080,20 +1080,20 @@
       ],
       "files": [
         {
-          "name": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT-gradle88.jar",
-          "url": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT-gradle88.jar",
-          "size": 159672,
-          "sha512": "5f74805160b47a1b781ef6718250dcaa48f1758d5514c20b9e1d4b09ec5208451721cba19e11d643240e7ce03e79ef8925d7c1aa0cf4185a0cb05b7cedd264f1",
-          "sha256": "636816dd47e8197cb49e6513f0494a9207cc2e67153d565a7bd0beb4e6858831",
-          "sha1": "f4d72f58de3c1b7e4014739bae2368e0da077562",
-          "md5": "88174cfe2879e64c13502bc45dd9f273"
+          "name": "fus-statistics-gradle-plugin-ArtifactsTest.version-gradle88.jar",
+          "url": "fus-statistics-gradle-plugin-ArtifactsTest.version-gradle88.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "fus-statistics-gradle-plugin",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -1113,7 +1113,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -1151,20 +1151,20 @@
       ],
       "files": [
         {
-          "name": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT-gradle88.jar",
-          "url": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT-gradle88.jar",
-          "size": 159672,
-          "sha512": "5f74805160b47a1b781ef6718250dcaa48f1758d5514c20b9e1d4b09ec5208451721cba19e11d643240e7ce03e79ef8925d7c1aa0cf4185a0cb05b7cedd264f1",
-          "sha256": "636816dd47e8197cb49e6513f0494a9207cc2e67153d565a7bd0beb4e6858831",
-          "sha1": "f4d72f58de3c1b7e4014739bae2368e0da077562",
-          "md5": "88174cfe2879e64c13502bc45dd9f273"
+          "name": "fus-statistics-gradle-plugin-ArtifactsTest.version-gradle88.jar",
+          "url": "fus-statistics-gradle-plugin-ArtifactsTest.version-gradle88.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "fus-statistics-gradle-plugin",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -1179,20 +1179,20 @@
       },
       "files": [
         {
-          "name": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT-gradle811-sources.jar",
-          "url": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT-gradle811-sources.jar",
-          "size": 29656,
-          "sha512": "af48e6320d04cad36715584ae9936c73c05a6a58aace35047b55baac24deb6f7c75a3ed204edacdcf5f3bb381910b9e7cee79021304b66bee837261bd0229083",
-          "sha256": "d936b6067978d1f4d1e2c6ba89cb569d242382642ff64c535cd6c046e0ca1ff0",
-          "sha1": "79bcec8a5a477de74f9b76f870974950bae17f46",
-          "md5": "a73f2d1ed8ef43c555a244c4bb177d20"
+          "name": "fus-statistics-gradle-plugin-ArtifactsTest.version-gradle811-sources.jar",
+          "url": "fus-statistics-gradle-plugin-ArtifactsTest.version-gradle811-sources.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "fus-statistics-gradle-plugin",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -1212,7 +1212,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -1250,20 +1250,20 @@
       ],
       "files": [
         {
-          "name": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT-gradle811.jar",
-          "url": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT-gradle811.jar",
-          "size": 159672,
-          "sha512": "5f74805160b47a1b781ef6718250dcaa48f1758d5514c20b9e1d4b09ec5208451721cba19e11d643240e7ce03e79ef8925d7c1aa0cf4185a0cb05b7cedd264f1",
-          "sha256": "636816dd47e8197cb49e6513f0494a9207cc2e67153d565a7bd0beb4e6858831",
-          "sha1": "f4d72f58de3c1b7e4014739bae2368e0da077562",
-          "md5": "88174cfe2879e64c13502bc45dd9f273"
+          "name": "fus-statistics-gradle-plugin-ArtifactsTest.version-gradle811.jar",
+          "url": "fus-statistics-gradle-plugin-ArtifactsTest.version-gradle811.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "fus-statistics-gradle-plugin",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -1283,7 +1283,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -1321,20 +1321,20 @@
       ],
       "files": [
         {
-          "name": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT-gradle811.jar",
-          "url": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT-gradle811.jar",
-          "size": 159672,
-          "sha512": "5f74805160b47a1b781ef6718250dcaa48f1758d5514c20b9e1d4b09ec5208451721cba19e11d643240e7ce03e79ef8925d7c1aa0cf4185a0cb05b7cedd264f1",
-          "sha256": "636816dd47e8197cb49e6513f0494a9207cc2e67153d565a7bd0beb4e6858831",
-          "sha1": "f4d72f58de3c1b7e4014739bae2368e0da077562",
-          "md5": "88174cfe2879e64c13502bc45dd9f273"
+          "name": "fus-statistics-gradle-plugin-ArtifactsTest.version-gradle811.jar",
+          "url": "fus-statistics-gradle-plugin-ArtifactsTest.version-gradle811.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "fus-statistics-gradle-plugin",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -1349,20 +1349,20 @@
       },
       "files": [
         {
-          "name": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT-gradle813-sources.jar",
-          "url": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT-gradle813-sources.jar",
-          "size": 29656,
-          "sha512": "af48e6320d04cad36715584ae9936c73c05a6a58aace35047b55baac24deb6f7c75a3ed204edacdcf5f3bb381910b9e7cee79021304b66bee837261bd0229083",
-          "sha256": "d936b6067978d1f4d1e2c6ba89cb569d242382642ff64c535cd6c046e0ca1ff0",
-          "sha1": "79bcec8a5a477de74f9b76f870974950bae17f46",
-          "md5": "a73f2d1ed8ef43c555a244c4bb177d20"
+          "name": "fus-statistics-gradle-plugin-ArtifactsTest.version-gradle813-sources.jar",
+          "url": "fus-statistics-gradle-plugin-ArtifactsTest.version-gradle813-sources.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "fus-statistics-gradle-plugin",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -1382,7 +1382,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -1420,20 +1420,20 @@
       ],
       "files": [
         {
-          "name": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT-gradle813.jar",
-          "url": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT-gradle813.jar",
-          "size": 159672,
-          "sha512": "5f74805160b47a1b781ef6718250dcaa48f1758d5514c20b9e1d4b09ec5208451721cba19e11d643240e7ce03e79ef8925d7c1aa0cf4185a0cb05b7cedd264f1",
-          "sha256": "636816dd47e8197cb49e6513f0494a9207cc2e67153d565a7bd0beb4e6858831",
-          "sha1": "f4d72f58de3c1b7e4014739bae2368e0da077562",
-          "md5": "88174cfe2879e64c13502bc45dd9f273"
+          "name": "fus-statistics-gradle-plugin-ArtifactsTest.version-gradle813.jar",
+          "url": "fus-statistics-gradle-plugin-ArtifactsTest.version-gradle813.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "fus-statistics-gradle-plugin",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -1453,7 +1453,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -1491,20 +1491,20 @@
       ],
       "files": [
         {
-          "name": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT-gradle813.jar",
-          "url": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT-gradle813.jar",
-          "size": 159672,
-          "sha512": "5f74805160b47a1b781ef6718250dcaa48f1758d5514c20b9e1d4b09ec5208451721cba19e11d643240e7ce03e79ef8925d7c1aa0cf4185a0cb05b7cedd264f1",
-          "sha256": "636816dd47e8197cb49e6513f0494a9207cc2e67153d565a7bd0beb4e6858831",
-          "sha1": "f4d72f58de3c1b7e4014739bae2368e0da077562",
-          "md5": "88174cfe2879e64c13502bc45dd9f273"
+          "name": "fus-statistics-gradle-plugin-ArtifactsTest.version-gradle813.jar",
+          "url": "fus-statistics-gradle-plugin-ArtifactsTest.version-gradle813.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "fus-statistics-gradle-plugin",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -1518,13 +1518,13 @@
       },
       "files": [
         {
-          "name": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT-javadoc.jar",
-          "url": "fus-statistics-gradle-plugin-2.2.255-SNAPSHOT-javadoc.jar",
-          "size": 257,
-          "sha512": "2dd30c1b0f576649990edb3feb381d1bd9528a540dad44bd53066ba0f9e755f096a8cda8b1f9bd5c349ccb2c2a636ae75da1d72ab399b6e7bfea76c2d43665e8",
-          "sha256": "4200a274bbbdfe19ef5418d3013075dddaca4d2f14c85bade6652dc6d8ad42ce",
-          "sha1": "a3977689da6c6aaef495bd2d3fd8bc990fa7f2e0",
-          "md5": "0d8fbffcbd5c9c755debe1fe381fe6b5"
+          "name": "fus-statistics-gradle-plugin-ArtifactsTest.version-javadoc.jar",
+          "url": "fus-statistics-gradle-plugin-ArtifactsTest.version-javadoc.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ]
     }

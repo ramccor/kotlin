@@ -3,7 +3,7 @@
   "component": {
     "group": "org.jetbrains.kotlin",
     "module": "kotlin-gradle-plugin-model",
-    "version": "2.2.255-SNAPSHOT",
+    "version": "ArtifactsTest.version",
     "attributes": {
       "org.gradle.status": "integration"
     }
@@ -24,13 +24,13 @@
       },
       "files": [
         {
-          "name": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT-sources.jar",
-          "url": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT-sources.jar",
-          "size": 16086,
-          "sha512": "04f4b0729f8330b50a8991a5950e5f954a73a7be78163a3ec88911c4134f1f2c1fab6ced18c164b3f3db7a4129753f13940ec839cb5d82157077552e812a77c9",
-          "sha256": "73b20f45829dc34ed0a393ccb199b60d777bdf7ac46b8542e613e05981b39e7b",
-          "sha1": "2c51cfcf7532ed574df3166870461168b794bc9b",
-          "md5": "1dd4c54ed70e688e586431976be7ea8d"
+          "name": "kotlin-gradle-plugin-model-ArtifactsTest.version-sources.jar",
+          "url": "kotlin-gradle-plugin-model-ArtifactsTest.version-sources.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ]
     },
@@ -49,7 +49,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -82,7 +82,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugins-bom",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -118,13 +118,13 @@
       ],
       "files": [
         {
-          "name": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT.jar",
-          "url": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT.jar",
-          "size": 21586,
-          "sha512": "5884de57546e2fc5fc33e759618b9302e7170c803d217c3e4b714c3df85ae514323e9b93727cc441f015756364710e5b9aa1e8c3286dd85ccbfa22187d879df4",
-          "sha256": "b6711402a6042fde437b5b3072cb759d55930b19f981e36ed6337ede8bdc72f0",
-          "sha1": "43838c26b7d628de05343bb1b18250f121594f68",
-          "md5": "abb6f386c82a64f376295bdff6ca9852"
+          "name": "kotlin-gradle-plugin-model-ArtifactsTest.version.jar",
+          "url": "kotlin-gradle-plugin-model-ArtifactsTest.version.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ]
     },
@@ -143,7 +143,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -176,7 +176,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugins-bom",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -212,13 +212,13 @@
       ],
       "files": [
         {
-          "name": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT.jar",
-          "url": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT.jar",
-          "size": 21586,
-          "sha512": "5884de57546e2fc5fc33e759618b9302e7170c803d217c3e4b714c3df85ae514323e9b93727cc441f015756364710e5b9aa1e8c3286dd85ccbfa22187d879df4",
-          "sha256": "b6711402a6042fde437b5b3072cb759d55930b19f981e36ed6337ede8bdc72f0",
-          "sha1": "43838c26b7d628de05343bb1b18250f121594f68",
-          "md5": "abb6f386c82a64f376295bdff6ca9852"
+          "name": "kotlin-gradle-plugin-model-ArtifactsTest.version.jar",
+          "url": "kotlin-gradle-plugin-model-ArtifactsTest.version.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ]
     },
@@ -233,20 +233,20 @@
       },
       "files": [
         {
-          "name": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT-gradle80-sources.jar",
-          "url": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT-gradle80-sources.jar",
-          "size": 16086,
-          "sha512": "04f4b0729f8330b50a8991a5950e5f954a73a7be78163a3ec88911c4134f1f2c1fab6ced18c164b3f3db7a4129753f13940ec839cb5d82157077552e812a77c9",
-          "sha256": "73b20f45829dc34ed0a393ccb199b60d777bdf7ac46b8542e613e05981b39e7b",
-          "sha1": "2c51cfcf7532ed574df3166870461168b794bc9b",
-          "md5": "1dd4c54ed70e688e586431976be7ea8d"
+          "name": "kotlin-gradle-plugin-model-ArtifactsTest.version-gradle80-sources.jar",
+          "url": "kotlin-gradle-plugin-model-ArtifactsTest.version-gradle80-sources.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "kotlin-gradle-plugin-model-gradle80",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -266,7 +266,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -304,20 +304,20 @@
       ],
       "files": [
         {
-          "name": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT-gradle80.jar",
-          "url": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT-gradle80.jar",
-          "size": 21586,
-          "sha512": "5884de57546e2fc5fc33e759618b9302e7170c803d217c3e4b714c3df85ae514323e9b93727cc441f015756364710e5b9aa1e8c3286dd85ccbfa22187d879df4",
-          "sha256": "b6711402a6042fde437b5b3072cb759d55930b19f981e36ed6337ede8bdc72f0",
-          "sha1": "43838c26b7d628de05343bb1b18250f121594f68",
-          "md5": "abb6f386c82a64f376295bdff6ca9852"
+          "name": "kotlin-gradle-plugin-model-ArtifactsTest.version-gradle80.jar",
+          "url": "kotlin-gradle-plugin-model-ArtifactsTest.version-gradle80.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "kotlin-gradle-plugin-model-gradle80",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -337,7 +337,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -375,20 +375,20 @@
       ],
       "files": [
         {
-          "name": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT-gradle80.jar",
-          "url": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT-gradle80.jar",
-          "size": 21586,
-          "sha512": "5884de57546e2fc5fc33e759618b9302e7170c803d217c3e4b714c3df85ae514323e9b93727cc441f015756364710e5b9aa1e8c3286dd85ccbfa22187d879df4",
-          "sha256": "b6711402a6042fde437b5b3072cb759d55930b19f981e36ed6337ede8bdc72f0",
-          "sha1": "43838c26b7d628de05343bb1b18250f121594f68",
-          "md5": "abb6f386c82a64f376295bdff6ca9852"
+          "name": "kotlin-gradle-plugin-model-ArtifactsTest.version-gradle80.jar",
+          "url": "kotlin-gradle-plugin-model-ArtifactsTest.version-gradle80.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "kotlin-gradle-plugin-model-gradle80",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -403,20 +403,20 @@
       },
       "files": [
         {
-          "name": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT-gradle81-sources.jar",
-          "url": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT-gradle81-sources.jar",
-          "size": 16086,
-          "sha512": "04f4b0729f8330b50a8991a5950e5f954a73a7be78163a3ec88911c4134f1f2c1fab6ced18c164b3f3db7a4129753f13940ec839cb5d82157077552e812a77c9",
-          "sha256": "73b20f45829dc34ed0a393ccb199b60d777bdf7ac46b8542e613e05981b39e7b",
-          "sha1": "2c51cfcf7532ed574df3166870461168b794bc9b",
-          "md5": "1dd4c54ed70e688e586431976be7ea8d"
+          "name": "kotlin-gradle-plugin-model-ArtifactsTest.version-gradle81-sources.jar",
+          "url": "kotlin-gradle-plugin-model-ArtifactsTest.version-gradle81-sources.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "kotlin-gradle-plugin-model-gradle81",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -436,7 +436,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -474,20 +474,20 @@
       ],
       "files": [
         {
-          "name": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT-gradle81.jar",
-          "url": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT-gradle81.jar",
-          "size": 21586,
-          "sha512": "5884de57546e2fc5fc33e759618b9302e7170c803d217c3e4b714c3df85ae514323e9b93727cc441f015756364710e5b9aa1e8c3286dd85ccbfa22187d879df4",
-          "sha256": "b6711402a6042fde437b5b3072cb759d55930b19f981e36ed6337ede8bdc72f0",
-          "sha1": "43838c26b7d628de05343bb1b18250f121594f68",
-          "md5": "abb6f386c82a64f376295bdff6ca9852"
+          "name": "kotlin-gradle-plugin-model-ArtifactsTest.version-gradle81.jar",
+          "url": "kotlin-gradle-plugin-model-ArtifactsTest.version-gradle81.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "kotlin-gradle-plugin-model-gradle81",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -507,7 +507,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -545,20 +545,20 @@
       ],
       "files": [
         {
-          "name": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT-gradle81.jar",
-          "url": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT-gradle81.jar",
-          "size": 21586,
-          "sha512": "5884de57546e2fc5fc33e759618b9302e7170c803d217c3e4b714c3df85ae514323e9b93727cc441f015756364710e5b9aa1e8c3286dd85ccbfa22187d879df4",
-          "sha256": "b6711402a6042fde437b5b3072cb759d55930b19f981e36ed6337ede8bdc72f0",
-          "sha1": "43838c26b7d628de05343bb1b18250f121594f68",
-          "md5": "abb6f386c82a64f376295bdff6ca9852"
+          "name": "kotlin-gradle-plugin-model-ArtifactsTest.version-gradle81.jar",
+          "url": "kotlin-gradle-plugin-model-ArtifactsTest.version-gradle81.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "kotlin-gradle-plugin-model-gradle81",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -573,20 +573,20 @@
       },
       "files": [
         {
-          "name": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT-gradle82-sources.jar",
-          "url": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT-gradle82-sources.jar",
-          "size": 16086,
-          "sha512": "04f4b0729f8330b50a8991a5950e5f954a73a7be78163a3ec88911c4134f1f2c1fab6ced18c164b3f3db7a4129753f13940ec839cb5d82157077552e812a77c9",
-          "sha256": "73b20f45829dc34ed0a393ccb199b60d777bdf7ac46b8542e613e05981b39e7b",
-          "sha1": "2c51cfcf7532ed574df3166870461168b794bc9b",
-          "md5": "1dd4c54ed70e688e586431976be7ea8d"
+          "name": "kotlin-gradle-plugin-model-ArtifactsTest.version-gradle82-sources.jar",
+          "url": "kotlin-gradle-plugin-model-ArtifactsTest.version-gradle82-sources.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "kotlin-gradle-plugin-model-gradle82",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -606,7 +606,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -644,20 +644,20 @@
       ],
       "files": [
         {
-          "name": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT-gradle82.jar",
-          "url": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT-gradle82.jar",
-          "size": 21586,
-          "sha512": "5884de57546e2fc5fc33e759618b9302e7170c803d217c3e4b714c3df85ae514323e9b93727cc441f015756364710e5b9aa1e8c3286dd85ccbfa22187d879df4",
-          "sha256": "b6711402a6042fde437b5b3072cb759d55930b19f981e36ed6337ede8bdc72f0",
-          "sha1": "43838c26b7d628de05343bb1b18250f121594f68",
-          "md5": "abb6f386c82a64f376295bdff6ca9852"
+          "name": "kotlin-gradle-plugin-model-ArtifactsTest.version-gradle82.jar",
+          "url": "kotlin-gradle-plugin-model-ArtifactsTest.version-gradle82.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "kotlin-gradle-plugin-model-gradle82",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -677,7 +677,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -715,20 +715,20 @@
       ],
       "files": [
         {
-          "name": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT-gradle82.jar",
-          "url": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT-gradle82.jar",
-          "size": 21586,
-          "sha512": "5884de57546e2fc5fc33e759618b9302e7170c803d217c3e4b714c3df85ae514323e9b93727cc441f015756364710e5b9aa1e8c3286dd85ccbfa22187d879df4",
-          "sha256": "b6711402a6042fde437b5b3072cb759d55930b19f981e36ed6337ede8bdc72f0",
-          "sha1": "43838c26b7d628de05343bb1b18250f121594f68",
-          "md5": "abb6f386c82a64f376295bdff6ca9852"
+          "name": "kotlin-gradle-plugin-model-ArtifactsTest.version-gradle82.jar",
+          "url": "kotlin-gradle-plugin-model-ArtifactsTest.version-gradle82.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "kotlin-gradle-plugin-model-gradle82",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -743,20 +743,20 @@
       },
       "files": [
         {
-          "name": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT-gradle85-sources.jar",
-          "url": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT-gradle85-sources.jar",
-          "size": 16086,
-          "sha512": "04f4b0729f8330b50a8991a5950e5f954a73a7be78163a3ec88911c4134f1f2c1fab6ced18c164b3f3db7a4129753f13940ec839cb5d82157077552e812a77c9",
-          "sha256": "73b20f45829dc34ed0a393ccb199b60d777bdf7ac46b8542e613e05981b39e7b",
-          "sha1": "2c51cfcf7532ed574df3166870461168b794bc9b",
-          "md5": "1dd4c54ed70e688e586431976be7ea8d"
+          "name": "kotlin-gradle-plugin-model-ArtifactsTest.version-gradle85-sources.jar",
+          "url": "kotlin-gradle-plugin-model-ArtifactsTest.version-gradle85-sources.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "kotlin-gradle-plugin-model-gradle85",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -776,7 +776,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -814,20 +814,20 @@
       ],
       "files": [
         {
-          "name": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT-gradle85.jar",
-          "url": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT-gradle85.jar",
-          "size": 21586,
-          "sha512": "5884de57546e2fc5fc33e759618b9302e7170c803d217c3e4b714c3df85ae514323e9b93727cc441f015756364710e5b9aa1e8c3286dd85ccbfa22187d879df4",
-          "sha256": "b6711402a6042fde437b5b3072cb759d55930b19f981e36ed6337ede8bdc72f0",
-          "sha1": "43838c26b7d628de05343bb1b18250f121594f68",
-          "md5": "abb6f386c82a64f376295bdff6ca9852"
+          "name": "kotlin-gradle-plugin-model-ArtifactsTest.version-gradle85.jar",
+          "url": "kotlin-gradle-plugin-model-ArtifactsTest.version-gradle85.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "kotlin-gradle-plugin-model-gradle85",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -847,7 +847,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -885,20 +885,20 @@
       ],
       "files": [
         {
-          "name": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT-gradle85.jar",
-          "url": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT-gradle85.jar",
-          "size": 21586,
-          "sha512": "5884de57546e2fc5fc33e759618b9302e7170c803d217c3e4b714c3df85ae514323e9b93727cc441f015756364710e5b9aa1e8c3286dd85ccbfa22187d879df4",
-          "sha256": "b6711402a6042fde437b5b3072cb759d55930b19f981e36ed6337ede8bdc72f0",
-          "sha1": "43838c26b7d628de05343bb1b18250f121594f68",
-          "md5": "abb6f386c82a64f376295bdff6ca9852"
+          "name": "kotlin-gradle-plugin-model-ArtifactsTest.version-gradle85.jar",
+          "url": "kotlin-gradle-plugin-model-ArtifactsTest.version-gradle85.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "kotlin-gradle-plugin-model-gradle85",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -913,20 +913,20 @@
       },
       "files": [
         {
-          "name": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT-gradle86-sources.jar",
-          "url": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT-gradle86-sources.jar",
-          "size": 16086,
-          "sha512": "04f4b0729f8330b50a8991a5950e5f954a73a7be78163a3ec88911c4134f1f2c1fab6ced18c164b3f3db7a4129753f13940ec839cb5d82157077552e812a77c9",
-          "sha256": "73b20f45829dc34ed0a393ccb199b60d777bdf7ac46b8542e613e05981b39e7b",
-          "sha1": "2c51cfcf7532ed574df3166870461168b794bc9b",
-          "md5": "1dd4c54ed70e688e586431976be7ea8d"
+          "name": "kotlin-gradle-plugin-model-ArtifactsTest.version-gradle86-sources.jar",
+          "url": "kotlin-gradle-plugin-model-ArtifactsTest.version-gradle86-sources.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "kotlin-gradle-plugin-model-gradle86",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -946,7 +946,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -984,20 +984,20 @@
       ],
       "files": [
         {
-          "name": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT-gradle86.jar",
-          "url": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT-gradle86.jar",
-          "size": 21586,
-          "sha512": "5884de57546e2fc5fc33e759618b9302e7170c803d217c3e4b714c3df85ae514323e9b93727cc441f015756364710e5b9aa1e8c3286dd85ccbfa22187d879df4",
-          "sha256": "b6711402a6042fde437b5b3072cb759d55930b19f981e36ed6337ede8bdc72f0",
-          "sha1": "43838c26b7d628de05343bb1b18250f121594f68",
-          "md5": "abb6f386c82a64f376295bdff6ca9852"
+          "name": "kotlin-gradle-plugin-model-ArtifactsTest.version-gradle86.jar",
+          "url": "kotlin-gradle-plugin-model-ArtifactsTest.version-gradle86.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "kotlin-gradle-plugin-model-gradle86",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -1017,7 +1017,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -1055,20 +1055,20 @@
       ],
       "files": [
         {
-          "name": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT-gradle86.jar",
-          "url": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT-gradle86.jar",
-          "size": 21586,
-          "sha512": "5884de57546e2fc5fc33e759618b9302e7170c803d217c3e4b714c3df85ae514323e9b93727cc441f015756364710e5b9aa1e8c3286dd85ccbfa22187d879df4",
-          "sha256": "b6711402a6042fde437b5b3072cb759d55930b19f981e36ed6337ede8bdc72f0",
-          "sha1": "43838c26b7d628de05343bb1b18250f121594f68",
-          "md5": "abb6f386c82a64f376295bdff6ca9852"
+          "name": "kotlin-gradle-plugin-model-ArtifactsTest.version-gradle86.jar",
+          "url": "kotlin-gradle-plugin-model-ArtifactsTest.version-gradle86.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "kotlin-gradle-plugin-model-gradle86",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -1083,20 +1083,20 @@
       },
       "files": [
         {
-          "name": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT-gradle88-sources.jar",
-          "url": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT-gradle88-sources.jar",
-          "size": 16086,
-          "sha512": "04f4b0729f8330b50a8991a5950e5f954a73a7be78163a3ec88911c4134f1f2c1fab6ced18c164b3f3db7a4129753f13940ec839cb5d82157077552e812a77c9",
-          "sha256": "73b20f45829dc34ed0a393ccb199b60d777bdf7ac46b8542e613e05981b39e7b",
-          "sha1": "2c51cfcf7532ed574df3166870461168b794bc9b",
-          "md5": "1dd4c54ed70e688e586431976be7ea8d"
+          "name": "kotlin-gradle-plugin-model-ArtifactsTest.version-gradle88-sources.jar",
+          "url": "kotlin-gradle-plugin-model-ArtifactsTest.version-gradle88-sources.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "kotlin-gradle-plugin-model-gradle88",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -1116,7 +1116,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -1154,20 +1154,20 @@
       ],
       "files": [
         {
-          "name": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT-gradle88.jar",
-          "url": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT-gradle88.jar",
-          "size": 21586,
-          "sha512": "5884de57546e2fc5fc33e759618b9302e7170c803d217c3e4b714c3df85ae514323e9b93727cc441f015756364710e5b9aa1e8c3286dd85ccbfa22187d879df4",
-          "sha256": "b6711402a6042fde437b5b3072cb759d55930b19f981e36ed6337ede8bdc72f0",
-          "sha1": "43838c26b7d628de05343bb1b18250f121594f68",
-          "md5": "abb6f386c82a64f376295bdff6ca9852"
+          "name": "kotlin-gradle-plugin-model-ArtifactsTest.version-gradle88.jar",
+          "url": "kotlin-gradle-plugin-model-ArtifactsTest.version-gradle88.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "kotlin-gradle-plugin-model-gradle88",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -1187,7 +1187,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -1225,20 +1225,20 @@
       ],
       "files": [
         {
-          "name": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT-gradle88.jar",
-          "url": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT-gradle88.jar",
-          "size": 21586,
-          "sha512": "5884de57546e2fc5fc33e759618b9302e7170c803d217c3e4b714c3df85ae514323e9b93727cc441f015756364710e5b9aa1e8c3286dd85ccbfa22187d879df4",
-          "sha256": "b6711402a6042fde437b5b3072cb759d55930b19f981e36ed6337ede8bdc72f0",
-          "sha1": "43838c26b7d628de05343bb1b18250f121594f68",
-          "md5": "abb6f386c82a64f376295bdff6ca9852"
+          "name": "kotlin-gradle-plugin-model-ArtifactsTest.version-gradle88.jar",
+          "url": "kotlin-gradle-plugin-model-ArtifactsTest.version-gradle88.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "kotlin-gradle-plugin-model-gradle88",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -1253,20 +1253,20 @@
       },
       "files": [
         {
-          "name": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT-gradle811-sources.jar",
-          "url": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT-gradle811-sources.jar",
-          "size": 16086,
-          "sha512": "04f4b0729f8330b50a8991a5950e5f954a73a7be78163a3ec88911c4134f1f2c1fab6ced18c164b3f3db7a4129753f13940ec839cb5d82157077552e812a77c9",
-          "sha256": "73b20f45829dc34ed0a393ccb199b60d777bdf7ac46b8542e613e05981b39e7b",
-          "sha1": "2c51cfcf7532ed574df3166870461168b794bc9b",
-          "md5": "1dd4c54ed70e688e586431976be7ea8d"
+          "name": "kotlin-gradle-plugin-model-ArtifactsTest.version-gradle811-sources.jar",
+          "url": "kotlin-gradle-plugin-model-ArtifactsTest.version-gradle811-sources.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "kotlin-gradle-plugin-model-gradle811",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -1286,7 +1286,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -1324,20 +1324,20 @@
       ],
       "files": [
         {
-          "name": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT-gradle811.jar",
-          "url": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT-gradle811.jar",
-          "size": 21586,
-          "sha512": "5884de57546e2fc5fc33e759618b9302e7170c803d217c3e4b714c3df85ae514323e9b93727cc441f015756364710e5b9aa1e8c3286dd85ccbfa22187d879df4",
-          "sha256": "b6711402a6042fde437b5b3072cb759d55930b19f981e36ed6337ede8bdc72f0",
-          "sha1": "43838c26b7d628de05343bb1b18250f121594f68",
-          "md5": "abb6f386c82a64f376295bdff6ca9852"
+          "name": "kotlin-gradle-plugin-model-ArtifactsTest.version-gradle811.jar",
+          "url": "kotlin-gradle-plugin-model-ArtifactsTest.version-gradle811.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "kotlin-gradle-plugin-model-gradle811",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -1357,7 +1357,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -1395,20 +1395,20 @@
       ],
       "files": [
         {
-          "name": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT-gradle811.jar",
-          "url": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT-gradle811.jar",
-          "size": 21586,
-          "sha512": "5884de57546e2fc5fc33e759618b9302e7170c803d217c3e4b714c3df85ae514323e9b93727cc441f015756364710e5b9aa1e8c3286dd85ccbfa22187d879df4",
-          "sha256": "b6711402a6042fde437b5b3072cb759d55930b19f981e36ed6337ede8bdc72f0",
-          "sha1": "43838c26b7d628de05343bb1b18250f121594f68",
-          "md5": "abb6f386c82a64f376295bdff6ca9852"
+          "name": "kotlin-gradle-plugin-model-ArtifactsTest.version-gradle811.jar",
+          "url": "kotlin-gradle-plugin-model-ArtifactsTest.version-gradle811.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "kotlin-gradle-plugin-model-gradle811",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -1423,20 +1423,20 @@
       },
       "files": [
         {
-          "name": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT-gradle813-sources.jar",
-          "url": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT-gradle813-sources.jar",
-          "size": 16086,
-          "sha512": "04f4b0729f8330b50a8991a5950e5f954a73a7be78163a3ec88911c4134f1f2c1fab6ced18c164b3f3db7a4129753f13940ec839cb5d82157077552e812a77c9",
-          "sha256": "73b20f45829dc34ed0a393ccb199b60d777bdf7ac46b8542e613e05981b39e7b",
-          "sha1": "2c51cfcf7532ed574df3166870461168b794bc9b",
-          "md5": "1dd4c54ed70e688e586431976be7ea8d"
+          "name": "kotlin-gradle-plugin-model-ArtifactsTest.version-gradle813-sources.jar",
+          "url": "kotlin-gradle-plugin-model-ArtifactsTest.version-gradle813-sources.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "kotlin-gradle-plugin-model-gradle813",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -1456,7 +1456,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -1494,20 +1494,20 @@
       ],
       "files": [
         {
-          "name": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT-gradle813.jar",
-          "url": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT-gradle813.jar",
-          "size": 21586,
-          "sha512": "5884de57546e2fc5fc33e759618b9302e7170c803d217c3e4b714c3df85ae514323e9b93727cc441f015756364710e5b9aa1e8c3286dd85ccbfa22187d879df4",
-          "sha256": "b6711402a6042fde437b5b3072cb759d55930b19f981e36ed6337ede8bdc72f0",
-          "sha1": "43838c26b7d628de05343bb1b18250f121594f68",
-          "md5": "abb6f386c82a64f376295bdff6ca9852"
+          "name": "kotlin-gradle-plugin-model-ArtifactsTest.version-gradle813.jar",
+          "url": "kotlin-gradle-plugin-model-ArtifactsTest.version-gradle813.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "kotlin-gradle-plugin-model-gradle813",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     },
@@ -1527,7 +1527,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-gradle-plugin-api",
           "version": {
-            "requires": "2.2.255-SNAPSHOT"
+            "requires": "ArtifactsTest.version"
           },
           "excludes": [
             {
@@ -1565,20 +1565,20 @@
       ],
       "files": [
         {
-          "name": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT-gradle813.jar",
-          "url": "kotlin-gradle-plugin-model-2.2.255-SNAPSHOT-gradle813.jar",
-          "size": 21586,
-          "sha512": "5884de57546e2fc5fc33e759618b9302e7170c803d217c3e4b714c3df85ae514323e9b93727cc441f015756364710e5b9aa1e8c3286dd85ccbfa22187d879df4",
-          "sha256": "b6711402a6042fde437b5b3072cb759d55930b19f981e36ed6337ede8bdc72f0",
-          "sha1": "43838c26b7d628de05343bb1b18250f121594f68",
-          "md5": "abb6f386c82a64f376295bdff6ca9852"
+          "name": "kotlin-gradle-plugin-model-ArtifactsTest.version-gradle813.jar",
+          "url": "kotlin-gradle-plugin-model-ArtifactsTest.version-gradle813.jar",
+          "size": null,
+          "sha512": null,
+          "sha256": null,
+          "sha1": null,
+          "md5": null
         }
       ],
       "capabilities": [
         {
           "group": "org.jetbrains.kotlin",
           "name": "kotlin-gradle-plugin-model-gradle813",
-          "version": "2.2.255-SNAPSHOT"
+          "version": "ArtifactsTest.version"
         }
       ]
     }
