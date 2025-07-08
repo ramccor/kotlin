@@ -23,7 +23,6 @@ import org.jetbrains.kotlin.test.services.JUnit5Assertions.assertTrue
 import org.junit.jupiter.api.Assumptions
 import org.junit.jupiter.api.Test
 import java.io.File
-import kotlin.test.assertEquals
 import kotlin.time.Duration
 
 @ClassicPipeline()
