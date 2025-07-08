@@ -5,8 +5,8 @@
 
 package org.jetbrains.kotlin.wasm.test.klib
 
-import org.jetbrains.kotlin.cli.common.arguments.cliArgument
 import org.jetbrains.kotlin.cli.common.arguments.K2JSCompilerArguments
+import org.jetbrains.kotlin.cli.common.arguments.cliArgument
 import org.jetbrains.kotlin.cli.js.K2JSCompiler
 import org.jetbrains.kotlin.js.testOld.klib.AbstractJsKlibVersionsTest
 import org.jetbrains.kotlin.platform.wasm.WasmTarget
@@ -18,7 +18,7 @@ import java.io.PrintStream
 class WasmJsKlibVersionsTest : AbstractJsKlibVersionsTest() {
     // TODO: Move to helpers in compiler/tests-common-new/tests/org/jetbrains/kotlin/test/services/KotlinStandardLibrariesPathProvider.kt
     private fun fullWasmJsStdlib(): File {
-        val stdlibPath = WasmEnvironmentConfigurator.stdlibPath(WasmTarget.JS)
+        val stdlibPath = WasmEnvironmentConfigurator.Companion.stdlibPath(WasmTarget.JS)
         return File(stdlibPath).also {
             assert(it.exists()) { "stdlib is not found at $stdlibPath" }
         }
