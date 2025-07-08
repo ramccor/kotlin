@@ -1773,7 +1773,7 @@ class ComposableCheckerTests(useFir: Boolean) : AbstractComposeDiagnosticsTest(u
                 @Composable fun Test(a: A) {
                     <!COMPOSABLE_PROPERTY_REFERENCE!>a::bar<!>
                     <!COMPOSABLE_PROPERTY_REFERENCE!>::globalProp<!>
-                    ::prop
+                    <!UNUSED_EXPRESSION!>::prop<!>
                 }
             """
         )

@@ -1,1 +1,4 @@
+compiler/testData/compileKotlinAgainstCustomBinaries/internalFromFriendModuleCommon/source.kt:5:5: warning: expression is unused.
+    PublicClass.Companion
+    ^^^^^^^^^^^^^^^^^^^^^
 OK

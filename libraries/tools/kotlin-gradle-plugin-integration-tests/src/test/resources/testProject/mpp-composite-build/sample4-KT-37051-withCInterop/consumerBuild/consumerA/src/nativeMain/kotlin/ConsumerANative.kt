@@ -7,6 +7,7 @@
 import kotlinx.cinterop.memScoped
 import platform.posix.fopen
 
+@Suppress("unused")
 object ConsumerANative {
     init {
         memScoped {  }

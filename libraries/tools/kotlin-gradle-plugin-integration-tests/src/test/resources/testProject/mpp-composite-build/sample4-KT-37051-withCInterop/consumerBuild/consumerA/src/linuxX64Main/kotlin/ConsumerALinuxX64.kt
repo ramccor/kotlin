@@ -5,6 +5,7 @@
 
 import clib.myCFunction
 
+@Suppress("unused")
 object ConsumerALinuxX64 {
     init {
         ProducerACommonX
