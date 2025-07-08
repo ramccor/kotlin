@@ -252,7 +252,9 @@ private fun getOperationMap(argumentsCount: Int): MutableList<Operation> {
          unsignedClass.memberFunctions
             .filter { it.parameters.size == argumentsCount }
             .forEach { function ->
-            operationMap.add(Operation(function.name, function.parameters.map { it.type.toString() }))
+            operationMap.add(Operation(function.name, function.parameters.map {
+                it.type.toString().removePrefix("kotlin.")
+            }))
         }
     }
 

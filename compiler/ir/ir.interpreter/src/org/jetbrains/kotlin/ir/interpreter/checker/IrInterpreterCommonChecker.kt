@@ -16,6 +16,7 @@ import org.jetbrains.kotlin.ir.types.classifierOrNull
 import org.jetbrains.kotlin.ir.types.isAny
 import org.jetbrains.kotlin.ir.types.isPrimitiveType
 import org.jetbrains.kotlin.ir.types.isStringClassType
+import org.jetbrains.kotlin.ir.types.isUnsignedType
 import org.jetbrains.kotlin.ir.util.*
 
 class IrInterpreterCommonChecker : IrInterpreterChecker() {
@@ -150,9 +151,9 @@ class IrInterpreterCommonChecker : IrInterpreterChecker() {
         val owner = expression.symbol.owner
         val property = owner.property
         val fqName = owner.fqName
-        fun isJavaStaticWithPrimitiveOrString(): Boolean {
+        fun isJavaStaticWithPrimitiveOrUnsignedOrString(): Boolean {
             return owner.origin == IrDeclarationOrigin.IR_EXTERNAL_JAVA_DECLARATION_STUB && owner.isStatic && owner.isFinal &&
-                    (owner.type.isPrimitiveType() || owner.type.isStringClassType())
+                    (owner.type.isPrimitiveType() || owner.type.isUnsignedType() || owner.type.isStringClassType() )
         }
 
         // We allow recursion access, but it will fail during interpretation. This way it is easier to implement error reporting.
@@ -161,9 +162,9 @@ class IrInterpreterCommonChecker : IrInterpreterChecker() {
         return owner.asVisited {
             when {
                 // TODO fix later; used it here because java boolean resolves very strange,
-                //  its type is flexible (so its not primitive) and there is no initializer at backing field
+                // its type is flexible (so its not primitive) and there is no initializer at backing field
                 fqName == "java.lang.Boolean.FALSE" || fqName == "java.lang.Boolean.TRUE" -> true
-                isJavaStaticWithPrimitiveOrString() -> owner.initializer?.accept(this, data) == true
+                isJavaStaticWithPrimitiveOrUnsignedOrString() -> owner.initializer?.accept(this, data) == true
                 expression.receiver == null -> property.isConst && owner.initializer?.accept(this, data) == true
                 owner.origin == IrDeclarationOrigin.PROPERTY_BACKING_FIELD && property.isConst -> {
                     val receiverComputable = (expression.receiver?.accept(this, data) ?: true)

@@ -124,13 +124,10 @@ sealed class EvaluationMode {
                 expression is IrConst -> true
                 expression is IrWhen -> expression.origin in allowedOriginsForWhen
                 expression !is IrCall -> false
-                expression.hasUnsignedArgs() -> expression.symbol.owner.fqNameWhenAvailable?.asString() == "kotlin.String.plus"
                 else -> true
             }
         }
 
-        private fun IrCall.hasUnsignedArgs(): Boolean =
-            arguments.any { it != null && it.type.isUnsigned() }
     }
 
     class OnlyIntrinsicConst(private val isFloatingPointOptimizationDisabled: Boolean = false) : EvaluationMode() {
