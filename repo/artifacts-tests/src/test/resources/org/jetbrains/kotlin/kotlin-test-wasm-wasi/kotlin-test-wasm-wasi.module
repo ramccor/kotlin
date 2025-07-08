@@ -1,0 +1,104 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../kotlin-test/2.2.255-SNAPSHOT/kotlin-test-2.2.255-SNAPSHOT.module",
+    "group": "org.jetbrains.kotlin",
+    "module": "kotlin-test",
+    "version": "2.2.255-SNAPSHOT",
+    "attributes": {
+      "org.gradle.status": "integration"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.14"
+    }
+  },
+  "variants": [
+    {
+      "name": "wasmWasiApiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.klib.packaging": "packed",
+        "org.jetbrains.kotlin.platform.type": "wasm",
+        "org.jetbrains.kotlin.wasm.target": "wasi"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.2.255-SNAPSHOT"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "kotlin-test-wasm-wasi-2.2.255-SNAPSHOT.klib",
+          "url": "kotlin-test-wasm-wasi-2.2.255-SNAPSHOT.klib",
+          "size": 176666,
+          "sha512": "0b0557412174481d58e94a3fb4ad579578d5d32f7047de948ee41f02d0f19cd3cc4c77f4321dbf800cf9515a4ed4d1cb470b23164f5c72b2c3a60b2a48382407",
+          "sha256": "0743c5d7ee8db0e0daddface0a6e975d72fa8b61b1e52c6f7c24c4c39606ca6f",
+          "sha1": "cc645b58c495db7597cdc6efa0bfbb2e44bf98ec",
+          "md5": "d1c7d71cb6ae939be8ce2e63e4351272"
+        }
+      ]
+    },
+    {
+      "name": "wasmWasiRuntimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-runtime",
+        "org.jetbrains.kotlin.klib.packaging": "packed",
+        "org.jetbrains.kotlin.platform.type": "wasm",
+        "org.jetbrains.kotlin.wasm.target": "wasi"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.2.255-SNAPSHOT"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "kotlin-test-wasm-wasi-2.2.255-SNAPSHOT.klib",
+          "url": "kotlin-test-wasm-wasi-2.2.255-SNAPSHOT.klib",
+          "size": 176666,
+          "sha512": "0b0557412174481d58e94a3fb4ad579578d5d32f7047de948ee41f02d0f19cd3cc4c77f4321dbf800cf9515a4ed4d1cb470b23164f5c72b2c3a60b2a48382407",
+          "sha256": "0743c5d7ee8db0e0daddface0a6e975d72fa8b61b1e52c6f7c24c4c39606ca6f",
+          "sha1": "cc645b58c495db7597cdc6efa0bfbb2e44bf98ec",
+          "md5": "d1c7d71cb6ae939be8ce2e63e4351272"
+        }
+      ]
+    },
+    {
+      "name": "wasmWasiSourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-runtime",
+        "org.jetbrains.kotlin.platform.type": "wasm",
+        "org.jetbrains.kotlin.wasm.target": "wasi"
+      },
+      "files": [
+        {
+          "name": "kotlin-test-wasm-wasi-2.2.255-SNAPSHOT-sources.jar",
+          "url": "kotlin-test-wasm-wasi-2.2.255-SNAPSHOT-sources.jar",
+          "size": 70094,
+          "sha512": "00917d4edb99c2521513843bd678ae5608f4e0382d95b1ce0985332ead68946bfddfd799dfe021f382528552277b8a0b332fc1c56ae0b74d5b2f35f6ec4066e0",
+          "sha256": "2d0e2fd6e61cd292f0450e0791588167261c029af4ba646d1550d3b166609fd8",
+          "sha1": "b102674a42c6e802e344777514fe0c681d79fd9a",
+          "md5": "7e3c6eec7fd1beaa9253fc4c5d4b376b"
+        }
+      ]
+    }
+  ]
+}

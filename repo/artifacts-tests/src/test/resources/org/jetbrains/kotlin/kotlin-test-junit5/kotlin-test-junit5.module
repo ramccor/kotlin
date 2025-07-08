@@ -1,0 +1,159 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../kotlin-test/2.2.255-SNAPSHOT/kotlin-test-2.2.255-SNAPSHOT.module",
+    "group": "org.jetbrains.kotlin",
+    "module": "kotlin-test",
+    "version": "2.2.255-SNAPSHOT",
+    "attributes": {
+      "org.gradle.status": "integration"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.14"
+    }
+  },
+  "variants": [
+    {
+      "name": "jvmJUnit5ApiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-test",
+          "version": {
+            "requires": "2.2.255-SNAPSHOT"
+          }
+        },
+        {
+          "group": "org.junit.jupiter",
+          "module": "junit-jupiter-api",
+          "version": {
+            "requires": "5.10.1"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "kotlin-test-junit5-2.2.255-SNAPSHOT.jar",
+          "url": "kotlin-test-junit5-2.2.255-SNAPSHOT.jar",
+          "size": 8339,
+          "sha512": "e4dee2424fbd2c7fe55f46f3fc2302e28153b7532c9bd9eb4f29d6d13e7a3cd0bc5130dbe540245ccafc238ed9afd9b4d98dcd48754a579453627bd513afb5f2",
+          "sha256": "a4e507ef6e634ac7dc80316af716a8440e3406b4a8ec5574b4a3bd125b7c4a79",
+          "sha1": "6ea43c7764652434d57e870946cd8562809e0c07",
+          "md5": "1b8cad97ee098a541b90d8f07496e62a"
+        }
+      ],
+      "capabilities": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-test-junit5",
+          "version": "2.2.255-SNAPSHOT"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-test-framework-impl",
+          "version": "2.2.255-SNAPSHOT"
+        }
+      ]
+    },
+    {
+      "name": "jvmJUnit5RuntimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-test",
+          "version": {
+            "requires": "2.2.255-SNAPSHOT"
+          }
+        },
+        {
+          "group": "org.junit.jupiter",
+          "module": "junit-jupiter-engine",
+          "version": {
+            "requires": "5.10.1"
+          }
+        },
+        {
+          "group": "org.junit.platform",
+          "module": "junit-platform-launcher",
+          "version": {
+            "requires": "1.10.1"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "kotlin-test-junit5-2.2.255-SNAPSHOT.jar",
+          "url": "kotlin-test-junit5-2.2.255-SNAPSHOT.jar",
+          "size": 8339,
+          "sha512": "e4dee2424fbd2c7fe55f46f3fc2302e28153b7532c9bd9eb4f29d6d13e7a3cd0bc5130dbe540245ccafc238ed9afd9b4d98dcd48754a579453627bd513afb5f2",
+          "sha256": "a4e507ef6e634ac7dc80316af716a8440e3406b4a8ec5574b4a3bd125b7c4a79",
+          "sha1": "6ea43c7764652434d57e870946cd8562809e0c07",
+          "md5": "1b8cad97ee098a541b90d8f07496e62a"
+        }
+      ],
+      "capabilities": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-test-junit5",
+          "version": "2.2.255-SNAPSHOT"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-test-framework-impl",
+          "version": "2.2.255-SNAPSHOT"
+        }
+      ]
+    },
+    {
+      "name": "jvmJUnit5SourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "files": [
+        {
+          "name": "kotlin-test-junit5-2.2.255-SNAPSHOT-sources.jar",
+          "url": "kotlin-test-junit5-2.2.255-SNAPSHOT-sources.jar",
+          "size": 5067,
+          "sha512": "a540885918a84c38b3c47248a590cfff0e6b0792fc7d098a30aaf859f8ae87942e6d3dbaae94e37c40a33dfa5006736eaf3c57ad20c2a038d6f1740f2310c374",
+          "sha256": "9fd27535ff0e10f7e69bd20d14800e6501d228205af994b97c2fce4be8c4dab9",
+          "sha1": "3023f0c876e0bbee3ceaf9712ddc2c1a64d7206b",
+          "md5": "d096c7d57253ebaf75bb89f5e4f015c3"
+        }
+      ],
+      "capabilities": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-test-junit5",
+          "version": "2.2.255-SNAPSHOT"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-test-framework-impl",
+          "version": "2.2.255-SNAPSHOT"
+        }
+      ]
+    }
+  ]
+}

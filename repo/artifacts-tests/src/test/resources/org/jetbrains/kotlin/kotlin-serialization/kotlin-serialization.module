@@ -1,0 +1,2198 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "org.jetbrains.kotlin",
+    "module": "kotlin-serialization",
+    "version": "2.2.255-SNAPSHOT",
+    "attributes": {
+      "org.gradle.status": "integration"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.14"
+    }
+  },
+  "variants": [
+    {
+      "name": "sourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "kotlin-serialization-2.2.255-SNAPSHOT-sources.jar",
+          "url": "kotlin-serialization-2.2.255-SNAPSHOT-sources.jar",
+          "size": 3667,
+          "sha512": "4221f5ffe51e54d8190c12ba4fe392cc204be1ff1121eaaef1e360f48f1b07e39222f388a7849406ad757f794fa29bfe15938fe773eea2065f54643b7c6652ee",
+          "sha256": "aa82b78f2a91b8800a8f4d49db232ebad69c36eb4bb47c5aa293f01b48ba4428",
+          "sha1": "0704413b6619da8867abce05cf2b25c033e36a9d",
+          "md5": "ded2378a26a36025fb87705a7ef4acf5"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElementsWithFixedAttribute",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.jvm.version": 8,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-gradle-plugins-bom",
+          "version": {
+            "requires": "2.2.255-SNAPSHOT"
+          },
+          "excludes": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-reflect"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk8"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk7"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-script-runtime"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-common"
+            }
+          ],
+          "attributes": {
+            "org.gradle.category": "platform"
+          },
+          "endorseStrictVersions": true
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-gradle-plugin-api",
+          "version": {
+            "requires": "2.2.255-SNAPSHOT"
+          },
+          "excludes": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-reflect"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk8"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk7"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-script-runtime"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-common"
+            }
+          ]
+        }
+      ],
+      "files": [
+        {
+          "name": "kotlin-serialization-2.2.255-SNAPSHOT.jar",
+          "url": "kotlin-serialization-2.2.255-SNAPSHOT.jar",
+          "size": 10407,
+          "sha512": "cf19b716c3eb1bfef8f52d088b9c21e73ce155413da2cc851d58df74f649dab9f730e3e1c0c24b9caf0c98a57905dec610f8f6d332645e171595ecb70824255e",
+          "sha256": "25ed19f9ae1eae94849bf9a16923f13b8fa64910c3739e17adaf92c86c3e3ad6",
+          "sha1": "f4e348d5c7bbeb71a8f2158484a31262e37b6ca2",
+          "md5": "2ba6c4fc37a9a51363c45b808845c3ba"
+        }
+      ]
+    },
+    {
+      "name": "apiElementsWithFixedAttribute",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.jvm.version": 8,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-gradle-plugin-api",
+          "version": {
+            "requires": "2.2.255-SNAPSHOT"
+          },
+          "excludes": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-reflect"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk8"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk7"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-script-runtime"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-common"
+            }
+          ]
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-gradle-plugins-bom",
+          "version": {
+            "requires": "2.2.255-SNAPSHOT"
+          },
+          "excludes": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-reflect"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk8"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk7"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-script-runtime"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-common"
+            }
+          ],
+          "attributes": {
+            "org.gradle.category": "platform"
+          },
+          "endorseStrictVersions": true
+        }
+      ],
+      "files": [
+        {
+          "name": "kotlin-serialization-2.2.255-SNAPSHOT.jar",
+          "url": "kotlin-serialization-2.2.255-SNAPSHOT.jar",
+          "size": 10407,
+          "sha512": "cf19b716c3eb1bfef8f52d088b9c21e73ce155413da2cc851d58df74f649dab9f730e3e1c0c24b9caf0c98a57905dec610f8f6d332645e171595ecb70824255e",
+          "sha256": "25ed19f9ae1eae94849bf9a16923f13b8fa64910c3739e17adaf92c86c3e3ad6",
+          "sha1": "f4e348d5c7bbeb71a8f2158484a31262e37b6ca2",
+          "md5": "2ba6c4fc37a9a51363c45b808845c3ba"
+        }
+      ]
+    },
+    {
+      "name": "gradle80SourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.plugin.api-version": "8.0",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "kotlin-serialization-2.2.255-SNAPSHOT-gradle80-sources.jar",
+          "url": "kotlin-serialization-2.2.255-SNAPSHOT-gradle80-sources.jar",
+          "size": 3667,
+          "sha512": "4221f5ffe51e54d8190c12ba4fe392cc204be1ff1121eaaef1e360f48f1b07e39222f388a7849406ad757f794fa29bfe15938fe773eea2065f54643b7c6652ee",
+          "sha256": "aa82b78f2a91b8800a8f4d49db232ebad69c36eb4bb47c5aa293f01b48ba4428",
+          "sha1": "0704413b6619da8867abce05cf2b25c033e36a9d",
+          "md5": "ded2378a26a36025fb87705a7ef4acf5"
+        }
+      ],
+      "capabilities": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-serialization",
+          "version": "2.2.255-SNAPSHOT"
+        }
+      ]
+    },
+    {
+      "name": "gradle80ApiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.jvm.version": 8,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.plugin.api-version": "8.0",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-gradle-plugins-bom",
+          "version": {
+            "requires": "2.2.255-SNAPSHOT"
+          },
+          "excludes": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-reflect"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk8"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk7"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-script-runtime"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-common"
+            }
+          ],
+          "attributes": {
+            "org.gradle.category": "platform"
+          },
+          "endorseStrictVersions": true
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-gradle-plugin-api",
+          "version": {
+            "requires": "2.2.255-SNAPSHOT"
+          },
+          "excludes": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-reflect"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk8"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk7"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-script-runtime"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-common"
+            }
+          ],
+          "requestedCapabilities": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "name": "kotlin-gradle-plugin-api-gradle80"
+            }
+          ]
+        }
+      ],
+      "files": [
+        {
+          "name": "kotlin-serialization-2.2.255-SNAPSHOT-gradle80.jar",
+          "url": "kotlin-serialization-2.2.255-SNAPSHOT-gradle80.jar",
+          "size": 10407,
+          "sha512": "cf19b716c3eb1bfef8f52d088b9c21e73ce155413da2cc851d58df74f649dab9f730e3e1c0c24b9caf0c98a57905dec610f8f6d332645e171595ecb70824255e",
+          "sha256": "25ed19f9ae1eae94849bf9a16923f13b8fa64910c3739e17adaf92c86c3e3ad6",
+          "sha1": "f4e348d5c7bbeb71a8f2158484a31262e37b6ca2",
+          "md5": "2ba6c4fc37a9a51363c45b808845c3ba"
+        }
+      ],
+      "capabilities": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-serialization",
+          "version": "2.2.255-SNAPSHOT"
+        }
+      ]
+    },
+    {
+      "name": "gradle80RuntimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.jvm.version": 8,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.plugin.api-version": "8.0",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-gradle-plugins-bom",
+          "version": {
+            "requires": "2.2.255-SNAPSHOT"
+          },
+          "excludes": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-reflect"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk8"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk7"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-script-runtime"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-common"
+            }
+          ],
+          "attributes": {
+            "org.gradle.category": "platform"
+          },
+          "endorseStrictVersions": true
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-gradle-plugin-api",
+          "version": {
+            "requires": "2.2.255-SNAPSHOT"
+          },
+          "excludes": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-reflect"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk8"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk7"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-script-runtime"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-common"
+            }
+          ],
+          "requestedCapabilities": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "name": "kotlin-gradle-plugin-api-gradle80"
+            }
+          ]
+        }
+      ],
+      "files": [
+        {
+          "name": "kotlin-serialization-2.2.255-SNAPSHOT-gradle80.jar",
+          "url": "kotlin-serialization-2.2.255-SNAPSHOT-gradle80.jar",
+          "size": 10407,
+          "sha512": "cf19b716c3eb1bfef8f52d088b9c21e73ce155413da2cc851d58df74f649dab9f730e3e1c0c24b9caf0c98a57905dec610f8f6d332645e171595ecb70824255e",
+          "sha256": "25ed19f9ae1eae94849bf9a16923f13b8fa64910c3739e17adaf92c86c3e3ad6",
+          "sha1": "f4e348d5c7bbeb71a8f2158484a31262e37b6ca2",
+          "md5": "2ba6c4fc37a9a51363c45b808845c3ba"
+        }
+      ],
+      "capabilities": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-serialization",
+          "version": "2.2.255-SNAPSHOT"
+        }
+      ]
+    },
+    {
+      "name": "gradle81SourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.plugin.api-version": "8.1",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "kotlin-serialization-2.2.255-SNAPSHOT-gradle81-sources.jar",
+          "url": "kotlin-serialization-2.2.255-SNAPSHOT-gradle81-sources.jar",
+          "size": 3667,
+          "sha512": "4221f5ffe51e54d8190c12ba4fe392cc204be1ff1121eaaef1e360f48f1b07e39222f388a7849406ad757f794fa29bfe15938fe773eea2065f54643b7c6652ee",
+          "sha256": "aa82b78f2a91b8800a8f4d49db232ebad69c36eb4bb47c5aa293f01b48ba4428",
+          "sha1": "0704413b6619da8867abce05cf2b25c033e36a9d",
+          "md5": "ded2378a26a36025fb87705a7ef4acf5"
+        }
+      ],
+      "capabilities": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-serialization",
+          "version": "2.2.255-SNAPSHOT"
+        }
+      ]
+    },
+    {
+      "name": "gradle81ApiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.jvm.version": 8,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.plugin.api-version": "8.1",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-gradle-plugins-bom",
+          "version": {
+            "requires": "2.2.255-SNAPSHOT"
+          },
+          "excludes": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-reflect"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk8"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk7"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-script-runtime"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-common"
+            }
+          ],
+          "attributes": {
+            "org.gradle.category": "platform"
+          },
+          "endorseStrictVersions": true
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-gradle-plugin-api",
+          "version": {
+            "requires": "2.2.255-SNAPSHOT"
+          },
+          "excludes": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-reflect"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk8"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk7"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-script-runtime"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-common"
+            }
+          ],
+          "requestedCapabilities": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "name": "kotlin-gradle-plugin-api-gradle81"
+            }
+          ]
+        }
+      ],
+      "files": [
+        {
+          "name": "kotlin-serialization-2.2.255-SNAPSHOT-gradle81.jar",
+          "url": "kotlin-serialization-2.2.255-SNAPSHOT-gradle81.jar",
+          "size": 10407,
+          "sha512": "cf19b716c3eb1bfef8f52d088b9c21e73ce155413da2cc851d58df74f649dab9f730e3e1c0c24b9caf0c98a57905dec610f8f6d332645e171595ecb70824255e",
+          "sha256": "25ed19f9ae1eae94849bf9a16923f13b8fa64910c3739e17adaf92c86c3e3ad6",
+          "sha1": "f4e348d5c7bbeb71a8f2158484a31262e37b6ca2",
+          "md5": "2ba6c4fc37a9a51363c45b808845c3ba"
+        }
+      ],
+      "capabilities": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-serialization",
+          "version": "2.2.255-SNAPSHOT"
+        }
+      ]
+    },
+    {
+      "name": "gradle81RuntimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.jvm.version": 8,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.plugin.api-version": "8.1",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-gradle-plugins-bom",
+          "version": {
+            "requires": "2.2.255-SNAPSHOT"
+          },
+          "excludes": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-reflect"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk8"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk7"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-script-runtime"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-common"
+            }
+          ],
+          "attributes": {
+            "org.gradle.category": "platform"
+          },
+          "endorseStrictVersions": true
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-gradle-plugin-api",
+          "version": {
+            "requires": "2.2.255-SNAPSHOT"
+          },
+          "excludes": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-reflect"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk8"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk7"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-script-runtime"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-common"
+            }
+          ],
+          "requestedCapabilities": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "name": "kotlin-gradle-plugin-api-gradle81"
+            }
+          ]
+        }
+      ],
+      "files": [
+        {
+          "name": "kotlin-serialization-2.2.255-SNAPSHOT-gradle81.jar",
+          "url": "kotlin-serialization-2.2.255-SNAPSHOT-gradle81.jar",
+          "size": 10407,
+          "sha512": "cf19b716c3eb1bfef8f52d088b9c21e73ce155413da2cc851d58df74f649dab9f730e3e1c0c24b9caf0c98a57905dec610f8f6d332645e171595ecb70824255e",
+          "sha256": "25ed19f9ae1eae94849bf9a16923f13b8fa64910c3739e17adaf92c86c3e3ad6",
+          "sha1": "f4e348d5c7bbeb71a8f2158484a31262e37b6ca2",
+          "md5": "2ba6c4fc37a9a51363c45b808845c3ba"
+        }
+      ],
+      "capabilities": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-serialization",
+          "version": "2.2.255-SNAPSHOT"
+        }
+      ]
+    },
+    {
+      "name": "gradle82SourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.plugin.api-version": "8.2",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "kotlin-serialization-2.2.255-SNAPSHOT-gradle82-sources.jar",
+          "url": "kotlin-serialization-2.2.255-SNAPSHOT-gradle82-sources.jar",
+          "size": 3667,
+          "sha512": "4221f5ffe51e54d8190c12ba4fe392cc204be1ff1121eaaef1e360f48f1b07e39222f388a7849406ad757f794fa29bfe15938fe773eea2065f54643b7c6652ee",
+          "sha256": "aa82b78f2a91b8800a8f4d49db232ebad69c36eb4bb47c5aa293f01b48ba4428",
+          "sha1": "0704413b6619da8867abce05cf2b25c033e36a9d",
+          "md5": "ded2378a26a36025fb87705a7ef4acf5"
+        }
+      ],
+      "capabilities": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-serialization",
+          "version": "2.2.255-SNAPSHOT"
+        }
+      ]
+    },
+    {
+      "name": "gradle82ApiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.jvm.version": 8,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.plugin.api-version": "8.2",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-gradle-plugins-bom",
+          "version": {
+            "requires": "2.2.255-SNAPSHOT"
+          },
+          "excludes": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-reflect"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk8"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk7"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-script-runtime"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-common"
+            }
+          ],
+          "attributes": {
+            "org.gradle.category": "platform"
+          },
+          "endorseStrictVersions": true
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-gradle-plugin-api",
+          "version": {
+            "requires": "2.2.255-SNAPSHOT"
+          },
+          "excludes": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-reflect"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk8"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk7"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-script-runtime"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-common"
+            }
+          ],
+          "requestedCapabilities": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "name": "kotlin-gradle-plugin-api-gradle82"
+            }
+          ]
+        }
+      ],
+      "files": [
+        {
+          "name": "kotlin-serialization-2.2.255-SNAPSHOT-gradle82.jar",
+          "url": "kotlin-serialization-2.2.255-SNAPSHOT-gradle82.jar",
+          "size": 10407,
+          "sha512": "cf19b716c3eb1bfef8f52d088b9c21e73ce155413da2cc851d58df74f649dab9f730e3e1c0c24b9caf0c98a57905dec610f8f6d332645e171595ecb70824255e",
+          "sha256": "25ed19f9ae1eae94849bf9a16923f13b8fa64910c3739e17adaf92c86c3e3ad6",
+          "sha1": "f4e348d5c7bbeb71a8f2158484a31262e37b6ca2",
+          "md5": "2ba6c4fc37a9a51363c45b808845c3ba"
+        }
+      ],
+      "capabilities": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-serialization",
+          "version": "2.2.255-SNAPSHOT"
+        }
+      ]
+    },
+    {
+      "name": "gradle82RuntimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.jvm.version": 8,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.plugin.api-version": "8.2",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-gradle-plugins-bom",
+          "version": {
+            "requires": "2.2.255-SNAPSHOT"
+          },
+          "excludes": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-reflect"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk8"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk7"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-script-runtime"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-common"
+            }
+          ],
+          "attributes": {
+            "org.gradle.category": "platform"
+          },
+          "endorseStrictVersions": true
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-gradle-plugin-api",
+          "version": {
+            "requires": "2.2.255-SNAPSHOT"
+          },
+          "excludes": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-reflect"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk8"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk7"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-script-runtime"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-common"
+            }
+          ],
+          "requestedCapabilities": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "name": "kotlin-gradle-plugin-api-gradle82"
+            }
+          ]
+        }
+      ],
+      "files": [
+        {
+          "name": "kotlin-serialization-2.2.255-SNAPSHOT-gradle82.jar",
+          "url": "kotlin-serialization-2.2.255-SNAPSHOT-gradle82.jar",
+          "size": 10407,
+          "sha512": "cf19b716c3eb1bfef8f52d088b9c21e73ce155413da2cc851d58df74f649dab9f730e3e1c0c24b9caf0c98a57905dec610f8f6d332645e171595ecb70824255e",
+          "sha256": "25ed19f9ae1eae94849bf9a16923f13b8fa64910c3739e17adaf92c86c3e3ad6",
+          "sha1": "f4e348d5c7bbeb71a8f2158484a31262e37b6ca2",
+          "md5": "2ba6c4fc37a9a51363c45b808845c3ba"
+        }
+      ],
+      "capabilities": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-serialization",
+          "version": "2.2.255-SNAPSHOT"
+        }
+      ]
+    },
+    {
+      "name": "gradle85SourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.plugin.api-version": "8.5",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "kotlin-serialization-2.2.255-SNAPSHOT-gradle85-sources.jar",
+          "url": "kotlin-serialization-2.2.255-SNAPSHOT-gradle85-sources.jar",
+          "size": 3667,
+          "sha512": "4221f5ffe51e54d8190c12ba4fe392cc204be1ff1121eaaef1e360f48f1b07e39222f388a7849406ad757f794fa29bfe15938fe773eea2065f54643b7c6652ee",
+          "sha256": "aa82b78f2a91b8800a8f4d49db232ebad69c36eb4bb47c5aa293f01b48ba4428",
+          "sha1": "0704413b6619da8867abce05cf2b25c033e36a9d",
+          "md5": "ded2378a26a36025fb87705a7ef4acf5"
+        }
+      ],
+      "capabilities": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-serialization",
+          "version": "2.2.255-SNAPSHOT"
+        }
+      ]
+    },
+    {
+      "name": "gradle85ApiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.jvm.version": 8,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.plugin.api-version": "8.5",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-gradle-plugins-bom",
+          "version": {
+            "requires": "2.2.255-SNAPSHOT"
+          },
+          "excludes": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-reflect"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk8"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk7"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-script-runtime"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-common"
+            }
+          ],
+          "attributes": {
+            "org.gradle.category": "platform"
+          },
+          "endorseStrictVersions": true
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-gradle-plugin-api",
+          "version": {
+            "requires": "2.2.255-SNAPSHOT"
+          },
+          "excludes": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-reflect"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk8"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk7"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-script-runtime"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-common"
+            }
+          ],
+          "requestedCapabilities": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "name": "kotlin-gradle-plugin-api-gradle85"
+            }
+          ]
+        }
+      ],
+      "files": [
+        {
+          "name": "kotlin-serialization-2.2.255-SNAPSHOT-gradle85.jar",
+          "url": "kotlin-serialization-2.2.255-SNAPSHOT-gradle85.jar",
+          "size": 10407,
+          "sha512": "cf19b716c3eb1bfef8f52d088b9c21e73ce155413da2cc851d58df74f649dab9f730e3e1c0c24b9caf0c98a57905dec610f8f6d332645e171595ecb70824255e",
+          "sha256": "25ed19f9ae1eae94849bf9a16923f13b8fa64910c3739e17adaf92c86c3e3ad6",
+          "sha1": "f4e348d5c7bbeb71a8f2158484a31262e37b6ca2",
+          "md5": "2ba6c4fc37a9a51363c45b808845c3ba"
+        }
+      ],
+      "capabilities": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-serialization",
+          "version": "2.2.255-SNAPSHOT"
+        }
+      ]
+    },
+    {
+      "name": "gradle85RuntimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.jvm.version": 8,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.plugin.api-version": "8.5",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-gradle-plugins-bom",
+          "version": {
+            "requires": "2.2.255-SNAPSHOT"
+          },
+          "excludes": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-reflect"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk8"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk7"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-script-runtime"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-common"
+            }
+          ],
+          "attributes": {
+            "org.gradle.category": "platform"
+          },
+          "endorseStrictVersions": true
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-gradle-plugin-api",
+          "version": {
+            "requires": "2.2.255-SNAPSHOT"
+          },
+          "excludes": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-reflect"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk8"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk7"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-script-runtime"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-common"
+            }
+          ],
+          "requestedCapabilities": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "name": "kotlin-gradle-plugin-api-gradle85"
+            }
+          ]
+        }
+      ],
+      "files": [
+        {
+          "name": "kotlin-serialization-2.2.255-SNAPSHOT-gradle85.jar",
+          "url": "kotlin-serialization-2.2.255-SNAPSHOT-gradle85.jar",
+          "size": 10407,
+          "sha512": "cf19b716c3eb1bfef8f52d088b9c21e73ce155413da2cc851d58df74f649dab9f730e3e1c0c24b9caf0c98a57905dec610f8f6d332645e171595ecb70824255e",
+          "sha256": "25ed19f9ae1eae94849bf9a16923f13b8fa64910c3739e17adaf92c86c3e3ad6",
+          "sha1": "f4e348d5c7bbeb71a8f2158484a31262e37b6ca2",
+          "md5": "2ba6c4fc37a9a51363c45b808845c3ba"
+        }
+      ],
+      "capabilities": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-serialization",
+          "version": "2.2.255-SNAPSHOT"
+        }
+      ]
+    },
+    {
+      "name": "gradle86SourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.plugin.api-version": "8.6",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "kotlin-serialization-2.2.255-SNAPSHOT-gradle86-sources.jar",
+          "url": "kotlin-serialization-2.2.255-SNAPSHOT-gradle86-sources.jar",
+          "size": 3667,
+          "sha512": "4221f5ffe51e54d8190c12ba4fe392cc204be1ff1121eaaef1e360f48f1b07e39222f388a7849406ad757f794fa29bfe15938fe773eea2065f54643b7c6652ee",
+          "sha256": "aa82b78f2a91b8800a8f4d49db232ebad69c36eb4bb47c5aa293f01b48ba4428",
+          "sha1": "0704413b6619da8867abce05cf2b25c033e36a9d",
+          "md5": "ded2378a26a36025fb87705a7ef4acf5"
+        }
+      ],
+      "capabilities": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-serialization",
+          "version": "2.2.255-SNAPSHOT"
+        }
+      ]
+    },
+    {
+      "name": "gradle86ApiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.jvm.version": 8,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.plugin.api-version": "8.6",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-gradle-plugins-bom",
+          "version": {
+            "requires": "2.2.255-SNAPSHOT"
+          },
+          "excludes": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-reflect"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk8"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk7"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-script-runtime"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-common"
+            }
+          ],
+          "attributes": {
+            "org.gradle.category": "platform"
+          },
+          "endorseStrictVersions": true
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-gradle-plugin-api",
+          "version": {
+            "requires": "2.2.255-SNAPSHOT"
+          },
+          "excludes": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-reflect"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk8"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk7"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-script-runtime"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-common"
+            }
+          ],
+          "requestedCapabilities": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "name": "kotlin-gradle-plugin-api-gradle86"
+            }
+          ]
+        }
+      ],
+      "files": [
+        {
+          "name": "kotlin-serialization-2.2.255-SNAPSHOT-gradle86.jar",
+          "url": "kotlin-serialization-2.2.255-SNAPSHOT-gradle86.jar",
+          "size": 10407,
+          "sha512": "cf19b716c3eb1bfef8f52d088b9c21e73ce155413da2cc851d58df74f649dab9f730e3e1c0c24b9caf0c98a57905dec610f8f6d332645e171595ecb70824255e",
+          "sha256": "25ed19f9ae1eae94849bf9a16923f13b8fa64910c3739e17adaf92c86c3e3ad6",
+          "sha1": "f4e348d5c7bbeb71a8f2158484a31262e37b6ca2",
+          "md5": "2ba6c4fc37a9a51363c45b808845c3ba"
+        }
+      ],
+      "capabilities": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-serialization",
+          "version": "2.2.255-SNAPSHOT"
+        }
+      ]
+    },
+    {
+      "name": "gradle86RuntimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.jvm.version": 8,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.plugin.api-version": "8.6",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-gradle-plugins-bom",
+          "version": {
+            "requires": "2.2.255-SNAPSHOT"
+          },
+          "excludes": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-reflect"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk8"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk7"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-script-runtime"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-common"
+            }
+          ],
+          "attributes": {
+            "org.gradle.category": "platform"
+          },
+          "endorseStrictVersions": true
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-gradle-plugin-api",
+          "version": {
+            "requires": "2.2.255-SNAPSHOT"
+          },
+          "excludes": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-reflect"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk8"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk7"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-script-runtime"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-common"
+            }
+          ],
+          "requestedCapabilities": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "name": "kotlin-gradle-plugin-api-gradle86"
+            }
+          ]
+        }
+      ],
+      "files": [
+        {
+          "name": "kotlin-serialization-2.2.255-SNAPSHOT-gradle86.jar",
+          "url": "kotlin-serialization-2.2.255-SNAPSHOT-gradle86.jar",
+          "size": 10407,
+          "sha512": "cf19b716c3eb1bfef8f52d088b9c21e73ce155413da2cc851d58df74f649dab9f730e3e1c0c24b9caf0c98a57905dec610f8f6d332645e171595ecb70824255e",
+          "sha256": "25ed19f9ae1eae94849bf9a16923f13b8fa64910c3739e17adaf92c86c3e3ad6",
+          "sha1": "f4e348d5c7bbeb71a8f2158484a31262e37b6ca2",
+          "md5": "2ba6c4fc37a9a51363c45b808845c3ba"
+        }
+      ],
+      "capabilities": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-serialization",
+          "version": "2.2.255-SNAPSHOT"
+        }
+      ]
+    },
+    {
+      "name": "gradle88SourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.plugin.api-version": "8.8",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "kotlin-serialization-2.2.255-SNAPSHOT-gradle88-sources.jar",
+          "url": "kotlin-serialization-2.2.255-SNAPSHOT-gradle88-sources.jar",
+          "size": 3667,
+          "sha512": "4221f5ffe51e54d8190c12ba4fe392cc204be1ff1121eaaef1e360f48f1b07e39222f388a7849406ad757f794fa29bfe15938fe773eea2065f54643b7c6652ee",
+          "sha256": "aa82b78f2a91b8800a8f4d49db232ebad69c36eb4bb47c5aa293f01b48ba4428",
+          "sha1": "0704413b6619da8867abce05cf2b25c033e36a9d",
+          "md5": "ded2378a26a36025fb87705a7ef4acf5"
+        }
+      ],
+      "capabilities": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-serialization",
+          "version": "2.2.255-SNAPSHOT"
+        }
+      ]
+    },
+    {
+      "name": "gradle88ApiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.jvm.version": 8,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.plugin.api-version": "8.8",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-gradle-plugins-bom",
+          "version": {
+            "requires": "2.2.255-SNAPSHOT"
+          },
+          "excludes": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-reflect"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk8"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk7"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-script-runtime"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-common"
+            }
+          ],
+          "attributes": {
+            "org.gradle.category": "platform"
+          },
+          "endorseStrictVersions": true
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-gradle-plugin-api",
+          "version": {
+            "requires": "2.2.255-SNAPSHOT"
+          },
+          "excludes": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-reflect"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk8"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk7"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-script-runtime"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-common"
+            }
+          ],
+          "requestedCapabilities": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "name": "kotlin-gradle-plugin-api-gradle88"
+            }
+          ]
+        }
+      ],
+      "files": [
+        {
+          "name": "kotlin-serialization-2.2.255-SNAPSHOT-gradle88.jar",
+          "url": "kotlin-serialization-2.2.255-SNAPSHOT-gradle88.jar",
+          "size": 10407,
+          "sha512": "cf19b716c3eb1bfef8f52d088b9c21e73ce155413da2cc851d58df74f649dab9f730e3e1c0c24b9caf0c98a57905dec610f8f6d332645e171595ecb70824255e",
+          "sha256": "25ed19f9ae1eae94849bf9a16923f13b8fa64910c3739e17adaf92c86c3e3ad6",
+          "sha1": "f4e348d5c7bbeb71a8f2158484a31262e37b6ca2",
+          "md5": "2ba6c4fc37a9a51363c45b808845c3ba"
+        }
+      ],
+      "capabilities": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-serialization",
+          "version": "2.2.255-SNAPSHOT"
+        }
+      ]
+    },
+    {
+      "name": "gradle88RuntimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.jvm.version": 8,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.plugin.api-version": "8.8",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-gradle-plugins-bom",
+          "version": {
+            "requires": "2.2.255-SNAPSHOT"
+          },
+          "excludes": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-reflect"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk8"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk7"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-script-runtime"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-common"
+            }
+          ],
+          "attributes": {
+            "org.gradle.category": "platform"
+          },
+          "endorseStrictVersions": true
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-gradle-plugin-api",
+          "version": {
+            "requires": "2.2.255-SNAPSHOT"
+          },
+          "excludes": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-reflect"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk8"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk7"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-script-runtime"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-common"
+            }
+          ],
+          "requestedCapabilities": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "name": "kotlin-gradle-plugin-api-gradle88"
+            }
+          ]
+        }
+      ],
+      "files": [
+        {
+          "name": "kotlin-serialization-2.2.255-SNAPSHOT-gradle88.jar",
+          "url": "kotlin-serialization-2.2.255-SNAPSHOT-gradle88.jar",
+          "size": 10407,
+          "sha512": "cf19b716c3eb1bfef8f52d088b9c21e73ce155413da2cc851d58df74f649dab9f730e3e1c0c24b9caf0c98a57905dec610f8f6d332645e171595ecb70824255e",
+          "sha256": "25ed19f9ae1eae94849bf9a16923f13b8fa64910c3739e17adaf92c86c3e3ad6",
+          "sha1": "f4e348d5c7bbeb71a8f2158484a31262e37b6ca2",
+          "md5": "2ba6c4fc37a9a51363c45b808845c3ba"
+        }
+      ],
+      "capabilities": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-serialization",
+          "version": "2.2.255-SNAPSHOT"
+        }
+      ]
+    },
+    {
+      "name": "gradle811SourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.plugin.api-version": "8.11",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "kotlin-serialization-2.2.255-SNAPSHOT-gradle811-sources.jar",
+          "url": "kotlin-serialization-2.2.255-SNAPSHOT-gradle811-sources.jar",
+          "size": 3667,
+          "sha512": "4221f5ffe51e54d8190c12ba4fe392cc204be1ff1121eaaef1e360f48f1b07e39222f388a7849406ad757f794fa29bfe15938fe773eea2065f54643b7c6652ee",
+          "sha256": "aa82b78f2a91b8800a8f4d49db232ebad69c36eb4bb47c5aa293f01b48ba4428",
+          "sha1": "0704413b6619da8867abce05cf2b25c033e36a9d",
+          "md5": "ded2378a26a36025fb87705a7ef4acf5"
+        }
+      ],
+      "capabilities": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-serialization",
+          "version": "2.2.255-SNAPSHOT"
+        }
+      ]
+    },
+    {
+      "name": "gradle811ApiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.jvm.version": 8,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.plugin.api-version": "8.11",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-gradle-plugins-bom",
+          "version": {
+            "requires": "2.2.255-SNAPSHOT"
+          },
+          "excludes": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-reflect"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk8"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk7"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-script-runtime"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-common"
+            }
+          ],
+          "attributes": {
+            "org.gradle.category": "platform"
+          },
+          "endorseStrictVersions": true
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-gradle-plugin-api",
+          "version": {
+            "requires": "2.2.255-SNAPSHOT"
+          },
+          "excludes": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-reflect"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk8"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk7"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-script-runtime"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-common"
+            }
+          ],
+          "requestedCapabilities": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "name": "kotlin-gradle-plugin-api-gradle811"
+            }
+          ]
+        }
+      ],
+      "files": [
+        {
+          "name": "kotlin-serialization-2.2.255-SNAPSHOT-gradle811.jar",
+          "url": "kotlin-serialization-2.2.255-SNAPSHOT-gradle811.jar",
+          "size": 10407,
+          "sha512": "cf19b716c3eb1bfef8f52d088b9c21e73ce155413da2cc851d58df74f649dab9f730e3e1c0c24b9caf0c98a57905dec610f8f6d332645e171595ecb70824255e",
+          "sha256": "25ed19f9ae1eae94849bf9a16923f13b8fa64910c3739e17adaf92c86c3e3ad6",
+          "sha1": "f4e348d5c7bbeb71a8f2158484a31262e37b6ca2",
+          "md5": "2ba6c4fc37a9a51363c45b808845c3ba"
+        }
+      ],
+      "capabilities": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-serialization",
+          "version": "2.2.255-SNAPSHOT"
+        }
+      ]
+    },
+    {
+      "name": "gradle811RuntimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.jvm.version": 8,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.plugin.api-version": "8.11",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-gradle-plugins-bom",
+          "version": {
+            "requires": "2.2.255-SNAPSHOT"
+          },
+          "excludes": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-reflect"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk8"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk7"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-script-runtime"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-common"
+            }
+          ],
+          "attributes": {
+            "org.gradle.category": "platform"
+          },
+          "endorseStrictVersions": true
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-gradle-plugin-api",
+          "version": {
+            "requires": "2.2.255-SNAPSHOT"
+          },
+          "excludes": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-reflect"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk8"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk7"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-script-runtime"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-common"
+            }
+          ],
+          "requestedCapabilities": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "name": "kotlin-gradle-plugin-api-gradle811"
+            }
+          ]
+        }
+      ],
+      "files": [
+        {
+          "name": "kotlin-serialization-2.2.255-SNAPSHOT-gradle811.jar",
+          "url": "kotlin-serialization-2.2.255-SNAPSHOT-gradle811.jar",
+          "size": 10407,
+          "sha512": "cf19b716c3eb1bfef8f52d088b9c21e73ce155413da2cc851d58df74f649dab9f730e3e1c0c24b9caf0c98a57905dec610f8f6d332645e171595ecb70824255e",
+          "sha256": "25ed19f9ae1eae94849bf9a16923f13b8fa64910c3739e17adaf92c86c3e3ad6",
+          "sha1": "f4e348d5c7bbeb71a8f2158484a31262e37b6ca2",
+          "md5": "2ba6c4fc37a9a51363c45b808845c3ba"
+        }
+      ],
+      "capabilities": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-serialization",
+          "version": "2.2.255-SNAPSHOT"
+        }
+      ]
+    },
+    {
+      "name": "gradle813SourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.plugin.api-version": "8.13",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "kotlin-serialization-2.2.255-SNAPSHOT-gradle813-sources.jar",
+          "url": "kotlin-serialization-2.2.255-SNAPSHOT-gradle813-sources.jar",
+          "size": 3667,
+          "sha512": "4221f5ffe51e54d8190c12ba4fe392cc204be1ff1121eaaef1e360f48f1b07e39222f388a7849406ad757f794fa29bfe15938fe773eea2065f54643b7c6652ee",
+          "sha256": "aa82b78f2a91b8800a8f4d49db232ebad69c36eb4bb47c5aa293f01b48ba4428",
+          "sha1": "0704413b6619da8867abce05cf2b25c033e36a9d",
+          "md5": "ded2378a26a36025fb87705a7ef4acf5"
+        }
+      ],
+      "capabilities": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-serialization",
+          "version": "2.2.255-SNAPSHOT"
+        }
+      ]
+    },
+    {
+      "name": "gradle813ApiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.jvm.version": 8,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.plugin.api-version": "8.13",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-gradle-plugins-bom",
+          "version": {
+            "requires": "2.2.255-SNAPSHOT"
+          },
+          "excludes": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-reflect"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk8"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk7"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-script-runtime"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-common"
+            }
+          ],
+          "attributes": {
+            "org.gradle.category": "platform"
+          },
+          "endorseStrictVersions": true
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-gradle-plugin-api",
+          "version": {
+            "requires": "2.2.255-SNAPSHOT"
+          },
+          "excludes": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-reflect"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk8"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk7"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-script-runtime"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-common"
+            }
+          ],
+          "requestedCapabilities": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "name": "kotlin-gradle-plugin-api-gradle813"
+            }
+          ]
+        }
+      ],
+      "files": [
+        {
+          "name": "kotlin-serialization-2.2.255-SNAPSHOT-gradle813.jar",
+          "url": "kotlin-serialization-2.2.255-SNAPSHOT-gradle813.jar",
+          "size": 10407,
+          "sha512": "cf19b716c3eb1bfef8f52d088b9c21e73ce155413da2cc851d58df74f649dab9f730e3e1c0c24b9caf0c98a57905dec610f8f6d332645e171595ecb70824255e",
+          "sha256": "25ed19f9ae1eae94849bf9a16923f13b8fa64910c3739e17adaf92c86c3e3ad6",
+          "sha1": "f4e348d5c7bbeb71a8f2158484a31262e37b6ca2",
+          "md5": "2ba6c4fc37a9a51363c45b808845c3ba"
+        }
+      ],
+      "capabilities": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-serialization",
+          "version": "2.2.255-SNAPSHOT"
+        }
+      ]
+    },
+    {
+      "name": "gradle813RuntimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.jvm.version": 8,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.plugin.api-version": "8.13",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-gradle-plugins-bom",
+          "version": {
+            "requires": "2.2.255-SNAPSHOT"
+          },
+          "excludes": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-reflect"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk8"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk7"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-script-runtime"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-common"
+            }
+          ],
+          "attributes": {
+            "org.gradle.category": "platform"
+          },
+          "endorseStrictVersions": true
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-gradle-plugin-api",
+          "version": {
+            "requires": "2.2.255-SNAPSHOT"
+          },
+          "excludes": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-reflect"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk8"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-jdk7"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-script-runtime"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-common"
+            }
+          ],
+          "requestedCapabilities": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "name": "kotlin-gradle-plugin-api-gradle813"
+            }
+          ]
+        }
+      ],
+      "files": [
+        {
+          "name": "kotlin-serialization-2.2.255-SNAPSHOT-gradle813.jar",
+          "url": "kotlin-serialization-2.2.255-SNAPSHOT-gradle813.jar",
+          "size": 10407,
+          "sha512": "cf19b716c3eb1bfef8f52d088b9c21e73ce155413da2cc851d58df74f649dab9f730e3e1c0c24b9caf0c98a57905dec610f8f6d332645e171595ecb70824255e",
+          "sha256": "25ed19f9ae1eae94849bf9a16923f13b8fa64910c3739e17adaf92c86c3e3ad6",
+          "sha1": "f4e348d5c7bbeb71a8f2158484a31262e37b6ca2",
+          "md5": "2ba6c4fc37a9a51363c45b808845c3ba"
+        }
+      ],
+      "capabilities": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-serialization",
+          "version": "2.2.255-SNAPSHOT"
+        }
+      ]
+    },
+    {
+      "name": "javadocElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "javadoc",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "kotlin-serialization-2.2.255-SNAPSHOT-javadoc.jar",
+          "url": "kotlin-serialization-2.2.255-SNAPSHOT-javadoc.jar",
+          "size": 257,
+          "sha512": "2dd30c1b0f576649990edb3feb381d1bd9528a540dad44bd53066ba0f9e755f096a8cda8b1f9bd5c349ccb2c2a636ae75da1d72ab399b6e7bfea76c2d43665e8",
+          "sha256": "4200a274bbbdfe19ef5418d3013075dddaca4d2f14c85bade6652dc6d8ad42ce",
+          "sha1": "a3977689da6c6aaef495bd2d3fd8bc990fa7f2e0",
+          "md5": "0d8fbffcbd5c9c755debe1fe381fe6b5"
+        }
+      ]
+    }
+  ]
+}

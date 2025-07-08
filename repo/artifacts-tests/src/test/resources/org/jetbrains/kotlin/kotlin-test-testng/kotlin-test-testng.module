@@ -1,0 +1,159 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../kotlin-test/2.2.255-SNAPSHOT/kotlin-test-2.2.255-SNAPSHOT.module",
+    "group": "org.jetbrains.kotlin",
+    "module": "kotlin-test",
+    "version": "2.2.255-SNAPSHOT",
+    "attributes": {
+      "org.gradle.status": "integration"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.14"
+    }
+  },
+  "variants": [
+    {
+      "name": "jvmTestNGApiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-test",
+          "version": {
+            "requires": "2.2.255-SNAPSHOT"
+          }
+        },
+        {
+          "group": "org.testng",
+          "module": "testng",
+          "version": {
+            "requires": "7.5.1"
+          }
+        },
+        {
+          "group": "org.testng",
+          "module": "testng",
+          "version": {
+            "requires": "7.0.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "kotlin-test-testng-2.2.255-SNAPSHOT.jar",
+          "url": "kotlin-test-testng-2.2.255-SNAPSHOT.jar",
+          "size": 8390,
+          "sha512": "009a066787c862a3f1cbff29c1546b464b750c2732bc6b68e072838fe2051283b939493cfccbffe55ff44d717aea2195c0a59f1895678767b19bd76d03cbba64",
+          "sha256": "ed61f2bd38890d0e3f662595a9b7e89483e2b86f81712f6406c74c0efc9edc67",
+          "sha1": "57cb6ad48700847652a9fab70bd072e4f7990b20",
+          "md5": "d2ce86ac2bea1a8d3639c197615b33a6"
+        }
+      ],
+      "capabilities": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-test-testng",
+          "version": "2.2.255-SNAPSHOT"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-test-framework-impl",
+          "version": "2.2.255-SNAPSHOT"
+        }
+      ]
+    },
+    {
+      "name": "jvmTestNGRuntimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-test",
+          "version": {
+            "requires": "2.2.255-SNAPSHOT"
+          }
+        },
+        {
+          "group": "org.testng",
+          "module": "testng",
+          "version": {
+            "requires": "7.0.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "kotlin-test-testng-2.2.255-SNAPSHOT.jar",
+          "url": "kotlin-test-testng-2.2.255-SNAPSHOT.jar",
+          "size": 8390,
+          "sha512": "009a066787c862a3f1cbff29c1546b464b750c2732bc6b68e072838fe2051283b939493cfccbffe55ff44d717aea2195c0a59f1895678767b19bd76d03cbba64",
+          "sha256": "ed61f2bd38890d0e3f662595a9b7e89483e2b86f81712f6406c74c0efc9edc67",
+          "sha1": "57cb6ad48700847652a9fab70bd072e4f7990b20",
+          "md5": "d2ce86ac2bea1a8d3639c197615b33a6"
+        }
+      ],
+      "capabilities": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-test-testng",
+          "version": "2.2.255-SNAPSHOT"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-test-framework-impl",
+          "version": "2.2.255-SNAPSHOT"
+        }
+      ]
+    },
+    {
+      "name": "jvmTestNGSourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "files": [
+        {
+          "name": "kotlin-test-testng-2.2.255-SNAPSHOT-sources.jar",
+          "url": "kotlin-test-testng-2.2.255-SNAPSHOT-sources.jar",
+          "size": 4973,
+          "sha512": "6ddb26f84e8abbf4a95ec6cfcbd27a77cdf2925d8ad1b24d37a9a2a6e8347950a52b93fbac32842483220b5f642794ae38cfc68ce002c64635f816c7aa111f19",
+          "sha256": "1de3dd25a49f65aeba9bce6adff23423a26754e43a2d7faf3525aa42489fda8d",
+          "sha1": "760778a907bfeda2b248d495c71dff9e7a0c2fd3",
+          "md5": "e0938d8d7e0bad6f7fd85df0e65094c8"
+        }
+      ],
+      "capabilities": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-test-testng",
+          "version": "2.2.255-SNAPSHOT"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-test-framework-impl",
+          "version": "2.2.255-SNAPSHOT"
+        }
+      ]
+    }
+  ]
+}
