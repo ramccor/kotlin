@@ -5,7 +5,7 @@
 
 package org.jetbrains.kotlin.code
 
-import org.jetbrains.kotlin.test.services.JUnit5Assertions.assertEqualsToFile
+import kotlinx.serialization.json.Json
 import org.jetbrains.kotlin.test.services.JUnit5Assertions.isTeamCityBuild
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.TestFactory
@@ -53,15 +53,17 @@ class GradleMetadataTest {
     @TestFactory
     fun generateArtifactTests(): Stream<DynamicTest> {
         return findActualGradleMetadata().map { actual ->
-            val expectedPomPath = actual.toExpectedPath()
-            DynamicTest.dynamicTest(expectedPomPath.fileName.toString()) {
-                if ("${expectedPomPath.parent.fileName}" !in excludedProjects) {
-                    if ("${expectedPomPath.parent.fileName}" !in nativeBundles) {
-                        val regex = Regex(
-                            """(<groupId>org.jetbrains.kotlin\S*</groupId>\s*\S*\s*)<version>$kotlinVersion</version>"""
+            val expectedGradleMetadataPath = actual.toExpectedPath()
+            DynamicTest.dynamicTest(expectedGradleMetadataPath.fileName.toString()) {
+                if ("${expectedGradleMetadataPath.parent.fileName}" !in excludedProjects) {
+                    if ("${expectedGradleMetadataPath.parent.fileName}" !in nativeBundles) {
+                        val expectedMetadata = Json.decodeFromString<GradleMetadata>(expectedGradleMetadataPath.toFile().readText())
+                        val actualString = actual.toFile().readText().replace(kotlinVersion, "ArtifactsTest.version")
+                        val actualMetadata = Json.decodeFromString<GradleMetadata>(actualString)
+                        assertTrue(
+                            expectedMetadata equalsWithoutFingerprint actualMetadata,
+                            "Metadata at $actual is not equal to expected metadata at $expectedGradleMetadataPath"
                         )
-                        val actualString = actual.toFile().readText().replace(regex, "\$1<version>ArtifactsTest.version</version>")
-                        assertEqualsToFile(expectedPomPath, actualString)
                     }
                 } else {
                     if (isTeamCityBuild) fail("Excluded project in actual artifacts: $actual")
@@ -71,14 +73,14 @@ class GradleMetadataTest {
     }
 
     @TestFactory
-    fun allExpectedPomsPresentInActual(): Stream<DynamicTest> {
-        val publishedPoms = findActualGradleMetadata()
+    fun allExpectedGradleMetadataPresentInActual(): Stream<DynamicTest> {
+        val publishedGradleMetadata = findActualGradleMetadata()
             .map { it.toExpectedPath() }
             .filter { "${it.parent.fileName}" !in excludedProjects }.toSet()
 
         return findExpectedGradleMetadata().map { expected ->
             DynamicTest.dynamicTest(expected.fileName.toString()) {
-                assertTrue(expected in publishedPoms, "Missing actual pom for expected pom: $expected")
+                assertTrue(expected in publishedGradleMetadata, "Missing actual gradle metadata for expected gradle metadata: $expected")
             }
         }.asStream()
     }
@@ -102,9 +104,9 @@ class GradleMetadataTest {
 
     /**
      * convert:
-     * ${mavenLocal}/org/jetbrains/kotlin/artifact/version/artifact-version.pom
+     * ${mavenLocal}/org/jetbrains/kotlin/artifact/version/artifact-version.module
      * to:
-     * ${expectedRepository}/org/jetbrains/kotlin/artifact/artifact.pom
+     * ${expectedRepository}/org/jetbrains/kotlin/artifact/artifact.module
      */
     private fun Path.toExpectedPath(): Path {
         val artifactDirPath = localRepoPath.relativize(this).parent.parent
