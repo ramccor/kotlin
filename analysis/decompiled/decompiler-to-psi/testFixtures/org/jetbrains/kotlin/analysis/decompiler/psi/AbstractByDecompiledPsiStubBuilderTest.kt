@@ -1,5 +1,5 @@
 /*
- * Copyright 2010-2022 JetBrains s.r.o. and Kotlin Programming Language contributors.
+ * Copyright 2010-2025 JetBrains s.r.o. and Kotlin Programming Language contributors.
  * Use of this source code is governed by the Apache 2.0 license that can be found in the license/LICENSE.txt file.
  */
 
@@ -23,8 +23,8 @@ abstract class AbstractByDecompiledPsiStubBuilderTest : AbstractStubBuilderTest(
         FileTypeFileViewProviders.INSTANCE.addExplicitExtension(JavaClassFileType.INSTANCE, ClassFileViewProviderFactory())
 
         ClassFileDecompilers.getInstance().EP_NAME.point.apply {
-            registerExtension(KotlinClassFileDecompiler(), LoadingOrder.FIRST, testRootDisposable)
-            registerExtension(KotlinBuiltInDecompiler(), LoadingOrder.FIRST, testRootDisposable)
+            registerExtension(KotlinClassFileDecompiler(), LoadingOrder.Companion.FIRST, testRootDisposable)
+            registerExtension(KotlinBuiltInDecompiler(), LoadingOrder.Companion.FIRST, testRootDisposable)
         }
 
     }
