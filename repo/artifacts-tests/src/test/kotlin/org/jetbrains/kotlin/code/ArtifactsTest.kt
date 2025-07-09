@@ -20,40 +20,10 @@ import kotlin.test.assertTrue
 import kotlin.test.fail
 
 class ArtifactsTest {
-
-    private val kotlinVersion = System.getProperty("kotlin.version")
-    private val mavenLocal = System.getProperty("maven.repo.local")
-    private val localRepoPath = Paths.get(mavenLocal, "org/jetbrains/kotlin")
-    private val expectedRepoPath = Paths.get("repo/artifacts-tests/src/test/resources/org/jetbrains/kotlin")
-
-    /**
-     * Kotlin native bundles are present in TC artifacts but should not be checked until kotlin native enabled project-wide
-     */
-    private val nativeBundles = setOf(
-        "kotlin-native",
-        "kotlin-native-compiler-embeddable",
-        "kotlin-native-prebuilt",
-    )
-
-    private val excludedProjects = setOf(
-        "android-test-fixes",
-        "annotation-processor-example",
-        "gradle-warnings-detector",
-        "kotlin-compiler-args-properties",
-        "kotlin-gradle-plugin-tcs-android",
-        "kotlin-gradle-subplugin-example",
-        "kotlin-java-example",
-        "kotlin-maven-plugin-test",
-        "org.jetbrains.kotlin.gradle-subplugin-example.gradle.plugin",
-        "org.jetbrains.kotlin.test.fixes.android.gradle.plugin",
-        "org.jetbrains.kotlin.test.gradle-warnings-detector.gradle.plugin",
-        "org.jetbrains.kotlin.test.kotlin-compiler-args-properties.gradle.plugin",
-    )
-
     @TestFactory
     fun generateArtifactTests(): Stream<DynamicTest> {
         return findActualPoms().map { actual ->
-            val expectedPomPath = actual.toExpectedPath()
+            val expectedPomPath = actual.toExpectedPath(fileExtension = ".pom")
             DynamicTest.dynamicTest(expectedPomPath.fileName.toString()) {
                 if ("${expectedPomPath.parent.fileName}" !in excludedProjects) {
                     if ("${expectedPomPath.parent.fileName}" !in nativeBundles) {
@@ -73,7 +43,7 @@ class ArtifactsTest {
     @TestFactory
     fun allExpectedPomsPresentInActual(): Stream<DynamicTest> {
         val publishedPoms = findActualPoms()
-            .map { it.toExpectedPath() }
+            .map { it.toExpectedPath(fileExtension = ".pom") }
             .filter { "${it.parent.fileName}" !in excludedProjects }.toSet()
 
         return findExpectedPoms().map { expected ->
@@ -99,16 +69,4 @@ class ArtifactsTest {
             fileAttributes.isRegularFile
                     && "${path.fileName}".endsWith(".pom", ignoreCase = true)
         }).asSequence()
-
-    /**
-     * convert:
-     * ${mavenLocal}/org/jetbrains/kotlin/artifact/version/artifact-version.pom
-     * to:
-     * ${expectedRepository}/org/jetbrains/kotlin/artifact/artifact.pom
-     */
-    private fun Path.toExpectedPath(): Path {
-        val artifactDirPath = localRepoPath.relativize(this).parent.parent
-        val expectedFileName = "${artifactDirPath.fileName}.pom"
-        return expectedRepoPath.resolve(artifactDirPath.resolve(expectedFileName))
-    }
 }

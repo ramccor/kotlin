@@ -21,44 +21,17 @@ import kotlin.test.fail
 
 class GradleMetadataTest {
 
-    private val kotlinVersion = System.getProperty("kotlin.version")
-    private val mavenLocal = System.getProperty("maven.repo.local")
-    private val localRepoPath = Paths.get(mavenLocal, "org/jetbrains/kotlin")
-    private val expectedRepoPath = Paths.get("repo/artifacts-tests/src/test/resources/org/jetbrains/kotlin")
-
-    /**
-     * Kotlin native bundles are present in TC artifacts but should not be checked until kotlin native enabled project-wide
-     */
-    private val nativeBundles = setOf(
-        "kotlin-native",
-        "kotlin-native-compiler-embeddable",
-        "kotlin-native-prebuilt",
-    )
-
-    private val excludedProjects = setOf(
-        "android-test-fixes",
-        "annotation-processor-example",
-        "gradle-warnings-detector",
-        "kotlin-compiler-args-properties",
-        "kotlin-gradle-plugin-tcs-android",
-        "kotlin-gradle-subplugin-example",
-        "kotlin-java-example",
-        "kotlin-maven-plugin-test",
-        "org.jetbrains.kotlin.gradle-subplugin-example.gradle.plugin",
-        "org.jetbrains.kotlin.test.fixes.android.gradle.plugin",
-        "org.jetbrains.kotlin.test.gradle-warnings-detector.gradle.plugin",
-        "org.jetbrains.kotlin.test.kotlin-compiler-args-properties.gradle.plugin",
-    )
-
     @TestFactory
     fun generateArtifactTests(): Stream<DynamicTest> {
         return findActualGradleMetadata().map { actual ->
-            val expectedGradleMetadataPath = actual.toExpectedPath()
+            val expectedGradleMetadataPath = actual.toExpectedPath(fileExtension = ".module")
             DynamicTest.dynamicTest(expectedGradleMetadataPath.fileName.toString()) {
                 if ("${expectedGradleMetadataPath.parent.fileName}" !in excludedProjects) {
                     if ("${expectedGradleMetadataPath.parent.fileName}" !in nativeBundles) {
-                        val expectedMetadata = Json.decodeFromString<GradleMetadata>(expectedGradleMetadataPath.toFile().readText())
-                        val actualString = actual.toFile().readText().replace(kotlinVersion, "ArtifactsTest.version")
+                        val expectedMetadataString =
+                            expectedGradleMetadataPath.toFile().readText().replace("ArtifactsTest.version", kotlinVersion)
+                        val expectedMetadata = Json.decodeFromString<GradleMetadata>(expectedMetadataString)
+                        val actualString = actual.toFile().readText()
                         val actualMetadata = Json.decodeFromString<GradleMetadata>(actualString)
                         assertTrue(
                             expectedMetadata equalsWithoutFingerprint actualMetadata,
@@ -75,7 +48,7 @@ class GradleMetadataTest {
     @TestFactory
     fun allExpectedGradleMetadataPresentInActual(): Stream<DynamicTest> {
         val publishedGradleMetadata = findActualGradleMetadata()
-            .map { it.toExpectedPath() }
+            .map { it.toExpectedPath(fileExtension = ".module") }
             .filter { "${it.parent.fileName}" !in excludedProjects }.toSet()
 
         return findExpectedGradleMetadata().map { expected ->
@@ -101,16 +74,4 @@ class GradleMetadataTest {
             fileAttributes.isRegularFile
                     && "${path.fileName}".endsWith(".module", ignoreCase = true)
         }).asSequence()
-
-    /**
-     * convert:
-     * ${mavenLocal}/org/jetbrains/kotlin/artifact/version/artifact-version.module
-     * to:
-     * ${expectedRepository}/org/jetbrains/kotlin/artifact/artifact.module
-     */
-    private fun Path.toExpectedPath(): Path {
-        val artifactDirPath = localRepoPath.relativize(this).parent.parent
-        val expectedFileName = "${artifactDirPath.fileName}.module"
-        return expectedRepoPath.resolve(artifactDirPath.resolve(expectedFileName))
-    }
 }
