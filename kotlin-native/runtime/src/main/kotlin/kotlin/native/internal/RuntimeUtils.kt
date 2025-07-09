@@ -15,6 +15,10 @@ import kotlin.concurrent.atomics.ExperimentalAtomicApi
 import kotlinx.cinterop.*
 import kotlinx.cinterop.NativePtr
 import kotlin.native.internal.escapeAnalysis.Escapes
+import kotlin.native.internal.ref.ExternalRCRef
+import kotlin.native.internal.ref.dereferenceExternalRCRef
+import kotlin.native.internal.ref.disposeExternalRCRef
+import kotlin.native.internal.ref.releaseExternalRCRef
 
 @ExportForCppRuntime
 @PublishedApi
@@ -278,3 +282,13 @@ internal fun KonanObjectToUtf8Array(value: Any?): ByteArray {
 @TypedIntrinsic(IntrinsicType.IMMUTABLE_BLOB)
 @Escapes.Nothing
 internal external fun immutableBlobOfImpl(data: String): ImmutableBlob
+
+@InternalForKotlinNative
+@ExportForCppRuntime("Kotlin_internal_executeAndRelease")
+public fun executeAndRelease(actionRef: ExternalRCRef) {
+    @Suppress("UNCHECKED_CAST")
+    val action = dereferenceExternalRCRef(actionRef) as () -> Unit
+    releaseExternalRCRef(actionRef)
+    disposeExternalRCRef(actionRef)
+    action()
+}
