@@ -49,6 +49,10 @@ interface CustomWebCompilerSettings {
     val customCompiler: CustomWebCompiler
 }
 
+/** Returns `true` if K2 is enabled by default in the "current" compiler version (>= 2.0.0). */
+val CustomWebCompilerSettings.isK2EnabledByDefault: Boolean
+    get() = version.substringBefore('.').toInt() >= 2
+
 private fun createCustomWebCompilerSettings(
     artifactsDirPropertyName: String,
     versionPropertyName: String,
