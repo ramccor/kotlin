@@ -436,7 +436,6 @@ private val typeOperatorPhase = createFileLoweringPhase(
 private val bridgesPhase = createFileLoweringPhase(
         { context, irFile ->
             BridgesBuilding(context).runOnFilePostfix(irFile)
-            WorkersBridgesBuilding(context).lower(irFile)
         },
         name = "Bridges",
         prerequisite = setOf(coroutinesPhase)

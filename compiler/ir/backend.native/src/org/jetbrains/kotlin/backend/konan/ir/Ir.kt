@@ -486,7 +486,6 @@ class KonanSymbols(
 
     val immutableBlob = ClassIds.immutableBlob.classSymbol()
 
-    val executeImpl = CallableIds.executeImpl.functionSymbol()
     val createCleaner = CallableIds.createCleaner.functionSymbol()
 
     val areEqualByValueFunctions = CallableIds.areEqualByValue.functionSymbols()

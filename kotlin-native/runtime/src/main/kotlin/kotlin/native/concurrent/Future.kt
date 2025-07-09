@@ -37,17 +37,17 @@ public value class Future<T> @PublishedApi internal constructor(public val id: I
     public inline fun <R> consume(code: (T) -> R): R = when (state) {
             FutureState.SCHEDULED, FutureState.COMPUTED -> {
                 val value = @Suppress("UNCHECKED_CAST", "NON_PUBLIC_CALL_FROM_PUBLIC_INLINE")
-                    (consumeFuture(id) as T)
+                    (consumeFutureInternal(id) as T)
                 code(value)
             }
             FutureState.INVALID ->
                 throw IllegalStateException("Future is in an invalid state")
             FutureState.CANCELLED -> {
-                consumeFuture(id)
+                consumeFutureInternal(id)
                 throw IllegalStateException("Future is cancelled")
             }
             FutureState.THROWN -> {
-                consumeFuture(id)
+                consumeFutureInternal(id)
                 throw IllegalStateException("Job has thrown an exception")
             }
         }
