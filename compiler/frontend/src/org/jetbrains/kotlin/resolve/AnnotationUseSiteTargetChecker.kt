@@ -51,8 +51,11 @@ object AnnotationUseSiteTargetChecker {
         checkAsTopLevelTypeReference(topLevelTypeReference, languageVersionSettings, isReceiver)
 
         topLevelTypeReference.acceptChildren(
-            typeReferenceRecursiveVisitor { typeReference ->
-                checkAsTopLevelTypeReference(typeReference, languageVersionSettings, isReceiver = false)
+            object : KtTreeVisitorVoid() {
+                override fun visitTypeReference(typeReference: KtTypeReference) {
+                    super.visitTypeReference(typeReference)
+                    checkAsTopLevelTypeReference(typeReference, languageVersionSettings, isReceiver = false)
+                }
             }
         )
     }

@@ -38,16 +38,20 @@ private class KotlinStandaloneAnnotationsResolver(
     private val allDeclarations: List<KtDeclaration> by lazy {
         val result = mutableListOf<KtDeclaration>()
 
-        val visitor = declarationRecursiveVisitor visit@{
-            val isLocal = when (it) {
-                is KtClassOrObject -> it.isLocal
-                is KtFunction -> it.isLocal
-                is KtProperty -> it.isLocal
-                else -> return@visit
-            }
+        val visitor = object : KtTreeVisitorVoid() {
+            override fun visitDeclaration(dcl: KtDeclaration) {
+                super.visitDeclaration(dcl)
 
-            if (!isLocal) {
-                result += it
+                val isLocal = when (dcl) {
+                    is KtClassOrObject -> dcl.isLocal
+                    is KtFunction -> dcl.isLocal
+                    is KtProperty -> dcl.isLocal
+                    else -> return
+                }
+
+                if (!isLocal) {
+                    result += dcl
+                }
             }
         }
 
