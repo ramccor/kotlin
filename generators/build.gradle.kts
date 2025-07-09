@@ -80,7 +80,7 @@ dependencies {
     testApi(testFixtures(project(":plugins:scripting:scripting-tests")))
     testImplementation(commonDependency("org.jetbrains.kotlin:kotlin-reflect")) { isTransitive = false }
     testImplementation(projectTests(":compiler:test-infrastructure-utils"))
-    testImplementation(projectTests(":compiler:test-infrastructure"))
+    testImplementation(testFixtures(project(":compiler:test-infrastructure")))
     testImplementation(testFixtures(project(":compiler:tests-common-new")))
     testImplementation(testFixtures(project(":js:js.tests")))
     testImplementation(project(":kotlin-gradle-compiler-types"))
