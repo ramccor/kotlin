@@ -1,5 +1,5 @@
 /*
- * Copyright 2010-2022 JetBrains s.r.o. and Kotlin Programming Language contributors.
+ * Copyright 2010-2025 JetBrains s.r.o. and Kotlin Programming Language contributors.
  * Use of this source code is governed by the Apache 2.0 license that can be found in the license/LICENSE.txt file.
  */
 
@@ -59,10 +59,10 @@ class ValueWithPostComputeTest {
             }
         )
 
-        val pceOnFirstAccess = kotlin.runCatching { valueWithPostCompute.getValue() }.exceptionOrNull()
+        val pceOnFirstAccess = runCatching { valueWithPostCompute.getValue() }.exceptionOrNull()
         Assertions.assertInstanceOf(ProcessCanceledException::class.java, pceOnFirstAccess)
 
-        val pceOnSecondAccess = kotlin.runCatching { valueWithPostCompute.getValue() }.exceptionOrNull()
+        val pceOnSecondAccess = runCatching { valueWithPostCompute.getValue() }.exceptionOrNull()
         Assertions.assertInstanceOf(ProcessCanceledException::class.java, pceOnSecondAccess)
 
         Assertions.assertNotEquals(pceOnFirstAccess, pceOnSecondAccess, "different PCE should be thrown on every access")
