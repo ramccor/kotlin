@@ -1,5 +1,5 @@
 /*
- * Copyright 2010-2024 JetBrains s.r.o. and Kotlin Programming Language contributors.
+ * Copyright 2010-2025 JetBrains s.r.o. and Kotlin Programming Language contributors.
  * Use of this source code is governed by the Apache 2.0 license that can be found in the license/LICENSE.txt file.
  */
 
@@ -8,8 +8,12 @@ package org.jetbrains.kotlin.test
 import org.jetbrains.kotlin.fir.FirSession
 import org.jetbrains.kotlin.fir.declarations.FirResolvePhase
 import org.jetbrains.kotlin.fir.symbols.lazyDeclarationResolver
-import org.jetbrains.kotlin.fir.types.*
+import org.jetbrains.kotlin.fir.types.ConeIntegerLiteralConstantType
+import org.jetbrains.kotlin.fir.types.ConeIntegerLiteralConstantTypeImpl
+import org.jetbrains.kotlin.fir.types.ConeIntersectionType
 import org.jetbrains.kotlin.fir.types.impl.ConeClassLikeTypeImpl
+import org.jetbrains.kotlin.fir.types.toLookupTag
+import org.jetbrains.kotlin.fir.types.typeApproximator
 import org.jetbrains.kotlin.name.StandardClassIds
 import org.jetbrains.kotlin.test.builders.testRunner
 import org.jetbrains.kotlin.test.frontend.fir.handlers.FirCompilerLazyDeclarationResolverWithPhaseChecking
@@ -18,10 +22,8 @@ import org.jetbrains.kotlin.test.runners.AbstractFirPsiDiagnosticTest
 import org.jetbrains.kotlin.test.services.artifactsProvider
 import org.jetbrains.kotlin.test.services.moduleStructure
 import org.jetbrains.kotlin.types.TypeApproximatorConfiguration
-import org.junit.jupiter.api.Assertions.assertNotNull
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
-
 
 class FirApproximationTest : AbstractFirPsiDiagnosticTest() {
     private val emptyFilePath = "compiler/fir/analysis-tests/testData/dummy/empty.kt"
@@ -31,7 +33,7 @@ class FirApproximationTest : AbstractFirPsiDiagnosticTest() {
         runWithSession { session ->
             val intersectionType = ConeIntersectionType(
                 listOf(
-                    ConeIntegerLiteralConstantTypeImpl.create(1, false, { true }),
+                    ConeIntegerLiteralConstantTypeImpl.Companion.create(1, false, { true }),
                     ConeClassLikeTypeImpl(StandardClassIds.CharSequence.toLookupTag(), arrayOf(), false)
                 ),
                 ConeClassLikeTypeImpl(StandardClassIds.Number.toLookupTag(), emptyArray(), false)
@@ -42,8 +44,8 @@ class FirApproximationTest : AbstractFirPsiDiagnosticTest() {
                 TypeApproximatorConfiguration.IntegerLiteralsTypesApproximation
             ) as ConeIntersectionType
 
-            assertTrue(approximatedType.intersectedTypes.none { it is ConeIntegerLiteralConstantType })
-            assertNotNull(approximatedType.upperBoundForApproximation)
+            Assertions.assertTrue(approximatedType.intersectedTypes.none { it is ConeIntegerLiteralConstantType })
+            Assertions.assertNotNull(approximatedType.upperBoundForApproximation)
         }
     }
 
