@@ -9,21 +9,16 @@ import org.jetbrains.kotlin.test.services.JUnit5Assertions.assertEqualsToFile
 import org.jetbrains.kotlin.test.services.JUnit5Assertions.isTeamCityBuild
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.TestFactory
-import java.nio.file.Files
-import java.nio.file.Path
-import java.nio.file.Paths
-import java.nio.file.attribute.BasicFileAttributes
 import java.util.stream.Stream
-import kotlin.streams.asSequence
 import kotlin.streams.asStream
 import kotlin.test.assertTrue
 import kotlin.test.fail
 
-class ArtifactsTest {
+class MavenMetadataTest {
     @TestFactory
-    fun generateArtifactTests(): Stream<DynamicTest> {
-        return findActualPoms().map { actual ->
-            val expectedPomPath = actual.toExpectedPath(fileExtension = ".pom")
+    fun generateMavenMetadataTests(): Stream<DynamicTest> {
+        return findActualArtifacts(".pom").map { actual ->
+            val expectedPomPath = actual.toExpectedPath()
             DynamicTest.dynamicTest(expectedPomPath.fileName.toString()) {
                 if ("${expectedPomPath.parent.fileName}" !in excludedProjects) {
                     if ("${expectedPomPath.parent.fileName}" !in nativeBundles) {
@@ -42,31 +37,14 @@ class ArtifactsTest {
 
     @TestFactory
     fun allExpectedPomsPresentInActual(): Stream<DynamicTest> {
-        val publishedPoms = findActualPoms()
-            .map { it.toExpectedPath(fileExtension = ".pom") }
+        val publishedPoms = findActualArtifacts(".pom")
+            .map { it.toExpectedPath() }
             .filter { "${it.parent.fileName}" !in excludedProjects }.toSet()
 
-        return findExpectedPoms().map { expected ->
+        return findExpectedArtifacts(".pom").map { expected ->
             DynamicTest.dynamicTest(expected.fileName.toString()) {
                 assertTrue(expected in publishedPoms, "Missing actual pom for expected pom: $expected")
             }
         }.asStream()
     }
-
-    private fun findActualPoms() = Files.find(
-        localRepoPath,
-        Integer.MAX_VALUE,
-        { path: Path, fileAttributes: BasicFileAttributes ->
-            fileAttributes.isRegularFile
-                    && "${path.fileName}".endsWith(".pom", ignoreCase = true)
-                    && path.contains(Paths.get(kotlinVersion))
-        }).asSequence()
-
-    private fun findExpectedPoms() = Files.find(
-        expectedRepoPath,
-        Integer.MAX_VALUE,
-        { path: Path, fileAttributes: BasicFileAttributes ->
-            fileAttributes.isRegularFile
-                    && "${path.fileName}".endsWith(".pom", ignoreCase = true)
-        }).asSequence()
 }

@@ -5,9 +5,12 @@
 
 package org.jetbrains.kotlin.code
 
+import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
-import kotlin.io.path.relativeTo
+import java.nio.file.attribute.BasicFileAttributes
+import kotlin.io.path.extension
+import kotlin.streams.asSequence
 
 val kotlinVersion: String = System.getProperty("kotlin.version")
 val mavenLocal: String = System.getProperty("maven.repo.local")
@@ -40,12 +43,31 @@ val excludedProjects = setOf(
 
 /**
  * convert:
- * ${mavenLocal}/org/jetbrains/kotlin/artifact/version/artifact-version${extension}
+ * ${mavenLocal}/org/jetbrains/kotlin/artifact/version/artifact-version.ext
  * to:
- * ${expectedRepository}/org/jetbrains/kotlin/artifact/artifact${extension}
+ * ${expectedRepository}/org/jetbrains/kotlin/artifact/artifact.ext
  */
-fun Path.toExpectedPath(fileExtension: String): Path {
+fun Path.toExpectedPath(): Path {
+    val fileExtension = this.fileName.extension
     val artifactDirPath = localRepoPath.relativize(this).parent.parent
-    val expectedFileName = "${artifactDirPath.fileName}$fileExtension"
+    val expectedFileName = "${artifactDirPath.fileName}.$fileExtension"
     return expectedRepoPath.resolve(artifactDirPath.resolve(expectedFileName))
 }
+
+fun findActualArtifacts(extension: String) = Files.find(
+    localRepoPath,
+    Integer.MAX_VALUE,
+    { path: Path, fileAttributes: BasicFileAttributes ->
+        fileAttributes.isRegularFile
+                && "${path.fileName}".endsWith(extension, ignoreCase = true)
+                && path.contains(Paths.get(kotlinVersion))
+    }).asSequence()
+
+fun findExpectedArtifacts(extension: String) = Files.find(
+    expectedRepoPath,
+    Integer.MAX_VALUE,
+    { path: Path, fileAttributes: BasicFileAttributes ->
+        fileAttributes.isRegularFile
+                && "${path.fileName}".endsWith(extension, ignoreCase = true)
+    }).asSequence()
+
