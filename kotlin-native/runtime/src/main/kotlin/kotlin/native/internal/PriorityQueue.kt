@@ -1,9 +1,6 @@
 package kotlin.native.internal
 
-internal class PriorityQueue<T>(
-        initialCapacity: Int,
-        private val comparator: Comparator<T>
-) : AbstractMutableCollection<T>() {
+internal class PriorityQueue<T>(initialCapacity: Int, private val comparator: Comparator<T>) {
 
     constructor(comparator: Comparator<T>) : this(DEFAULT_INITIAL_CAPACITY, comparator)
 
@@ -21,29 +18,19 @@ internal class PriorityQueue<T>(
 
     private var modCount: Int = 0
 
-    override val size: Int
+    val unorderedElements: List<T>
+        get() = elements.toList()
+
+    val size: Int
         get() = elements.size
 
-    override fun iterator(): MutableIterator<T> {
-        var expectedModCount = modCount
-        val ordered = ArrayList(elements).also { it.sortWith(comparator) }
-        return object : MutableIterator<T> {
-            private var nextIndex = 0
-            override fun hasNext(): Boolean = nextIndex < ordered.size
-            override fun next(): T {
-                if (modCount != expectedModCount) throw ConcurrentModificationException()
-                return ordered[nextIndex++]
-            }
+    fun isEmpty(): Boolean = elements.isEmpty()
 
-            override fun remove() {
-                if (modCount != expectedModCount) throw ConcurrentModificationException()
-                this@PriorityQueue.removeAt(nextIndex - 1)
-                expectedModCount = modCount
-            }
-        }
-    }
+    fun contains(element: T): Boolean = elements.contains(element)
 
-    override fun add(element: T): Boolean {
+    fun containsAll(elements: Collection<T>): Boolean = this.elements.containsAll(elements)
+
+    fun add(element: T): Boolean {
         modCount++
         elements.add(element)
         siftUp(elements.size - 1)
@@ -65,19 +52,17 @@ internal class PriorityQueue<T>(
 
     fun removeFirst(): T = removeFirstOrNull() ?: throw NoSuchElementException("PriorityQueue is empty")
 
-    override fun clear() {
+    fun clear() {
         modCount++
         elements.clear()
     }
 
-    override fun remove(element: T): Boolean {
+    fun remove(element: T): Boolean {
         val index = elements.indexOf(element)
         if (index == -1) return false
         removeAt(index)
         return true
     }
-
-    // FIXME we can do better for removeAll/retainAll
 
     private fun removeAt(index: Int): T {
         modCount++
