@@ -31,6 +31,22 @@ public class SirTypeProviderImpl(
     override val errorTypeStrategy: ErrorTypeStrategy,
     override val unsupportedTypeStrategy: ErrorTypeStrategy,
 ) : SirTypeProvider {
+    private enum class SirTypeVariance {
+        /** Covariant position - type appears as output (return types, out generics) */
+        COVARIANT,
+
+        /** Contravariant position - type appears as input (parameters, in generics) */
+        CONTRAVARIANT,
+
+        /** Invariant position - type appears in both input and output (mutable properties) */
+        INVARIANT;
+
+        fun flip(): SirTypeVariance = when (this) {
+            COVARIANT -> CONTRAVARIANT
+            CONTRAVARIANT -> COVARIANT
+            INVARIANT -> INVARIANT
+        }
+    }
 
     private class SirVarianceContext(private val previousCtx: SirVarianceContext? = null) {
         fun varianceForPosition(position: TypePosition): SirTypeVariance =
