@@ -7,7 +7,8 @@ package test.native.concurrent
 
 import kotlin.concurrent.AtomicLong
 import kotlin.concurrent.atomics.*
-import kotlin.native.concurrent.*
+import kotlin.native.internal.concurrent.currentThreadId
+import kotlin.native.internal.concurrent.startThread
 import kotlin.test.*
 
 @OptIn(ExperimentalAtomicApi::class)

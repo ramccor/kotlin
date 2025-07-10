@@ -283,9 +283,8 @@ internal fun KonanObjectToUtf8Array(value: Any?): ByteArray {
 @Escapes.Nothing
 internal external fun immutableBlobOfImpl(data: String): ImmutableBlob
 
-@InternalForKotlinNative
 @ExportForCppRuntime("Kotlin_internal_executeAndRelease")
-public fun executeAndRelease(actionRef: ExternalRCRef) {
+internal fun executeAndRelease(actionRef: ExternalRCRef) {
     @Suppress("UNCHECKED_CAST")
     val action = dereferenceExternalRCRef(actionRef) as () -> Unit
     releaseExternalRCRef(actionRef)

@@ -11,6 +11,7 @@ import kotlin.native.concurrent.*
 import kotlin.test.*
 import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.cinterop.ExperimentalForeignApi
+import kotlin.native.internal.concurrent.startThread
 import kotlin.time.TimeSource
 
 @OptIn(ExperimentalForeignApi::class, ExperimentalAtomicApi::class)
@@ -28,7 +29,8 @@ class MonitorTest {
 
         repeat(numThreads) {
             startThread {
-                while (!ready.load()) {}
+                while (!ready.load()) {
+                }
                 synchronized(monitor) {
                     visitorCounter.incrementAndGet()
                     assertEquals(1, visitorCounter.value)
@@ -100,7 +102,8 @@ class MonitorTest {
 
         repeat(numThreads) {
             startThread {
-                while (!ready.load()) {}
+                while (!ready.load()) {
+                }
                 synchronized(monitor) {
                     while (!release) wait()
                 }

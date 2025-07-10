@@ -21,9 +21,7 @@ void Kotlin_internal_executeAndRelease(mm::RawExternalRCRef* action);
 void Kotlin_native_concurrent_startThreadImpl(mm::RawExternalRCRef* routine) {
     kotlin::ThreadStateGuard guard(ThreadState::kNative);
     std::thread thread{[routine]() {
-        Kotlin_initRuntimeIfNeeded();
-
-        kotlin::ThreadStateGuard guard(ThreadState::kRunnable);
+        kotlin::CalledFromNativeGuard guard;
         Kotlin_internal_executeAndRelease(routine);
     }};
     thread.detach();
