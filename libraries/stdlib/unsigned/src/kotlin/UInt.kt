@@ -269,7 +269,6 @@ public value class UInt @kotlin.internal.IntrinsicConstEvaluation @PublishedApi 
 
     /** Creates a range from this value to the specified [other] value. */
     @kotlin.internal.InlineOnly
-    @kotlin.internal.IntrinsicConstEvaluation
     public inline operator fun rangeTo(other: UInt): UIntRange = UIntRange(this, other)
 
     /**
@@ -280,7 +279,6 @@ public value class UInt @kotlin.internal.IntrinsicConstEvaluation @PublishedApi 
     @SinceKotlin("1.9")
     @WasExperimental(ExperimentalStdlibApi::class)
     @kotlin.internal.InlineOnly
-    @kotlin.internal.IntrinsicConstEvaluation
     public inline operator fun rangeUntil(other: UInt): UIntRange = this until other
 
     /**
