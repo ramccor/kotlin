@@ -1,19 +1,19 @@
 package kotlin.native.internal
 
-public class PriorityQueue<T>(
+internal class PriorityQueue<T>(
         initialCapacity: Int,
         private val comparator: Comparator<T>
 ) : AbstractMutableCollection<T>() {
 
-    public constructor(comparator: Comparator<T>) : this(DEFAULT_INITIAL_CAPACITY, comparator)
+    constructor(comparator: Comparator<T>) : this(DEFAULT_INITIAL_CAPACITY, comparator)
 
-    public companion object {
+    companion object {
         private const val DEFAULT_INITIAL_CAPACITY = 11
 
-        public fun <T : Comparable<T>> minimal(initialCapacity: Int = DEFAULT_INITIAL_CAPACITY): PriorityQueue<T> =
+        fun <T : Comparable<T>> minimal(initialCapacity: Int = DEFAULT_INITIAL_CAPACITY): PriorityQueue<T> =
                 PriorityQueue(initialCapacity) { a, b -> a.compareTo(b) }
 
-        public fun <T : Comparable<T>> maximal(initialCapacity: Int = DEFAULT_INITIAL_CAPACITY): PriorityQueue<T> =
+        fun <T : Comparable<T>> maximal(initialCapacity: Int = DEFAULT_INITIAL_CAPACITY): PriorityQueue<T> =
                 PriorityQueue(initialCapacity) { a, b -> b.compareTo(a) }
     }
 
@@ -44,27 +44,29 @@ public class PriorityQueue<T>(
     }
 
     override fun add(element: T): Boolean {
+        modCount++
         elements.add(element)
         siftUp(elements.size - 1)
         return true
     }
 
-    public fun firstOrNull(): T? {
+    fun firstOrNull(): T? {
         return if (isEmpty()) null else elements[0]
     }
 
-    public fun first(): T {
+    fun first(): T {
         return firstOrNull() ?: throw NoSuchElementException("PriorityQueue is empty")
     }
 
-    public fun removeFirstOrNull(): T? {
+    fun removeFirstOrNull(): T? {
         if (isEmpty()) return null
         return removeAt(0)
     }
 
-    public fun removeFirst(): T = removeFirstOrNull() ?: throw NoSuchElementException("PriorityQueue is empty")
+    fun removeFirst(): T = removeFirstOrNull() ?: throw NoSuchElementException("PriorityQueue is empty")
 
     override fun clear() {
+        modCount++
         elements.clear()
     }
 
@@ -78,6 +80,7 @@ public class PriorityQueue<T>(
     // FIXME we can do better for removeAll/retainAll
 
     private fun removeAt(index: Int): T {
+        modCount++
         val removedElement = elements[index]
         if (index == elements.size - 1) {
             elements.removeAt(index)
