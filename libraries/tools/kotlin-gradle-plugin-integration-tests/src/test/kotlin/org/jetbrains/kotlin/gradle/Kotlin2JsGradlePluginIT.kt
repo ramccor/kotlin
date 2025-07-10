@@ -1564,7 +1564,7 @@ class Kotlin2JsIrGradlePluginIT : KGPBaseTest() {
                 }
             }
             buildAndFail("jsNodeDevelopmentRun") {
-                assertOutputContains("The platform API is unavailable without the new transpilation pipeline, please put `kotlin.js.new.transpilation.pipeline=true` in the `gradle.properties` file")
+                assertOutputContains("The platform API is unavailable without the new transpilation pipeline, please put `kotlin.js.delegated.transpilation=true` in the `gradle.properties` file")
             }
         }
     }
@@ -1573,7 +1573,7 @@ class Kotlin2JsIrGradlePluginIT : KGPBaseTest() {
     @GradleTest
     fun testTargetPlatformsIsFinishedSuccessfullyWithNewTranspilationPipeline(gradleVersion: GradleVersion) {
         project("kmp-js-nodejs-project", gradleVersion) {
-            gradleProperties.appendText("kotlin.js.new.transpilation.pipeline=true")
+            gradleProperties.appendText("kotlin.js.delegated.transpilation=true")
             buildScriptInjection {
                 kotlinMultiplatform.js {
                     @OptIn(ExperimentalDeclarativePlatformRestrictionDsl::class)
