@@ -1,8 +1,3 @@
-/*
- * Copyright 2010-2025 JetBrains s.r.o. and Kotlin Programming Language contributors.
- * Use of this source code is governed by the Apache 2.0 license that can be found in the license/LICENSE.txt file.
- */
-
 package org.jetbrains.kotlin.code
 
 import kotlinx.serialization.Serializable
@@ -15,22 +10,27 @@ data class GradleMetadata(
     val createdBy: CreatedBy,
     val variants: List<Variant>,
 ) {
-    /**
-     * Compares two GradleMetadata objects, ignoring file fingerprint details (size, hashes).
-     *
-     * @param other The other GradleMetadata object to compare with.
-     * @return True if the content is equal, ignoring specified fields, false otherwise.
-     */
-    infix fun equalsWithoutFingerprint(other: GradleMetadata): Boolean { // Renamed
+    infix fun equalsWithoutFingerprint(other: GradleMetadata): Boolean {
         if (this === other) return true
 
-        if (formatVersion != other.formatVersion) return false
-        if (component != other.component) return false
-        if (createdBy != other.createdBy) return false
+        if (formatVersion != other.formatVersion) {
+            throw IllegalArgumentException("formatVersion mismatch: expected '${other.formatVersion}', actual '${this.formatVersion}'")
+            return false
+        }
+        if (component != other.component) {
+            throw IllegalArgumentException("component mismatch: expected '${other.component}', actual '${this.component}'")
+            return false
+        }
+        if (createdBy != other.createdBy) {
+            throw IllegalArgumentException("createdBy mismatch: expected '${other.createdBy}', actual '${this.createdBy}'")
+            return false
+        }
 
         return this.variants.equalAsSets(
             other.variants,
-            equals = { a, b -> a equalsWithoutFingerprint b })
+            fieldName = "variants",
+            equals = { a, b -> a equalsWithoutFingerprint b }
+        )
     }
 }
 
@@ -72,21 +72,30 @@ data class Variant(
     val files: List<File>? = null,
     val capabilities: List<Capability>? = null,
 ) : Comparable<Variant> {
-    infix fun equalsWithoutFingerprint(other: Variant): Boolean { // Renamed
+    infix fun equalsWithoutFingerprint(other: Variant): Boolean {
         if (this === other) return true
 
-        if (name != other.name) return false
-        if (attributes != other.attributes) return false
-        if (availableAt != other.availableAt) return false
-
-        if (!this.dependencies.equalAsSets(other.dependencies)) return false
-        if (!this.dependencyConstraints.equalAsSets(other.dependencyConstraints)) return false
-
-        if (!this.files.equalAsSets(other.files, equals = { a, b -> a equalsWithoutFingerprint b })) {
+        if (name != other.name) {
+            throw IllegalArgumentException("Variant.name mismatch: expected '${other.name}', actual '${this.name}'")
+            return false
+        }
+        if (attributes != other.attributes) {
+            throw IllegalArgumentException("Variant.attributes mismatch: expected '${other.attributes}', actual '${this.attributes}'")
+            return false
+        }
+        if (availableAt != other.availableAt) {
+            throw IllegalArgumentException("Variant.availableAt mismatch: expected '${other.availableAt}', actual '${this.availableAt}'")
             return false
         }
 
-        if (!this.capabilities.equalAsSets(other.capabilities)) {
+        if (!this.dependencies.equalAsSets(other.dependencies, fieldName = "Variant.dependencies")) return false
+        if (!this.dependencyConstraints.equalAsSets(other.dependencyConstraints, fieldName = "Variant.dependencyConstraints")) return false
+
+        if (!this.files.equalAsSets(other.files, fieldName = "Variant.files", equals = { a, b -> a equalsWithoutFingerprint b })) {
+            return false
+        }
+
+        if (!this.capabilities.equalAsSets(other.capabilities, fieldName = "Variant.capabilities")) {
             return false
         }
 
@@ -168,8 +177,14 @@ data class File(
     infix fun equalsWithoutFingerprint(other: File): Boolean {
         if (this === other) return true
 
-        if (name != other.name) return false
-        if (url != other.url) return false
+        if (name != other.name) {
+            throw IllegalArgumentException("File.name mismatch: expected '${other.name}', actual '${this.name}'")
+            return false
+        }
+        if (url != other.url) {
+            throw IllegalArgumentException("File.url mismatch: expected '${other.url}', actual '${this.url}'")
+            return false
+        }
         return true
     }
 
@@ -189,29 +204,33 @@ data class Capability(
     }
 }
 
-/**
- * Compares two lists as if they were sets, meaning the order of elements does not matter.
- * Elements are compared using the provided [equals] function.
- * The lists are sorted using [sortedWith] before comparison to ensure consistent order.
- *
- * @param other The other list to compare with.
- * @param equals A lambda function to compare two elements of type [T].
- * @return True if the lists contain the same elements, regardless of order, false otherwise.
- */
 private fun <T : Comparable<T>> List<T>?.equalAsSets(
     other: List<T>?,
+    fieldName: String,
     equals: (T, T) -> Boolean = { a, b -> a == b },
 ): Boolean {
     if (this === other) return true
-    if (this == null || other == null) return false
+    if (this == null || other == null) {
+        throw IllegalArgumentException("$fieldName mismatch: one list is null, the other is not. Expected '${other}', actual '${this}'")
+        return false
+    }
 
-    if (this.size != other.size) return false
+    if (this.size != other.size) {
+        throw IllegalArgumentException("$fieldName size mismatch: expected ${other.size} elements, actual ${this.size} elements.")
+        return false
+    }
 
     val sortedThis = this.sorted()
     val sortedOther = other.sorted()
 
     for (i in sortedThis.indices) {
-        if (!equals(sortedThis[i], sortedOther[i])) {
+        try {
+            if (!equals(sortedThis[i], sortedOther[i])) {
+                throw IllegalArgumentException("$fieldName element mismatch at index $i: expected '${sortedOther[i]}', actual '${sortedThis[i]}'")
+                return false
+            }
+        } catch (e: IllegalArgumentException) {
+            throw IllegalArgumentException("Error in $fieldName at element index $i: ${e.message}", e)
             return false
         }
     }
