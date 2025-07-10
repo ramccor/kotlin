@@ -327,7 +327,7 @@ class ModuleStructureExtractorImpl(
                 TestFile(
                     relativePath = filename,
                     originalContent = fileContent,
-                    originalFile = currentTestDataFile,
+                    originalPath = currentTestDataFile.toPath(),
                     startLineNumberInOriginalFile = endLineNumberOfLastFile,
                     isAdditional = false,
                     directives = directives ?: RegisteredDirectives.Empty

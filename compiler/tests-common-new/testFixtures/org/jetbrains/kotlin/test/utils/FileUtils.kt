@@ -7,6 +7,8 @@ package org.jetbrains.kotlin.test.utils
 
 import org.jetbrains.kotlin.test.directives.model.Directive
 import java.io.File
+import java.nio.file.Path
+import kotlin.io.path.nameWithoutExtension
 
 fun File.withExtension(extension: String): File {
     return withSuffixAndExtension(suffix = "", extension)
@@ -36,4 +38,14 @@ fun File.removeDirectiveFromFile(directive: Directive) {
         ?: error("Directive $directiveName was not found in $this")
     val textWithoutDirective = text.removeRange(directiveRange)
     writeText(textWithoutDirective)
+}
+
+fun Path.withExtension(extension: String): Path {
+    return withSuffixAndExtension(suffix = "", extension)
+}
+
+fun Path.withSuffixAndExtension(suffix: String, extension: String): Path {
+    @Suppress("NAME_SHADOWING")
+    val extension = extension.removePrefix(".")
+    return parent.resolve("$nameWithoutExtension$suffix.$extension")
 }

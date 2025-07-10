@@ -7,7 +7,12 @@ package org.jetbrains.kotlin.test.model
 
 import org.jetbrains.kotlin.config.LanguageVersionSettings
 import org.jetbrains.kotlin.test.directives.model.RegisteredDirectives
-import java.io.File
+import java.net.URI
+import java.nio.file.FileSystemAlreadyExistsException
+import java.nio.file.FileSystemNotFoundException
+import java.nio.file.FileSystems
+import java.nio.file.Path
+import java.nio.file.Paths
 
 data class TestModule(
     val name: String,
@@ -42,7 +47,7 @@ data class TestModule(
 class TestFile(
     val relativePath: String,
     val originalContent: String,
-    val originalFile: File,
+    val originalPath: Path,
     val startLineNumberInOriginalFile: Int, // line count starts with 0
     /*
      * isAdditional means that this file provided as addition to sources of testdata
@@ -58,7 +63,7 @@ class TestFile(
     fun copy(): TestFile = TestFile(
         relativePath,
         originalContent,
-        originalFile,
+        originalPath,
         startLineNumberInOriginalFile,
         isAdditional,
         directives
@@ -67,6 +72,23 @@ class TestFile(
 
 val TestFile.nameWithoutExtension: String
     get() = name.substringBeforeLast(".")
+
+fun ClassLoader.getResourceAsPath(directory: String): Path {
+    return getResource(directory)!!.toURI().toResourcePath()
+}
+
+fun URI.toResourcePath(): Path {
+    return try {
+        Paths.get(this)
+    } catch (_: FileSystemNotFoundException) {
+        try {
+            val env = emptyMap<String, Any?>()
+            FileSystems.newFileSystem(this, env)
+        } catch (_: FileSystemAlreadyExistsException) {
+        }
+        Paths.get(this)
+    }
+}
 
 /**
  * This enum represents the relation between the module and its dependency (assume that B depends on A)

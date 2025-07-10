@@ -71,7 +71,7 @@ open class FirTestDataConsistencyHandler(testServices: TestServices) : AfterAnal
 
     private fun File.preprocessSource(): String {
         val content = testServices.sourceFileProvider.getContentOfSourceFile(
-            TestFile(path, readText().trim(), this, 0, isAdditional = false, RegisteredDirectives.Empty)
+            TestFile(path, readText().trim(), this.toPath(), 0, isAdditional = false, RegisteredDirectives.Empty)
         )
         // Note: convertLineSeparators() does not work on Windows properly (\r\n are left intact for some reason)
         if (System.lineSeparator() != "\n") {

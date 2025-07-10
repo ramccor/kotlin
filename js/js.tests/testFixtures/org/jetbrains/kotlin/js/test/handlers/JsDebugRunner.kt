@@ -31,6 +31,7 @@ import java.net.URI
 import java.net.URISyntaxException
 import java.util.logging.Level
 import java.util.logging.Logger
+import kotlin.io.path.Path
 
 /**
  * This class is an analogue of the [DebugRunner][org.jetbrains.kotlin.test.backend.handlers.DebugRunner] from JVM stepping tests.
@@ -94,7 +95,7 @@ class JsDebugRunner(testServices: TestServices, private val localVariables: Bool
         sourceMap: SourceMap,
         mainModule: TestModule,
     ) {
-        val originalFile = mainModule.files.first { !it.isAdditional }.originalFile
+        val originalFile = mainModule.files.first { !it.isAdditional }.originalPath
         val debuggerFacade = NodeJsDebuggerFacade(jsFilePath, localVariables)
 
         val jsFile = File(jsFilePath)
@@ -179,10 +180,10 @@ class JsDebugRunner(testServices: TestServices, private val localVariables: Bool
      * This function maps a location in the original test file to the name specified in a `// FILE:` comment.
      */
     private fun testFileNameFromMappedLocation(originalFilePath: String, originalFileLineNumber: Int): String? {
-        val originalFile = File(originalFilePath)
+        val originalFile = Path(originalFilePath)
         return testServices.moduleStructure.modules.asSequence().flatMap { module -> module.files.asSequence().filter { !it.isAdditional } }
             .findLast {
-                it.originalFile.absolutePath == originalFile.absolutePath && it.startLineNumberInOriginalFile <= originalFileLineNumber
+                it.originalPath.toAbsolutePath() == originalFile.toAbsolutePath() && it.startLineNumberInOriginalFile <= originalFileLineNumber
             }?.name
     }
 }

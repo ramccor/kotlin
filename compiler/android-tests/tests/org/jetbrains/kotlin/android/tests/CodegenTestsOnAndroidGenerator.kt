@@ -419,7 +419,7 @@ class CodegenTestsOnAndroidGenerator private constructor(private val pathManager
         useDirectives(*AbstractKotlinCompilerTest.defaultDirectiveContainers.toTypedArray())
         class AndroidTransformingPreprocessor(testServices: TestServices) : SourceFilePreprocessor(testServices) {
             override fun process(file: TestFile, content: String): String {
-                val transformers = Android.forAll + (Android.forSpecificFile[file.originalFile]?.let { listOf(it) } ?: emptyList())
+                val transformers = Android.forAll + (Android.forSpecificFile[file.originalPath]?.let { listOf(it) } ?: emptyList())
                 return transformers.fold(content) { text, transformer -> transformer(text) }
             }
         }

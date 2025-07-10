@@ -28,7 +28,7 @@ class KaptAnnotationProcessingHandler(testServices: TestServices) : BaseKaptHand
         val stubJavaFiles = kaptContext.options.sourcesOutputDir.walkTopDown().filter { it.isFile && it.extension == "java" }
         val actualRaw = stubJavaFiles.sortedBy { it.name }.joinToString(FILE_SEPARATOR) { it.name + ":\n\n" + it.readText() }
         val actual = StringUtil.convertLineSeparators(actualRaw.trim { it <= ' ' }).trimTrailingWhitespacesAndAddNewlineAtEOF()
-        val expectedFile = module.files.first().originalFile.withExtension(".txt")
+        val expectedFile = module.files.first().originalPath.withExtension(".txt")
         assertions.assertEqualsToFile(expectedFile, actual)
     }
 

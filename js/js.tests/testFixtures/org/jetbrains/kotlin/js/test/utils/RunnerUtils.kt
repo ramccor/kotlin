@@ -32,6 +32,7 @@ import org.jetbrains.kotlin.test.services.configuration.JsEnvironmentConfigurato
 import org.jetbrains.kotlin.utils.DFS.topologicalOrder
 import org.jetbrains.kotlin.utils.filterIsInstanceAnd
 import java.io.File
+import kotlin.io.path.pathString
 
 const val MODULE_EMULATION_FILE = "${JsEnvironmentConfigurator.TEST_DATA_DIR_PATH}/moduleEmulation.js"
 
@@ -147,7 +148,7 @@ fun getAllFilesForRunner(
 ): Map<TranslationMode, List<String>> {
     val originalFile = testServices.moduleStructure.originalTestDataFiles.first()
 
-    val commonFiles = JsAdditionalSourceProvider.getAdditionalJsFiles(originalFile.parent).map { it.absolutePath }
+    val commonFiles = JsAdditionalSourceProvider.getAdditionalJsFiles(originalFile.toPath().parent).map { it.toAbsolutePath().pathString }
 
     if (modulesToArtifact.values.any { it is BinaryArtifacts.Js.JsIrArtifact }) {
         // JS IR

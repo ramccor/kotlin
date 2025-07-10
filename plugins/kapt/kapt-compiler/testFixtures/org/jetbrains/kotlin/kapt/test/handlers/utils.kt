@@ -18,7 +18,7 @@ import kotlin.metadata.*
 import kotlin.metadata.jvm.KotlinClassMetadata
 
 fun Assertions.checkTxtAccordingToBackend(module: TestModule, actual: String, fileSuffix: String = "") {
-    val testDataFile = module.files.first().originalFile
+    val testDataFile = module.files.first().originalPath
     val expectedFile = testDataFile.withExtension("$fileSuffix.txt")
     assertEqualsToFile(expectedFile, actual)
 }

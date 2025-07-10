@@ -64,7 +64,7 @@ abstract class AbstractFirIdenticalChecker(testServices: TestServices) : AfterAn
             TestFile(
                 baseFile.path,
                 baseContent,
-                baseFile,
+                baseFile.toPath(),
                 startLineNumberInOriginalFile = 0,
                 isAdditional = false,
                 RegisteredDirectives.Empty,
@@ -74,7 +74,7 @@ abstract class AbstractFirIdenticalChecker(testServices: TestServices) : AfterAn
             TestFile(
                 customFile.path,
                 customContent,
-                customFile,
+                customFile.toPath(),
                 startLineNumberInOriginalFile = 0,
                 isAdditional = false,
                 RegisteredDirectives.Empty,
