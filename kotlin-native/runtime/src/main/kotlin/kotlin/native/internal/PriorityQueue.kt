@@ -43,13 +43,11 @@ public class PriorityQueue<T>(
         }
     }
 
-    public fun addFirst(element: T): Boolean {
+    override fun add(element: T): Boolean {
         elements.add(element)
         siftUp(elements.size - 1)
         return true
     }
-
-    override fun add(element: T): Boolean = addFirst(element)
 
     public fun firstOrNull(): T? {
         return if (isEmpty()) null else elements[0]
