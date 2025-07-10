@@ -80,10 +80,18 @@ dependencies {
 
     testRuntimeOnly(libs.junit.vintage.engine)
 
-    testFixturesApi(libs.kotlinx.serialization.json)
-    testFixturesApi(libs.ktor.client.cio)
-    testFixturesApi(libs.ktor.client.core)
-    testFixturesApi(libs.ktor.client.websockets)
+    // these dependencies shouldn't be exposed to other modules
+    // to avoid potential clashes in cases when another module
+    // also needs one of these dependencies but of different
+    // version (e.g. tests of kotlinx.serialization)
+    testFixturesCompileOnly(libs.kotlinx.serialization.json)
+    testFixturesCompileOnly(libs.ktor.client.cio)
+    testFixturesCompileOnly(libs.ktor.client.core)
+    testFixturesCompileOnly(libs.ktor.client.websockets)
+    testRuntimeOnly(libs.kotlinx.serialization.json)
+    testRuntimeOnly(libs.ktor.client.cio)
+    testRuntimeOnly(libs.ktor.client.core)
+    testRuntimeOnly(libs.ktor.client.websockets)
 }
 
 optInToExperimentalCompilerApi()
@@ -155,7 +163,7 @@ fun Test.setUpJsBoxTests(tags: String?) {
     setupNodeJs()
     dependsOn(npmInstall)
 
-    inputs.files(rootDir.resolve("js/js.tests/test/org/jetbrains/kotlin/js/engine/repl.js"))
+    inputs.files(rootDir.resolve("js/js.tests/testFixtures/org/jetbrains/kotlin/js/engine/repl.js"))
 
     dependsOn(":dist")
     dependsOn(generateTypeScriptTests)
