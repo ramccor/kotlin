@@ -7,6 +7,7 @@
 #include <condition_variable>
 #include <thread>
 
+#include "CallsChecker.hpp"
 #include "Exceptions.h"
 #include "Utils.hpp"
 #include "Memory.h"
@@ -82,10 +83,12 @@ void Kotlin_Monitor_notifyAll(MonitorImpl* monitor) noexcept {
 }
 
 MonitorImpl* Kotlin_Monitor_allocate(ObjHeader*) {
+    CallsCheckerIgnoreGuard recursiveGuard;
     return new MonitorImpl();
 }
 
 void Kotlin_Monitor_destroy(MonitorImpl* monitor) noexcept {
+    CallsCheckerIgnoreGuard recursiveGuard;
     delete monitor;
 }
 
