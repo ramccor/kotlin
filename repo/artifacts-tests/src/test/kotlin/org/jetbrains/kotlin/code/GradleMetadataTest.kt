@@ -14,6 +14,7 @@ import java.nio.file.Path
 import java.nio.file.Paths
 import java.nio.file.attribute.BasicFileAttributes
 import java.util.stream.Stream
+import kotlin.io.path.absolute
 import kotlin.streams.asSequence
 import kotlin.streams.asStream
 import kotlin.test.assertTrue
@@ -24,7 +25,7 @@ class GradleMetadataTest {
     @TestFactory
     fun generateArtifactTests(): Stream<DynamicTest> {
         return findActualGradleMetadata().map { actual ->
-            val expectedGradleMetadataPath = actual.toExpectedPath(fileExtension = ".module")
+            val expectedGradleMetadataPath = actual.toExpectedPath(fileExtension = ".module").absolute()
             DynamicTest.dynamicTest(expectedGradleMetadataPath.fileName.toString()) {
                 if ("${expectedGradleMetadataPath.parent.fileName}" !in excludedProjects) {
                     if ("${expectedGradleMetadataPath.parent.fileName}" !in nativeBundles) {
@@ -35,7 +36,7 @@ class GradleMetadataTest {
                         val actualMetadata = Json.decodeFromString<GradleMetadata>(actualString)
                         assertTrue(
                             expectedMetadata equalsWithoutFingerprint actualMetadata,
-                            "Metadata at $actual is not equal to expected metadata at $expectedGradleMetadataPath"
+                            "Gradle metadata at $actual is not equal to expected gradle metadata at $expectedGradleMetadataPath"
                         )
                     }
                 } else {

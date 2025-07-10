@@ -40,9 +40,9 @@ val excludedProjects = setOf(
 
 /**
  * convert:
- * ${mavenLocal}/org/jetbrains/kotlin/artifact/version/artifact-version.${extension}
+ * ${mavenLocal}/org/jetbrains/kotlin/artifact/version/artifact-version${extension}
  * to:
- * ${expectedRepository}/org/jetbrains/kotlin/artifact/artifact.${extension}
+ * ${expectedRepository}/org/jetbrains/kotlin/artifact/artifact${extension}
  */
 fun Path.toExpectedPath(fileExtension: String): Path {
     val artifactDirPath = localRepoPath.relativize(this).parent.parent
