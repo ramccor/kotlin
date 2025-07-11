@@ -25237,12 +25237,6 @@ public class LLDiagnosticsFe10TestGenerated extends AbstractLLDiagnosticsTest {
       }
 
       @Test
-      @TestMetadata("flexibleTypeVariablePositionDnnRepresentation.kt")
-      public void testFlexibleTypeVariablePositionDnnRepresentation() {
-        runTest("compiler/testData/diagnostics/tests/j+k/flexibleTypeVariablePositionDnnRepresentation.kt");
-      }
-
-      @Test
       @TestMetadata("flexibleTypeVariablePositionPreciseLowerConstraints.kt")
       public void testFlexibleTypeVariablePositionPreciseLowerConstraints() {
         runTest("compiler/testData/diagnostics/tests/j+k/flexibleTypeVariablePositionPreciseLowerConstraints.kt");
@@ -25252,12 +25246,6 @@ public class LLDiagnosticsFe10TestGenerated extends AbstractLLDiagnosticsTest {
       @TestMetadata("futureGet.kt")
       public void testFutureGet() {
         runTest("compiler/testData/diagnostics/tests/j+k/futureGet.kt");
-      }
-
-      @Test
-      @TestMetadata("futureGetDnnRepresentation.kt")
-      public void testFutureGetDnnRepresentation() {
-        runTest("compiler/testData/diagnostics/tests/j+k/futureGetDnnRepresentation.kt");
       }
 
       @Test
@@ -25621,12 +25609,6 @@ public class LLDiagnosticsFe10TestGenerated extends AbstractLLDiagnosticsTest {
       }
 
       @Test
-      @TestMetadata("nullableLinkedListToQueueDnnRepresentation.kt")
-      public void testNullableLinkedListToQueueDnnRepresentation() {
-        runTest("compiler/testData/diagnostics/tests/j+k/nullableLinkedListToQueueDnnRepresentation.kt");
-      }
-
-      @Test
       @TestMetadata("nullableRawTypeWithFlexibleArguments.kt")
       public void testNullableRawTypeWithFlexibleArguments() {
         runTest("compiler/testData/diagnostics/tests/j+k/nullableRawTypeWithFlexibleArguments.kt");
@@ -25981,12 +25963,6 @@ public class LLDiagnosticsFe10TestGenerated extends AbstractLLDiagnosticsTest {
       }
 
       @Test
-      @TestMetadata("typeFromGenericWithAnnotationDnnRepresentation.kt")
-      public void testTypeFromGenericWithAnnotationDnnRepresentation() {
-        runTest("compiler/testData/diagnostics/tests/j+k/typeFromGenericWithAnnotationDnnRepresentation.kt");
-      }
-
-      @Test
       @TestMetadata("typeFromGenericWithAnnotationWithoutWrtHack.kt")
       public void testTypeFromGenericWithAnnotationWithoutWrtHack() {
         runTest("compiler/testData/diagnostics/tests/j+k/typeFromGenericWithAnnotationWithoutWrtHack.kt");
@@ -25996,12 +25972,6 @@ public class LLDiagnosticsFe10TestGenerated extends AbstractLLDiagnosticsTest {
       @TestMetadata("typeFromJavaGeneric.kt")
       public void testTypeFromJavaGeneric() {
         runTest("compiler/testData/diagnostics/tests/j+k/typeFromJavaGeneric.kt");
-      }
-
-      @Test
-      @TestMetadata("typeFromJavaGenericDnnRepresentation.kt")
-      public void testTypeFromJavaGenericDnnRepresentation() {
-        runTest("compiler/testData/diagnostics/tests/j+k/typeFromJavaGenericDnnRepresentation.kt");
       }
 
       @Test
@@ -26911,12 +26881,6 @@ public class LLDiagnosticsFe10TestGenerated extends AbstractLLDiagnosticsTest {
         @TestMetadata("notNullTypeParameterWithKotlinNullable.kt")
         public void testNotNullTypeParameterWithKotlinNullable() {
           runTest("compiler/testData/diagnostics/tests/j+k/types/notNullTypeParameterWithKotlinNullable.kt");
-        }
-
-        @Test
-        @TestMetadata("notNullTypeParameterWithKotlinNullableDnnRepresentation.kt")
-        public void testNotNullTypeParameterWithKotlinNullableDnnRepresentation() {
-          runTest("compiler/testData/diagnostics/tests/j+k/types/notNullTypeParameterWithKotlinNullableDnnRepresentation.kt");
         }
 
         @Test
@@ -34494,12 +34458,6 @@ public class LLDiagnosticsFe10TestGenerated extends AbstractLLDiagnosticsTest {
         }
 
         @Test
-        @TestMetadata("singletonDnnRepresentation.kt")
-        public void testSingletonDnnRepresentation() {
-          runTest("compiler/testData/diagnostics/tests/platformTypes/methodCall/singletonDnnRepresentation.kt");
-        }
-
-        @Test
         @TestMetadata("string.kt")
         public void testString() {
           runTest("compiler/testData/diagnostics/tests/platformTypes/methodCall/string.kt");
@@ -38276,12 +38234,6 @@ public class LLDiagnosticsFe10TestGenerated extends AbstractLLDiagnosticsTest {
       @TestMetadata("samConversionWithJavaFlexibleType.kt")
       public void testSamConversionWithJavaFlexibleType() {
         runTest("compiler/testData/diagnostics/tests/samConversions/samConversionWithJavaFlexibleType.kt");
-      }
-
-      @Test
-      @TestMetadata("samConversionWithJavaFlexibleTypeDnnRepresentation.kt")
-      public void testSamConversionWithJavaFlexibleTypeDnnRepresentation() {
-        runTest("compiler/testData/diagnostics/tests/samConversions/samConversionWithJavaFlexibleTypeDnnRepresentation.kt");
       }
 
       @Test
