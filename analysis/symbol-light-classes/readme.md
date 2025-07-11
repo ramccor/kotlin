@@ -11,7 +11,10 @@ So, Light Classes are required **read-only** synthetic Java PSI representation o
 Simple example: [KtClass](https://github.com/JetBrains/kotlin/blob/0aeb8ceb73abffa73480065a91c377388c7bb6b9/compiler/psi/psi-api/src/org/jetbrains/kotlin/psi/KtClass.kt#L16) would be represented as [PsiClass](https://github.com/JetBrains/intellij-community/blob/5d190eaae73e51c1dec185890f2301ef9c540070/java/java-psi-api/src/com/intellij/psi/PsiClass.java#L26).
 
 In most cases light classes repeat the Kotlin JVM bytecode of the corresponding Kotlin declarations, so the bytecode should be treated as a source of truth.
-There is no guarantee that all light classes are backed by some Kotlin PSI.
+
+There is no strict one-to-one relationship between Kotlin PSI and their counterparts in Java PSI.
+For instance, even if a Kotlin class doesn't declare any constructors, a default constructor will still be generated on the JVM bytecode level, and it will be callable from Java.
+Similarly, in the `PsiClass` light class, there will be `PsiMethod` for it, but that method will lack a link to the source `KtPrimaryConstructor` (as it isn't expressed in code).
 
 ### Name
 
