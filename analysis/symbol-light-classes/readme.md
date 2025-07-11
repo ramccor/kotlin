@@ -2,12 +2,23 @@
 
 ## What are Light Classes?
 
-Light classes are minimal required **read-only** synthetic Java PSI representation of Kotlin declarations in a way that's compatible with Java resolver. They serve as a bridge between Java and Kotlin, allowing Java code to seamlessly call and reference Kotlin code.
+The compiler reuses the IntelliJ IDEA [Java PSI](https://github.com/JetBrains/intellij-community/tree/902e84fce4b9d969603502b3c3e8698125c50ce8/java/java-psi-api/src/com/intellij/psi)
+to analyze Java code (e.g., to resolve a Java method return type). To perform such analysis, under the hood, the [Java resolver](https://github.com/JetBrains/intellij-community/tree/902e84fce4b9d969603502b3c3e8698125c50ce8/java/java-psi-impl/src/com/intellij/psi/impl/source/resolve)
+needs to understand Kotlin code if it is referenced from Java code. Kotlin PSI is not compatible with Java PSI, so some bridging is required to allow Java resolver to work with Kotlin PSI.
+
+So, Light Classes are required **read-only** synthetic Java PSI representation of Kotlin declarations.
 
 Simple example: [KtClass](https://github.com/JetBrains/kotlin/blob/0aeb8ceb73abffa73480065a91c377388c7bb6b9/compiler/psi/psi-api/src/org/jetbrains/kotlin/psi/KtClass.kt#L16) would be represented as [PsiClass](https://github.com/JetBrains/intellij-community/blob/5d190eaae73e51c1dec185890f2301ef9c540070/java/java-psi-api/src/com/intellij/psi/PsiClass.java#L26).
 
 In most cases light classes repeat the Kotlin JVM bytecode of the corresponding Kotlin declarations, so the bytecode should be treated as a source of truth.
 There is no guarantee that all light classes are backed by some Kotlin PSI.
+
+### Name
+
+The name "Light Classes" comes from the initial implementation inherited from [AbstractLightClass](https://github.com/JetBrains/intellij-community/blob/902e84fce4b9d969603502b3c3e8698125c50ce8/java/java-psi-impl/src/com/intellij/psi/impl/light/AbstractLightClass.java#L22).
+Light classes in IntelliJ IDEA represent a PSI not backed by any real files.
+
+Also, they are "light" in the sense that they don't have to implement all APIs of Java PSI.
 
 ### What are Light Classes for?
 
