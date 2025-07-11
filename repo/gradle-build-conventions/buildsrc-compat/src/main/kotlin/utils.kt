@@ -12,7 +12,7 @@ import org.gradle.kotlin.dsl.registering
 
 fun Project.parallel(
     tasksToRun: List<TaskProvider<*>>,
-    beforeAll: Any? = null,
+    beforeAll: Task? = null,
 ): RegisteringDomainObjectDelegateProviderWithAction<out TaskContainer, Task> {
     return tasks.registering {
         tasksToRun.forEach { dependsOn(it) }
