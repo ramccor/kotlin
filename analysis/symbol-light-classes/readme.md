@@ -29,7 +29,7 @@ Light classes are essential for Java resolver interoperability. They allow Java 
 
 In particular, they provide support for:
 1. **Java Highlighting**: Java code can seamlessly call and reference Kotlin code in the editor
-2. **Nested Kotlin resolve**: In mixed Kotlin-Java code, light classes are required to resolve Kotlin code as it depends on Java resolve.
+2. **Nested Kotlin resolution**: There might be cross-references between Kotlin and Java code, and for these languages we have different code analyzers.
     Example:
     ```kotlin
     // FILE: KotlinUsage.kt
