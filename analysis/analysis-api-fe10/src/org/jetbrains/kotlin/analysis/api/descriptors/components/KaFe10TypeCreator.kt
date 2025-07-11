@@ -5,6 +5,7 @@
 
 package org.jetbrains.kotlin.analysis.api.descriptors.components
 
+import org.jetbrains.kotlin.analysis.api.components.KaArrayTypeBuilder
 import org.jetbrains.kotlin.analysis.api.components.KaClassTypeBuilder
 import org.jetbrains.kotlin.analysis.api.components.KaTypeParameterTypeBuilder
 import org.jetbrains.kotlin.analysis.api.descriptors.KaFe10Session
@@ -89,6 +90,14 @@ internal class KaFe10TypeCreator(
 
         val typeWithNullability = TypeUtils.makeNullableAsSpecified(type, builder.isMarkedNullable)
         return KaFe10UsualClassType(typeWithNullability as SimpleType, descriptor, analysisContext)
+    }
+
+    override fun buildArrayType(
+        elementType: KaType,
+        init: KaArrayTypeBuilder.() -> Unit,
+    ): KaType = withValidityAssertion {
+        // Use `buildClassType` after KT-79129 is fixed
+        error("This API is not supported in K1 mode")
     }
 
     override fun buildTypeParameterType(symbol: KaTypeParameterSymbol, init: KaTypeParameterTypeBuilder.() -> Unit): KaTypeParameterType {
