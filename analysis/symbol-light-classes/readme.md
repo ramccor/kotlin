@@ -52,7 +52,7 @@ In particular, they provide support for:
 
 ### What are Light Classes *not* for?
 
-1. **Modifications**: Light classes are read-only views of Kotlin declarations and cannot be modified
+1. **Modifications**: Unlike `PsiElement`s created for source declarations, light classes provide a read-only view of Kotlin declarations. Calling mutating methods on them will result in an exception
 2. **Kotlin Code Analysis**: Light classes are not supposed to be used for Kotlin code analysis as they provide only minimal required information.
 For instance, declarations that are not visible from Java code might not be represented. An example: UAST. It cannot use only light classes
 
