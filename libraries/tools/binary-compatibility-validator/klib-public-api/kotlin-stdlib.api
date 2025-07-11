@@ -10759,29 +10759,6 @@ final class <#A: kotlin/Any?> kotlin.native.internal/KMutableProperty0Impl : kot
 }
 
 // Targets: [native]
-final class <#A: kotlin/Any?> kotlin.native.internal/PriorityQueue : kotlin.collections/AbstractMutableCollection<#A> { // kotlin.native.internal/PriorityQueue|null[0]
-    constructor <init>(kotlin/Comparator<#A>) // kotlin.native.internal/PriorityQueue.<init>|<init>(kotlin.Comparator<1:0>){}[0]
-    constructor <init>(kotlin/Int, kotlin/Comparator<#A>) // kotlin.native.internal/PriorityQueue.<init>|<init>(kotlin.Int;kotlin.Comparator<1:0>){}[0]
-
-    final val size // kotlin.native.internal/PriorityQueue.size|{}size[0]
-        final fun <get-size>(): kotlin/Int // kotlin.native.internal/PriorityQueue.size.<get-size>|<get-size>(){}[0]
-
-    final fun add(#A): kotlin/Boolean // kotlin.native.internal/PriorityQueue.add|add(1:0){}[0]
-    final fun clear() // kotlin.native.internal/PriorityQueue.clear|clear(){}[0]
-    final fun first(): #A // kotlin.native.internal/PriorityQueue.first|first(){}[0]
-    final fun firstOrNull(): #A? // kotlin.native.internal/PriorityQueue.firstOrNull|firstOrNull(){}[0]
-    final fun iterator(): kotlin.collections/MutableIterator<#A> // kotlin.native.internal/PriorityQueue.iterator|iterator(){}[0]
-    final fun remove(#A): kotlin/Boolean // kotlin.native.internal/PriorityQueue.remove|remove(1:0){}[0]
-    final fun removeFirst(): #A // kotlin.native.internal/PriorityQueue.removeFirst|removeFirst(){}[0]
-    final fun removeFirstOrNull(): #A? // kotlin.native.internal/PriorityQueue.removeFirstOrNull|removeFirstOrNull(){}[0]
-
-    final object Companion { // kotlin.native.internal/PriorityQueue.Companion|null[0]
-        final fun <#A2: kotlin/Comparable<#A2>> maximal(kotlin/Int = ...): kotlin.native.internal/PriorityQueue<#A2> // kotlin.native.internal/PriorityQueue.Companion.maximal|maximal(kotlin.Int){0§<kotlin.Comparable<0:0>>}[0]
-        final fun <#A2: kotlin/Comparable<#A2>> minimal(kotlin/Int = ...): kotlin.native.internal/PriorityQueue<#A2> // kotlin.native.internal/PriorityQueue.Companion.minimal|minimal(kotlin.Int){0§<kotlin.Comparable<0:0>>}[0]
-    }
-}
-
-// Targets: [native]
 final class <#A: kotlin/Any?> kotlinx.cinterop/ObjCNotImplementedVar : kotlinx.cinterop/CVariable { // kotlinx.cinterop/ObjCNotImplementedVar|null[0]
     constructor <init>(kotlin.native.internal/NativePtr) // kotlinx.cinterop/ObjCNotImplementedVar.<init>|<init>(kotlin.native.internal.NativePtr){}[0]
 
