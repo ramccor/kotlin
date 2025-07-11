@@ -8,7 +8,11 @@ However, Kotlin PSI is not compatible with Java PSI, so some bridging is require
 
 Thus, Light Classes are **read-only** synthetic Java PSI representations of Kotlin declarations.
 
-A simple example: [KtClass](https://github.com/JetBrains/kotlin/blob/0aeb8ceb73abffa73480065a91c377388c7bb6b9/compiler/psi/psi-api/src/org/jetbrains/kotlin/psi/KtClass.kt#L16) would be represented as a [PsiClass](https://github.com/JetBrains/intellij-community/blob/5d190eaae73e51c1dec185890f2301ef9c540070/java/java-psi-api/src/com/intellij/psi/PsiClass.java#L26).
+Simple examples: 
+- [KtClass](https://github.com/JetBrains/kotlin/blob/0aeb8ceb73abffa73480065a91c377388c7bb6b9/compiler/psi/psi-api/src/org/jetbrains/kotlin/psi/KtClass.kt#L16) might be represented as a [PsiClass](https://github.com/JetBrains/intellij-community/blob/5d190eaae73e51c1dec185890f2301ef9c540070/java/java-psi-api/src/com/intellij/psi/PsiClass.java#L26)
+- [KtNamedFunction](https://github.com/JetBrains/kotlin/blob/0aeb8ceb73abffa73480065a91c377388c7bb6b9/compiler/psi/psi-api/src/org/jetbrains/kotlin/psi/KtNamedFunction.java#L27) might be represented as a [PsiMethod](https://github.com/JetBrains/intellij-community/blob/5d190eaae73e51c1dec185890f2301ef9c540070/java/java-psi-api/src/com/intellij/psi/PsiMethod.java#L24) (potentially, as a few `PsiMethod`s)
+- [KtProperty](https://github.com/JetBrains/kotlin/blob/0aeb8ceb73abffa73480065a91c377388c7bb6b9/compiler/psi/psi-api/src/org/jetbrains/kotlin/psi/KtProperty.java#L31)'s property accessors might be represented as [PsiMethod](https://github.com/JetBrains/intellij-community/blob/5d190eaae73e51c1dec185890f2301ef9c540070/java/java-psi-api/src/com/intellij/psi/PsiMethod.java#L24)s, and the backing field as a [PsiField](https://github.com/JetBrains/intellij-community/blob/5d190eaae73e51c1dec185890f2301ef9c540070/java/java-psi-api/src/com/intellij/psi/PsiField.java#L14)
+- [KtAnnotationEntry](https://github.com/JetBrains/kotlin/blob/0aeb8ceb73abffa73480065a91c377388c7bb6b9/compiler/psi/psi-api/src/org/jetbrains/kotlin/psi/KtAnnotationEntry.java#L23) might be represented as a [PsiAnnotation](https://github.com/JetBrains/intellij-community/blob/5d190eaae73e51c1dec185890f2301ef9c540070/java/java-psi-api/src/com/intellij/psi/PsiAnnotation.java#L18) (potentially, as a few `PsiMethod`s)
 
 In most cases, light classes mirror the Kotlin JVM bytecode of the corresponding Kotlin declarations, so the bytecode should be treated as the source of truth.
 
