@@ -70,9 +70,10 @@ For instance, declarations that are not visible from Java code might not be repr
 
 ## Implementations
 
-Some common sense: light classes should be as lightweight as possible to not affect the performance (both CPU and memory).
-Information shouldn't be stored on hard references unless absolutely necessary (e.g., a name computation as it might be on a hot path).
-Potentially heavy computations should be done lazily.
+Some common sense: 
+- Light classes should be as lightweight as possible to not affect the performance (both CPU and memory)
+- Prefer to not store information directly in light classes unless necessary (e.g., a name computation can be done lazily and stored on a hard reference as it might be on a hot path). It is usually a trade-off between performance and memory usage
+- Potentially heavy computations should be done lazily
 
 ### Symbol Light Classes (a.k.a. SLC)
 
