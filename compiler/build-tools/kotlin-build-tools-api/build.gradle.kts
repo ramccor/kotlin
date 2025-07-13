@@ -59,8 +59,9 @@ generatedSourcesTask(
     }
 )
 
-// TODO everything below is copied from "generated-sources" plugin, as applying it in this particular module creates a dependency cycle and breaks the build
-// this should be deleted when a solution for the cyclical dependency problem is solved (probably a bootstrap issue)
+// Everything below is copied from "generated-sources" plugin, as applying it in this particular module creates a dependency cycle and
+// breaks the build. This should be deleted when a solution for the cyclical dependency problem is solved.
+// See KT-79146
 
 /**
  * This utility function creates [taskName] task, which invokes specified code generator which produces some new
