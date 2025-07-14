@@ -150,11 +150,7 @@ private class KaFirUseSiteVisibilityChecker(
             return true
         }
 
-        if (explicitDispatchReceiver != null) {
-            return false
-        }
-
-        return isVisibleFromSuperInterfaceOfImplicitReceiver(candidateSymbol)
+        return isVisibleFromSuperInterfaceOfImplicitReceiver(candidateSymbol, explicitDispatchReceiver)
     }
 
     /**
@@ -188,7 +184,12 @@ private class KaFirUseSiteVisibilityChecker(
     }
 
     // Handle a special case: public members of "exposed" non-public super interfaces from implicit receivers (see KT-78597)
-    private fun isVisibleFromSuperInterfaceOfImplicitReceiver(candidateSymbol: KaDeclarationSymbol): Boolean {
+    private fun isVisibleFromSuperInterfaceOfImplicitReceiver(
+        candidateSymbol: KaDeclarationSymbol,
+        explicitDispatchReceiver: FirExpression?,
+    ): Boolean {
+        if (explicitDispatchReceiver != null) return false
+
         if (candidateSymbol !is KaCallableSymbol) return false
         if (candidateSymbol.visibility != KaSymbolVisibility.PUBLIC) {
             // Interface members can't have internal or protected visibility, and private members are definitely not visible
