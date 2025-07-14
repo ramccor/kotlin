@@ -6,69 +6,69 @@ const val twoVal = <!EVALUATED("2")!>2u<!>
 const val threeVal = <!EVALUATED("3")!>3u<!>
 const val fourVal = <!EVALUATED("4")!>4u<!>
 
-const val compareTo1 = oneVal.<!EVALUATEDtoUByte()("-1")!>compareTo(twoVal)<!>
-const val compareTo2 = 2u.<!EVALUATEDtoUByte()("0")!>compareTo(2u)<!>
-const val compareTo3 = 3u.<!EVALUATEDtoUByte()("1")!>compareTo(2u)<!>
-const val compareTo4 = 2u.<!EVALUATEDtoUByte()("0")!>compareTo(2u.toUByte())<!>
-const val compareTo5 = 2u.<!EVALUATEDtoUByte()("0")!>compareTo(2u.toUShort())<!>
-const val compareTo6 = 2u.<!EVALUATEDtoUByte()("0")!>compareTo(2UL)<!>
+const val compareTo1 = oneVal.<!EVALUATED("-1")!>compareTo(twoVal)<!>
+const val compareTo2 = 2u.<!EVALUATED("0")!>compareTo(2u)<!>
+const val compareTo3 = 3u.<!EVALUATED("1")!>compareTo(2u)<!>
+const val compareTo4 = 2u.<!EVALUATED("0")!>compareTo(2u.toUByte())<!>
+const val compareTo5 = 2u.<!EVALUATED("0")!>compareTo(2u.toUShort())<!>
+const val compareTo6 = 2u.<!EVALUATED("0")!>compareTo(2UL)<!>
 
-const val plus1 = 1u.<!EVALUATEDtoUByte()("3")!>plus(2u)<!>
-const val plus2 = 2u.<!EVALUATEDtoUByte()("4")!>plus(2u)<!>
-const val plus3 = 3u.<!EVALUATEDtoUByte()("5")!>plus(2u)<!>
-const val plus4 = 2u.<!EVALUATEDtoUByte()("4")!>plus(2u.toUByte())<!>
-const val plus5 = 2u.<!EVALUATEDtoUByte()("4")!>plus(2u.toUShort())<!>
-const val plus6 = 2u.<!EVALUATEDtoUByte()("4")!>plus(2UL)<!>
+const val plus1 = 1u.<!EVALUATED("3")!>plus(2u)<!>
+const val plus2 = 2u.<!EVALUATED("4")!>plus(2u)<!>
+const val plus3 = 3u.<!EVALUATED("5")!>plus(2u)<!>
+const val plus4 = 2u.<!EVALUATED("4")!>plus(2u.toUByte())<!>
+const val plus5 = 2u.<!EVALUATED("4")!>plus(2u.toUShort())<!>
+const val plus6 = 2u.<!EVALUATED("4")!>plus(2UL)<!>
 
-const val minus1 = 2u.<!EVALUATEDtoUByte()("0")!>minus(2u)<!>
-const val minus2 = 3u.<!EVALUATEDtoUByte()("1")!>minus(2u)<!>
-const val minus3 = 2u.<!EVALUATEDtoUByte()("0")!>minus(2u.toUByte())<!>
-const val minus4 = 2u.<!EVALUATEDtoUByte()("0")!>minus(2u.toUShort())<!>
-const val minus5 = 2u.<!EVALUATEDtoUByte()("0")!>minus(2u.toULong())<!>
+const val minus1 = 2u.<!EVALUATED("0")!>minus(2u)<!>
+const val minus2 = 3u.<!EVALUATED("1")!>minus(2u)<!>
+const val minus3 = 2u.<!EVALUATED("0")!>minus(2u.toUByte())<!>
+const val minus4 = 2u.<!EVALUATED("0")!>minus(2u.toUShort())<!>
+const val minus5 = 2u.<!EVALUATED("0")!>minus(2u.toULong())<!>
 
-const val times1 = 1u.<!EVALUATEDtoUByte()("2")!>times(2u)<!>
-const val times2 = 2u.<!EVALUATEDtoUByte()("4")!>times(2u)<!>
-const val times3 = 3u.<!EVALUATEDtoUByte()("6")!>times(2u)<!>
-const val times4 = 2u.<!EVALUATEDtoUByte()("4")!>times(2u.toUByte())<!>
-const val times5 = 2u.<!EVALUATEDtoUByte()("4")!>times(2u.toUShort())<!>
-const val times6 = 2u.<!EVALUATEDtoUByte()("4")!>times(2u.toULong())<!>
+const val times1 = 1u.<!EVALUATED("2")!>times(2u)<!>
+const val times2 = 2u.<!EVALUATED("4")!>times(2u)<!>
+const val times3 = 3u.<!EVALUATED("6")!>times(2u)<!>
+const val times4 = 2u.<!EVALUATED("4")!>times(2u.toUByte())<!>
+const val times5 = 2u.<!EVALUATED("4")!>times(2u.toUShort())<!>
+const val times6 = 2u.<!EVALUATED("4")!>times(2u.toULong())<!>
 
-const val div1 = 1u.<!EVALUATEDtoUByte()("0")!>div(2u)<!>
-const val div2 = 2u.<!EVALUATEDtoUByte()("1")!>div(2u)<!>
-const val div3 = 3u.<!EVALUATEDtoUByte()("1")!>div(2u)<!>
-const val div4 = 2u.<!EVALUATEDtoUByte()("1")!>div(2u.toUByte())<!>
-const val div5 = 2u.<!EVALUATEDtoUByte()("1")!>div(2u.toUShort())<!>
-const val div6 = 2u.<!EVALUATEDtoUByte()("1")!>div(2u.toULong())<!>
+const val div1 = 1u.<!EVALUATED("0")!>div(2u)<!>
+const val div2 = 2u.<!EVALUATED("1")!>div(2u)<!>
+const val div3 = 3u.<!EVALUATED("1")!>div(2u)<!>
+const val div4 = 2u.<!EVALUATED("1")!>div(2u.toUByte())<!>
+const val div5 = 2u.<!EVALUATED("1")!>div(2u.toUShort())<!>
+const val div6 = 2u.<!EVALUATED("1")!>div(2u.toULong())<!>
 
-const val rem1 = 1u.<!EVALUATEDtoUByte()("1")!>rem(2u)<!>
-const val rem2 = 2u.<!EVALUATEDtoUByte()("0")!>rem(2u)<!>
-const val rem3 = 3u.<!EVALUATEDtoUByte()("1")!>rem(2u)<!>
-const val rem4 = 2u.<!EVALUATEDtoUByte()("0")!>rem(2u.toUByte())<!>
-const val rem5 = 2u.<!EVALUATEDtoUByte()("0")!>rem(2u.toUShort())<!>
-const val rem6 = 2u.<!EVALUATEDtoUByte()("0")!>rem(2u.toULong())<!>
+const val rem1 = 1u.<!EVALUATED("1")!>rem(2u)<!>
+const val rem2 = 2u.<!EVALUATED("0")!>rem(2u)<!>
+const val rem3 = 3u.<!EVALUATED("1")!>rem(2u)<!>
+const val rem4 = 2u.<!EVALUATED("0")!>rem(2u.toUByte())<!>
+const val rem5 = 2u.<!EVALUATED("0")!>rem(2u.toUShort())<!>
+const val rem6 = 2u.<!EVALUATED("0")!>rem(2u.toULong())<!>
 
-const val convert1 = 1u.<!EVALUATEDtoUByte()("1")!>toUByte()<!>
-const val convert2 = 1u.<!EVALUATEDtoUByte()("1")!>toUShort()<!>
-const val convert3 = 1u.<!EVALUATEDtoUByte()("1")!>toUInt()<!>
-const val convert4 = 1u.<!EVALUATEDtoUByte()("1")!>toULong()<!>
-const val convert5 = 1u.<!EVALUATEDtoUByte()("1.0")!>toFloat()<!>
-const val convert6 = 1u.<!EVALUATEDtoUByte()("1.0")!>toDouble()<!>
-const val convert7 = 1u.<!EVALUATEDtoUByte()("1")!>toByte()<!>
-const val convert8 = 1u.<!EVALUATEDtoUByte()("1")!>toShort()<!>
-const val convert9 = 1u.<!EVALUATEDtoUByte()("1")!>toInt()<!>
-const val convert10 = 1u.<!EVALUATEDtoUByte()("1")!>toLong()<!>
+const val convert1 = 1u.<!EVALUATED("1")!>toUByte()<!>
+const val convert2 = 1u.<!EVALUATED("1")!>toUShort()<!>
+const val convert3 = 1u.<!EVALUATED("1")!>toUInt()<!>
+const val convert4 = 1u.<!EVALUATED("1")!>toULong()<!>
+const val convert5 = 1u.<!EVALUATED("1.0")!>toFloat()<!>
+const val convert6 = 1u.<!EVALUATED("1.0")!>toDouble()<!>
+const val convert7 = 1u.<!EVALUATED("1")!>toByte()<!>
+const val convert8 = 1u.<!EVALUATED("1")!>toShort()<!>
+const val convert9 = 1u.<!EVALUATED("1")!>toInt()<!>
+const val convert10 = 1u.<!EVALUATED("1")!>toLong()<!>
 
-const val equals1 = <!EVALUATEDtoUByte()("false")!>1u == 2u<!>
-const val equals2 = <!EVALUATEDtoUByte()("true")!>2u == 2u<!>
-const val equals3 = <!EVALUATEDtoUByte()("false")!>3u == 2u<!>
-const val equals4 = <!EVALUATEDtoUByte()("false")!>4u == 2u<!>
+const val equals1 = <!EVALUATED("false")!>1u == 2u<!>
+const val equals2 = <!EVALUATED("true")!>2u == 2u<!>
+const val equals3 = <!EVALUATED("false")!>3u == 2u<!>
+const val equals4 = <!EVALUATED("false")!>4u == 2u<!>
 
-const val toString1 = 1u.<!EVALUATEDtoUByte()("1")!>toString()<!>
-const val toString2 = 2u.<!EVALUATEDtoUByte()("2")!>toString()<!>
+const val toString1 = 1u.<!EVALUATED("1")!>toString()<!>
+const val toString2 = 2u.<!EVALUATED("2")!>toString()<!>
 
-const val limits1 = <!EVALUATEDtoUByte()("4294967295")!>4294967294u+1u<!>
-const val limits2 = <!EVALUATEDtoUByte()("0")!>4294967295u+1u<!>
-const val limits3 = <!EVALUATEDtoUByte()("4294967295")!>0u-1u<!>
+const val limits1 = <!EVALUATED("4294967295")!>4294967294u+1u<!>
+const val limits2 = <!EVALUATED("0")!>4294967295u+1u<!>
+const val limits3 = <!EVALUATED("4294967295")!>0u-1u<!>
 
 // STOP_EVALUATION_CHECKS
 fun box(): String {

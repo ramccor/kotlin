@@ -1,69 +1,69 @@
 // WITH_STDLIB
 fun <T> T.id() = this
 
-val compareTo1 = 1UL.<!EVALUATED{IR}("-1")!>compareTo(2UL)<!>
-val compareTo2 = 2UL.<!EVALUATED{IR}("0")!>compareTo(2UL)<!>
-val compareTo3 = 3UL.<!EVALUATED{IR}("1")!>compareTo(2UL)<!>
-val compareTo4 = 2UL.<!EVALUATED{IR}("0")!>compareTo(2u.toUByte())<!>
-val compareTo5 = 2UL.<!EVALUATED{IR}("0")!>compareTo(2u.toUShort())<!>
-val compareTo6 = 2UL.<!EVALUATED{IR}("0")!>compareTo(2u)<!>
+const val compareTo1 = 1UL.<!EVALUATED("-1")!>compareTo(2UL)<!>
+const val compareTo2 = 2UL.<!EVALUATED("0")!>compareTo(2UL)<!>
+const val compareTo3 = 3UL.<!EVALUATED("1")!>compareTo(2UL)<!>
+const val compareTo4 = 2UL.<!EVALUATED("0")!>compareTo(2u.toUByte())<!>
+const val compareTo5 = 2UL.<!EVALUATED("0")!>compareTo(2u.toUShort())<!>
+const val compareTo6 = 2UL.<!EVALUATED("0")!>compareTo(2u)<!>
 
-val plus1 = 1UL.<!EVALUATED{IR}("3")!>plus(2UL)<!>
-val plus2 = 2UL.<!EVALUATED{IR}("4")!>plus(2UL)<!>
-val plus3 = 3UL.<!EVALUATED{IR}("5")!>plus(2UL)<!>
-val plus4 = 2UL.<!EVALUATED{IR}("4")!>plus(2u.toUByte())<!>
-val plus5 = 2UL.<!EVALUATED{IR}("4")!>plus(2u.toUShort())<!>
-val plus6 = 2UL.<!EVALUATED{IR}("4")!>plus(2u)<!>
+const val plus1 = 1UL.<!EVALUATED("3")!>plus(2UL)<!>
+const val plus2 = 2UL.<!EVALUATED("4")!>plus(2UL)<!>
+const val plus3 = 3UL.<!EVALUATED("5")!>plus(2UL)<!>
+const val plus4 = 2UL.<!EVALUATED("4")!>plus(2u.toUByte())<!>
+const val plus5 = 2UL.<!EVALUATED("4")!>plus(2u.toUShort())<!>
+const val plus6 = 2UL.<!EVALUATED("4")!>plus(2u)<!>
 
-val minus1 = 2UL.<!EVALUATED{IR}("0")!>minus(2UL)<!>
-val minus2 = 3UL.<!EVALUATED{IR}("1")!>minus(2UL)<!>
-val minus3 = 2UL.<!EVALUATED{IR}("0")!>minus(2u.toUByte())<!>
-val minus4 = 2UL.<!EVALUATED{IR}("0")!>minus(2u.toUShort())<!>
-val minus5 = 2UL.<!EVALUATED{IR}("0")!>minus(2u)<!>
+const val minus1 = 2UL.<!EVALUATED("0")!>minus(2UL)<!>
+const val minus2 = 3UL.<!EVALUATED("1")!>minus(2UL)<!>
+const val minus3 = 2UL.<!EVALUATED("0")!>minus(2u.toUByte())<!>
+const val minus4 = 2UL.<!EVALUATED("0")!>minus(2u.toUShort())<!>
+const val minus5 = 2UL.<!EVALUATED("0")!>minus(2u)<!>
 
-val times1 = 1UL.<!EVALUATED{IR}("2")!>times(2UL)<!>
-val times2 = 2UL.<!EVALUATED{IR}("4")!>times(2UL)<!>
-val times3 = 3UL.<!EVALUATED{IR}("6")!>times(2UL)<!>
-val times4 = 2UL.<!EVALUATED{IR}("4")!>times(2u.toUByte())<!>
-val times5 = 2UL.<!EVALUATED{IR}("4")!>times(2u.toUShort())<!>
-val times6 = 2UL.<!EVALUATED{IR}("4")!>times(2u)<!>
+const val times1 = 1UL.<!EVALUATED("2")!>times(2UL)<!>
+const val times2 = 2UL.<!EVALUATED("4")!>times(2UL)<!>
+const val times3 = 3UL.<!EVALUATED("6")!>times(2UL)<!>
+const val times4 = 2UL.<!EVALUATED("4")!>times(2u.toUByte())<!>
+const val times5 = 2UL.<!EVALUATED("4")!>times(2u.toUShort())<!>
+const val times6 = 2UL.<!EVALUATED("4")!>times(2u)<!>
 
-val div1 = 1UL.<!EVALUATED{IR}("0")!>div(2UL)<!>
-val div2 = 2UL.<!EVALUATED{IR}("1")!>div(2UL)<!>
-val div3 = 3UL.<!EVALUATED{IR}("1")!>div(2UL)<!>
-val div4 = 2UL.<!EVALUATED{IR}("1")!>div(2u.toUByte())<!>
-val div5 = 2UL.<!EVALUATED{IR}("1")!>div(2u.toUShort())<!>
-val div6 = 2UL.<!EVALUATED{IR}("1")!>div(2u)<!>
+const val div1 = 1UL.<!EVALUATED("0")!>div(2UL)<!>
+const val div2 = 2UL.<!EVALUATED("1")!>div(2UL)<!>
+const val div3 = 3UL.<!EVALUATED("1")!>div(2UL)<!>
+const val div4 = 2UL.<!EVALUATED("1")!>div(2u.toUByte())<!>
+const val div5 = 2UL.<!EVALUATED("1")!>div(2u.toUShort())<!>
+const val div6 = 2UL.<!EVALUATED("1")!>div(2u)<!>
 
-val rem1 = 1UL.<!EVALUATED{IR}("1")!>rem(2UL)<!>
-val rem2 = 2UL.<!EVALUATED{IR}("0")!>rem(2UL)<!>
-val rem3 = 3UL.<!EVALUATED{IR}("1")!>rem(2UL)<!>
-val rem4 = 2UL.<!EVALUATED{IR}("0")!>rem(2u.toUByte())<!>
-val rem5 = 2UL.<!EVALUATED{IR}("0")!>rem(2u.toUShort())<!>
-val rem6 = 2UL.<!EVALUATED{IR}("0")!>rem(2u)<!>
+const val rem1 = 1UL.<!EVALUATED("1")!>rem(2UL)<!>
+const val rem2 = 2UL.<!EVALUATED("0")!>rem(2UL)<!>
+const val rem3 = 3UL.<!EVALUATED("1")!>rem(2UL)<!>
+const val rem4 = 2UL.<!EVALUATED("0")!>rem(2u.toUByte())<!>
+const val rem5 = 2UL.<!EVALUATED("0")!>rem(2u.toUShort())<!>
+const val rem6 = 2UL.<!EVALUATED("0")!>rem(2u)<!>
 
-val convert1 = 1UL.<!EVALUATED{IR}("1")!>toUByte()<!>
-val convert2 = 1UL.<!EVALUATED{IR}("1")!>toUShort()<!>
-val convert3 = 1UL.<!EVALUATED{IR}("1")!>toUInt()<!>
-val convert4 = 1UL.<!EVALUATED{IR}("1")!>toULong()<!>
-val convert5 = 1UL.<!EVALUATED{IR}("1.0")!>toFloat()<!>
-val convert6 = 1UL.<!EVALUATED{IR}("1.0")!>toDouble()<!>
-val convert7 = 1UL.<!EVALUATED{IR}("1")!>toByte()<!>
-val convert8 = 1UL.<!EVALUATED{IR}("1")!>toShort()<!>
-val convert9 = 1UL.<!EVALUATED{IR}("1")!>toInt()<!>
-val convert10 = 1UL.<!EVALUATED{IR}("1")!>toLong()<!>
+const val convert1 = 1UL.<!EVALUATED("1")!>toUByte()<!>
+const val convert2 = 1UL.<!EVALUATED("1")!>toUShort()<!>
+const val convert3 = 1UL.<!EVALUATED("1")!>toUInt()<!>
+const val convert4 = 1UL.<!EVALUATED("1")!>toULong()<!>
+const val convert5 = 1UL.<!EVALUATED("1.0")!>toFloat()<!>
+const val convert6 = 1UL.<!EVALUATED("1.0")!>toDouble()<!>
+const val convert7 = 1UL.<!EVALUATED("1")!>toByte()<!>
+const val convert8 = 1UL.<!EVALUATED("1")!>toShort()<!>
+const val convert9 = 1UL.<!EVALUATED("1")!>toInt()<!>
+const val convert10 = 1UL.<!EVALUATED("1")!>toLong()<!>
 
-val equals1 = <!EVALUATED{IR}("false")!>1UL == 2UL<!>
-val equals2 = <!EVALUATED{IR}("true")!>2UL == 2UL<!>
-val equals3 = <!EVALUATED{IR}("false")!>3UL == 2UL<!>
-val equals4 = <!EVALUATED{IR}("false")!>4UL == 2UL<!>
+const val equals1 = <!EVALUATED("false")!>1UL == 2UL<!>
+const val equals2 = <!EVALUATED("true")!>2UL == 2UL<!>
+const val equals3 = <!EVALUATED("false")!>3UL == 2UL<!>
+const val equals4 = <!EVALUATED("false")!>4UL == 2UL<!>
 
-val toString1 = 1UL.<!EVALUATED{IR}("1")!>toString()<!>
-val toString2 = 2UL.<!EVALUATED{IR}("2")!>toString()<!>
+const val toString1 = 1UL.<!EVALUATED("1")!>toString()<!>
+const val toString2 = 2UL.<!EVALUATED("2")!>toString()<!>
 
-val limits1 = <!EVALUATED{IR}("18446744073709551615")!>18446744073709551614UL+1UL<!>
-val limits2 = <!EVALUATED{IR}("0")!>18446744073709551615UL+1UL<!>
-val limits3 = <!EVALUATED{IR}("18446744073709551615")!>0UL-1UL<!>
+const val limits1 = <!EVALUATED("18446744073709551615")!>18446744073709551614UL+1UL<!>
+const val limits2 = <!EVALUATED("0")!>18446744073709551615UL+1UL<!>
+const val limits3 = <!EVALUATED("18446744073709551615")!>0UL-1UL<!>
 
 // STOP_EVALUATION_CHECKS
 fun box(): String {
