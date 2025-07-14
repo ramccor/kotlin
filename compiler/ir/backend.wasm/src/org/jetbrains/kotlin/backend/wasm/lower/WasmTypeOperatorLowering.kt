@@ -28,6 +28,7 @@ import org.jetbrains.kotlin.ir.types.*
 import org.jetbrains.kotlin.ir.util.*
 import org.jetbrains.kotlin.ir.util.isNullable
 import org.jetbrains.kotlin.ir.visitors.transformChildrenVoid
+import org.jetbrains.kotlin.name.FqName
 
 
 class WasmTypeOperatorLowering(val context: WasmBackendContext) : FileLoweringPass {
@@ -41,6 +42,7 @@ class WasmBaseTypeOperatorTransformer(val context: WasmBackendContext) : IrEleme
     private val builtIns = context.irBuiltIns
     private val jsToKotlinAnyAdapter get() = symbols.jsRelatedSymbols.jsInteropAdapters.jsToKotlinAnyAdapter
     private val kotlinToJsAnyAdapter get() = symbols.jsRelatedSymbols.jsInteropAdapters.kotlinToJsAnyAdapter
+    private val wasmCharArrayFqName = FqName("kotlin.wasm.internal.WasmCharArray")
 
     private lateinit var builder: DeclarationIrBuilder
 
@@ -102,8 +104,12 @@ class WasmBaseTypeOperatorTransformer(val context: WasmBackendContext) : IrEleme
     private fun IrType.isInlined(): Boolean =
         context.inlineClassesUtils.isTypeInlined(this)
 
-    private fun generateCCE(valueProvider: () -> IrExpression, fromType: IrType, toType: IrType): IrExpression {
+    private fun generateCCE(valueProvider: () -> IrExpression, fromType: IrType, toType: IrType, withInfo: Boolean): IrExpression {
         val klass = toType.erasedUpperBound
+
+        if (!withInfo) {
+            return builder.irCall(context.symbols.throwTypeCastException)
+        }
 
         if (klass.isEffectivelyExternal() && klass.isInterface) {
             return builder.irCall(context.symbols.throwTypeCastException)
@@ -284,7 +290,8 @@ class WasmBaseTypeOperatorTransformer(val context: WasmBackendContext) : IrEleme
 
     private fun lowerCast(
         expression: IrTypeOperatorCall,
-        isSafe: Boolean
+        isSafe: Boolean,
+        withInfo: Boolean = true,
     ): IrExpression {
         val toType = expression.typeOperand
         val fromType = expression.argument.type
@@ -304,7 +311,7 @@ class WasmBaseTypeOperatorTransformer(val context: WasmBackendContext) : IrEleme
                 if (value) {
                     +narrowType(fromType, expressionType, argument())
                 } else {
-                    val cceOrNull = if (!isSafe) generateCCE(argument, fromType, toType) else builder.irNull()
+                    val cceOrNull = if (!isSafe) generateCCE(argument, fromType, toType, withInfo) else builder.irNull()
                     +cceOrNull
                 }
             } else {
@@ -312,18 +319,38 @@ class WasmBaseTypeOperatorTransformer(val context: WasmBackendContext) : IrEleme
                     type = expressionType,
                     condition = check,
                     thenPart = narrowType(fromType, expressionType, argument()),
-                    elsePart = if (!isSafe) generateCCE(argument, fromType, toType) else builder.irNull()
+                    elsePart = if (!isSafe) generateCCE(argument, fromType, toType, withInfo) else builder.irNull()
                 )
             }
         }
     }
 
-    private fun lowerImplicitCast(expression: IrTypeOperatorCall): IrExpression =
-        narrowType(
-            fromType = expression.argument.type,
-            toType = expression.typeOperand,
-            value = expression.argument
-        )
+    private fun lowerImplicitCast(expression: IrTypeOperatorCall): IrExpression {
+        if (expression.typeOperand.classFqName == wasmCharArrayFqName) {
+            return narrowType(
+                fromType = expression.argument.type,
+                toType = expression.typeOperand,
+                value = expression.argument
+            )
+        }
+
+        val argumentType = when(val argument = expression.argument) {
+            is IrCall -> argument.symbol.owner.returnType
+            is IrGetField -> argument.symbol.owner.type
+            else -> argument.type
+        }
+
+        return if (argumentType.isTypeParameter() && !expression.typeOperand.isTypeParameter()) {
+            lowerCast(expression, isSafe = false, withInfo = true)
+        } else {
+            narrowType(
+                fromType = expression.argument.type,
+                toType = expression.typeOperand,
+                value = expression.argument
+            )
+        }
+
+    }
 
     private fun generateTypeCheckWithTypeParameter(argument: IrExpression, toType: IrType): IrExpression {
         val typeParameter = toType.classifierOrNull?.owner as? IrTypeParameter
