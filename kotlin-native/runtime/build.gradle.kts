@@ -110,9 +110,7 @@ bitcode {
                 main {
                     inputFiles.from(srcRoot.dir("src"))
                     inputFiles.setIncludes(sources)
-                    // Cannot use output of `downloadBreakpad` to support Gradle Configuration Cache working before `downloadBreakpad`
-                    // actually had a chance to run.
-                    headersDirs.setFrom(breakpadLocationNoDependency.get().dir("src"), project.layout.projectDirectory.dir("src/breakpad/cpp"))
+                    headersDirs.setFrom(project.layout.projectDirectory.dir("src/breakpad/cpp"))
                 }
             }
             // Make sure breakpad sources are downloaded when building the corresponding compilation database entry
