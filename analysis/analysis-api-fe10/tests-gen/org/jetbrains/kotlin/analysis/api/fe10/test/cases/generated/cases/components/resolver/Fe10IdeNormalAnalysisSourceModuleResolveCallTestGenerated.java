@@ -5742,6 +5742,12 @@ public class Fe10IdeNormalAnalysisSourceModuleResolveCallTestGenerated extends A
     }
 
     @Test
+    @TestMetadata("incompleteBinaryExpression.kt")
+    public void testIncompleteBinaryExpression() {
+      runTest("analysis/analysis-api/testData/components/resolver/singleByPsi/withErrors/incompleteBinaryExpression.kt");
+    }
+
+    @Test
     @TestMetadata("incompleteCodeNoParenthesis.kt")
     public void testIncompleteCodeNoParenthesis() {
       runTest("analysis/analysis-api/testData/components/resolver/singleByPsi/withErrors/incompleteCodeNoParenthesis.kt");
