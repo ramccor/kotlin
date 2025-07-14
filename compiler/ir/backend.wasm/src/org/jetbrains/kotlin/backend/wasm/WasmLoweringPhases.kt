@@ -95,6 +95,11 @@ private val stringConcatenationLowering = makeIrModulePhase(
     name = "StringConcatenation",
 )
 
+private val versionOverloadsPhase = makeIrModulePhase(
+    ::VersionOverloadsLowering,
+    name = "VersionOverloadsLowering",
+)
+
 private val lateinitPhase = makeIrModulePhase(
     ::LateinitLowering,
     name = "LateinitLowering",
@@ -606,6 +611,7 @@ fun getWasmLowerings(
         // BEGIN: Common Native/JS/Wasm prefix.
         validateIrBeforeLowering,
         upgradeCallableReferences,
+        versionOverloadsPhase,
         lateinitPhase,
         sharedVariablesLoweringPhase,
         localClassesInInlineLambdasPhase,
