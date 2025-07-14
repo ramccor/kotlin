@@ -203,8 +203,8 @@ private class KaFirUseSiteVisibilityChecker(
             val ktPosition = position.parentOfType<KtElement>(withSelf = true) ?: return false
 
             val scopeContext = ktPosition.containingKtFile.scopeContext(ktPosition)
-            val implicitReceiverSymbols = scopeContext.implicitReceivers.mapNotNull { it.type.symbol as? KaClassSymbol }
-            for (classSymbol in implicitReceiverSymbols) {
+            for (implicitReceiver in scopeContext.implicitReceivers) {
+                val classSymbol = implicitReceiver.type.symbol as? KaClassSymbol ?: continue
                 if (classSymbol.isSubClassOf(containingSymbol)) {
                     return true
                 }
