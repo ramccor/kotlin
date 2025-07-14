@@ -61,7 +61,7 @@ internal fun FirSymbolProvider.getClassLikeSymbolByClassIdWithoutDependencies(cl
     }
 
 @LLModuleSpecificSymbolProviderAccess
-internal fun FirSymbolProvider.getClassLikeSymbolMatchingPsiWithoutDependencies(
+internal fun FirSymbolProvider.getClassLikeSymbolByPsiWithoutDependencies(
     classId: ClassId,
     declaration: PsiElement,
 ): FirClassLikeSymbol<*>? =

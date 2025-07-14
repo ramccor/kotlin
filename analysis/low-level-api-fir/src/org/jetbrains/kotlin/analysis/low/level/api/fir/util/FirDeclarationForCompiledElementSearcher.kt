@@ -16,7 +16,7 @@ import org.jetbrains.kotlin.analysis.low.level.api.fir.sessions.LLFirSession
 import org.jetbrains.kotlin.analysis.low.level.api.fir.symbolProviders.LLModuleWithDependenciesSymbolProvider
 import org.jetbrains.kotlin.analysis.low.level.api.fir.symbolProviders.LLModuleSpecificSymbolProviderAccess
 import org.jetbrains.kotlin.analysis.low.level.api.fir.symbolProviders.getClassLikeSymbolByClassIdWithoutDependencies
-import org.jetbrains.kotlin.analysis.low.level.api.fir.symbolProviders.getClassLikeSymbolMatchingPsiWithoutDependencies
+import org.jetbrains.kotlin.analysis.low.level.api.fir.symbolProviders.getClassLikeSymbolByPsiWithoutDependencies
 import org.jetbrains.kotlin.fir.declarations.*
 import org.jetbrains.kotlin.fir.resolve.providers.symbolProvider
 import org.jetbrains.kotlin.fir.scopes.getFunctions
@@ -179,7 +179,7 @@ internal class FirDeclarationForCompiledElementSearcher(private val session: LLF
      */
     @OptIn(LLModuleSpecificSymbolProviderAccess::class)
     private fun findStubClassLikeSymbol(classId: ClassId, declaration: KtClassLikeDeclaration): FirClassLikeSymbol<*>? =
-        session.symbolProvider.getClassLikeSymbolMatchingPsiWithoutDependencies(classId, declaration)
+        session.symbolProvider.getClassLikeSymbolByPsiWithoutDependencies(classId, declaration)
 
     private fun findConstructorOfNonLocalClass(declaration: KtConstructor<*>): FirConstructor {
         val containingClass = declaration.containingClassOrObject

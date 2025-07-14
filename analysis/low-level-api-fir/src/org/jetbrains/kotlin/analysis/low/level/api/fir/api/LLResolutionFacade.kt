@@ -18,7 +18,7 @@ import org.jetbrains.kotlin.analysis.low.level.api.fir.element.builder.getNonLoc
 import org.jetbrains.kotlin.analysis.low.level.api.fir.sessions.LLFirSession
 import org.jetbrains.kotlin.analysis.low.level.api.fir.state.*
 import org.jetbrains.kotlin.analysis.low.level.api.fir.symbolProviders.LLModuleSpecificSymbolProviderAccess
-import org.jetbrains.kotlin.analysis.low.level.api.fir.symbolProviders.getClassLikeSymbolMatchingPsiWithoutDependencies
+import org.jetbrains.kotlin.analysis.low.level.api.fir.symbolProviders.getClassLikeSymbolByPsiWithoutDependencies
 import org.jetbrains.kotlin.analysis.low.level.api.fir.util.*
 import org.jetbrains.kotlin.analysis.utils.classId
 import org.jetbrains.kotlin.analysis.utils.errors.requireIsInstance
@@ -209,7 +209,7 @@ class LLResolutionFacade internal constructor(
 
         // We're using the symbol provider for the PSI class's module, so module-specific accesses are valid.
         @OptIn(LLModuleSpecificSymbolProviderAccess::class)
-        return symbolProvider.getClassLikeSymbolMatchingPsiWithoutDependencies(classId, psiClass) as? FirRegularClassSymbol
+        return symbolProvider.getClassLikeSymbolByPsiWithoutDependencies(classId, psiClass) as? FirRegularClassSymbol
             ?: errorWithAttachment("Class symbol not found for PSI class") {
                 withEntry("classId", classId) { it.asString() }
                 withPsiEntry("psiClass", psiClass, module)
