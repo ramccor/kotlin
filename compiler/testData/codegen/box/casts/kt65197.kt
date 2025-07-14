@@ -4,7 +4,6 @@
 // IGNORE_BACKEND: JS_IR, JS_IR_ES6
 // KT-65403
 // IGNORE_BACKEND: WASM
-// WASM_MUTE_REASON: Wasm throwing CCE with the specific message
 
 private fun <T> some(): T =
     Some1() as T

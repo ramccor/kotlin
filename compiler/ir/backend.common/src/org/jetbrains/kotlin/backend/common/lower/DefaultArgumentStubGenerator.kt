@@ -283,11 +283,7 @@ open class DefaultParameterInjector<TContext : CommonBackendContext>(
                 }
             }
 
-            +irCastIfNeeded(newCall, expression.type).also {
-                if (it is IrTypeOperatorCall) {
-                    it.possibleGenericTypeUpCast = true
-                }
-            }
+            +irCastIfNeeded(newCall, expression.type)
         }.unwrapBlock()
     }
 

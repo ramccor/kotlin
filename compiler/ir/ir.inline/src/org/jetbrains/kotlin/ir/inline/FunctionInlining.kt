@@ -33,7 +33,6 @@ import org.jetbrains.kotlin.ir.util.*
 import org.jetbrains.kotlin.ir.visitors.*
 import org.jetbrains.kotlin.name.Name.identifier
 import org.jetbrains.kotlin.util.OperatorNameConventions
-import org.jetbrains.kotlin.backend.common.possibleGenericTypeUpCast
 
 @PhaseDescription("FunctionInlining")
 class FunctionInlining @JvmIrInlineExperimental constructor(
@@ -426,11 +425,7 @@ private class CallInlining(
         return when {
             !insertAdditionalImplicitCasts -> this
             type.isUnit() -> this.coerceToUnit(context.irBuiltIns)
-            else -> this.implicitCastIfNeededTo(type).also {
-                if (it is IrTypeOperatorCall) {
-                    it.possibleGenericTypeUpCast = true
-                }
-            }
+            else -> this.implicitCastIfNeededTo(type)
         }
     }
 

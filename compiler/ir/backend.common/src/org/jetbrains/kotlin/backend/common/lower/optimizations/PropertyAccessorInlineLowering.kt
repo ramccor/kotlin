@@ -19,7 +19,6 @@ import org.jetbrains.kotlin.ir.expressions.impl.IrSetFieldImpl
 import org.jetbrains.kotlin.ir.util.deepCopyWithSymbols
 import org.jetbrains.kotlin.ir.util.isEffectivelyExternal
 import org.jetbrains.kotlin.backend.common.ir.isPure
-import org.jetbrains.kotlin.backend.common.possibleGenericTypeUpCast
 import org.jetbrains.kotlin.ir.util.resolveFakeOverride
 import org.jetbrains.kotlin.ir.types.isUnit
 import org.jetbrains.kotlin.ir.util.isTopLevel
@@ -119,9 +118,7 @@ open class PropertyAccessorInlineLowering(
 
             // Preserve call types when backingField have different type. This usually happens with generic field types.
             return if (backingField.type != call.type)
-                builder.irImplicitCast(getField, call.type).also {
-                    it.possibleGenericTypeUpCast = true
-                }
+                builder.irImplicitCast(getField, call.type)
             else
                 getField
         }

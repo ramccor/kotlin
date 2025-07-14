@@ -7,7 +7,6 @@ package org.jetbrains.kotlin.backend.common
 
 import org.jetbrains.kotlin.ir.IrElement
 import org.jetbrains.kotlin.ir.declarations.*
-import org.jetbrains.kotlin.ir.expressions.IrTypeOperatorCall
 import org.jetbrains.kotlin.ir.irAttribute
 import org.jetbrains.kotlin.name.Name
 
@@ -45,5 +44,3 @@ var IrConstructor.capturedConstructor: IrConstructor? by irAttribute(copyByDefau
  * A name that is going to be returned by `KFunction.name`, if it's different than `IrSimpleFunction.name`.
  */
 var IrSimpleFunction.customNameInReflection: Name? by irAttribute(copyByDefault = false)
-
-var IrTypeOperatorCall.possibleGenericTypeUpCast: Boolean? by irAttribute(copyByDefault = true)
