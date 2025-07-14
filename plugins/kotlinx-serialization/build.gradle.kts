@@ -68,6 +68,12 @@ dependencies {
     testRuntimeOnly(commonDependency("org.jetbrains.kotlin:kotlin-reflect")) { isTransitive = false }
     testRuntimeOnly(project(":core:descriptors.runtime"))
     testRuntimeOnly(project(":compiler:fir:fir-serialization"))
+
+    // Dependencies for Kotlin/Native test infra:
+    if (!kotlinBuildProperties.isInIdeaSync) {
+        testImplementation(projectTests(":native:native.tests"))
+    }
+    testImplementation(project(":native:kotlin-native-utils"))
 }
 
 optInToExperimentalCompilerApi()
@@ -117,11 +123,22 @@ artifacts {
 }
 
 projectTest(parallel = true, jUnitMode = JUnitMode.JUnit5) {
+    useJUnitPlatform {
+        // Exclude all tests with the "serialization-native" tag. They should be launched by another test task.
+        excludeTags("serialization-native")
+    }
+
     dependsOn(":dist")
     workingDir = rootDir
     useJUnitPlatform()
     setUpJsIrBoxTests()
 }
+
+val nativeTest = nativeTest(
+    taskName = "nativeTest",
+    tag = "serialization-native", // Include all tests with the "serialization-native" tag
+    requirePlatformLibs = false,
+)
 
 val generateTests by generator("org.jetbrains.kotlinx.serialization.TestGeneratorKt")
 

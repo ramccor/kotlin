@@ -257,6 +257,22 @@ fun main() {
             }
         }
 
+        // Serialization compiler plugin native tests.
+        testGroup("plugins/kotlinx-serialization/tests-gen", "plugins/kotlinx-serialization/testData") {
+            testClass<AbstractNativeCodegenBoxTest>(
+                suiteTestClassName = "SerializationFirNativeTestGenerated",
+                annotations = listOf(*serializationNative(), provider<UseExtTestCaseGroupProvider>())
+            ) {
+                model(targetBackend = TargetBackend.NATIVE)
+            }
+            testClass<AbstractNativeCodegenBoxTest>(
+                suiteTestClassName = "SerializationFirNativeWithInlinedFunInKlibTestGenerated",
+                annotations = listOf(klibIrInliner(), *serializationNative(), provider<UseExtTestCaseGroupProvider>())
+            ) {
+                model(targetBackend = TargetBackend.NATIVE)
+            }
+        }
+
         // LitmusKt tests.
         testGroup("native/native.tests/litmus-tests/tests-gen", "native/native.tests/litmus-tests/testData") {
             testClass<AbstractNativeBlackBoxTest>(
@@ -542,6 +558,9 @@ private fun infrastructure() = annotation(Tag::class.java, "infrastructure")
 private fun atomicfuNative() = arrayOf(
     annotation(Tag::class.java, "atomicfu-native"),
     annotation(EnforcedHostTarget::class.java), // TODO(KT-65977): Make atomicfu tests run on all targets.
+)
+private fun serializationNative() = arrayOf(
+    annotation(Tag::class.java, "serialization-native"),
 )
 private fun litmusktNative() = annotation(Tag::class.java, "litmuskt-native")
 private fun standalone() = arrayOf(
