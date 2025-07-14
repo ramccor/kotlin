@@ -21,8 +21,11 @@ fun evalUnaryOp(name: String, type: CompileTimeType, value: Any): Any? {
 }
 
 fun evalBinaryOp(name: String, leftType: CompileTimeType, left: Any, rightType: CompileTimeType, right: Any): Any? {
-    val rewrittenRightType = when (name) {
-        "equals" -> "kotlin.Any?"
+    val rewrittenRightType = when  {
+        name =="equals" -> "kotlin.Any?"
+
+        // This is only needed for K1, in K2 the types are already correct
+        name =="plus" && leftType == CompileTimeType.STRING -> "kotlin.Any?"
         else -> rightType.toKotlinTypeName()
     }
 
