@@ -21,8 +21,7 @@ internal fun readSwiftName(cursor: CValue<CXCursor>): String? {
 
             val fullText = getText(tu, rangeStart, rangeEnd)
             if (fullText != null) {
-                val match = Regex("""swift_name\("([^"]+)"\)""").find(fullText)
-                result = match?.groupValues?.get(1)
+                result = fullText.substringAfter("\"").substringBefore("\"")
             }
         }
         CXChildVisitResult.CXChildVisit_Continue
