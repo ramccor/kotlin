@@ -269,7 +269,6 @@ public value class UShort @kotlin.internal.IntrinsicConstEvaluation @PublishedAp
 
     /** Creates a range from this value to the specified [other] value. */
     @kotlin.internal.InlineOnly
-    @kotlin.internal.IntrinsicConstEvaluation
     public inline operator fun rangeTo(other: UShort): UIntRange = UIntRange(this.toUInt(), other.toUInt())
 
     /**
@@ -280,7 +279,6 @@ public value class UShort @kotlin.internal.IntrinsicConstEvaluation @PublishedAp
     @SinceKotlin("1.9")
     @WasExperimental(ExperimentalStdlibApi::class)
     @kotlin.internal.InlineOnly
-    @kotlin.internal.IntrinsicConstEvaluation
     public inline operator fun rangeUntil(other: UShort): UIntRange = this.toUInt() until other.toUInt()
 
     /** Performs a bitwise AND operation between the two values. */
