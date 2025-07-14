@@ -38,7 +38,6 @@ import org.jetbrains.kotlin.fir.resolve.providers.symbolProvider
 import org.jetbrains.kotlin.fir.symbols.FirBasedSymbol
 import org.jetbrains.kotlin.fir.symbols.impl.FirRegularClassSymbol
 import org.jetbrains.kotlin.fir.symbols.lazyResolveToPhase
-import org.jetbrains.kotlin.fir.utils.exceptions.withFirSymbolEntry
 import org.jetbrains.kotlin.load.java.JvmAnnotationNames
 import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.utils.exceptions.checkWithAttachment
@@ -210,15 +209,11 @@ class LLResolutionFacade internal constructor(
 
         // We're using the symbol provider for the PSI class's module, so module-specific accesses are valid.
         @OptIn(LLModuleSpecificSymbolProviderAccess::class)
-        val symbol = symbolProvider.getClassLikeSymbolMatchingPsiWithoutDependencies(classId, psiClass) as? FirRegularClassSymbol
-        if (symbol == null) {
-            errorWithAttachment("Class symbol not found for PSI class") {
+        return symbolProvider.getClassLikeSymbolMatchingPsiWithoutDependencies(classId, psiClass) as? FirRegularClassSymbol
+            ?: errorWithAttachment("Class symbol not found for PSI class") {
                 withEntry("classId", classId) { it.asString() }
                 withPsiEntry("psiClass", psiClass, module)
-                withFirSymbolEntry("candidateSymbol", symbol)
             }
-        }
-        return symbol
     }
 
     private fun checkPsiClassApplicability(psiClass: PsiClass) {
