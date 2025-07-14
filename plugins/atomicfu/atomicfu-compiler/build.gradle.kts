@@ -98,7 +98,7 @@ dependencies {
 
     // Dependencies for Kotlin/Native test infra:
     if (!kotlinBuildProperties.isInIdeaSync) {
-        testFixturesApi(projectTests(":native:native.tests"))
+        testFixturesApi(testFixtures(project(":native:native.tests")))
     }
     testFixturesImplementation(project(":native:kotlin-native-utils"))
     testFixturesImplementation(commonDependency("org.jetbrains.teamcity:serviceMessages"))
