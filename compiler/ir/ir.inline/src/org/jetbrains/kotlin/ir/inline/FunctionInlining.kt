@@ -390,11 +390,6 @@ private class CallInlining(
                 }
             }
         }
-        if (callSite.dispatchReceiver != null)
-            parameterToArgument += ParameterToArgument(
-                parameter = callee.parameters[0],
-                originalArgumentExpression = callSite.dispatchReceiver!!
-            )
 
         // All arguments except default are evaluated at callsite,
         // but default arguments are evaluated inside callee.
