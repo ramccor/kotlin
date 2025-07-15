@@ -1,5 +1,4 @@
 // RUN_PIPELINE_TILL: BACKEND
-// LATEST_LV_DIFFERENCE
 // DIAGNOSTICS: -UNUSED_PARAMETER, -UNUSED_VARIABLE
 // WITH_STDLIB
 
@@ -15,10 +14,10 @@ class Test1 {
 
 class Test2 {
     val x: String = throwException()
-    val o = <!UNREACHABLE_CODE!>{
+    val o = <!UNREACHABLE_CODE!>{<!>
         val a = 0
         val b = 0
-    }<!>
+    <!UNREACHABLE_CODE!>}<!>
 }
 
 class Test3 {
@@ -48,10 +47,10 @@ class Test5 {
 
 class Test6 {
     val x: String = throwException()
-    val o = <!UNREACHABLE_CODE!>fun() {
+    val o = <!UNREACHABLE_CODE!>fun() {<!>
         val a = 0
         val b = 0
-    }<!>
+    <!UNREACHABLE_CODE!>}<!>
 }
 
 class Test7 {
@@ -61,19 +60,19 @@ class Test7 {
             val a = 0
             val b = 0
         }
-        val a = fun() {
+        val a = fun() {<!>
             val a = 0
             val b = 0
-        }
+        <!UNREACHABLE_CODE!>}
         val b: Int by <!UNREACHABLE_CODE!>lazy {<!><!>
             val a = 0
             val b = 0
             b
         <!UNREACHABLE_CODE!><!UNREACHABLE_CODE!>}<!>
-        val c = {
+        val c = {<!>
             val a = 0
             val b = 0
-        }
+        <!UNREACHABLE_CODE!>}
     }<!>
 }
 
@@ -135,13 +134,13 @@ class Test10 {
     constructor(i: Int)<!UNREACHABLE_CODE!><!>{
         <!UNREACHABLE_CODE!>class B<!>
     }
-    val a = <!UNREACHABLE_CODE!>{
+    val a = <!UNREACHABLE_CODE!>{<!>
         class C
-    }<!>
+    <!UNREACHABLE_CODE!>}<!>
 
-    val b = <!UNREACHABLE_CODE!>fun(){
+    val b = <!UNREACHABLE_CODE!>fun(){<!>
         class D
-    }<!>
+    <!UNREACHABLE_CODE!>}<!>
 
     val c: Int by <!UNREACHABLE_CODE!>lazy {<!>
         class E
@@ -153,9 +152,9 @@ class Test11 {
     val x: String = throwException()
 
     val a = <!UNREACHABLE_CODE!>object {
-        val b = {
+        val b = {<!>
             class A
-        }
+        <!UNREACHABLE_CODE!>}
     }<!>
 }
 
