@@ -16,7 +16,7 @@ import org.jetbrains.kotlin.gradle.util.*
 import org.junit.Test
 import kotlin.test.assertFalse
 
-class MultiplatformAndroidSourceSetLayoutV2DiagnosticsTest {
+class MultiplatformAndroidSourceSetaLayoutV2DiagnosticsTest {
 
     private fun buildMinimalAndroidMultiplatformProject(
         preApplyCode: Project.() -> Unit = {}
@@ -34,11 +34,10 @@ class MultiplatformAndroidSourceSetLayoutV2DiagnosticsTest {
     @Test
     fun `test - KT-53709 - androidTest_kotlin in use`() {
         val project = buildMinimalAndroidMultiplatformProject {
+            /* Ensure that the problematic androidTest/kotlin source dir is 'in use' */
             val androidTestKotlinSourceDir = project.file("src/androidTest/kotlin")
             androidTestKotlinSourceDir.mkdirs()
         }
-
-        /* Ensure that the problematic androidTest/kotlin source dir is 'in use' */
         project.evaluate()
 
         project.checkDiagnostics("kt53709AndroidTest_kotlinInUse")
