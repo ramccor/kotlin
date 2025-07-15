@@ -2368,10 +2368,10 @@ internal class TypeParametersNotAllowedImpl(
     token: KaLifetimeToken,
 ) : KaAbstractFirDiagnostic<KtDeclaration>(firDiagnostic, token), KaFirDiagnostic.TypeParametersNotAllowed
 
-internal class TypeParameterOfPropertyNotUsedInReceiverImpl(
+internal class IncorrectTypeParameterOfPropertyImpl(
     firDiagnostic: KtPsiDiagnostic,
     token: KaLifetimeToken,
-) : KaAbstractFirDiagnostic<KtTypeParameter>(firDiagnostic, token), KaFirDiagnostic.TypeParameterOfPropertyNotUsedInReceiver
+) : KaAbstractFirDiagnostic<KtTypeParameter>(firDiagnostic, token), KaFirDiagnostic.IncorrectTypeParameterOfProperty
 
 internal class ReturnTypeMismatchImpl(
     override val expectedType: KaType,

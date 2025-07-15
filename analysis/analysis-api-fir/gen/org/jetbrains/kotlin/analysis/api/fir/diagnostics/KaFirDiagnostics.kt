@@ -1970,8 +1970,8 @@ sealed interface KaFirDiagnostic<PSI : PsiElement> : KaDiagnosticWithPsi<PSI> {
         override val diagnosticClass get() = TypeParametersNotAllowed::class
     }
 
-    interface TypeParameterOfPropertyNotUsedInReceiver : KaFirDiagnostic<KtTypeParameter> {
-        override val diagnosticClass get() = TypeParameterOfPropertyNotUsedInReceiver::class
+    interface IncorrectTypeParameterOfProperty : KaFirDiagnostic<KtTypeParameter> {
+        override val diagnosticClass get() = IncorrectTypeParameterOfProperty::class
     }
 
     interface ReturnTypeMismatch : KaFirDiagnostic<KtExpression> {

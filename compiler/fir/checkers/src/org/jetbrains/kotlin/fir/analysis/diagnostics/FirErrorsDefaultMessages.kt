@@ -748,7 +748,7 @@ import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.TYPE_PARAMETER_AS
 import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.TYPE_PARAMETER_AS_REIFIED_ARRAY_ERROR
 import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.TYPE_PARAMETER_IN_CATCH_CLAUSE
 import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.TYPE_PARAMETER_IS_NOT_AN_EXPRESSION
-import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.TYPE_PARAMETER_OF_PROPERTY_NOT_USED_IN_RECEIVER
+import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.INCORRECT_TYPE_PARAMETER_OF_PROPERTY
 import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.TYPE_PARAMETER_ON_LHS_OF_DOT
 import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.TYPE_VARIANCE_CONFLICT_ERROR
 import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.TYPE_VARIANCE_CONFLICT_IN_EXPANDED_TYPE
@@ -1911,7 +1911,7 @@ object FirErrorsDefaultMessages : BaseDiagnosticRendererFactory() {
 
         map.put(TYPE_PARAMETERS_NOT_ALLOWED, "Type parameters are prohibited here.")
 
-        map.put(TYPE_PARAMETER_OF_PROPERTY_NOT_USED_IN_RECEIVER, "Type parameter of a property must be used in its receiver type.")
+        map.put(INCORRECT_TYPE_PARAMETER_OF_PROPERTY, "Type parameter of a property must be used in its receiver type or context parameters.")
 
         map.put(NO_RETURN_IN_FUNCTION_WITH_BLOCK_BODY, "Missing return statement.")
 

@@ -911,7 +911,7 @@ object DIAGNOSTICS_LIST : DiagnosticList("FirErrors") {
 
         val TYPE_PARAMETERS_NOT_ALLOWED by error<KtDeclaration>(PositioningStrategy.TYPE_PARAMETERS_LIST)
 
-        val TYPE_PARAMETER_OF_PROPERTY_NOT_USED_IN_RECEIVER by error<KtTypeParameter>()
+        val INCORRECT_TYPE_PARAMETER_OF_PROPERTY by error<KtTypeParameter>()
 
         val RETURN_TYPE_MISMATCH by error<KtExpression>(PositioningStrategy.WHOLE_ELEMENT) {
             parameter<ConeKotlinType>("expectedType")
