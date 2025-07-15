@@ -176,7 +176,7 @@ private object CallableIds {
     val createEmptyString = "createEmptyString".internalCallableId
     val initInstance = "initInstance".internalCallableId
     val isSubtype = "isSubtype".internalCallableId
-    val getContinuation = "getContinuation".internalCallableId
+    val getContinuation = CallableId(StandardClassIds.BASE_INTERNAL_PACKAGE, Name.identifier("getContinuation"))
     val returnIfSuspended = "returnIfSuspended".internalCallableId
     val getCoroutineContext = "getCoroutineContext".internalCallableId
     val saveCoroutineState = "saveCoroutineState".internalCallableId

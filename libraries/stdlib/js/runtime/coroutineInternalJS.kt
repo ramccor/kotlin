@@ -28,11 +28,11 @@ internal fun <T> interceptContinuationIfNeeded(
 
 @SinceKotlin("1.2")
 @PublishedApi
-internal inline suspend fun getCoroutineContext(): CoroutineContext = getContinuation<Any?>().context
+internal inline suspend fun getCoroutineContext(): CoroutineContext = kotlin.internal.getContinuation<Any?>().context
 
 // TODO: remove `JS` suffix oncec `NameGenerator` is implemented
 @PublishedApi
 internal inline suspend fun <T> suspendCoroutineUninterceptedOrReturnJS(block: (Continuation<T>) -> Any?): T =
-    returnIfSuspended<T>(block(getContinuation<T>()))
+    returnIfSuspended<T>(block(kotlin.internal.getContinuation<T>()))
 
 

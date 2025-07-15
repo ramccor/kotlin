@@ -27,11 +27,11 @@ internal fun <T> interceptContinuationIfNeeded(
 
 
 @PublishedApi
-internal inline suspend fun getCoroutineContext(): CoroutineContext = getContinuation<Any?>().context
+internal inline suspend fun getCoroutineContext(): CoroutineContext = kotlin.internal.getContinuation<Any?>().context
 
 @PublishedApi
 internal inline suspend fun <T> suspendCoroutineUninterceptedOrReturn(block: (Continuation<T>) -> Any?): T =
-    returnIfSuspended<T>(block(getContinuation<T>()))
+    returnIfSuspended<T>(block(kotlin.internal.getContinuation<T>()))
 
 @Suppress("UNUSED_PARAMETER")
 @ExcludedFromCodegen

@@ -361,5 +361,5 @@ internal fun suspendOrReturn(generator: (continuation: Continuation<Any?>) -> dy
 @Suppress("WRONG_INVOCATION_KIND", "UNUSED_PARAMETER")
 public actual suspend inline fun <T> suspendCoroutineUninterceptedOrReturn(crossinline block: (Continuation<T>) -> Any?): T {
     contract { callsInPlace(block, InvocationKind.EXACTLY_ONCE) }
-    return returnIfSuspended<T>(block(getContinuation<T>()))
+    return returnIfSuspended<T>(block(kotlin.internal.getContinuation<T>()))
 }
