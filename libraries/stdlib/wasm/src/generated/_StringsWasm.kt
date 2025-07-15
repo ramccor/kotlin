@@ -16,8 +16,7 @@ package kotlin.text
  * 
  * @sample samples.collections.Collections.Elements.elementAt
  */
-@kotlin.internal.InlineOnly
-public actual inline fun CharSequence.elementAt(index: Int): Char {
-    return get(index)
+public actual fun CharSequence.elementAt(index: Int): Char {
+    return elementAtOrElse(index) { throw IndexOutOfBoundsException("index: $index, length: $length}") }
 }
 
