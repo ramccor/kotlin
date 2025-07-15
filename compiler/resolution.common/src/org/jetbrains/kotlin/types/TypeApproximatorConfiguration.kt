@@ -7,7 +7,6 @@ package org.jetbrains.kotlin.types
 
 import org.jetbrains.kotlin.builtins.functions.AllowedToUsedOnlyInK1
 import org.jetbrains.kotlin.config.LanguageFeature
-import org.jetbrains.kotlin.types.TypeApproximatorConfiguration.IntermediateApproximationToSupertypeAfterCompletionInK2.convertToNonRawVersionAfterApproximationInK2
 import org.jetbrains.kotlin.types.model.*
 
 abstract class TypeApproximatorConfiguration {
