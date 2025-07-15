@@ -50,7 +50,7 @@ fun serializeSingleFirFile(
             session, scopeSession, klass = this, serializerExtension, parentSerializer = null,
             approximator, languageVersionSettings, produceHeaderKlib
         )
-        val index = classSerializer.stringTable.getFqNameIndex(this)
+        val index = classSerializer.stringTable.getFqNameIndex(this, session)
 
         classesProto += classSerializer.classProto(this, file).build() to index
 

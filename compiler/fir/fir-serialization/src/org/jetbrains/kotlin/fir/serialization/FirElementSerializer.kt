@@ -1425,7 +1425,7 @@ class FirElementSerializer private constructor(
     private fun getClassifierId(declaration: FirClassLikeDeclaration): Int {
         declaration.containingScriptSymbolAttr?.let { return getScriptOrReplClassId(declaration, scriptClassId(it.fir)) }
         declaration.containingReplSymbolAttr?.let { return getScriptOrReplClassId(declaration, snippetClassId(it.fir)) }
-        return stringTable.getFqNameIndex(declaration)
+        return stringTable.getFqNameIndex(declaration, session)
     }
 
     private fun getScriptOrReplClassId(declaration: FirClassLikeDeclaration, containerClassId: ClassId): Int {
