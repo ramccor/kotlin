@@ -283,7 +283,7 @@ internal class KaFe10SymbolRelationProvider(
         val thisDescriptor = getDescriptor() ?: return false
         val otherDescriptor = other.getDescriptor() ?: return false
 
-        val targetPlatform = containingModule.targetPlatform
+        val targetPlatform = thisContainingModule.targetPlatform
         val typeSpecificityComparator = when {
             targetPlatform.isJvm() -> JvmTypeSpecificityComparatorDelegate(
                 ClassicTypeSystemContextForCS(
