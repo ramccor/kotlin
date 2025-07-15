@@ -51,7 +51,7 @@ public interface JvmCompilationOperation : BuildOperation<CompilationResult> {
      * Creates an options set for snapshot-based incremental compilation (IC) in JVM projects.
      * May be used to observe the defaults, adjust them, and configure incremental compilation as follows:
      * ```
-     * val icOptions = compilation.makeSnapshotBasedIcOptions()
+     * val icOptions = compilation.createSnapshotBasedIcOptions()
      *
      * icOptions[JvmIncrementalCompilationOptions.BACKUP_CLASSES] = true
      *
