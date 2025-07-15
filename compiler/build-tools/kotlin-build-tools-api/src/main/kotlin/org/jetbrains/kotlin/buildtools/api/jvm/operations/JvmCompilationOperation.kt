@@ -43,7 +43,7 @@ public interface JvmCompilationOperation : BuildOperation<CompilationResult> {
     public operator fun <V> set(key: Option<V>, value: V)
 
     /**
-     * Arguments for the Kotlin/JVM compiler.
+     * Kotlin compiler configurable options for JVM platform.
      */
     public val compilerArguments: JvmCompilerArguments
 
