@@ -1588,10 +1588,12 @@ internal class KaFirResolver(
     }
 
     private fun FirExpression.findSourceKtExpressionForCallArgument(): KtExpression? {
-        // For smart-casted expression, refer to the source of the original expression
+        // For smart-casted expression, refer to the source of the original expression.
         // For spread, named, and lambda arguments, the source is the KtValueArgument.
+        // For error expressions we return null, since they can have an arbitrary (and invalid) source PSI.
         // For other arguments (including array indices), the source is the KtExpression.
         return when (this) {
+            is FirErrorExpression -> null
             is FirSamConversionExpression ->
                 expression.realPsi as? KtExpression
             is FirSmartCastExpression ->
