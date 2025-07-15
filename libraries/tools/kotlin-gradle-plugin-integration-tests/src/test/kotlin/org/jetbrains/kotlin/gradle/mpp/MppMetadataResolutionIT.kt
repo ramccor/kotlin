@@ -217,9 +217,11 @@ class MppMetadataResolutionIT : KGPBaseTest() {
         }
     }
 
-    @Test
-    fun `KT-77843 - ProjectDependency Project access in pre-PI KGP support`() {
-        val gradleVersion = GradleVersion.version("9.0.0-rc-2")
+    @GradleTest
+    @GradleTestVersions(
+        maxVersion = TestVersions.Gradle.G_9_0
+    )
+    fun `KT-77843 - ProjectDependency Project access in pre-PI KGP support`(gradleVersion: GradleVersion) {
         fun projectWithPSM(): TestProject {
             return project("empty", gradleVersion) {
                 plugins {
