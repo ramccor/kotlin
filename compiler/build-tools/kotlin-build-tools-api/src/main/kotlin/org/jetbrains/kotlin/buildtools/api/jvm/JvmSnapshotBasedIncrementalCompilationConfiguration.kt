@@ -43,6 +43,8 @@ public class JvmSnapshotBasedIncrementalCompilationConfiguration(
 
 /**
  * Options for [JvmSnapshotBasedIncrementalCompilationConfiguration].
+ *
+ * @since 2.3.0
  */
 @ExperimentalBuildToolsApi
 public interface JvmSnapshotBasedIncrementalCompilationOptions {

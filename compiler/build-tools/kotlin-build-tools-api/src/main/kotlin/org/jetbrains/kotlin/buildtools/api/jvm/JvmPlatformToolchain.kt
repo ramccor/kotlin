@@ -10,6 +10,11 @@ import org.jetbrains.kotlin.buildtools.api.jvm.operations.JvmClasspathSnapshotti
 import org.jetbrains.kotlin.buildtools.api.jvm.operations.JvmCompilationOperation
 import java.nio.file.Path
 
+/**
+ * Allows creating operations that can be used for performing Kotlin/JVM compilations.
+ *
+ * @since 2.3.0
+ */
 @ExperimentalBuildToolsApi
 public interface JvmPlatformToolchain {
     /**

@@ -9,6 +9,8 @@ import org.jetbrains.kotlin.buildtools.api.ExperimentalBuildToolsApi
 
 /**
  * A tracker that will be informed whenever the compiler makes lookups for references.
+ *
+ * @since 2.3.0
  */
 @ExperimentalBuildToolsApi
 public interface CompilerLookupTracker {

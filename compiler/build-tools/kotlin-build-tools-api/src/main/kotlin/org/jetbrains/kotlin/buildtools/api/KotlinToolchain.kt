@@ -10,6 +10,16 @@ import org.jetbrains.kotlin.buildtools.api.js.WasmPlatformToolchain
 import org.jetbrains.kotlin.buildtools.api.jvm.JvmPlatformToolchain
 import org.jetbrains.kotlin.buildtools.api.knative.NativePlatformToolchain
 
+/**
+ * The main entry point to the Build Tools API.
+ *
+ * Allows access to the target-specific toolchains for creating build operations.
+ * Currently only the [jvm] toolchain is supported.
+ *
+ * Use [executeOperation] to execute the created and configured operations.
+ *
+ * @since 2.3.0
+ */
 @ExperimentalBuildToolsApi
 public interface KotlinToolchain {
     public val jvm: JvmPlatformToolchain

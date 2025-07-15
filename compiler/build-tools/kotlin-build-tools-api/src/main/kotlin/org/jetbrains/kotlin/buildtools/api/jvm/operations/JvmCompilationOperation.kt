@@ -16,6 +16,8 @@ import org.jetbrains.kotlin.buildtools.api.trackers.CompilerLookupTracker
 
 /**
  * Compiles Kotlin code targeting JVM platform and using specified options.
+ *
+ * @since 2.3.0
  */
 @ExperimentalBuildToolsApi
 public interface JvmCompilationOperation : BuildOperation<CompilationResult> {

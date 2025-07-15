@@ -24,6 +24,8 @@ import org.jetbrains.kotlin.buildtools.api.jvm.operations.JvmClasspathSnapshotti
  * This interface is not intended to be implemented by the API consumers.
  *
  * Obtain an instance of this interface from [JvmPlatformToolchain.createClasspathSnapshottingOperation].
+ *
+ * @since 2.3.0
  */
 @ExperimentalBuildToolsApi
 public interface JvmClasspathSnapshottingOperation : BuildOperation<ClasspathEntrySnapshot> {

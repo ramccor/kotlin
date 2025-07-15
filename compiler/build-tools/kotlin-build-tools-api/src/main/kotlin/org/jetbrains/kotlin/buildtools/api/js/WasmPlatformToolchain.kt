@@ -9,6 +9,8 @@ import org.jetbrains.kotlin.buildtools.api.ExperimentalBuildToolsApi
 
 /**
  * Placeholder for Kotlin/WASM compilation operations. Not functional in the current version.
+ *
+ * @since 2.3.0
  */
 @ExperimentalBuildToolsApi
 public interface WasmPlatformToolchain

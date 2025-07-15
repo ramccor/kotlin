@@ -6,9 +6,6 @@
 package org.jetbrains.kotlin.buildtools.api
 
 import org.jetbrains.kotlin.buildtools.api.internal.BaseOption
-import org.jetbrains.kotlin.buildtools.api.jvm.JvmIncrementalCompilationConfiguration
-import org.jetbrains.kotlin.buildtools.api.jvm.operations.JvmCompilationOperation
-import org.jetbrains.kotlin.buildtools.api.jvm.operations.JvmCompilationOperation.Option
 import kotlin.time.Duration
 
 /**
@@ -17,6 +14,8 @@ import kotlin.time.Duration
  * This interface is not intended to be implemented by the API consumers.
  *
  * You can obtain an instance of this type from [KotlinToolchain.createInProcessExecutionPolicy] or [KotlinToolchain.createInProcessExecutionPolicy]
+ *
+ * @since 2.3.0
  */
 @ExperimentalBuildToolsApi
 public sealed interface ExecutionPolicy {

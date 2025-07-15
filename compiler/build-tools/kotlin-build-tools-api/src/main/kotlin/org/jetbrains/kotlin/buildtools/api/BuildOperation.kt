@@ -19,6 +19,7 @@ import org.jetbrains.kotlin.buildtools.api.trackers.BuildMetricsCollector
  * [JvmPlatformToolchain.createClasspathSnapshottingOperation] or [JvmPlatformToolchain.createJvmCompilationOperation]
  *
  * @see KotlinToolchain.executeOperation
+ * @since 2.3.0
  */
 @ExperimentalBuildToolsApi
 public interface BuildOperation<R> {

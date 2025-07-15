@@ -9,6 +9,8 @@ import org.jetbrains.kotlin.buildtools.api.ExperimentalBuildToolsApi
 
 /**
  * A collector for various metrics from the compilation process.
+ *
+ * @since 2.3.0
  */
 @ExperimentalBuildToolsApi
 public interface BuildMetricsCollector {
