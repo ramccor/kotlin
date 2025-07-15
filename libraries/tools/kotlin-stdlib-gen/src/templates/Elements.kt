@@ -328,7 +328,7 @@ object Elements : TemplateGroupBase() {
             }
             on(Platform.Native) {
                 on(Backend.Wasm) {
-                    inline(Inline.No)
+                    inlineOnly()
 
                     val size = f.code.size
                     body {
