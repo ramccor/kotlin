@@ -1,6 +1,6 @@
 // RUN_PIPELINE_TILL: FRONTEND
 // FULL_JDK
-// LANGUAGE: -JavaTypeParameterDefaultRepresentationWithDNN
+// LANGUAGE: 
 // ISSUE: KT-65184
 
 // FILE: A.java

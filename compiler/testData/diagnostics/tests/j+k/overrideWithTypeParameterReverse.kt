@@ -1,6 +1,6 @@
 // RUN_PIPELINE_TILL: BACKEND
 // FIR_IDENTICAL
-// LANGUAGE: -JavaTypeParameterDefaultRepresentationWithDNN
+// LANGUAGE: 
 // FILE: Super.kt
 interface Super {
     fun <B : Any?> foo(klass: Class<B & Any>): B

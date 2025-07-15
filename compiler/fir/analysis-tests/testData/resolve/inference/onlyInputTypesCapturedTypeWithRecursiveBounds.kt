@@ -1,7 +1,7 @@
 // RUN_PIPELINE_TILL: BACKEND
 // FULL_JDK
 // WITH_STDLIB
-// LANGUAGE: -JavaTypeParameterDefaultRepresentationWithDNN
+// LANGUAGE: 
 import java.util.EnumMap
 
 interface I
