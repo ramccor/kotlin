@@ -9516,15 +9516,15 @@ public class PhasedJvmDiagnosticPsiTestGenerated extends AbstractPhasedJvmDiagno
       }
 
       @Test
-      @TestMetadata("jInterop.kt")
-      public void testJInterop() {
-        runTest("compiler/testData/diagnostics/tests/crvFull/jInterop.kt");
-      }
-
-      @Test
       @TestMetadata("delegates.kt")
       public void testDelegates() {
         runTest("compiler/testData/diagnostics/tests/crvFull/delegates.kt");
+      }
+
+      @Test
+      @TestMetadata("jInterop.kt")
+      public void testJInterop() {
+        runTest("compiler/testData/diagnostics/tests/crvFull/jInterop.kt");
       }
 
       @Test
