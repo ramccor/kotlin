@@ -33,7 +33,7 @@ public interface KotlinToolchain {
     /**
      * Returns the version of the Kotlin compiler used to run compilation.
      *
-     * @return A string representing the version of the Kotlin compiler, for example `2.0.0-Beta4`.
+     * @return A string representing the version of the Kotlin compiler, for example `2.3.0`.
      */
     public fun getCompilerVersion(): String
 
