@@ -16,7 +16,7 @@ import org.jetbrains.kotlin.gradle.util.*
 import org.junit.Test
 import kotlin.test.assertFalse
 
-class MultiplatformAndroidSourceSetaLayoutV2DiagnosticsTest {
+class MultiplatformAndroidSourceSetLayoutV2DiagnosticsTest {
 
     private fun buildMinimalAndroidMultiplatformProject(
         preApplyCode: Project.() -> Unit = {}
