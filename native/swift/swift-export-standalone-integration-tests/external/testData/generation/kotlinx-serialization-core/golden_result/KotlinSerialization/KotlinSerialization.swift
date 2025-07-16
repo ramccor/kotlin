@@ -2130,7 +2130,7 @@ extension ExportedKotlinPackages.kotlinx.serialization.builtins {
     public static func serializer(
         _ receiver: Swift.Void
     ) -> any ExportedKotlinPackages.kotlinx.serialization.KSerializer {
-        return KotlinRuntime.KotlinBase.__createProtocolWrapper(externalRCRef: kotlinx_serialization_builtins_serializer__TypesOfArguments__Swift_Void__(receiver)) as! any ExportedKotlinPackages.kotlinx.serialization.KSerializer
+        return KotlinRuntime.KotlinBase.__createProtocolWrapper(externalRCRef: kotlinx_serialization_builtins_serializer__TypesOfArguments__Swift_Void__()) as! any ExportedKotlinPackages.kotlinx.serialization.KSerializer
     }
     public static func serializer(
         _ receiver: Swift.Never
