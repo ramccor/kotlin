@@ -18,6 +18,7 @@ import org.jetbrains.kotlin.fir.analysis.checkers.*
 import org.jetbrains.kotlin.fir.analysis.checkers.context.CheckerContext
 import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors
 import org.jetbrains.kotlin.fir.declarations.*
+import org.jetbrains.kotlin.fir.declarations.utils.isActual
 import org.jetbrains.kotlin.fir.declarations.utils.isExpect
 import org.jetbrains.kotlin.fir.declarations.utils.isInterface
 import org.jetbrains.kotlin.fir.declarations.utils.modality
@@ -76,7 +77,8 @@ object FirSupertypesChecker : FirClassChecker(MppCheckerKind.Platform) {
             val symbol = expandedSupertype.toSymbol(context.session)
             val allowUsingAnyTypeAsInterface =
                 context.session.languageVersionSettings.supportsFeature(LanguageFeature.AllowAnyAsAnActualTypeForExpectInterface) &&
-                        expandedSupertype.abbreviatedType != null
+                        expandedSupertype.abbreviatedType != null &&
+                        superTypeRef.toClassLikeSymbol(context.session)?.isActual == true
 
             if (symbol is FirRegularClassSymbol) {
                 if (!superClassSymbols.add(symbol)) {

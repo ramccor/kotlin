@@ -8,8 +8,8 @@
 // FILE: common.kt
 expect interface Marker
 
-<!EXPECT_ACTUAL_IR_INCOMPATIBILITY{JVM}!>expect<!> interface NotMarker {
-    val <!NO_ACTUAL_FOR_EXPECT{JVM}!>test<!>: String
+expect interface NotMarker {
+    val test: String
 }
 
 open class B : Marker {}
@@ -20,7 +20,7 @@ interface Marker3: Marker2, Marker
 
 typealias NotActual = Any
 
-interface AnotherMarker: <!INTERFACE_WITH_SUPERCLASS, INTERFACE_WITH_SUPERCLASS{METADATA}!>NotActual<!>
+interface AnotherMarker: <!INTERFACE_WITH_SUPERCLASS!>NotActual<!>
 
 // MODULE: jvm()()(common)
 // FILE: main.kt
