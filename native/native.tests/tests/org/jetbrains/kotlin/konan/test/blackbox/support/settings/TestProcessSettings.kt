@@ -161,7 +161,10 @@ enum class Sanitizer(val compilerFlag: String?) {
  * Garbage collector type.
  */
 class GCType(val gc: GC?) {
-    override fun toString() = gc?.shortcut?.let { "(-Xbinary=gc=$it)" }.orEmpty()
+    val compilerFlag: String?
+        get() = gc?.let { "-Xbinary=gc=${it.name.lowercase()}" }
+
+    override fun toString() = compilerFlag?.let { "($it)" }.orEmpty()
 }
 
 class GCScheduler(val scheduler: GCSchedulerType?) {
