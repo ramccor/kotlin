@@ -1,6 +1,8 @@
-GenericClass@(3,1)
+GenericClass@(3,1) : kotlin.Unit
+  T@(3,20) : kotlin.Unit
   GenericClass@(3,22) : test.GenericClass<T>
     t@(3,23) : T
-MyClass@(5,1)
-TypeAlias@(7,1)
+MyClass@(5,1) : kotlin.Unit
+TypeAlias@(7,1) : kotlin.Unit
+  TT@(7,21) : kotlin.Unit
 propertyWithImplicitType@(9,1) : test.TypeAlias<test.MyClass>

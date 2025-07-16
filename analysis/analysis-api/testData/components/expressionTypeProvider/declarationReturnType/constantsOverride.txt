@@ -1,4 +1,4 @@
-I@(1,1)
+I@(1,1) : kotlin.Unit
   int@(3,5) : kotlin.Int?
   string@(4,5) : kotlin.String?
   boolean@(5,5) : kotlin.Boolean?
@@ -9,7 +9,7 @@ I@(1,1)
   uInt@(10,5) : kotlin.UInt?
   uLong@(11,5) : kotlin.ULong?
   unit@(12,5) : kotlin.Unit?
-C@(15,1)
+C@(15,1) : kotlin.Unit
   int@(16,5) : kotlin.Int
   string@(17,5) : kotlin.String
   boolean@(18,5) : kotlin.Boolean

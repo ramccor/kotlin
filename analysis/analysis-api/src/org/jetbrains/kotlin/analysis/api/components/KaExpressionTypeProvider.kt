@@ -37,7 +37,9 @@ public interface KaExpressionTypeProvider : KaSessionComponent {
     public val KtExpression.expressionType: KaType?
 
     /**
-     * The return type of the given [KtDeclaration].
+     * The return type of the given [KtDeclaration], if it is callable (for example, function, parameter, or property).
+     *
+     * If the declaration is not callable, returns `Unit`.
      *
      * Note: For a `vararg foo: T` parameter, the resulting type is the full `Array<out T>` type (unlike
      * [KaValueParameterSymbol.returnType][org.jetbrains.kotlin.analysis.api.symbols.KaValueParameterSymbol.returnType],

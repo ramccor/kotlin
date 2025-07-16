@@ -18,3 +18,11 @@ fun test3(
     }
 ) {
 }
+
+fun classLike() {
+    annotation class Test
+    val formatter = Test()
+
+    inline class Clazz
+    Clazz()
+}

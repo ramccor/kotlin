@@ -19,16 +19,11 @@ abstract class AbstractDeclarationReturnTypeTest : AbstractAnalysisApiBasedTest(
             buildString {
                 contextFile.accept(object : KtTreeVisitor<Int>() {
                     override fun visitDeclaration(declaration: KtDeclaration, indent: Int): Void? {
-                        if (declaration is KtTypeParameter) return null
                         append(" ".repeat(indent))
-                        if (declaration is KtClassLikeDeclaration) {
-                            appendLine(declaration.getNameWithPositionString())
-                        } else {
-                            val returnType = declaration.returnType
-                            append(declaration.getNameWithPositionString())
-                            append(" : ")
-                            appendLine(returnType.render(position = Variance.INVARIANT))
-                        }
+                        val returnType = declaration.returnType
+                        append(declaration.getNameWithPositionString())
+                        append(" : ")
+                        appendLine(returnType.render(position = Variance.INVARIANT))
                         return super.visitDeclaration(declaration, indent + 2)
                     }
                 }, 0)

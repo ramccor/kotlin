@@ -1,8 +1,13 @@
 id@(1,1) : T
+  T@(1,6) : kotlin.Unit
   t@(1,12) : T
 mySize@(2,1) : kotlin.Int
+  C@(2,6) : kotlin.Unit
 foo@(3,1) : Foo<T>
-Foo@(4,1)
+  T@(3,6) : kotlin.Unit
+Foo@(4,1) : kotlin.Unit
+  T@(4,11) : kotlin.Unit
   t@(5,5) : T
   getT@(6,5) : T
   getR@(7,5) : R
+    R@(7,10) : kotlin.Unit

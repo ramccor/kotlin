@@ -202,6 +202,7 @@ internal class KaFirExpressionTypeProvider(
             return when (firDeclaration) {
                 is FirCallableDeclaration -> firDeclaration.symbol.resolvedReturnType.asKaType()
                 is FirFunctionTypeParameter -> firDeclaration.returnTypeRef.coneType.asKaType()
+                is FirDeclaration -> analysisSession.builtinTypes.unit
                 else -> unexpectedElementError<FirElement>(firDeclaration)
             }
         }
