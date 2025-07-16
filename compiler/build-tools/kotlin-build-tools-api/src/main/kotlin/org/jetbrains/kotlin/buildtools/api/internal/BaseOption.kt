@@ -13,6 +13,7 @@ import org.jetbrains.kotlin.buildtools.api.ExperimentalBuildToolsApi
  * Note: two options with the same [id] will overwrite each other when applied to an option set.
  *
  * @param id an arbitrary, unique identifier for this option.
+ * @param V the type of data that this option holds
  * @since 2.3.0
  */
 @ExperimentalBuildToolsApi
