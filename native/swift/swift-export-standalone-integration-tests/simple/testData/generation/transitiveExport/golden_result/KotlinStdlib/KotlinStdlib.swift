@@ -3,7 +3,7 @@
 import KotlinRuntime
 import KotlinRuntimeSupport
 
-public extension ExportedKotlinPackages.kotlin.collections.Iterator where Self : KotlinRuntimeSupport._KotlinBridged {
+extension ExportedKotlinPackages.kotlin.collections.Iterator where Self : KotlinRuntimeSupport._KotlinBridged {
     public func hasNext() -> Swift.Bool {
         return kotlin_collections_Iterator_hasNext(self.__externalRCRef())
     }
@@ -13,7 +13,7 @@ public extension ExportedKotlinPackages.kotlin.collections.Iterator where Self :
 }
 extension KotlinRuntimeSupport._KotlinExistential: ExportedKotlinPackages.kotlin.collections.Iterator where Wrapped : ExportedKotlinPackages.kotlin.collections._Iterator {
 }
-public extension ExportedKotlinPackages.kotlin.collections {
+extension ExportedKotlinPackages.kotlin.collections {
     public protocol Iterator: KotlinRuntime.KotlinBase {
         func hasNext() -> Swift.Bool
         func next() -> KotlinRuntime.KotlinBase?
@@ -39,7 +39,7 @@ public extension ExportedKotlinPackages.kotlin.collections {
         }
     }
 }
-public extension ExportedKotlinPackages.kotlin {
+extension ExportedKotlinPackages.kotlin {
     public final class Array: KotlinRuntime.KotlinBase, KotlinRuntimeSupport._KotlinBridged {
         public var size: Swift.Int32 {
             get {

@@ -72,6 +72,7 @@ internal open class SirProtocolFromKtSymbol(
             .extractDeclarations(useSiteSession)
             .flatMap { declaration ->
                 when (declaration) {
+                    is SirClassOperatorTrampolineFunction -> emptyList() // FIXME: rectify where auxiliary declarations should go.
                     is SirVariable, is SirFunction -> listOf(declaration)
                     is SirNamedDeclaration -> listOfNotNull(
                         (declaration.visibility == SirVisibility.PUBLIC).ifTrue {

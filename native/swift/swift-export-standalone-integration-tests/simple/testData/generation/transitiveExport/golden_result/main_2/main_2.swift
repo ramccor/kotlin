@@ -5,7 +5,7 @@ import KotlinRuntimeSupport
 import KotlinStdlib
 import feature
 
-public extension ExportedKotlinPackages.foo {
+extension ExportedKotlinPackages.foo {
     public static func bar() -> ExportedKotlinPackages.kotlin.Array {
         return ExportedKotlinPackages.kotlin.Array.__createClassWrapper(externalRCRef: foo_bar())
     }
