@@ -897,7 +897,9 @@ abstract class AbstractTypeApproximator(
         if (isK2 && !conf.shouldApproximateCapturedType(ctx, capturedType)) return false
         if (!toSuper) return false
 
-        return effectiveVariance == TypeVariance.OUT || effectiveVariance == TypeVariance.INV
+        if (effectiveVariance == TypeVariance.OUT || effectiveVariance == TypeVariance.INV) return true
+
+        return capturedTypeApproximationReworked /* || (effectiveVariance == TypeVariance.IN) -- always true */
     }
 
     context(conf: TypeApproximatorConfiguration)
