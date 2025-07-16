@@ -3435,12 +3435,6 @@ internal class DelegateUsesExtensionPropertyTypeParameterErrorImpl(
     token: KaLifetimeToken,
 ) : KaAbstractFirDiagnostic<KtProperty>(firDiagnostic, token), KaFirDiagnostic.DelegateUsesExtensionPropertyTypeParameterError
 
-internal class DelegateUsesExtensionPropertyTypeParameterWarningImpl(
-    override val usedTypeParameter: KaTypeParameterSymbol,
-    firDiagnostic: KtPsiDiagnostic,
-    token: KaLifetimeToken,
-) : KaAbstractFirDiagnostic<KtProperty>(firDiagnostic, token), KaFirDiagnostic.DelegateUsesExtensionPropertyTypeParameterWarning
-
 internal class InitializerTypeMismatchImpl(
     override val expectedType: KaType,
     override val actualType: KaType,

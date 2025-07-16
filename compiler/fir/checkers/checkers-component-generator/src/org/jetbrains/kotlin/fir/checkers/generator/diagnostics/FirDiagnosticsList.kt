@@ -1432,10 +1432,7 @@ object DIAGNOSTICS_LIST : DiagnosticList("FirErrors") {
             parameter<ConeKotlinType>("expectedType")
             parameter<ConeKotlinType>("actualType")
         }
-        val DELEGATE_USES_EXTENSION_PROPERTY_TYPE_PARAMETER by deprecationError<KtProperty>(
-            LanguageFeature.ForbidUsingExtensionPropertyTypeParameterInDelegate,
-            PositioningStrategy.PROPERTY_DELEGATE
-        ) {
+        val DELEGATE_USES_EXTENSION_PROPERTY_TYPE_PARAMETER_ERROR by error<KtProperty>(PositioningStrategy.PROPERTY_DELEGATE) {
             parameter<FirTypeParameterSymbol>("usedTypeParameter")
         }
         // Type parameter is KtNamedDeclaration because PSI of FirProperty can be KtParameter in for loop

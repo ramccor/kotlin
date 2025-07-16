@@ -22,7 +22,6 @@ import org.jetbrains.kotlin.config.LanguageFeature.ForbidObjectDelegationToItsel
 import org.jetbrains.kotlin.config.LanguageFeature.ForbidParenthesizedLhsInAssignments
 import org.jetbrains.kotlin.config.LanguageFeature.ForbidProjectionsInAnnotationProperties
 import org.jetbrains.kotlin.config.LanguageFeature.ForbidReifiedTypeParametersOnTypeAliases
-import org.jetbrains.kotlin.config.LanguageFeature.ForbidUsingExtensionPropertyTypeParameterInDelegate
 import org.jetbrains.kotlin.config.LanguageFeature.ModifierNonBuiltinSuspendFunError
 import org.jetbrains.kotlin.config.LanguageFeature.ProhibitAllMultipleDefaultsInheritedFromSupertypes
 import org.jetbrains.kotlin.config.LanguageFeature.ProhibitAssigningSingleElementsToVarargsInNamedForm
@@ -715,7 +714,7 @@ object FirErrors : KtDiagnosticsContainer() {
     val CONST_VAL_WITHOUT_INITIALIZER: KtDiagnosticFactory0 = KtDiagnosticFactory0("CONST_VAL_WITHOUT_INITIALIZER", ERROR, SourceElementPositioningStrategies.CONST_MODIFIER, KtProperty::class, getRendererFactory())
     val CONST_VAL_WITH_NON_CONST_INITIALIZER: KtDiagnosticFactory0 = KtDiagnosticFactory0("CONST_VAL_WITH_NON_CONST_INITIALIZER", ERROR, SourceElementPositioningStrategies.DEFAULT, KtExpression::class, getRendererFactory())
     val WRONG_SETTER_PARAMETER_TYPE: KtDiagnosticFactory2<ConeKotlinType, ConeKotlinType> = KtDiagnosticFactory2("WRONG_SETTER_PARAMETER_TYPE", ERROR, SourceElementPositioningStrategies.DEFAULT, KtElement::class, getRendererFactory())
-    val DELEGATE_USES_EXTENSION_PROPERTY_TYPE_PARAMETER: KtDiagnosticFactoryForDeprecation1<FirTypeParameterSymbol> = KtDiagnosticFactoryForDeprecation1("DELEGATE_USES_EXTENSION_PROPERTY_TYPE_PARAMETER", ForbidUsingExtensionPropertyTypeParameterInDelegate, SourceElementPositioningStrategies.PROPERTY_DELEGATE, KtProperty::class, getRendererFactory())
+    val DELEGATE_USES_EXTENSION_PROPERTY_TYPE_PARAMETER_ERROR: KtDiagnosticFactory1<FirTypeParameterSymbol> = KtDiagnosticFactory1("DELEGATE_USES_EXTENSION_PROPERTY_TYPE_PARAMETER_ERROR", ERROR, SourceElementPositioningStrategies.PROPERTY_DELEGATE, KtProperty::class, getRendererFactory())
     val INITIALIZER_TYPE_MISMATCH: KtDiagnosticFactory3<ConeKotlinType, ConeKotlinType, Boolean> = KtDiagnosticFactory3("INITIALIZER_TYPE_MISMATCH", ERROR, SourceElementPositioningStrategies.PROPERTY_INITIALIZER, KtNamedDeclaration::class, getRendererFactory())
     val GETTER_VISIBILITY_DIFFERS_FROM_PROPERTY_VISIBILITY: KtDiagnosticFactory0 = KtDiagnosticFactory0("GETTER_VISIBILITY_DIFFERS_FROM_PROPERTY_VISIBILITY", ERROR, SourceElementPositioningStrategies.VISIBILITY_MODIFIER, KtModifierListOwner::class, getRendererFactory())
     val SETTER_VISIBILITY_INCONSISTENT_WITH_PROPERTY_VISIBILITY: KtDiagnosticFactory0 = KtDiagnosticFactory0("SETTER_VISIBILITY_INCONSISTENT_WITH_PROPERTY_VISIBILITY", ERROR, SourceElementPositioningStrategies.VISIBILITY_MODIFIER, KtModifierListOwner::class, getRendererFactory())
