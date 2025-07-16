@@ -6,22 +6,29 @@
 package org.jetbrains.kotlin.types
 
 import org.jetbrains.kotlin.builtins.functions.AllowedToUsedOnlyInK1
+import org.jetbrains.kotlin.config.LanguageFeature
 import org.jetbrains.kotlin.config.LanguageVersionSettings
 import org.jetbrains.kotlin.resolve.calls.NewCommonSuperTypeCalculator.commonSuperType
+import org.jetbrains.kotlin.resolve.calls.inference.model.AssertionsOnly
 import org.jetbrains.kotlin.types.model.*
 import org.jetbrains.kotlin.utils.addToStdlib.applyIf
 import org.jetbrains.kotlin.utils.addToStdlib.runIf
 import java.util.concurrent.ConcurrentHashMap
 
-private typealias FunctionTypeForRigidTypeApproximation = context(TypeApproximatorConfiguration) (RigidTypeMarker, Int) -> KotlinTypeMarker?
+private typealias FunctionTypeForRigidTypeApproximation =
+        context(TypeApproximatorConfiguration, AbstractTypeApproximator.Cache) (RigidTypeMarker, Int) -> KotlinTypeMarker?
 
 abstract class AbstractTypeApproximator(
     val ctx: TypeSystemInferenceExtensionContext,
     protected val languageVersionSettings: LanguageVersionSettings,
 ) : TypeSystemInferenceExtensionContext by ctx {
 
-    private class ApproximationResult(val type: KotlinTypeMarker?)
+    class ApproximationResult(val type: KotlinTypeMarker?)
 
+    private val capturedTypeApproximationReworked: Boolean =
+        languageVersionSettings.supportsFeature(LanguageFeature.CapturedTypeApproximationReworked)
+
+    // Those caches are only used prior to 2.2 (without CapturedTypeApproximationReworked)
     private val cacheForIncorporationConfigToSuperDirection = ConcurrentHashMap<KotlinTypeMarker, ApproximationResult>()
     private val cacheForIncorporationConfigToSubtypeDirection = ConcurrentHashMap<KotlinTypeMarker, ApproximationResult>()
 
@@ -31,7 +38,22 @@ abstract class AbstractTypeApproximator(
         get() = { type, depth -> approximateSimpleToSubType(type, depth) }
 
     companion object {
+        // This value is only used prior to 2.2 (without CapturedTypeApproximationReworked)
         const val CACHE_FOR_INCORPORATION_MAX_SIZE = 500
+    }
+
+    class Cache {
+        val resultsForSupertype = mutableMapOf<CapturedTypeMarker, ApproximationResult>()
+        val resultsForSubtype = mutableMapOf<CapturedTypeMarker, ApproximationResult>()
+
+        // We assume that no approximation cycles should be met when approximating to a captured type's lower bound
+        // Currently, the only known source of approximation cycles for captured types is an upper bound of the type parameter
+        //   in a form C1 <: SomeSelfClass<C1>.
+        val capturedTypesBeingApproximatedToSupertype = mutableSetOf<CapturedTypeMarker>()
+
+        // Non-trivial lower bounds are always brought via explicitly specified/inferred `in` projection where no recursion should happen.
+        @AssertionsOnly
+        val capturedTypesBeingApproximatedToSubtype = mutableSetOf<CapturedTypeMarker>()
     }
 
     // null means that this input type is the result, i.e. input type not contains not-allowed kind of types
@@ -39,7 +61,9 @@ abstract class AbstractTypeApproximator(
     fun approximateToSuperType(type: KotlinTypeMarker, conf: TypeApproximatorConfiguration): KotlinTypeMarker? {
         // TODO: Replace with context(conf) { ... } once it's possible
         return with(conf) {
-            approximateToSuperType(type, -type.typeDepthForApproximation())
+            with(Cache()) {
+                approximateToSuperType(type, -type.typeDepthForApproximation())
+            }
         }
     }
 
@@ -47,7 +71,9 @@ abstract class AbstractTypeApproximator(
     fun approximateToSubType(type: KotlinTypeMarker, conf: TypeApproximatorConfiguration): KotlinTypeMarker? {
         // TODO: Replace with context(conf) { ... } once it's possible
         return with(conf) {
-            approximateToSubType(type, -type.typeDepthForApproximation())
+            with(Cache()) {
+                approximateToSubType(type, -type.typeDepthForApproximation())
+            }
         }
     }
 
@@ -68,7 +94,7 @@ abstract class AbstractTypeApproximator(
                 // todo -- fix builtIns. Now builtIns here is DefaultBuiltIns
                 (if (!conf.approximateErrorTypes) null else type.defaultResult(toSuper)).toApproximationResult()
 
-            depth > 3 ->
+            !capturedTypeApproximationReworked && depth > 3 ->
                 type.defaultResult(toSuper).toApproximationResult()
 
             else -> null
@@ -85,7 +111,7 @@ abstract class AbstractTypeApproximator(
     ): KotlinTypeMarker? {
         // Approximator depends on a configuration, so cache should take it into account
         // Here, we cache only types for configuration "from incorporation", which is used most intensively
-        if (conf !is TypeApproximatorConfiguration.IncorporationConfiguration) return approximate()
+        if (capturedTypeApproximationReworked || conf !is TypeApproximatorConfiguration.IncorporationConfiguration) return approximate()
 
         val cache = if (toSuper) cacheForIncorporationConfigToSuperDirection else cacheForIncorporationConfigToSubtypeDirection
 
@@ -94,7 +120,7 @@ abstract class AbstractTypeApproximator(
         return cache.getOrPut(type, { approximate().toApproximationResult() }).type
     }
 
-    context(conf: TypeApproximatorConfiguration)
+    context(conf: TypeApproximatorConfiguration, _: Cache)
     private fun approximateToSuperType(type: KotlinTypeMarker, depth: Int): KotlinTypeMarker? {
         checkExceptionalCases(type, depth, toSuper = true)?.let { return it.type }
 
@@ -108,7 +134,7 @@ abstract class AbstractTypeApproximator(
         }
     }
 
-    context(conf: TypeApproximatorConfiguration)
+    context(conf: TypeApproximatorConfiguration, _: Cache)
     private fun approximateToSubType(type: KotlinTypeMarker, depth: Int): KotlinTypeMarker? {
         checkExceptionalCases(type, depth, toSuper = false)?.let { return it.type }
 
@@ -124,7 +150,7 @@ abstract class AbstractTypeApproximator(
 
     // Don't call this method directly, it should be used only in approximateToSuperType/approximateToSubType (use these methods instead)
     // This method contains detailed implementation only for type approximation, it doesn't check exceptional cases and doesn't use cache
-    context(conf: TypeApproximatorConfiguration)
+    context(conf: TypeApproximatorConfiguration, _: Cache)
     private fun approximateTo(
         type: KotlinTypeMarker,
         bound: FlexibleTypeMarker.() -> RigidTypeMarker,
@@ -212,7 +238,7 @@ abstract class AbstractTypeApproximator(
                 upperBound.getArgumentOrNull(0).let { it is CapturedTypeMarker && conf.shouldApproximateCapturedType(ctx, it) }
     }
 
-    context(conf: TypeApproximatorConfiguration)
+    context(conf: TypeApproximatorConfiguration, _: Cache)
     private fun approximateLocalTypes(
         type: RigidTypeMarker,
         toSuper: Boolean,
@@ -297,7 +323,7 @@ abstract class AbstractTypeApproximator(
         }
     }
 
-    context(conf: TypeApproximatorConfiguration)
+    context(conf: TypeApproximatorConfiguration, _: Cache)
     private fun approximateIntersectionType(
         type: RigidTypeMarker,
         toSuper: Boolean,
@@ -356,7 +382,7 @@ abstract class AbstractTypeApproximator(
         return if (type.isMarkedNullable()) baseResult.withNullability(true) else baseResult
     }
 
-    context(conf: TypeApproximatorConfiguration)
+    context(conf: TypeApproximatorConfiguration, _: Cache)
     private fun intersectTypes(
         newTypes: List<KotlinTypeMarker>,
         upperBoundForApproximation: KotlinTypeMarker?,
@@ -379,8 +405,51 @@ abstract class AbstractTypeApproximator(
     }
 
 
-    context(conf: TypeApproximatorConfiguration)
+    context(conf: TypeApproximatorConfiguration, cache: Cache)
     private fun approximateCapturedType(
+        capturedType: CapturedTypeMarker,
+        toSuper: Boolean,
+        depth: Int,
+    ): KotlinTypeMarker? {
+        val currentlyBeingApproximated = when {
+            toSuper -> cache.capturedTypesBeingApproximatedToSupertype
+            // We only track potential loops in lower bounds to raise an assertion
+            else -> @OptIn(AssertionsOnly::class) cache.capturedTypesBeingApproximatedToSubtype
+        }
+        val computedResults = when {
+            toSuper -> cache.resultsForSupertype
+            else -> cache.resultsForSubtype
+        }
+
+        computedResults[capturedType]?.let { return it.type }
+
+        if (capturedTypeApproximationReworked && !currentlyBeingApproximated.add(capturedType)) {
+            if (AbstractTypeChecker.RUN_SLOW_ASSERTIONS) {
+                error("Captured types loop should be handled at approximateParametrizedType")
+            }
+
+            return createErrorType(
+                "Captured types loop should be handled at approximateParametrizedType",
+                capturedType,
+            )
+        }
+
+        val result = doApproximateCapturedType(capturedType, toSuper, depth)
+
+        if (capturedTypeApproximationReworked) {
+            currentlyBeingApproximated.remove(capturedType)
+        }
+
+        if (!capturedTypeApproximationReworked) return result
+        if (capturedType.captureStatus() != CaptureStatus.FROM_EXPRESSION) return result
+
+        computedResults[capturedType] = ApproximationResult(result)
+
+        return result
+    }
+
+    context(conf: TypeApproximatorConfiguration, _: Cache)
+    private fun doApproximateCapturedType(
         capturedType: CapturedTypeMarker,
         toSuper: Boolean,
         depth: Int,
@@ -459,6 +528,7 @@ abstract class AbstractTypeApproximator(
     }
 
     private fun KotlinTypeMarker.replaceRecursionWithStarProjection(capturedType: CapturedTypeMarker): KotlinTypeMarker {
+        if (capturedTypeApproximationReworked) return this
         // This replacement is important for resolving the code like below in K2.
         //     fun bar(y: FieldOrRef<*>) = y.field
         //     interface FieldOrRef<FF : AbstractField<FF>> { val field: FF }
@@ -494,15 +564,15 @@ abstract class AbstractTypeApproximator(
 
     private object TypeParameterMarkerStubForK2StarProjection : TypeParameterMarker
 
-    context(conf: TypeApproximatorConfiguration)
+    context(conf: TypeApproximatorConfiguration, _: Cache)
     private fun approximateSimpleToSuperType(type: RigidTypeMarker, depth: Int) =
         approximateTo(type, toSuper = true, depth = depth)
 
-    context(conf: TypeApproximatorConfiguration)
+    context(conf: TypeApproximatorConfiguration, _: Cache)
     private fun approximateSimpleToSubType(type: RigidTypeMarker, depth: Int) =
         approximateTo(type, toSuper = false, depth = depth)
 
-    context(conf: TypeApproximatorConfiguration)
+    context(conf: TypeApproximatorConfiguration, _: Cache)
     private fun approximateTo(
         type: RigidTypeMarker,
         toSuper: Boolean,
@@ -562,7 +632,7 @@ abstract class AbstractTypeApproximator(
         return approximateLocalTypes(type, toSuper, depth) // simple classifier type
     }
 
-    context(conf: TypeApproximatorConfiguration)
+    context(conf: TypeApproximatorConfiguration, _: Cache)
     private fun approximateDefinitelyNotNullType(
         type: DefinitelyNotNullTypeMarker,
         toSuper: Boolean,
@@ -588,7 +658,7 @@ abstract class AbstractTypeApproximator(
             TypeVariance.INV -> throw AssertionError("Incorrect variance $effectiveVariance")
         }
 
-    context(conf: TypeApproximatorConfiguration)
+    context(conf: TypeApproximatorConfiguration, cache: Cache)
     private fun approximateParametrizedType(
         type: RigidTypeMarker,
         toSuper: Boolean,
@@ -627,6 +697,17 @@ abstract class AbstractTypeApproximator(
 
             if (shouldApproximateStarBasedCapturedTypeArgumentAsItsProjection(capturedType, parameter, effectiveVariance, toSuper)) {
                 newArguments[index] = capturedType?.typeConstructorProjection()
+                continue
+            }
+
+            // Handling captured type used in self-types like C1 <: MySelfClass<C1>
+            if (capturedType != null && approximationOfTypeArgumentLeadsToRecursion(capturedType, toSuper, effectiveVariance)) {
+                if (conf.shouldApproximateCapturedType(ctx, capturedType)) {
+                    newArguments[index] = createStarProjection(parameter)
+                } else {
+                    // Just leave the captured argument type as is
+                }
+
                 continue
             }
 
@@ -747,6 +828,21 @@ abstract class AbstractTypeApproximator(
         return approximateLocalTypes(approximatedType, toSuper, depth) ?: approximatedType
     }
 
+    context(cache: Cache)
+    fun approximationOfTypeArgumentLeadsToRecursion(
+        argumentAsCapturedType: CapturedTypeMarker,
+        toSuper: Boolean,
+        effectiveVariance: TypeVariance?
+    ): Boolean {
+        if (!capturedTypeApproximationReworked) return false
+        if (effectiveVariance == null) return false
+        if (argumentAsCapturedType !in cache.capturedTypesBeingApproximatedToSupertype) return false
+
+        if (effectiveVariance == TypeVariance.INV) return toSuper
+
+        return isApproximateDirectionToSuper(effectiveVariance, toSuper)
+    }
+
     context(conf: TypeApproximatorConfiguration)
     private fun useStarProjectionInCaseIntersectionApproximatedWithUpperBoundViolation(
         effectiveVariance: TypeVariance,
@@ -841,7 +937,7 @@ abstract class AbstractTypeApproximator(
                 } == true)
     }
 
-    context(conf: TypeApproximatorConfiguration)
+    context(conf: TypeApproximatorConfiguration, _: Cache)
     private fun shouldUseSubTypeForCapturedArgument(
         subType: KotlinTypeMarker,
         capturedArgumentType: KotlinTypeMarker,
