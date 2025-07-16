@@ -71,7 +71,7 @@ val businessLogicTestSuits = setOf(
     "testInputChangesTracking",
     "testCrossModuleIncrementalChanges",
     "testFirRunner",
-    "testConsistency"
+    "testConsistency",
 )
 
 testing {
