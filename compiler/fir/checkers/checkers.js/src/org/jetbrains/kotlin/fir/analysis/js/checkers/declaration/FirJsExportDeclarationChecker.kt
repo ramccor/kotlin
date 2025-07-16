@@ -282,7 +282,7 @@ object FirJsExportDeclarationChecker : FirBasicDeclarationChecker(MppCheckerKind
                 || isBoolean
                 || isThrowableOrNullableThrowable
                 || isString
-                || isPrimitiveNumberOrNullableType && !isLong
+                || isPrimitiveNumberOrNullableType
                 || isNothingOrNullableNothing
                 || isPrimitiveArray
                 || isNonPrimitiveArray
