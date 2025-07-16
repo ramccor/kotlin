@@ -519,7 +519,7 @@ abstract class AbstractTypeApproximator(
              * TODO remove workaround when we can create captured types with external identity KT-65228.
              * todo handle flexible types
              */
-            if (approximatedSuperType == null && approximatedSubType == null) {
+            if (capturedTypeApproximationReworked || approximatedSuperType == null && approximatedSubType == null) {
                 return null
             }
         }
