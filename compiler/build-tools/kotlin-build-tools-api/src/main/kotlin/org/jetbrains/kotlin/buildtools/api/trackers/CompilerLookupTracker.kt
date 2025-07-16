@@ -24,6 +24,11 @@ public interface CompilerLookupTracker {
         CLASSIFIER
     }
 
+    /**
+     * Controls whether the tracker requires reporting accurate positions in the source files.
+     *
+     * If set to false, the position information may be omitted in [recordLookup].
+     */
     public val requiresPosition: Boolean
 
     public fun recordLookup(

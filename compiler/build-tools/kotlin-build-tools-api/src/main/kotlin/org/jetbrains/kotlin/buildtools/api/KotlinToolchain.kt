@@ -5,6 +5,7 @@
 
 package org.jetbrains.kotlin.buildtools.api
 
+import org.jetbrains.kotlin.buildtools.api.KotlinToolchain.Companion.loadImplementation
 import org.jetbrains.kotlin.buildtools.api.js.JsPlatformToolchain
 import org.jetbrains.kotlin.buildtools.api.js.WasmPlatformToolchain
 import org.jetbrains.kotlin.buildtools.api.jvm.JvmPlatformToolchain
@@ -16,7 +17,16 @@ import org.jetbrains.kotlin.buildtools.api.knative.NativePlatformToolchain
  * Allows access to the target-specific toolchains for creating build operations.
  * Currently only the [jvm] toolchain is supported.
  *
- * Use [executeOperation] to execute the created and configured operations.
+ * This interface is not intended to be implemented by the API consumers.
+ *
+ * Obtain an instance of this interface from [loadImplementation].
+ *
+ * An example of the basic usage is:
+ *  ```
+ *   val toolchain = KotlinToolchain.loadImplementation(ClassLoader.getSystemClassLoader())
+ *   val operation = toolchain.jvm.createJvmCompilationOperation(listOf(Path("/path/foo.kt")), Path("/path/to/outputDirectory"))
+ *   toolchain.executeOperation(operation)
+ *  ```
  *
  * @since 2.3.0
  */
@@ -38,7 +48,7 @@ public interface KotlinToolchain {
     public fun getCompilerVersion(): String
 
     /**
-     * Execute the given [operation] using in-process execution policy.
+     * Execute the given [operation] using [ExecutionPolicy.InProcess].
      *
      * @param operation the [BuildOperation] to execute.
      * Operations can be obtained from platform toolchains, e.g. [JvmPlatformToolchain.createJvmCompilationOperation]
@@ -68,6 +78,14 @@ public interface KotlinToolchain {
     public fun finishBuild(projectId: ProjectId)
 
     public companion object {
+        /**
+         * Create an instance of [KotlinToolchain] using the given [classLoader].
+         *
+         * Make sure that the classloader has access to a Build Tools API implementation,
+         * which usually means that it has the Kotlin compiler and related dependencies in its classpath.
+         *
+         * @param classLoader a [ClassLoader] that contains exactly one implementation of KotlinToolchain
+         */
         @JvmStatic
         public fun loadImplementation(classLoader: ClassLoader): KotlinToolchain =
             loadImplementation(KotlinToolchain::class, classLoader)

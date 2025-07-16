@@ -25,6 +25,14 @@ import org.jetbrains.kotlin.buildtools.api.jvm.operations.JvmClasspathSnapshotti
  *
  * Obtain an instance of this interface from [JvmPlatformToolchain.createClasspathSnapshottingOperation].
  *
+ * An example of the basic usage is:
+ *  ```
+ *   val toolchain = KotlinToolchain.loadImplementation(ClassLoader.getSystemClassLoader())
+ *   val operation = toolchain.jvm.createClasspathSnapshottingOperation(classesDir)
+ *   operation[GRANULARITY] = ClassSnapshotGranularity.CLASS_LEVEL
+ *   toolchain.executeOperation(operation)
+ *  ```
+ *
  * @since 2.3.0
  */
 @ExperimentalBuildToolsApi

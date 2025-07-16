@@ -22,5 +22,12 @@ public interface BuildMetricsCollector {
         TIME
     }
 
+    /**
+     * Callback for when the compiler reports a metric.
+     *
+     * @param name the name for the reported metric
+     * @param type what the metric represents (the unit)
+     * @param value the value reported in units denoted by [type]
+     */
     public fun collectMetric(name: String, type: ValueType, value: Long)
 }

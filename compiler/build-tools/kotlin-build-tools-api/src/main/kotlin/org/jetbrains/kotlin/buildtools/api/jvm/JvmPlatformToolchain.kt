@@ -13,6 +13,17 @@ import java.nio.file.Path
 /**
  * Allows creating operations that can be used for performing Kotlin/JVM compilations.
  *
+ * This interface is not intended to be implemented by the API consumers.
+ *
+ * Obtain an instance of this interface from [org.jetbrains.kotlin.buildtools.api.KotlinToolchain.jvm].
+ *
+ * An example of the basic usage is:
+ *  ```
+ *   val toolchain = KotlinToolchain.loadImplementation(ClassLoader.getSystemClassLoader())
+ *   val operation = toolchain.jvm.createJvmCompilationOperation(listOf(Path("/path/foo.kt")), Path("/path/to/outputDirectory"))
+ *   toolchain.executeOperation(operation)
+ *  ```
+ *
  * @since 2.3.0
  */
 @ExperimentalBuildToolsApi
@@ -32,6 +43,10 @@ public interface JvmPlatformToolchain {
 
     /**
      * Creates a build operation for calculating classpath snapshots used for detecting changes in incremental compilation.
+     *
+     * Creating classpath snapshots is only required in multi-module projects.
+     * Using classpath snapshots allows skipping unnecessary recompilation when ABI
+     * changes in dependent modules have no effect on the current module.
      *
      * @param classpathEntry path to existing classpath entry
      * @see org.jetbrains.kotlin.buildtools.api.KotlinToolchain.executeOperation

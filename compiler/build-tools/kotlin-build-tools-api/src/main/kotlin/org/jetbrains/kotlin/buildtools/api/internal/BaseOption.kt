@@ -10,6 +10,9 @@ import org.jetbrains.kotlin.buildtools.api.ExperimentalBuildToolsApi
 /**
  * Base class for options used by build operations and arguments.
  *
+ * Note: two options with the same [id] will overwrite each other when applied to an option set.
+ *
+ * @param id an arbitrary, unique identifier for this option.
  * @since 2.3.0
  */
 @ExperimentalBuildToolsApi

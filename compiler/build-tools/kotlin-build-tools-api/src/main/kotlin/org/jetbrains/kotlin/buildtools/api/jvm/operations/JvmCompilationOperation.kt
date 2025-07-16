@@ -11,11 +11,24 @@ import org.jetbrains.kotlin.buildtools.api.ExperimentalBuildToolsApi
 import org.jetbrains.kotlin.buildtools.api.arguments.JvmCompilerArguments
 import org.jetbrains.kotlin.buildtools.api.internal.BaseOption
 import org.jetbrains.kotlin.buildtools.api.jvm.JvmIncrementalCompilationConfiguration
+import org.jetbrains.kotlin.buildtools.api.jvm.JvmPlatformToolchain
 import org.jetbrains.kotlin.buildtools.api.jvm.JvmSnapshotBasedIncrementalCompilationOptions
 import org.jetbrains.kotlin.buildtools.api.trackers.CompilerLookupTracker
 
 /**
  * Compiles Kotlin code targeting JVM platform and using specified options.
+ *
+ * This interface is not intended to be implemented by the API consumers.
+ *
+ * Obtain an instance of this interface from [JvmPlatformToolchain.createJvmCompilationOperation].
+ *
+ * An example of the basic usage is:
+ *  ```
+ *   val toolchain = KotlinToolchain.loadImplementation(ClassLoader.getSystemClassLoader())
+ *   val operation = toolchain.jvm.createJvmCompilationOperation(listOf(Path("/path/foo.kt")), Path("/path/to/outputDirectory"))
+ *   operation.compilerArguments[CommonCompilerArguments.LANGUAGE_VERSION] = KotlinVersion.V2_0
+ *   toolchain.executeOperation(operation, toolchain.createDaemonExecutionPolicy())
+ *  ```
  *
  * @since 2.3.0
  */
