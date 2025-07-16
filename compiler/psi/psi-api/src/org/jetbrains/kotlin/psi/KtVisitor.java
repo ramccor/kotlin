@@ -36,12 +36,16 @@ public class KtVisitor<R, D> extends PsiElementVisitor {
         return visitNamedDeclaration(classOrObject, data);
     }
 
-    public R visitSecondaryConstructor(@NotNull KtSecondaryConstructor constructor, D data) {
+    public R visitConstructor(@NotNull KtConstructor<?> constructor, D data) {
         return visitNamedDeclaration(constructor, data);
     }
 
+    public R visitSecondaryConstructor(@NotNull KtSecondaryConstructor constructor, D data) {
+        return visitConstructor(constructor, data);
+    }
+
     public R visitPrimaryConstructor(@NotNull KtPrimaryConstructor constructor, D data) {
-        return visitNamedDeclaration(constructor, data);
+        return visitConstructor(constructor, data);
     }
 
     public R visitNamedFunction(@NotNull KtNamedFunction function, D data) {

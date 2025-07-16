@@ -31,7 +31,7 @@ abstract class AbstractDecompiledTextTest : AbstractAnalysisApiBasedTest() {
             if (file != null) {
                 append(file.text)
             } else {
-                printCollection(files, separator = "") { file ->
+                printCollection(files, separator = "\n") { file ->
                     appendLine("${file.name}:")
                     withIndent {
                         append(file.text)

@@ -37,6 +37,10 @@ public class KtVisitorVoid extends KtVisitor<Void, Void> {
         super.visitClassOrObject(classOrObject, null);
     }
 
+    public void visitConstructor(@NotNull KtConstructor<?> constructor) {
+        super.visitConstructor(constructor, null);
+    }
+
     public void visitSecondaryConstructor(@NotNull KtSecondaryConstructor constructor) {
         super.visitSecondaryConstructor(constructor, null);
     }
@@ -471,6 +475,12 @@ public class KtVisitorVoid extends KtVisitor<Void, Void> {
     @Override
     public final Void visitClassOrObject(@NotNull KtClassOrObject classOrObject, Void data) {
         visitClassOrObject(classOrObject);
+        return null;
+    }
+
+    @Override
+    public Void visitConstructor(@NotNull KtConstructor<?> constructor, Void data) {
+        visitConstructor(constructor);
         return null;
     }
 

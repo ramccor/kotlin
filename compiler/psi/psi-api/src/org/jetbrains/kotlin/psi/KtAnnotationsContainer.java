@@ -16,5 +16,14 @@
 
 package org.jetbrains.kotlin.psi;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
+
 public interface KtAnnotationsContainer extends KtElement {
+    @NotNull
+    List<KtAnnotation> getAnnotations();
+
+    @NotNull
+    List<KtAnnotationEntry> getAnnotationEntries();
 }
