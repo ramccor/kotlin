@@ -323,6 +323,7 @@ class WasmBaseTypeOperatorTransformer(val context: WasmBackendContext) : IrEleme
     private fun isTypeParameterCastsToRegularType(expression: IrExpression, toType: IrType): Boolean {
         if (toType.isNullableAny()) return false
         if (toType.isTypeParameter()) return false
+        if (toType.classOrNull?.owner?.isEffectivelyExternal() == true) return false
 
         val argumentType = when (expression) {
             is IrCall -> expression.symbol.owner.returnType
@@ -344,7 +345,7 @@ class WasmBaseTypeOperatorTransformer(val context: WasmBackendContext) : IrEleme
         } else {
             narrowType(
                 fromType = expression.argument.type,
-                toType = expression.typeOperand,
+                toType = targetType,
                 value = expression.argument
             )
         }
