@@ -112,7 +112,8 @@ abstract class KotlinNativeTarget @Inject constructor(
     override val artifactsTaskName: String
         get() = disambiguateName("binaries")
 
-    override val publishable: Boolean by crossCompilationOnCurrentHostSupported
+    override val publishable: Boolean
+        get() = crossCompilationOnCurrentHostSupported.get()
 
     override val compilerOptions: KotlinNativeCompilerOptions = project.objects
         .newInstance<KotlinNativeCompilerOptionsDefault>()
