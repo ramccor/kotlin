@@ -234,7 +234,7 @@ class ScriptingWithCliCompilerTest {
         val unresolvedScriptError =
             "simpleScriptInstance.kt:3:13: error: unresolved reference 'SimpleScript_main'."
 
-        val earlierVersion = "1.8"
+        val earlierVersion = LanguageVersion.FIRST_SUPPORTED.versionString
         val laterVersion = LanguageVersion.LATEST_STABLE.versionString
 
         compileVariant(CommonCompilerArguments::languageVersion.cliArgument, earlierVersion).let { (errLines, exitCode) ->
