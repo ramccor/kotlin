@@ -105,9 +105,11 @@ private fun createTargetPublications(project: Project, publishing: PublishingExt
                     kotlinTarget.createTargetSpecificMavenPublications(publishing.publications)
                 }
                 is KotlinNativeTarget -> {
-                    project.launchInStage(KotlinPluginLifecycle.Stage.AfterEvaluateBuildscript) {
-                        if (!kotlinTarget.crossCompilationOnCurrentHostSupported.get()) return@launchInStage
-                        kotlinTarget.createTargetSpecificMavenPublications(publishing.publications)
+                    project.kotlinPluginLifecycle.launch {
+                        withRestrictedStages(KotlinPluginLifecycle.Stage.upTo(KotlinPluginLifecycle.Stage.AfterFinaliseRefinesEdges)) {
+                            if (!kotlinTarget.crossCompilationOnCurrentHostSupported.get()) return@withRestrictedStages
+                            kotlinTarget.createTargetSpecificMavenPublications(publishing.publications)
+                        }
                     }
                 }
                 else -> kotlinTarget.createTargetSpecificMavenPublications(publishing.publications)
