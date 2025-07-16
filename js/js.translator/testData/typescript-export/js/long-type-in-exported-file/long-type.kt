@@ -7,7 +7,7 @@
 // SKIP_NODE_JS
 // INFER_MAIN_MODULE
 // MODULE: JS_TESTS
-// FILE: primitives.kt
+// FILE: long-type.kt
 
 @file:JsExport
 
@@ -16,11 +16,13 @@ package foo
 
 val _long: Long = 1L
 
-val _long_array: LongArray = longArrayOf()
+// TODO: Add BigInt64Array
+//
+//val _long_array: LongArray = longArrayOf()
 
 
 val _array_long: Array<Long> = emptyArray()
 
 // Nullable types
 
-val _n_long: Long? = 1?.toByte()
+val _n_long: Long? = 1?.toLong()
