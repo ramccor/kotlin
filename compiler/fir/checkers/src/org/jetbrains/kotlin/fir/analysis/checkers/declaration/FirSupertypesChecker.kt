@@ -23,6 +23,7 @@ import org.jetbrains.kotlin.fir.declarations.utils.isInterface
 import org.jetbrains.kotlin.fir.declarations.utils.modality
 import org.jetbrains.kotlin.fir.declarations.utils.visibility
 import org.jetbrains.kotlin.fir.isEnabled
+import org.jetbrains.kotlin.fir.languageVersionSettings
 import org.jetbrains.kotlin.fir.resolve.fullyExpandedType
 import org.jetbrains.kotlin.fir.resolve.toSymbol
 import org.jetbrains.kotlin.fir.symbols.FirBasedSymbol
@@ -34,6 +35,7 @@ import org.jetbrains.kotlin.lexer.KtTokens
 import org.jetbrains.kotlin.name.StandardClassIds
 import org.jetbrains.kotlin.toKtLightSourceElement
 import org.jetbrains.kotlin.util.getChildren
+import kotlin.math.exp
 
 object FirSupertypesChecker : FirClassChecker(MppCheckerKind.Platform) {
     context(context: CheckerContext, reporter: DiagnosticReporter)
@@ -72,6 +74,9 @@ object FirSupertypesChecker : FirClassChecker(MppCheckerKind.Platform) {
             checkAnnotationOnSuperclass(superTypeRef)
 
             val symbol = expandedSupertype.toSymbol(context.session)
+            val allowUsingAnyTypeAsInterface =
+                context.session.languageVersionSettings.supportsFeature(LanguageFeature.AllowAnyAsAnActualTypeForExpectInterface) &&
+                        expandedSupertype.abbreviatedType != null
 
             if (symbol is FirRegularClassSymbol) {
                 if (!superClassSymbols.add(symbol)) {
@@ -79,14 +84,18 @@ object FirSupertypesChecker : FirClassChecker(MppCheckerKind.Platform) {
                 }
                 if (symbol.classKind != ClassKind.INTERFACE) {
                     if (classAppeared) {
-                        reporter.reportOn(superTypeRef.source, FirErrors.MANY_CLASSES_IN_SUPERTYPE_LIST)
+                        if (!allowUsingAnyTypeAsInterface || !expandedSupertype.isAny) {
+                            reporter.reportOn(superTypeRef.source, FirErrors.MANY_CLASSES_IN_SUPERTYPE_LIST)
+                        }
                     } else {
                         classAppeared = true
                     }
                     // DYNAMIC_SUPERTYPE will be reported separately
                     if (!interfaceWithSuperclassReported && !supertypeIsDynamic) {
-                        reporter.reportOn(superTypeRef.source, FirErrors.INTERFACE_WITH_SUPERCLASS)
-                        interfaceWithSuperclassReported = true
+                        if (!allowUsingAnyTypeAsInterface || !expandedSupertype.isAny) {
+                            reporter.reportOn(superTypeRef.source, FirErrors.INTERFACE_WITH_SUPERCLASS)
+                            interfaceWithSuperclassReported = true
+                        }
                     }
                 }
                 val isObject = symbol.classKind == ClassKind.OBJECT
